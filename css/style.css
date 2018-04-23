@@ -1,21 +1,8 @@
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: auto;
-  padding: auto;
-  font-family: Open Sans, sans-serif;
-  font-weight: 100;
-  color: rgb(0,0,0);
-  background-color: rgb(143,43,133);
-}
-
-#main {
-  width: 150px;
-  top: 30px;
-  height: 60px;
-  margin: auto;
-  padding: auto;
-  text-align: center;
-  color: rgb(255,255,255);
-  background-color: rgba(123,123,247,1);
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
 }

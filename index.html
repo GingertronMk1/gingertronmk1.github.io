@@ -7,22 +7,34 @@
     <meta name="author" content="">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--
-    <link href="css/normalize.css" rel="stylesheet">
-    -->
+    <!--<link href="css/normalize.css" rel="stylesheet">-->
     <link href="css/style.css" rel="stylesheet">
   </head>
 
   <body>
 
-    <p>Hello, world!</p>
-    <svg width="960" height="600"></svg>
-    <div class="chart" width="960" height="640"></div>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!--<script src="https://d3js.org/d3.v4.min.js"></script>-->
+    <!--<script type="text/javascript" src="https://history.newtheatre.org.uk/feeds/search.json">-->
+  <script>
+    var centre = d3.select("body")
+    .append("div")
+    .attr("id", "wrapper")
+    .append("div")
+    .attr("id", "centre");
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="js/script.js"></script>
+
+    var width = window.innerWidth-20,
+        height = window.innerHeight-20;
+        margin = {top: 20, right: 50, bottom: 20, left: 80},
+      widthM = width - margin.left - margin.right,
+      heightM = height - margin.top - margin.bottom;
+
+  </script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+  <script type="text/javascript" src="Files/links2.json"></script>
+  <script type="text/javascript" src="js/links.js"></script>
+  <!---<script type="text/javascript" src="js/nntparse.js"></script>-->
   </body>
-
 </html>
 

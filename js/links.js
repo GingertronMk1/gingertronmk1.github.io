@@ -2,9 +2,9 @@ var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
 xhr.open("GET", "https://history.newtheatre.org.uk/feeds/search.json", true);
 xhr.send();
-var resp,
-  centered,
-  allSeasons;
+var resp;//,
+  //centered,
+  //allSeasons;
 
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -114,25 +114,66 @@ function process()
   if (xhr.readyState == 4) {
     resp = JSON.parse(xhr.responseText);
     // resp now has the text and you can process it.
-    allShows = resp.filter(function(x) {return x.type==="show"});
-    allPeople = resp.filter(function(x) {return x.type==="person"});
+    //var allShows = resp.filter(function(x) {return x.type==="show" && x.title != "Freshers' Fringe" && x.year_title == "2017&ndash;18";});
+    var allShows = resp.filter(function(x) {return x.type==="show" && x.title != "Freshers' Fringe";});
+    var allPeople = resp.filter(function(x) {return x.type==="person"});
+    var allActors = []
     for(i = 0; i < allShows.length; i++) {;
       var curr = allShows[i].year_title;
       allShows[i].year_title = curr.replace("&ndash;","-");
       allShows[i].date = new Date(allShows[i].date);
       curr = allShows[i].cast;
-      allShows[i].cast = curr.split(",").slice(0,-1);
+      allShows[i].cast = curr.split(", ").slice(0,-1);
       curr = allShows[i].crew;
-      allShows[i].crew = curr.split(",").slice(0,-1);
+      allShows[i].crew = curr.split(", ").slice(0,-1);
+      (allShows[i].cast).forEach(function(a) {allActors.push(a);});
     }
     var allSeasons = (Array.from(new Set(allShows.map(a => a.season)))).sort();
+    console.log(allActors);
+    allActors = (Array.from(new Set(allActors))).sort();
+    var allActorsObjs = []
+    allActors.forEach(function(a) {allActorsObjs.push(actorToObject(a));});
 
+    function allActorsLinks(a) {
+      var temp = [],
+          actorsShows = allShows.filter(function(d) {return (d.cast).includes(a);});
+      actorsShows.forEach(function(s) {(s.cast).forEach(function(d) {temp.push(d);});});
+      temp = (Array.from(new Set(temp))).filter(function(d) {return d != a;}).sort();
+      return temp;
+
+    }
+
+    function allActorsShows(a) {
+      var temp = [];
+      (allShows.filter(function(d) {return (d.cast).includes(a);})).forEach(function(d) {temp.push(d.title);});
+      //console.log(temp);
+      return temp;
+    }
+
+    function actorToObject(a) {
+      var person = {
+        name: a,
+        showTitles: allActorsShows(a),
+        links: allActorsLinks(a)
+      }
+      return person;
+    }
+
+    var newLinks = [];
+    allActorsObjs.forEach(function(so) {(so.links).forEach(function(si) {newLinks.push({source:so.name,target:si});});});
+    console.log(newLinks);
+
+
+    console.log(allActors);
+    console.log(links_data);
+    console.log(newLinks);
+    console.log(nodes_data);
+    console.log(allActorsObjs);
     //var allSeasons = Array.from(allShows.forEach(function(d) {return d.season}));
-    console.log(allSeasons);
+    //console.log(allSeasons);
     //console.log(allShows);
     //console.log(allPeople);
     // BIG CONNECTION GRAPH
-
 
     var svg = centre
       .append("svg")
@@ -144,9 +185,9 @@ function process()
 
     //set up the simulation and add forces
     var simulation = d3.forceSimulation()
-      .nodes(nodes_data);
+      .nodes(allActorsObjs);
 
-    var link_force =  d3.forceLink(links_data)
+    var link_force =  d3.forceLink(newLinks)
       .id(function(d) { return d.name; });
 
     var charge_force = d3.forceManyBody()
@@ -171,7 +212,7 @@ function process()
     var link = g.append("g")
       .attr("class", "links")
       .selectAll("line")
-      .data(links_data)
+      .data(newLinks)
       .enter()
       .append("line")
       .attr("class","link")
@@ -184,22 +225,23 @@ function process()
     var node = g.append("g")
       .attr("class", "nodes")
       .selectAll("circle")
-      .data(nodes_data)
+      .data(allActorsObjs)
       .enter()
       .append("circle")
       .attr("class","node")
       .attr("r", 15)
       .attr("fill", "red")
       .attr("id", function(d) {return d.name;})
-    //.attr(allPeople.find(function(d) {return d.name === this.id}).link)
-      .on("mouseover", function(d) {d3.select(this).attr("fill","black"); d3.select("par[id=\"infobox\"]").text(d.name);})
+      .attr("shows", function(d) {return d.showTitles;})
+      .on("mouseover", function(d) {d3.select(this).attr("fill","black"); 
+                                    d3.select("par[id=\"infobox\"]").text(d.name + ", who has been in: " + d.showTitles)
+                                   }
+         )
       .on("mouseout", function(d) {d3.select(this).attr("fill","red");});
 
     //add zoom capabilities
     var zoom_handler = d3.zoom()
       .scaleExtent([0.1, 3])
-    //.extent([-1000,1000],[-1000,1000])
-    //.translateExtent([0,0],[100,100])
       .on("zoom", zoom_actions);
 
     zoom_handler(svg);
@@ -370,13 +412,13 @@ function process()
     showCounts4 = (d3.nest().key(function(d) {return d.year_title;}).entries(showCounts3)).sort(function(a,b) {return parseInt(a.key)-parseInt(b.key);});
 
 
-    console.log(showCounts);
-    console.log(showCounts2);
-    console.log(showCounts3);
-    console.log(showCounts4);
+    //console.log(showCounts);
+    //console.log(showCounts2);
+    //console.log(showCounts3);
+    //console.log(showCounts4);
     showCounts5 = [];
     showCounts4.forEach(function(d) {(d.values).forEach(function(v) {showCounts5.push(v)})});
-    console.log(showCounts5);
+    //console.log(showCounts5);
 
     showCounts.forEach(function(d) {d.count = (d.values).length});
     showCounts.sort(function(a,b) {if(a.key > b.key){return 1}else if(b.key > a.key){return -1}else{return 0}});
@@ -390,12 +432,10 @@ function process()
     var x = d3.scaleTime().range([0, widthM]);
     var y = d3.scaleLinear().range([heightM, 0]);
 
-    /*
     // define the line
     var valueline = d3.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y((d.cast).length); });
-      */
 
     // append the svg obgect to the body of the page
     // appends a 'group' element to 'svg'
@@ -479,7 +519,6 @@ function process()
       .attr("onclick", "resetFilterSeason()")
       .append("text")
       .text("Reset");
-
 
   }
 }

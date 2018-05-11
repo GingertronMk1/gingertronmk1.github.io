@@ -3,7 +3,6 @@ xhr.onreadystatechange = process;
 xhr.open("GET", "https://history.newtheatre.org.uk/feeds/search.json", true);
 xhr.send();
 var resp,
-  centered,
   allShows = [],
   allPeople = [],
   allActors = [],
@@ -11,9 +10,9 @@ var resp,
   allActorsObjs = [],
   links = [],
   allYears = [],
-  showConnectionGraph = 1,
-  showOtherGraphs     = 1,
-  shortGraph          = 1;
+  showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
+  showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
+  shortGraph          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
 function searchGraph(){
   resetGraph();
@@ -199,7 +198,7 @@ function process() {
       svg = centre.append("svg")
         .attr("id", "connGraph")
         .attr("width", width)
-        .attr("height", height);//-margin.bottom);
+        .attr("height", height + 20);//-margin.bottom);
 
       var radius = 15;
 
@@ -400,8 +399,8 @@ function process() {
 
       svg = centre.append("svg")
         .attr("id", "castNosGraph")
-        .attr("width", widthM + margin.left + margin.right)
-        .attr("height", heightM + margin.top + margin.bottom)
+        .attr("width", width)
+        .attr("height", height + 20)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -437,13 +436,27 @@ function process() {
         .append("svg:title")
         .text(function(d) {return d.title + ", " + d.year_title});
 
+      svg.append("text")              // XLABEL
+        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
+        .style("text-anchor", "middle")
+        .text("Year");
+
+      svg.append("text")   // YLABEL
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Cast Size");
+
+
 
       //CAST VS CREW NUMBERS
 
       svg = centre.append("svg")
         .attr("id","castCrewNosGraph")
-        .attr("width", widthM + margin.left + margin.right)
-        .attr("height", heightM + margin.top + margin.bottom)
+        .attr("width", width)
+        .attr("height", height + 20)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -472,19 +485,6 @@ function process() {
       svg.append("g")
         .call(yAxis);
 
-      svg.append("text")
-        .attr("transform","translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
-        .style("text-anchor", "middle")
-        .text("Date");
-
-      svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Value");
-
       svg.selectAll("dot")
         .data(allShows)
         .enter().append("circle")
@@ -495,6 +495,19 @@ function process() {
         .attr("fill", function(d) {return seasonColours(d.season);})
         .append("svg:title")
         .text(function(d) {return d.title + ", " + d.year_title});
+
+      svg.append("text")            // XLABEL
+        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
+        .style("text-anchor", "middle")
+        .text("Cast Size");
+
+      svg.append("text")            // YLABEL
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Crew Size");
 
       // SHOW NUMBERS THROUGH THE YEARS
 
@@ -515,8 +528,8 @@ function process() {
 
       svg = centre.append("svg")
         .attr("id","showNosGraph")
-        .attr("width", widthM + margin.left + margin.right)
-        .attr("height", heightM + margin.top + margin.bottom)
+        .attr("width", width)
+        .attr("height", height + 20)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -567,6 +580,19 @@ function process() {
       // Add the Y Axis
       svg.append("g")
         .call(d3.axisLeft(y));
+
+      svg.append("text")              // XLABEL
+        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
+        .style("text-anchor", "middle")
+        .text("Year");
+
+      svg.append("text")   // YLABEL
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Number of Shows");
 
       /*
        *

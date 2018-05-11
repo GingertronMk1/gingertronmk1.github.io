@@ -1,3 +1,3 @@
 # gingertronmk1.github.io
 
-NFI what I'm doing with this
+This repository is currently being used for a Nottingham New Theatre information visualisation system

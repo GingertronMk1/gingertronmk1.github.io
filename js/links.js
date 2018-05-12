@@ -11,9 +11,9 @@ var resp,
   links = [],
   allYears = [],
   linevalue,
-  showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
+  showConnectionGraph = 0,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
+  longGraphs          = 0;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
 function searchGraph(){
   resetGraph();
@@ -206,6 +206,23 @@ function process() {
       .range(d3.quantize(d3.interpolate("#0000ff","#ff0000"), allYears.length));
 
 
+    function addAxisLabels(xLabel, yLabel) {
+      svg.append("text")  // XLABEL
+        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
+        .style("font-weight", "bolder")
+        .style("text-anchor", "middle")
+        .text(xLabel);
+
+      svg.append("text")  // YLABEL
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("font-weight", "bolder")
+        .style("text-anchor", "middle")
+        .text(yLabel);
+
+    }
 
     /*
      *
@@ -470,20 +487,7 @@ function process() {
         .append("svg:title")
         .text(function(d) {return d.title + ", " + d.year_title});
 
-      svg.append("text")              // XLABEL
-        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
-        .style("text-anchor", "middle")
-        .text("Year");
-
-      svg.append("text")   // YLABEL
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Cast Size");
-
-
+      addAxisLabels("Year", "Cast Size");
 
       //CAST VS CREW NUMBERS
 
@@ -530,18 +534,7 @@ function process() {
         .append("svg:title")
         .text(function(d) {return d.title + ", " + d.year_title});
 
-      svg.append("text")            // XLABEL
-        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
-        .style("text-anchor", "middle")
-        .text("Cast Size");
-
-      svg.append("text")            // YLABEL
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Crew Size");
+      addAxisLabels("Cast Size","Crew Size");
 
       // SHOW NUMBERS THROUGH THE YEARS
 
@@ -616,18 +609,7 @@ function process() {
       svg.append("g")
         .call(d3.axisLeft(y));
 
-      svg.append("text")              // XLABEL
-        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
-        .style("text-anchor", "middle")
-        .text("Year");
-
-      svg.append("text")   // YLABEL
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Number of Shows");
+      addAxisLabels("Year","Number Of Shows");
 
       /*
        *
@@ -735,20 +717,7 @@ function process() {
       svg.append("g")
         .call(d3.axisLeft(y));
 
-      svg.append("text")              // XLABEL
-        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
-        .style("text-anchor", "middle")
-        .text("Year");
-
-      svg.append("text")   // YLABEL
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Number of People's First Shows");
-
-
+      addAxisLabels("Year","Number of \"First Shows\"");
     }
   }
 }

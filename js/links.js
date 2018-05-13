@@ -10,7 +10,6 @@ var resp,
   allActorsObjs = [],
   links = [],
   allYears = [],
-  linevalue,
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
   longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
@@ -18,25 +17,30 @@ var resp,
 function searchGraph(){
   resetGraph();
   var sValue = document.getElementById("searchVal").value;
+  console.log(sValue);
   d3.select("par[id=\"infobox\"]").text(sValue);
 
-  d3.selectAll("circle[id=\"" + sValue + "\"]")
-    .attr("fill", "yellow")
-    .on("mouseover", function(d) {
-      d3.select(this).attr("fill","black");
-      printDetails(d);
-    })
-    .on("mouseout", function(d) {d3.select(this).attr("fill","red");});
+  d3.selectAll("circle[class=\"connNode\"]")
+    .filter(function(d){return d.name!=sValue;})
+    .attr("opacity", 0.2);
+
+  d3.selectAll("line[class=connLink]")
+    .filter(function(d){return d.source!=sValue && d.target!=sValue;})
+    .attr("opacity", 0.2);
 }
 
 function resetGraph(){
-  d3.selectAll(".node")
-    .attr("fill", "red")
+  d3.selectAll("circle[class=\"connNode\"]")
+    .attr("opacity",1);
+  d3.selectAll("line[class=connLink]")
+    .attr("opacity",1);
+  /*
     .on("mouseover", function(d) {
       d3.select(this).attr("fill","black"); 
       printDetails(d);
     })
     .on("mouseout", function(d) {d3.select(this).attr("fill","red");});
+    */
 }
 
 function filterSeason() {
@@ -58,7 +62,7 @@ function resetFilterSeason() {
 function printDetails(a) {
   var temp = [];
   (a.shows).forEach(function(s){temp.push(s.title);});
-  d3.select("par[id=\"infobox\"]").text(a.name + ", who was first in a show in " + a.firstYear + ", and has been in: \n" + temp);
+  d3.select("par[id=\"infobox\"]").text(a.name + ", who was first in a show in " + a.firstYear + ", and has been in: \n" + temp + ", with a total of " + (a.links).length + " links");
   console.log(a);
 }
 
@@ -78,35 +82,6 @@ function seasonColours(s) {
   }
 }
 
-/*
-function findRoute() {
-  var a1 = document.getElementById("degBox1").value;
-  var a2 = document.getElementById("degBox2").value;
-  var actor1 = allActorsObjs.find(function(n){return n.name == a1;});
-  var actor2 = allActorsObjs.find(function(n){return n.name == a2;});
-  var route = findRoutePrime(actor1,actor2,[],[]);
-  return route;
-}
-
-function findRoutePrime(a1,a2,done,currRoute) {
-  if(!done.includes(a1)) {
-
-    var thisLinks = links.filter(function(l){return l.source===a1;});
-    var specLink = thisLinks.filter(function(l){return l.target===a2;});
-    if(specLink.length > 0) {
-      currRoute.push(specLink);
-      return specLink;
-    } else {
-      done.push(a1);
-      thisLinks.forEach(function(l){
-        var tempRoute = currRoute.push(l);
-        return findRoutePrime(l.target,a2,done,tempRoute);
-      });
-    }
-  }
-}
-*/
-
 function year_titleToDate(yt){return Date.parse(yt.slice(0,4));}
 
 function process() {
@@ -117,7 +92,10 @@ function process() {
      *
      */
 
-    var svg;
+    var svg,
+        linevalue,
+        x,
+        y;
 
     resp = JSON.parse(xhr.responseText);
 
@@ -125,7 +103,11 @@ function process() {
     if(longGraphs) {
       allShows = resp.filter(function(x) {return x.type==="show" && x.title != "Freshers' Fringe";});
     } else {
-      allShows = resp.filter(function(x) {return x.type==="show" && x.title != "Freshers' Fringe" && x.year_title>="2010&ndash;11";});
+      allShows = resp.filter(function(x) {return x.type==="show"
+                                              && x.title != "Freshers' Fringe"
+                                              && x.title != "Charity Gala"
+                                              && x.year_title>="2010&ndash;11";
+      });
     }
     allPeople = resp.filter(function(x) {return x.type==="person"});
     console.log(allPeople);
@@ -141,6 +123,7 @@ function process() {
     allActors = (Array.from(new Set(allActors))).sort();
     allActors.forEach(function(a) {allActorsObjs.push(actorToObject(a));});
     allYears = (Array.from(new Set(allShows.map(function(d){return d.year_title;})))).sort();
+
     function allActorsLinks(a) {
       var temp = [],
         actorsShows = allShows.filter(function(d) {return (d.cast).includes(a);});
@@ -177,27 +160,38 @@ function process() {
         (s.cast).forEach(function(d) {allTheseLinks.push(d);});
         if(s.year_title < earliestShow){earliestShow = s.year_title};
       });
+      var allTheseLinks2 = [];
+      allTheseLinks.forEach(function(l){
+        allTheseLinks2.push({name:l, strength:allTheseLinks.filter(function(d){return d===l;}).length})
+      });
 
+
+      //console.log(allTheseLinks);
+      allTheseLinks.filter(function(l){return l!=a;});
+
+      allTheseLinks = Array.from(new Set(allTheseLinks));
+      allTheseLinks2 = Array.from(new Set(allTheseLinks2));
+      //console.log(a, allTheseLinks2);
       var person = {
         name: a,
         shows: allTheseShows,
         firstYear: earliestShow,
         record: personRecord,
-        url: personRecordLink
+        url: personRecordLink,
+        links: allTheseLinks2
       }
       return person;
     }
 
+
     allActorsObjs.forEach(function(so) {
-      (so.shows).forEach(function(sh) {
-        (sh.cast).forEach(function(a) {
-          links.push({source:so.name,target:a});
-        })
-      });
+      (so.links).forEach(function(ta) {
+        links.push({source:so.name,target:ta.name,strength:ta.strength});
+      })
     });
 
     console.log(links);
-    links = (Array.from(new Set(links))).sort();
+    links = links.filter(function(l){return l.source!=l.target;});
     console.log(links);
     console.log(allActorsObjs);
 
@@ -207,16 +201,17 @@ function process() {
 
 
     function addAxisLabels(xLabel, yLabel) {
+      var mb = margin.bottom/2,
+          ml = margin.left/2;
+
       svg.append("text")  // XLABEL
-        .attr("transform","translate(" + (width/2) + " ," + (height-10) + ")")
+        .attr("transform", "translate("+(width/2)+","+(height-mb)+")")
         .style("font-weight", "bolder")
         .style("text-anchor", "middle")
         .text(xLabel);
 
       svg.append("text")  // YLABEL
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x",0 - (height / 2))
+        .attr("transform", "translate("+(0-ml)+","+(height/2)+") rotate(-90)")
         .attr("dy", "1em")
         .style("font-weight", "bolder")
         .style("text-anchor", "middle")
@@ -275,7 +270,8 @@ function process() {
         .enter()
         .append("line")
         .attr("class","link")
-        .style("stroke-width", "0.5")
+        .attr("class","connLink")
+        .style("stroke-width", function(d){return 0.5*(d.strength);})
         .style("stroke", "black")
         .attr("source", function(d) {return d.source.name;})
         .attr("sink", function(d) {return d.target.name;});
@@ -288,7 +284,8 @@ function process() {
         .enter()
         .append("circle")
         .attr("class","node")
-        .attr("r", 15)
+        .attr("class","connNode")
+        .attr("r", function(d){return 3*(Math.sqrt((d.links).length));})
         .attr("fill", function(d){return yearColourAxis(d.firstYear);})
         .attr("id", function(d) {return d.name;})
         .on("mouseover", function(d) {
@@ -300,7 +297,7 @@ function process() {
         .on("click", function(d){window.open(d.url)});
 
       // Adding a legend
-      var legendHeight = (height/2.1),    //2.1 for rendering purposes
+      var legendHeight = (svg.attr("height")/2.1),    //2.1 for rendering purposes
         legendWidth = 70;
 
       var legend = svg.append("g")
@@ -333,19 +330,21 @@ function process() {
         .attr("y", legendHeight-20)
         .text(allYears[allYears.length-1]);
 
+      /*
       var connInfo = svg.append("g")
                         .attr("class", "actorInfo")
                         .attr("x", 500)
                         .attr("y", margin.top);
 
       connInfo.append("rect")
-              .attr("x", width-100)
+              .attr("x", svg.attr("width")-100)
               .attr("fill-opacity", 0.5)
               .attr("width", 100)
-              .attr("height", height)
+              .attr("height", svg.attr("height"))
               .attr("fill", "red")
               .append("text")
               .attr("id", "infobox");
+              */
 
       //add zoom capabilities
       var zoom_handler = d3.zoom()
@@ -410,6 +409,7 @@ function process() {
       info.append("br");
       info.append("br");
 
+      /*
       var box1 = info.append("input")
         .attr("id", "degBox1")
         .attr("name", "degBox1")
@@ -432,6 +432,7 @@ function process() {
         .attr("id", "routePar")
         .append("text")
         .text("The route will appear here");
+        */
 
     }
 
@@ -444,6 +445,56 @@ function process() {
 
     if(showOtherGraphs){
 
+      //WHO'S BEEN IN THE MOST SHOWS
+
+      var top10Actors = allActorsObjs
+        .sort(function(a,b){return (b.shows).length - (a.shows).length;});
+      top10Actors = top10Actors.slice(0,10);
+      console.log(top10Actors);
+
+      svg = centre.append("svg")
+        .attr("id", "castNosGraph")
+        .attr("width", width)
+        .attr("height", height + 50)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      x = d3.scaleBand()
+            .range([0,widthM])
+            .domain(top10Actors.map(function(d){return d.name;}))
+            .padding(0.1);
+
+      y = d3.scaleLinear()
+            .range([heightM, 0])
+            .domain([0,d3.max(top10Actors,function(d){return (d.shows).length;})]);
+
+      var xAxis = d3.axisBottom(x);
+      var yAxis = d3.axisLeft(y);
+
+      // Add the X Axis
+      svg.append("g")
+        .attr("transform", "translate(0," + heightM + ")")
+        .call(xAxis)
+        .selectAll("text")
+          .attr("text-anchor", "start")
+          .attr("transform","rotate(30)");
+
+      // Add the Y Axis
+      svg.append("g")
+        .call(yAxis);
+
+
+      svg.selectAll("bar")
+         .data(top10Actors)
+         .enter().append("rect")
+                   .attr("x", function(d){return x(d.name);})
+                   .attr("y", function(d){return y((d.shows).length);})
+                   .attr("width", x.bandwidth)
+                   .attr("height", function(d){return heightM-y((d.shows).length);})
+                   .attr("color", function(d){return yearColourAxis(d.firstYear);});
+
+      addAxisLabels("","Number of Shows");
+
       //CAST NUMBERS THROUGH THE YEARS
 
       allDatedShows = allShows.filter(function(d) {return !(isNaN(d.date.getDate()))});
@@ -455,11 +506,11 @@ function process() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      var x = d3.scaleTime()
+      x = d3.scaleTime()
         .domain(d3.extent(allDatedShows, function(d) {return d.date;}))
         .range([0, widthM]);
 
-      var y = d3.scaleLinear()
+      y = d3.scaleLinear()
         .domain(d3.extent(allDatedShows, function(d) {let ca=d.cast;return ca.length;}))
         .range([heightM, 0]);
 
@@ -498,11 +549,11 @@ function process() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      var x = d3.scaleLinear()
+      x = d3.scaleLinear()
         .domain(d3.extent(allDatedShows, function(d) {return (d.cast).length;}))
         .range([0, widthM]);
 
-      var y = d3.scaleLinear()
+      y = d3.scaleLinear()
         .domain(d3.extent(allDatedShows, function(d) {return (d.crew).length;}))
         .range([heightM, 0]);
 

@@ -12,7 +12,7 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  longGraphs          = 0;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
+  longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
 /*
 centre.append("button")
@@ -184,10 +184,17 @@ function process(){
       });
       personLinks = personLinks.filter(function(l){return l!=a;})
                                .map(function(l){return {name:    l, 
-                                                        strength:personLinks.filter(function(d){return d===l;}).length
+                                                        strength:personLinks.filter(function(d){return d===l;})
+                                                                            .length
                                                        };
                                                });
-
+      personShows = personShows.sort(function(s1,s2){if(s1.title>s2.title){
+                                                       return 1;
+                                                     }else if(s2.title>s1.title){
+                                                       return -1;
+                                                     }else{
+                                                       return 0;
+                                                     };});
       return {
         name: a,
         shows: personShows,
@@ -511,7 +518,7 @@ function process(){
                    .attr("y", function(d){return y((d.shows).length);})
                    .attr("width", x.bandwidth)
                    .attr("height", function(d){return heightM-y((d.shows).length);})
-                   .attr("color", function(d){return yearColourAxis(d.firstYear);});
+                   .attr("fill", function(d){return yearColourAxis(d.firstYear);});
 
       addAxisLabels("","Number of Shows");
 

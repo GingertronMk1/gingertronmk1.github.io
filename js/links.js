@@ -12,7 +12,7 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
+  longGraphs          = 0;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
 /*
 centre.append("button")
@@ -179,15 +179,18 @@ function process(){
 
       personShows.forEach(function(s){
         personShowTitles.push(s.title);
-        (s.cast).forEach(function(d){personLinks.push(d);});
+        (s.cast).forEach(function(d){if(!personLinks.includes(d)){personLinks.push(d);}});
         if(s.year_title < earliestShow){earliestShow = s.year_title};
       });
       personLinks = personLinks.filter(function(l){return l!=a;})
-                               .map(function(l){return {name:    l, 
-                                                        strength:personLinks.filter(function(d){return d===l;})
-                                                                            .length
+                               .map(function(l){var conns = allShows.filter(function(d){return d.cast.includes(a) && d.cast.includes(l)})
+                                                return {name:         l, 
+                                                        connections:  conns,
+                                                        strength:     conns.length
                                                        };
-                                               });
+                                               })
+                               .sort(function(l1,l2){return l2.strength-l1.strength;});
+
       personShows = personShows.sort(function(s1,s2){if(s1.title>s2.title){
                                                        return 1;
                                                      }else if(s2.title>s1.title){
@@ -321,7 +324,7 @@ function process(){
         })
         .on("mouseout", function(d){d3.select(this).attr("fill", t=>yearColourAxis(t.firstYear));})
         //.attr("xlink:href", function(d){return d.url;})
-        .on("click", function(d){window.open(d.url)});
+        .on("click", function(d){/*window.open(d.url);*/ getInfo(d);});
 
       // Adding a legend
       var legendHeight = (svg.attr("height")/2.1),    //2.1 for rendering purposes
@@ -436,6 +439,139 @@ function process(){
       info.append("br");
       info.append("br");
 
+      var infoSVG = centre.append("svg")
+                          .attr("id","infoSVG")
+                          .attr("width",width)
+                          .attr("height",height)
+                          .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+      function getInfo(person) {
+        var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
+            boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
+        console.log(boxWidth);
+        console.log(boxHeight);
+        infoSVG.selectAll("*").remove();
+        console.log(person);
+
+        var topLinks = person.links.slice(0,5);
+        console.log(topLinks);
+        var barX = d3.scaleBand()
+                     .range([0,boxWidth[1]])
+                     .domain(topLinks.map(function(l){return l.name;}))
+                     .padding(0.1);
+        var barY = d3.scaleLinear()
+                     .range([boxHeight[1],0])
+                     .domain([0,d3.max(topLinks, function(d){return d.strength;})]);
+
+        console.log(d3.max(topLinks, function(d){return d.strength;}));
+
+        var barXAxis = d3.axisBottom(barX);
+        var barYAxis = d3.axisLeft(barY)
+                          .ticks(d3.max(topLinks, function(d){return d.strength;}));
+        // Add the X Axis
+        infoSVG.append("g")
+          .attr("transform", "translate(0," + boxHeight[1] + ")")
+          .call(barXAxis)
+          .selectAll("text")
+            .attr("text-anchor", "start")
+            .attr("transform","rotate(15)");
+
+        // Add the Y Axis
+        infoSVG.append("g")
+          .call(barYAxis);
+
+        infoSVG.selectAll("bar")
+           .data(topLinks)
+           .enter().append("rect")
+                   .attr("x", function(d){console.log(barX(d.name)); return barX(d.name);})
+                   .attr("y", function(d){console.log("bary " + barY(d.strength)); return barY(d.strength);})
+                   .attr("width", barX.bandwidth)
+                   .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
+                   .attr("fill", "rgb(0,0,0)");
+
+        infoSVG.append("text")
+               .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
+               .style("font-weight", "bolder")
+               .style("text-anchor", "middle")
+               .text("Number Of Shared Shows");
+
+
+        /*
+         *  WE'VE GOT A THING CALLED RADAR GRAPH
+         */
+
+        var divisions = (2*Math.PI)/allSeasons.length;
+        var seasonCounts = d3.nest()
+                             .key(function(d){return d.season;})
+                             .entries(person.shows);
+        console.log(seasonCounts);
+
+        var seasonScale = d3.scaleLinear()
+                            .range([0, boxHeight[0]])
+                            .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]);
+        var radarAxis = d3.axisBottom(seasonScale)
+                          .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
+
+        infoSVG.append("circle")
+               .attr("r", boxHeight[0])
+               .attr("cx", boxWidth[2])
+               .attr("cy", boxHeight[0])
+               .attr("fill", "white")
+               .style("stroke", "black")
+               .style("stroke-width", "1");
+
+        for(i=0;i<allSeasons.length;i++){
+          var angle = divisions*i,
+              s = Math.sin(angle),
+              c = Math.cos(angle),
+              shows = seasonCounts.find(function(d){return d.key === allSeasons[i]})
+              showNum = 0;
+          if(shows !== undefined){showNum = (shows.values).length};
+          showNum = seasonScale(showNum);
+          infoSVG.append("g")
+                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+(angle*(180/Math.PI))+")")
+                 .call(radarAxis)
+                 .append("text")
+                   .text(allSeasons[i]);
+
+          infoSVG.append("g")
+                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+(angle*(180/Math.PI))+") translate(75,-5)")
+                 .append("text")
+                   .text(allSeasons[i]);
+
+          infoSVG.append("line")
+                 .attr("x1", boxWidth[2])
+                 .attr("y1", boxHeight[0])
+                 .attr("x2", boxWidth[2]+(boxHeight[0]*c))
+                 .attr("y2", boxHeight[0]+(boxHeight[0]*s))
+                 .style("stroke", "black")
+                 .style("stroke-width", "2");
+
+          infoSVG.append("circle")
+                 .attr("r", 5)
+                 .attr("cx", (boxWidth[2])+(showNum*c))
+                 .attr("cy", boxHeight[0]+(showNum*s))
+                 .attr("fill", seasonColours(allSeasons[i]));
+        }
+
+        infoSVG.append("text")
+               .attr("x", boxWidth[0])
+               .attr("y", margin.top-30)
+               //.attr("dy", "1em")
+               .style("font-weight", "bolder")
+               .style("text-anchor", "middle")
+               .text(person.name + "'s top 5 co-cast members");
+         infoSVG.append("text")
+               .attr("x", boxWidth[2])
+               .attr("y", margin.top-30)
+               //.attr("dy", "1em")
+               .style("font-weight", "bolder")
+               .style("text-anchor", "middle")
+               .text("How many shows of each season " + person.name + " has been in");
+     }
+
       /*
       var box1 = info.append("input")
         .attr("id", "degBox1")
@@ -480,7 +616,7 @@ function process(){
       console.log(top10Actors);
 
       svg = centre.append("svg")
-        .attr("id", "castNosGraph")
+        .attr("id", "mostShowsGraph")
         .attr("width", width)
         .attr("height", height + 50)
         .append("g")
@@ -504,7 +640,7 @@ function process(){
         .call(xAxis)
         .selectAll("text")
           .attr("text-anchor", "start")
-          .attr("transform","rotate(30)");
+          .attr("transform","rotate(15)");
 
       // Add the Y Axis
       svg.append("g")

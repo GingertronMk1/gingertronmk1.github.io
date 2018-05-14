@@ -12,7 +12,7 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  longGraphs          = 0;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
+  longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
 /*
 centre.append("button")

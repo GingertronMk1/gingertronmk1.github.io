@@ -12,7 +12,7 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
+  longGraphs          = 0;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
 /*
 centre.append("button")
@@ -34,19 +34,28 @@ function searchGraph(){
 
   d3.selectAll("circle[class=\"connNode\"]")
     .filter(function(d){return d.name!=sValue;})
-    .attr("opacity", 0.2);
+    .attr("mouse-events","none")
+    .attr("opacity", 0.1);
 
-  d3.selectAll("line[class=connLink]")
-    .filter(function(d){return d.source!=sValue && d.target!=sValue;})
-    .attr("opacity", 0.2);
+  d3.selectAll("line[class=\"connLink\"]")
+    .filter(function(d){return d.source.name!=sValue && d.target.name!=sValue;})
+    .style("stroke","grey")
+    .attr("opacity",0.1);
+
+  d3.selectAll("line[class=\"connLink\"]")
+    .filter(function(d){return d.source.name==sValue || d.target.name==sValue;})
+    .style("stroke-width", function(d){return 1*(d.strength);});
 }
 
 function resetGraph(){
   d3.selectAll("circle[class=\"connNode\"]")
+    .attr("mouse-events","all")
     .attr("opacity",1);
-  d3.selectAll("line[class=connLink]")
+  d3.selectAll("line[class=\"connLink\"]")
+    .style("stroke-width", function(d){return 0.5*(d.strength);})
+    .style("stroke","black")
     .attr("opacity",1);
-  /*
+ /*
     .on("mouseover", function(d){
       d3.select(this).attr("fill","black"); 
       printDetails(d);
@@ -153,9 +162,9 @@ function process(){
     }
 
     function actorToObject(a){
-      var allTheseShows = allShows.filter(function(d){return (d.cast).includes(a);}),
-        allTheseLinks = [],
-        allTheseShowTitles = [],
+      var personShows = allShows.filter(function(d){return (d.cast).includes(a);}),
+        personLinks = [],
+        personShowTitles = [],
         earliestShow = "3000-01",
         personRecordLink;
 
@@ -168,36 +177,33 @@ function process(){
       };
 
 
-      allTheseShows.forEach(function(s){
-        allTheseShowTitles.push(s.title);
-        (s.cast).forEach(function(d){allTheseLinks.push(d);});
+      personShows.forEach(function(s){
+        personShowTitles.push(s.title);
+        (s.cast).forEach(function(d){personLinks.push(d);});
         if(s.year_title < earliestShow){earliestShow = s.year_title};
       });
-      var allTheseLinks2 = [];
-      allTheseLinks.forEach(function(l){
-        allTheseLinks2.push({name:l, strength:allTheseLinks.filter(function(d){return d===l;}).length})
-      });
+      personLinks = personLinks.filter(function(l){return l!=a;})
+                               .map(function(l){return {name:    l, 
+                                                        strength:personLinks.filter(function(d){return d===l;}).length
+                                                       };
+                                               });
 
-
-      allTheseLinks.filter(function(l){return l!=a;});
-
-      allTheseLinks = Array.from(new Set(allTheseLinks));
-      allTheseLinks2 = Array.from(new Set(allTheseLinks2));
-      var person = {
+      return {
         name: a,
-        shows: allTheseShows,
+        shows: personShows,
         firstYear: earliestShow,
         record: personRecord,
         url: personRecordLink,
-        links: allTheseLinks2
+        links: personLinks
       }
-      return person;
     }
 
 
     allActorsObjs.forEach(function(so){
       (so.links).forEach(function(ta){
-        if(so.name != ta.name && links.filter(function(d){return d.source == ta.name && d.target == so.name;}).length == 0){
+        if(so.name != ta.name && links.filter(function(d){return (d.source == ta.name && d.target == so.name) 
+                                                              || (d.source == so.name && d.target == ta.name)
+          ;}).length == 0){
         links.push({source:so.name,target:ta.name,strength:ta.strength});
         }
       })
@@ -228,7 +234,8 @@ function process(){
 
     }
     console.log(allActorsObjs);
-    console.log(links);
+    console.log(links.sort());
+    console.log(links.sort(function(l1,l2){return l2.strength-l1.strength;}).slice(0,10))
 
     /*
      *
@@ -297,6 +304,8 @@ function process(){
         .attr("class","node")
         .attr("class","connNode")
         .attr("r", function(d){return 3*(Math.sqrt((d.links).length));})
+        .style("stroke-width", function(d){return 0.1*(Math.sqrt((d.links).length));})
+        .style("stroke", "white")
         .attr("fill", function(d){return yearColourAxis(d.firstYear);})
         .attr("id", function(d){return d.name;})
         .on("mouseover", function(d){

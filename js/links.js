@@ -14,6 +14,18 @@ var resp,
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
   longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
+/*
+centre.append("button")
+      .attr("onclick", "switchGraphs()")
+      .append("text")
+        .text("Click Me!");
+        */
+
+function switchGraphs(){
+  console.log("Switching Graphs");
+  longGraphs==1 ? longGraphs = 0 : longGraphs = 1;
+}
+
 function searchGraph(){
   resetGraph();
   var sValue = document.getElementById("searchVal").value;
@@ -35,16 +47,16 @@ function resetGraph(){
   d3.selectAll("line[class=connLink]")
     .attr("opacity",1);
   /*
-    .on("mouseover", function(d) {
+    .on("mouseover", function(d){
       d3.select(this).attr("fill","black"); 
       printDetails(d);
     })
-    .on("mouseout", function(d) {d3.select(this).attr("fill","red");});
+    .on("mouseout", function(d){d3.select(this).attr("fill","red");});
     */
 }
 
-function filterSeason() {
-  allSeasons.forEach(function(s) {
+function filterSeason(){
+  allSeasons.forEach(function(s){
     if(!document.getElementById(s + "Filt").checked){
       d3.selectAll("[season=\"" + s + "\"]").attr("opacity", 0).attr("pointer-events","none");
     } else {
@@ -53,21 +65,21 @@ function filterSeason() {
   });
 }
 
-function resetFilterSeason() {
+function resetFilterSeason(){
   d3.selectAll("circle").attr("opacity", 1).attr("pointer-events","all");
   d3.selectAll("path").attr("opacity", 1).attr("pointer-events","all");
   d3.selectAll("input[type=\"checkbox\"]").property("checked","true");
 }
 
-function printDetails(a) {
+function printDetails(a){
   var temp = [];
   (a.shows).forEach(function(s){temp.push(s.title);});
   d3.select("par[id=\"infobox\"]").text(a.name + ", who was first in a show in " + a.firstYear + ", and has been in: \n" + temp + ", with a total of " + (a.links).length + " links");
   console.log(a);
 }
 
-function seasonColours(s) {
-  switch(s) {
+function seasonColours(s){
+  switch(s){
     case "In House":return "yellow"; break;
     case "UNCUT": return "orange"; break;
     case "Fringe": return "purple"; break;
@@ -84,8 +96,8 @@ function seasonColours(s) {
 
 function year_titleToDate(yt){return Date.parse(yt.slice(0,4));}
 
-function process() {
-  if (xhr.readyState==4) {
+function process(){
+  if (xhr.readyState==4){
     /*
      *
      *  GONNA SET UP THE DRAWING STUFF NOW
@@ -100,18 +112,19 @@ function process() {
     resp = JSON.parse(xhr.responseText);
 
     // resp now has the text and you can process it.
-    if(longGraphs) {
-      allShows = resp.filter(function(x) {return x.type==="show" && x.title != "Freshers' Fringe";});
+    if(longGraphs == 2){
+      allShows = resp.filter(function(x){return x.type ==="show";});
+  } else if(longGraphs == 1){
+      allShows = resp.filter(function(x){return x.type==="show" && x.title != "Freshers' Fringe";});
     } else {
-      allShows = resp.filter(function(x) {return x.type==="show"
+      allShows = resp.filter(function(x){return x.type==="show"
                                               && x.title != "Freshers' Fringe"
                                               && x.title != "Charity Gala"
                                               && x.year_title>="2010&ndash;11";
       });
     }
-    allPeople = resp.filter(function(x) {return x.type==="person"});
-    console.log(allPeople);
-    allShows.forEach(function(s) {
+    allPeople = resp.filter(function(x){return x.type==="person"});
+    allShows.forEach(function(s){
       s.year_title = (s.year_title).replace("&ndash;","-");
       s.date = (s.date) = new Date(s.date)
       s.cast = (s.cast).split(", ").slice(0,-1);
@@ -121,26 +134,26 @@ function process() {
 
     allSeasons = (Array.from(new Set(allShows.map(function(d){return d.season;})))).sort();
     allActors = (Array.from(new Set(allActors))).sort();
-    allActors.forEach(function(a) {allActorsObjs.push(actorToObject(a));});
+    allActors.forEach(function(a){allActorsObjs.push(actorToObject(a));});
     allYears = (Array.from(new Set(allShows.map(function(d){return d.year_title;})))).sort();
 
-    function allActorsLinks(a) {
+    function allActorsLinks(a){
       var temp = [],
-        actorsShows = allShows.filter(function(d) {return (d.cast).includes(a);});
-      actorsShows.forEach(function(s) {(s.cast).forEach(function(d) {temp.push(d);});});
-      temp = (Array.from(new Set(temp))).filter(function(d) {return d != a;}).sort();
+        actorsShows = allShows.filter(function(d){return (d.cast).includes(a);});
+      actorsShows.forEach(function(s){(s.cast).forEach(function(d){temp.push(d);});});
+      temp = (Array.from(new Set(temp))).filter(function(d){return d != a;}).sort();
       return temp;
     }
 
-    function allActorsShows(a) {
+    function allActorsShows(a){
       var temp = [];
-      (allShows.filter(function(d) {return (d.cast).includes(a);}))
-        .forEach(function(d) {temp.push(d.title);});
+      (allShows.filter(function(d){return (d.cast).includes(a);}))
+        .forEach(function(d){temp.push(d.title);});
       return temp;
     }
 
-    function actorToObject(a) {
-      var allTheseShows = allShows.filter(function(d) {return (d.cast).includes(a);}),
+    function actorToObject(a){
+      var allTheseShows = allShows.filter(function(d){return (d.cast).includes(a);}),
         allTheseLinks = [],
         allTheseShowTitles = [],
         earliestShow = "3000-01",
@@ -148,16 +161,16 @@ function process() {
 
       var personRecord = allPeople.find(function(d){return d.title == a});
 
-      if(personRecord === undefined) {
+      if(personRecord === undefined){
         personRecordLink = "https://history.newtheatre.org.uk/people";
       } else {
         personRecordLink = "https://history.newtheatre.org.uk" + personRecord.link;
       };
 
 
-      allTheseShows.forEach(function(s) {
+      allTheseShows.forEach(function(s){
         allTheseShowTitles.push(s.title);
-        (s.cast).forEach(function(d) {allTheseLinks.push(d);});
+        (s.cast).forEach(function(d){allTheseLinks.push(d);});
         if(s.year_title < earliestShow){earliestShow = s.year_title};
       });
       var allTheseLinks2 = [];
@@ -166,12 +179,10 @@ function process() {
       });
 
 
-      //console.log(allTheseLinks);
       allTheseLinks.filter(function(l){return l!=a;});
 
       allTheseLinks = Array.from(new Set(allTheseLinks));
       allTheseLinks2 = Array.from(new Set(allTheseLinks2));
-      //console.log(a, allTheseLinks2);
       var person = {
         name: a,
         shows: allTheseShows,
@@ -184,23 +195,21 @@ function process() {
     }
 
 
-    allActorsObjs.forEach(function(so) {
-      (so.links).forEach(function(ta) {
+    allActorsObjs.forEach(function(so){
+      (so.links).forEach(function(ta){
+        if(so.name != ta.name && links.filter(function(d){return d.source == ta.name && d.target == so.name;}).length == 0){
         links.push({source:so.name,target:ta.name,strength:ta.strength});
+        }
       })
     });
 
-    console.log(links);
-    links = links.filter(function(l){return l.source!=l.target;});
-    console.log(links);
-    console.log(allActorsObjs);
 
     var yearColourAxis = d3.scaleOrdinal()
       .domain(allYears)
       .range(d3.quantize(d3.interpolate("#0000ff","#ff0000"), allYears.length));
 
 
-    function addAxisLabels(xLabel, yLabel) {
+    function addAxisLabels(xLabel, yLabel){
       var mb = margin.bottom/2,
           ml = margin.left/2;
 
@@ -218,6 +227,8 @@ function process() {
         .text(yLabel);
 
     }
+    console.log(allActorsObjs);
+    console.log(links);
 
     /*
      *
@@ -231,7 +242,7 @@ function process() {
      *
      */
 
-    if(showConnectionGraph) {
+    if(showConnectionGraph){
 
       svg = centre.append("svg")
         .attr("id", "connGraph")
@@ -273,8 +284,8 @@ function process() {
         .attr("class","connLink")
         .style("stroke-width", function(d){return 0.5*(d.strength);})
         .style("stroke", "black")
-        .attr("source", function(d) {return d.source.name;})
-        .attr("sink", function(d) {return d.target.name;});
+        .attr("source", function(d){return d.source.name;})
+        .attr("sink", function(d){return d.target.name;});
 
       //draw circles for the nodes
       var node = g.append("g")
@@ -287,12 +298,12 @@ function process() {
         .attr("class","connNode")
         .attr("r", function(d){return 3*(Math.sqrt((d.links).length));})
         .attr("fill", function(d){return yearColourAxis(d.firstYear);})
-        .attr("id", function(d) {return d.name;})
-        .on("mouseover", function(d) {
+        .attr("id", function(d){return d.name;})
+        .on("mouseover", function(d){
           d3.select(this).attr("fill","black");
           printDetails(d);
         })
-        .on("mouseout", function(d) {d3.select(this).attr("fill", t=>yearColourAxis(t.firstYear));})
+        .on("mouseout", function(d){d3.select(this).attr("fill", t=>yearColourAxis(t.firstYear));})
         //.attr("xlink:href", function(d){return d.url;})
         .on("click", function(d){window.open(d.url)});
 
@@ -358,18 +369,18 @@ function process() {
         g.attr("transform", d3.event.transform)
       }
 
-      function tickActions() {
+      function tickActions(){
         //update circle positions each tick of the simulation
         node
-          .attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
+          .attr("cx", function(d){ return d.x; })
+          .attr("cy", function(d){ return d.y; });
 
         //update link positions
         link
-          .attr("x1", function(d) { return d.source.x; })
-          .attr("y1", function(d) { return d.source.y; })
-          .attr("x2", function(d) { return d.target.x; })
-          .attr("y2", function(d) { return d.target.y; });
+          .attr("x1", function(d){ return d.source.x; })
+          .attr("y1", function(d){ return d.source.y; })
+          .attr("x2", function(d){ return d.target.x; })
+          .attr("y2", function(d){ return d.target.y; });
       }
 
 
@@ -497,7 +508,7 @@ function process() {
 
       //CAST NUMBERS THROUGH THE YEARS
 
-      allDatedShows = allShows.filter(function(d) {return !(isNaN(d.date.getDate()))});
+      allDatedShows = allShows.filter(function(d){return !(isNaN(d.date.getDate()))});
 
       svg = centre.append("svg")
         .attr("id", "castNosGraph")
@@ -507,11 +518,11 @@ function process() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       x = d3.scaleTime()
-        .domain(d3.extent(allDatedShows, function(d) {return d.date;}))
+        .domain(d3.extent(allDatedShows, function(d){return d.date;}))
         .range([0, widthM]);
 
       y = d3.scaleLinear()
-        .domain(d3.extent(allDatedShows, function(d) {let ca=d.cast;return ca.length;}))
+        .domain(d3.extent(allDatedShows, function(d){let ca=d.cast;return ca.length;}))
         .range([heightM, 0]);
 
       var xAxis = d3.axisBottom(x);
@@ -530,13 +541,13 @@ function process() {
         .data(allDatedShows)
         .enter().append("circle")
         .attr("r", 5)
-        .attr("cx", function(d) { return x(d.date); })
-        .attr("cy", function(d) { return y((d.cast).length); })
-        .text(function(d) {return d.title + ", " + d.year_title})
-        .attr("season", function(d) {return d.season})
-        .attr("fill", function(d) {return seasonColours(d.season);})
+        .attr("cx", function(d){ return x(d.date); })
+        .attr("cy", function(d){ return y((d.cast).length); })
+        .text(function(d){return d.title + ", " + d.year_title})
+        .attr("season", function(d){return d.season})
+        .attr("fill", function(d){return seasonColours(d.season);})
         .append("svg:title")
-        .text(function(d) {return d.title + ", " + d.year_title});
+        .text(function(d){return d.title + ", " + d.year_title});
 
       addAxisLabels("Year", "Cast Size");
 
@@ -550,15 +561,15 @@ function process() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       x = d3.scaleLinear()
-        .domain(d3.extent(allDatedShows, function(d) {return (d.cast).length;}))
+        .domain(d3.extent(allDatedShows, function(d){return (d.cast).length;}))
         .range([0, widthM]);
 
       y = d3.scaleLinear()
-        .domain(d3.extent(allDatedShows, function(d) {return (d.crew).length;}))
+        .domain(d3.extent(allDatedShows, function(d){return (d.crew).length;}))
         .range([heightM, 0]);
 
       var colors = d3.scaleTime()
-        .domain(d3.extent(allDatedShows, function(d) {return d.date;}))
+        .domain(d3.extent(allDatedShows, function(d){return d.date;}))
         .range(["yellow","purple"]);
 
       var xAxis = d3.axisBottom(x);
@@ -578,12 +589,12 @@ function process() {
         .data(allShows)
         .enter().append("circle")
         .attr("r", 5)
-        .attr("cx", function(d) { return x((d.cast).length); })
-        .attr("cy", function(d) { return y((d.crew).length); })
-        .attr("season", function(d) {return d.season})
-        .attr("fill", function(d) {return seasonColours(d.season);})
+        .attr("cx", function(d){ return x((d.cast).length); })
+        .attr("cy", function(d){ return y((d.crew).length); })
+        .attr("season", function(d){return d.season})
+        .attr("fill", function(d){return seasonColours(d.season);})
         .append("svg:title")
-        .text(function(d) {return d.title + ", " + d.year_title});
+        .text(function(d){return d.title + ", " + d.year_title});
 
       addAxisLabels("Cast Size","Crew Size");
 
@@ -670,7 +681,7 @@ function process() {
        *
        */
 
-      allSeasons.forEach(function(s) {
+      allSeasons.forEach(function(s){
         centre.append("br");
         centre.append("input")
           .attr("type", "checkbox")

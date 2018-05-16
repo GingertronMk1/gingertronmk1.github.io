@@ -18,7 +18,7 @@ var resp,
 function searchGraph(){
   resetGraph();
   var sValue = document.getElementById("searchVal").value;
-  console.log(sValue);
+  //console.log(sValue);
   d3.select("par[id=\"infobox\"]").text(sValue);
 
   d3.selectAll("circle[class=\"connNode\"]")
@@ -67,10 +67,16 @@ function resetFilterSeason(){
 }
 
 function printDetails(a){
-  var temp = [];
-  (a.shows).forEach(function(s){temp.push(s.title);});
-  d3.select("par[id=\"infobox\"]").text(a.name + ", who was first in a show in " + a.firstYear + ", and has been in: \n" + temp + ", with a total of " + (a.links).length + " links");
-  console.log(a);
+  var it = d3.select("text[id=\"infoText\"]"),
+    is = d3.select("text[id=\"infoShows\"]"),
+    il = d3.select("text[id=\"infoLinks\"]"),
+    ib = d3.select("rect[id=\"infoBox\"]");
+  it.text(a.name);
+  is.text("Has been in " + (a.shows).length + ((a.shows).length == 1 ? " show" : " shows"));
+  il.text("Has a total of " + (a.links).length + ((a.links).length == 1 ? " link" : " links"));
+  var textWidth = d3.max([it,is,il], function(d){return (d.node().getBBox()).width;}) + 10;
+  ib.attr("x", width - (textWidth + 5))
+    .attr("width", textWidth);
 }
 
 function seasonColours(s){
@@ -101,22 +107,22 @@ function process(){
      */
 
     var svg,
-        linevalue,
-        x,
-        y;
+      linevalue,
+      x,
+      y;
 
     resp = JSON.parse(xhr.responseText);
 
     // resp now has the text and you can process it.
     if(longGraphs == 2){
       allShows = resp.filter(function(x){return x.type ==="show";});
-  } else if(longGraphs == 1){
+    } else if(longGraphs == 1){
       allShows = resp.filter(function(x){return x.type==="show" && x.title != "Freshers' Fringe";});
     } else {
       allShows = resp.filter(function(x){return x.type==="show"
-                                              && x.title != "Freshers' Fringe"
-                                              && x.title != "Charity Gala"
-                                              && x.year_title>="2010&ndash;11";
+          && x.title != "Freshers' Fringe"
+          && x.title != "Charity Gala"
+          && x.year_title>="2010&ndash;11";
       });
     }
     allPeople = resp.filter(function(x){return x.type==="person"});
@@ -170,21 +176,21 @@ function process(){
         if(s.year_title < earliestShow){earliestShow = s.year_title};
       });
       personLinks = personLinks.filter(function(l){return l!=a;})
-                               .map(function(l){var conns = allShows.filter(function(d){return d.cast.includes(a) && d.cast.includes(l)})
-                                                return {name:         l, 
-                                                        connections:  conns,
-                                                        strength:     conns.length
-                                                       };
-                                               })
-                               .sort(function(l1,l2){return l2.strength-l1.strength;});
+        .map(function(l){var conns = allShows.filter(function(d){return d.cast.includes(a) && d.cast.includes(l)})
+          return {name:         l, 
+            connections:  conns,
+            strength:     conns.length
+          };
+        })
+        .sort(function(l1,l2){return l2.strength-l1.strength;});
 
       personShows = personShows.sort(function(s1,s2){if(s1.title>s2.title){
-                                                       return 1;
-                                                     }else if(s2.title>s1.title){
-                                                       return -1;
-                                                     }else{
-                                                       return 0;
-                                                     };});
+        return 1;
+      }else if(s2.title>s1.title){
+        return -1;
+      }else{
+        return 0;
+      };});
       return {
         name: a,
         shows: personShows,
@@ -199,9 +205,9 @@ function process(){
     allActorsObjs.forEach(function(so){
       (so.links).forEach(function(ta){
         if(so.name != ta.name && links.filter(function(d){return (d.source == ta.name && d.target == so.name)
-                                                              || (d.source == so.name && d.target == ta.name);})
-                                      .length == 0){
-        links.push({source:so.name,target:ta.name,strength:ta.strength});
+            || (d.source == so.name && d.target == ta.name);})
+          .length == 0){
+          links.push({source:so.name,target:ta.name,strength:ta.strength});
         }
       })
     });
@@ -213,7 +219,7 @@ function process(){
 
     function addAxisLabels(xLabel, yLabel){
       var mb = margin.bottom/2,
-          ml = margin.left/2;
+        ml = margin.left/2;
 
       svg.append("text")  // XLABEL
         .attr("transform", "translate("+(width/2)+","+(height-mb)+")")
@@ -229,9 +235,9 @@ function process(){
         .text(yLabel);
 
     }
-    console.log(allActorsObjs);
-    console.log(links.sort());
-    console.log(links.sort(function(l1,l2){return l2.strength-l1.strength;}).slice(0,10))
+    //console.log(allActorsObjs);
+    //console.log(links.sort());
+    //console.log(links.sort(function(l1,l2){return l2.strength-l1.strength;}).slice(0,10))
 
     /*
      *
@@ -308,11 +314,11 @@ function process(){
         .on("mouseover", function(d){
           d3.select(this).attr("fill","black");
           this.parentElement.appendChild(this);
+          //infoText.text(d.name);
           printDetails(d);
         })
         .on("mouseout", function(d){d3.select(this).attr("fill", t=>yearColourAxis(t.firstYear));})
-        //.attr("xlink:href", function(d){return d.url;})
-        .on("click", function(d){/*window.open(d.url);*/ getInfo(d);});
+        .on("click", function(d){getInfo(d);});
 
       // Adding a legend
       var legendHeight = (svg.attr("height")/2.1),    //2.1 for rendering purposes
@@ -378,6 +384,39 @@ function process(){
 
       // Adding more information to the nodes
 
+      svg.append("rect")
+        .attr("id", "infoBox")
+        .attr("x", width - 95)
+        .attr("y", 5)
+        .attr("width", 0)
+        .attr("height", "4.4em")
+        .attr("fill", "white")
+        .attr("opacity", 0.5);
+
+      svg.append("text")
+        .attr("id","infoText")
+        .attr("font-size", 12)
+        .attr("x", width - 10)
+        .attr("y", 5)
+        .attr("dy", "1.1em")
+        .attr("text-anchor", "end")
+        .text("Hover over a node to see a name");
+
+      svg.append("text")
+        .attr("id","infoShows")
+        .attr("font-size", 12)
+        .attr("x", width - 10)
+        .attr("y", 5)
+        .attr("dy", "2.2em")
+        .attr("text-anchor", "end");
+      svg.append("text")
+        .attr("id","infoLinks")
+        .attr("font-size", 12)
+        .attr("x", width - 10)
+        .attr("y", 5)
+        .attr("dy", "3.3em")
+        .attr("text-anchor", "end");
+
       var info = centre.append("div")
         .attr("id", "info")
         .attr("padding", "10px")
@@ -401,29 +440,20 @@ function process(){
         .append("text")
         .text("Reset");
 
-      info.append("br");
-      info.append("br");
-
-      var infoPar = info.append("par")
-        .attr("id", "infobox")
-        .text("Hover over a node to see a name");
-
-      info.append("br");
-      info.append("br");
-
       var infoSVG = centre.append("svg")
-                          .attr("id","infoSVG")
-                          .attr("width",width)
-                          .attr("height",height)
-                          .append("g")
-                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("id","infoSVG")
+        .attr("width",width)
+        .attr("height",(height/2) + 50)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
       function getInfo(person) {
         var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
-            boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
+          boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
         infoSVG.selectAll("*").remove();
-        console.log(person);
+        document.getElementById("infoSVG").focus({preventScroll:false});
+        //console.log(person);
 
         /*
          *
@@ -432,46 +462,46 @@ function process(){
          */
 
         var topLinks = person.links.slice(0,5);
-        console.log(topLinks);
+        //console.log(topLinks);
         var barX = d3.scaleBand()
-                     .range([0,boxWidth[1]])
-                     .domain(topLinks.map(function(l){return l.name;}))
-                     .padding(0.1);
+          .range([0,boxWidth[1]])
+          .domain(topLinks.map(function(l){return l.name;}))
+          .padding(0.1);
         var barY = d3.scaleLinear()
-                     .range([boxHeight[1],0])
-                     .domain([0,d3.max(topLinks, function(d){return d.strength;})]);
+          .range([boxHeight[1],0])
+          .domain([0,d3.max(topLinks, function(d){return d.strength;})]);
 
-        console.log(d3.max(topLinks, function(d){return d.strength;}));
+        //console.log(d3.max(topLinks, function(d){return d.strength;}));
 
         var barXAxis = d3.axisBottom(barX);
         var barYAxis = d3.axisLeft(barY)
-                          .ticks(d3.max(topLinks, function(d){return d.strength;}));
+          .ticks(d3.max(topLinks, function(d){return d.strength;}));
         // Add the X Axis
         infoSVG.append("g")
           .attr("transform", "translate(0," + boxHeight[1] + ")")
           .call(barXAxis)
           .selectAll("text")
-            .attr("text-anchor", "start")
-            .attr("transform","rotate(15)");
+          .attr("text-anchor", "start")
+          .attr("transform","rotate(15)");
 
         // Add the Y Axis
         infoSVG.append("g")
           .call(barYAxis);
 
         infoSVG.selectAll("bar")
-           .data(topLinks)
-           .enter().append("rect")
-                   .attr("x", function(d){console.log(barX(d.name)); return barX(d.name);})
-                   .attr("y", function(d){console.log("bary " + barY(d.strength)); return barY(d.strength);})
-                   .attr("width", barX.bandwidth)
-                   .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
-                   .attr("fill", "rgb(0,0,0)");
+          .data(topLinks)
+          .enter().append("rect")
+          .attr("x", function(d){console.log(barX(d.name)); return barX(d.name);})
+          .attr("y", function(d){console.log("bary " + barY(d.strength)); return barY(d.strength);})
+          .attr("width", barX.bandwidth)
+          .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
+          .attr("fill", "rgb(0,0,0)");
 
         infoSVG.append("text")
-               .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
-               .style("font-weight", "bolder")
-               .style("text-anchor", "middle")
-               .text("Number Of Shared Shows");
+          .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
+          .style("font-weight", "bolder")
+          .style("text-anchor", "middle")
+          .text("Number Of Shared Shows");
 
 
         /*
@@ -482,62 +512,64 @@ function process(){
 
         var divisions = (2*Math.PI)/allSeasons.length;
         var seasonCounts = d3.nest()
-                             .key(function(d){return d.season;})
-                             .entries(person.shows);
+          .key(function(d){return d.season;})
+          .entries(person.shows);
+
+        var circleCenter = boxWidth[2] + (margin.left/2);
 
         var radius = (boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0]);
 
         var seasonScale = d3.scaleLinear()
-                            .range([0, radius])
-                            .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]);
+          .range([0, radius])
+          .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]);
         var radarAxis = d3.axisBottom(seasonScale)
-                          .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
+          .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
 
         infoSVG.append("circle")
-               .attr("r", radius)
-               .attr("cx", boxWidth[2])
-               .attr("cy", boxHeight[0])
-               .attr("fill", "white")
-               .style("stroke", "black")
-               .style("stroke-width", "1");
+          .attr("r", radius)
+          .attr("cx", circleCenter)
+          .attr("cy", boxHeight[0])
+          .attr("fill", "white")
+          .style("stroke", "black")
+          .style("stroke-width", "1");
 
         for(i=0;i<allSeasons.length;i++){
           var angle = divisions*i,
-              s = Math.sin(angle),
-              c = Math.cos(angle),
-              shows = seasonCounts.find(function(d){return d.key === allSeasons[i]})
-              showNum = seasonScale((shows !== undefined ? (shows.values).length : 0))
-              angleDegs = angle*(180/Math.PI);
+            s = Math.sin(angle),
+            c = Math.cos(angle),
+            shows = seasonCounts.find(function(d){return d.key === allSeasons[i]})
+          showNum = seasonScale((shows !== undefined ? (shows.values).length : 0))
+          angleDegs = angle*(180/Math.PI);
           infoSVG.append("g")
-                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+ angleDegs +")")
-                 .call(radarAxis);
+            .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +")")
+            .call(radarAxis);
 
           infoSVG.append("g")
-                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+ angleDegs +") translate(75,-5)")
-                 .append("text")
-                   .text(allSeasons[i]);
+            .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +") translate(75,-5)")
+            .append("text")
+            .text(allSeasons[i]);
 
           infoSVG.append("circle")
-                 .attr("r", 5)
-                 .attr("cx", boxWidth[2] + (showNum*c))
-                 .attr("cy", boxHeight[0] + (showNum*s))
-                 .attr("fill", seasonColours(allSeasons[i]));
+            .attr("r", 5)
+            .attr("cx", circleCenter + (showNum*c))
+            .attr("cy", boxHeight[0] + (showNum*s))
+            .attr("fill", seasonColours(allSeasons[i]));
         }
 
         infoSVG.append("text")
-               .attr("x", boxWidth[0])
-               .attr("y", margin.top-30)
-               .style("font-weight", "bolder")
-               .style("text-anchor", "middle")
-               .text(person.name + "'s top 5 co-cast members");
+          .attr("x", boxWidth[0])
+          .attr("y", margin.top-30)
+          .style("font-weight", "bolder")
+          .style("text-anchor", "middle")
+          .text(person.name + "'s top 5 co-cast members");
 
-         infoSVG.append("text")
-               .attr("x", boxWidth[2])
-               .attr("y", margin.top-30)
-               .style("font-weight", "bolder")
-               .style("text-anchor", "middle")
-               .text("How many shows of each season " + person.name + " has been in");
-     }
+        infoSVG.append("text")
+          .attr("x", circleCenter)
+          .attr("y", margin.top-30)
+          .style("font-weight", "bolder")
+          .style("text-anchor", "middle")
+          .text("How many shows of each season " + person.name + " has been in");
+      }
     }
 
     /*
@@ -554,7 +586,7 @@ function process(){
       var top10Actors = allActorsObjs
         .sort(function(a,b){return (b.shows).length - (a.shows).length;});
       top10Actors = top10Actors.slice(0,10);
-      console.log(top10Actors);
+      //console.log(top10Actors);
 
       svg = centre.append("svg")
         .attr("id", "mostShowsGraph")
@@ -564,13 +596,13 @@ function process(){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       x = d3.scaleBand()
-            .range([0,widthM])
-            .domain(top10Actors.map(function(d){return d.name;}))
-            .padding(0.1);
+        .range([0,widthM])
+        .domain(top10Actors.map(function(d){return d.name;}))
+        .padding(0.1);
 
       y = d3.scaleLinear()
-            .range([heightM, 0])
-            .domain([0,d3.max(top10Actors,function(d){return (d.shows).length;})]);
+        .range([heightM, 0])
+        .domain([0,d3.max(top10Actors,function(d){return (d.shows).length;})]);
 
       var xAxis = d3.axisBottom(x);
       var yAxis = d3.axisLeft(y);
@@ -580,8 +612,8 @@ function process(){
         .attr("transform", "translate(0," + heightM + ")")
         .call(xAxis)
         .selectAll("text")
-          .attr("text-anchor", "start")
-          .attr("transform","rotate(15)");
+        .attr("text-anchor", "start")
+        .attr("transform","rotate(15)");
 
       // Add the Y Axis
       svg.append("g")
@@ -589,13 +621,13 @@ function process(){
 
 
       svg.selectAll("bar")
-         .data(top10Actors)
-         .enter().append("rect")
-                   .attr("x", function(d){return x(d.name);})
-                   .attr("y", function(d){return y((d.shows).length);})
-                   .attr("width", x.bandwidth)
-                   .attr("height", function(d){return heightM-y((d.shows).length);})
-                   .attr("fill", function(d){return yearColourAxis(d.firstYear);});
+        .data(top10Actors)
+        .enter().append("rect")
+        .attr("x", function(d){return x(d.name);})
+        .attr("y", function(d){return y((d.shows).length);})
+        .attr("width", x.bandwidth)
+        .attr("height", function(d){return heightM-y((d.shows).length);})
+        .attr("fill", function(d){return yearColourAxis(d.firstYear);});
 
       addAxisLabels("","Number of Shows");
 
@@ -695,8 +727,8 @@ function process(){
 
       var showCounts = (d3.nest()
         .key(function(d){return d.season;})
-          .key(function(d){return d.year_title;})
-          .entries(allShows)).sort(function(a,b){return a.key-b.key;});
+        .key(function(d){return d.year_title;})
+        .entries(allShows)).sort(function(a,b){return a.key-b.key;});
 
       var showCounts2 = []
 
@@ -747,7 +779,6 @@ function process(){
         .enter().append("circle")
         .attr("season", function(d){return d.season;})
         .attr("r", 5)
-        //.attr("cx", function(d){return x(Date.parse((d.key).slice(0,4)));})
         .attr("cx", function(d){return x(year_titleToDate(d.key));})
         .attr("cy", function(d){return y((d.values).length);})
         .attr("fill", function(d){return seasonColours(d.season);})
@@ -815,13 +846,13 @@ function process(){
        */
 
       var newNos = (d3.nest()
-                     .key(function(d){return d.firstYear;})
-                     .entries(allActorsObjs)).sort(function(a,b){
-                       var aVal = (a.key).slice(0,4),
-                           bVal = (b.key).slice(0,4);
-                       return aVal-bVal;});
+        .key(function(d){return d.firstYear;})
+        .entries(allActorsObjs)).sort(function(a,b){
+          var aVal = (a.key).slice(0,4),
+            bVal = (b.key).slice(0,4);
+          return aVal-bVal;});
 
-      console.log(newNos);
+      //console.log(newNos);
 
       svg = centre.append("svg")
         .attr("id","newNosGraph")
@@ -831,37 +862,37 @@ function process(){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       x = d3.scaleTime()
-            .domain(d3.extent(newNos, function(d){return year_titleToDate(d.key);}))
-            .range([0,widthM]);
+        .domain(d3.extent(newNos, function(d){return year_titleToDate(d.key);}))
+        .range([0,widthM]);
 
       y = d3.scaleLinear()
-            .domain([0,d3.max(newNos, function(d){return (d.values).length;})])
-            .range([heightM,0]);
+        .domain([0,d3.max(newNos, function(d){return (d.values).length;})])
+        .range([heightM,0]);
 
-      console.log(d3.extent(newNos, function(d){return d.key;}));
-      console.log(d3.extent(newNos, function(d){return (d.values).length;}));
+      //console.log(d3.extent(newNos, function(d){return d.key;}));
+      //console.log(d3.extent(newNos, function(d){return (d.values).length;}));
 
       linevalue = d3.line()
-                    .x(function(d){return x(year_titleToDate(d.key));})
-                    .y(function(d){return y((d.values).length);});
+        .x(function(d){return x(year_titleToDate(d.key));})
+        .y(function(d){return y((d.values).length);});
 
       svg.append("path")
-         .datum(newNos)
-         .attr("class","line")
-         .attr("stroke", "black")
-         .attr("d", linevalue);
+        .datum(newNos)
+        .attr("class","line")
+        .attr("stroke", "black")
+        .attr("d", linevalue);
 
       svg.selectAll("dot")
-         .data(newNos)
-         .enter().append("circle")
-                   .attr("r", 5)
-                   .attr("fill", function(d){return yearColourAxis(d.key);})
-                   .attr("cx", function(d){return x(year_titleToDate(d.key));})
-                   .attr("cy", function(d){return y((d.values).length);})
-                   .append("svg:title")
-                     .text(function(d){
-                       return d.key + ": " + (d.values).length + " new people";
-                     })
+        .data(newNos)
+        .enter().append("circle")
+        .attr("r", 5)
+        .attr("fill", function(d){return yearColourAxis(d.key);})
+        .attr("cx", function(d){return x(year_titleToDate(d.key));})
+        .attr("cy", function(d){return y((d.values).length);})
+        .append("svg:title")
+        .text(function(d){
+          return d.key + ": " + (d.values).length + " new people";
+        })
 
       // Add the X Axis
       svg.append("g")

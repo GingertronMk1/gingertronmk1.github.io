@@ -14,17 +14,6 @@ var resp,
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
   longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
 
-/*
-centre.append("button")
-      .attr("onclick", "switchGraphs()")
-      .append("text")
-        .text("Click Me!");
-        */
-
-function switchGraphs(){
-  console.log("Switching Graphs");
-  longGraphs==1 ? longGraphs = 0 : longGraphs = 1;
-}
 
 function searchGraph(){
   resetGraph();
@@ -104,6 +93,7 @@ function seasonColours(s){
 }
 
 function year_titleToDate(yt){return Date.parse(yt.slice(0,4));}
+function rmDups(list){return Array.from(new Set(list));}
 
 function process(){
   if (xhr.readyState==4){
@@ -136,21 +126,21 @@ function process(){
     allShows.forEach(function(s){
       s.year_title = (s.year_title).replace("&ndash;","-");
       s.date = (s.date) = new Date(s.date)
-      s.cast = (s.cast).split(", ").slice(0,-1);
-      s.crew = (s.crew).split(", ").slice(0,-1);
+      s.cast = rmDups((s.cast).split(", ").slice(0,-1));
+      s.crew = rmDups((s.crew).split(", ").slice(0,-1));
       (s.cast).forEach(function(a){allActors.push(a);});
     });
 
-    allSeasons = (Array.from(new Set(allShows.map(function(d){return d.season;})))).sort();
-    allActors = (Array.from(new Set(allActors))).sort();
+    allSeasons = (rmDups(allShows.map(function(d){return d.season;}))).sort();
+    allActors = (rmDups(allActors)).sort();
     allActors.forEach(function(a){allActorsObjs.push(actorToObject(a));});
-    allYears = (Array.from(new Set(allShows.map(function(d){return d.year_title;})))).sort();
+    allYears = (rmDups(allShows.map(function(d){return d.year_title;}))).sort();
 
     function allActorsLinks(a){
       var temp = [],
         actorsShows = allShows.filter(function(d){return (d.cast).includes(a);});
       actorsShows.forEach(function(s){(s.cast).forEach(function(d){temp.push(d);});});
-      temp = (Array.from(new Set(temp))).filter(function(d){return d != a;}).sort();
+      temp = (rmDups(temp)).filter(function(d){return d != a;}).sort();
       return temp;
     }
 
@@ -360,22 +350,6 @@ function process(){
         .attr("y", legendHeight-20)
         .text(allYears[allYears.length-1]);
 
-      /*
-      var connInfo = svg.append("g")
-                        .attr("class", "actorInfo")
-                        .attr("x", 500)
-                        .attr("y", margin.top);
-
-      connInfo.append("rect")
-              .attr("x", svg.attr("width")-100)
-              .attr("fill-opacity", 0.5)
-              .attr("width", 100)
-              .attr("height", svg.attr("height"))
-              .attr("fill", "red")
-              .append("text")
-              .attr("id", "infobox");
-              */
-
       //add zoom capabilities
       var zoom_handler = d3.zoom()
         .scaleExtent([0.1, 3])
@@ -506,16 +480,22 @@ function process(){
         var seasonCounts = d3.nest()
                              .key(function(d){return d.season;})
                              .entries(person.shows);
-        console.log(seasonCounts);
+
+        var radius = 0;
+        if(boxHeight[0] > boxWidth[0]){
+          radius = boxWidth[0]
+        }else {
+          radius = boxHeight[0]
+        };
 
         var seasonScale = d3.scaleLinear()
-                            .range([0, boxHeight[0]])
+                            .range([0, radius])
                             .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]);
         var radarAxis = d3.axisBottom(seasonScale)
                           .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
 
         infoSVG.append("circle")
-               .attr("r", boxHeight[0])
+               .attr("r", radius)
                .attr("cx", boxWidth[2])
                .attr("cy", boxHeight[0])
                .attr("fill", "white")
@@ -532,22 +512,12 @@ function process(){
           showNum = seasonScale(showNum);
           infoSVG.append("g")
                  .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+(angle*(180/Math.PI))+")")
-                 .call(radarAxis)
-                 .append("text")
-                   .text(allSeasons[i]);
+                 .call(radarAxis);
 
           infoSVG.append("g")
                  .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+(angle*(180/Math.PI))+") translate(75,-5)")
                  .append("text")
                    .text(allSeasons[i]);
-
-          infoSVG.append("line")
-                 .attr("x1", boxWidth[2])
-                 .attr("y1", boxHeight[0])
-                 .attr("x2", boxWidth[2]+(boxHeight[0]*c))
-                 .attr("y2", boxHeight[0]+(boxHeight[0]*s))
-                 .style("stroke", "black")
-                 .style("stroke-width", "2");
 
           infoSVG.append("circle")
                  .attr("r", 5)

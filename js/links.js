@@ -201,9 +201,9 @@ function process(){
 
     allActorsObjs.forEach(function(so){
       (so.links).forEach(function(ta){
-        if(so.name != ta.name && links.filter(function(d){return (d.source == ta.name && d.target == so.name) 
-                                                              || (d.source == so.name && d.target == ta.name)
-          ;}).length == 0){
+        if(so.name != ta.name && links.filter(function(d){return (d.source == ta.name && d.target == so.name)
+                                                              || (d.source == so.name && d.target == ta.name);})
+                                      .length == 0){
         links.push({source:so.name,target:ta.name,strength:ta.strength});
         }
       })
@@ -213,7 +213,6 @@ function process(){
     var yearColourAxis = d3.scaleOrdinal()
       .domain(allYears)
       .range(d3.quantize(d3.interpolate("#0000ff","#ff0000"), allYears.length));
-
 
     function addAxisLabels(xLabel, yLabel){
       var mb = margin.bottom/2,
@@ -263,7 +262,8 @@ function process(){
         .nodes(allActorsObjs);
 
       var link_force =  d3.forceLink(links)
-        .id(function(d){return d.name;});
+        .id(function(d){return d.name;})
+        .strength(function(d){return Math.sqrt(d.strength)/10;});
 
       var charge_force = d3.forceManyBody()
         .strength(-100);
@@ -424,10 +424,14 @@ function process(){
       function getInfo(person) {
         var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
             boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
-        console.log(boxWidth);
-        console.log(boxHeight);
         infoSVG.selectAll("*").remove();
         console.log(person);
+
+        /*
+         *
+         *  BAR GRAPH OF TOP 5 LINKS
+         *
+         */
 
         var topLinks = person.links.slice(0,5);
         console.log(topLinks);
@@ -474,6 +478,8 @@ function process(){
 
         /*
          *  WE'VE GOT A THING CALLED RADAR GRAPH
+         *  IT'S A RADAR GRAPH OF SHOWS BY SEASON BREAKDOWN
+         *  FUNNY GOLDEN EARRING REFERENCE
          */
 
         var divisions = (2*Math.PI)/allSeasons.length;
@@ -481,12 +487,7 @@ function process(){
                              .key(function(d){return d.season;})
                              .entries(person.shows);
 
-        var radius = 0;
-        if(boxHeight[0] > boxWidth[0]){
-          radius = boxWidth[0]
-        }else {
-          radius = boxHeight[0]
-        };
+        var radius = (boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0]);
 
         var seasonScale = d3.scaleLinear()
                             .range([0, radius])
@@ -507,66 +508,38 @@ function process(){
               s = Math.sin(angle),
               c = Math.cos(angle),
               shows = seasonCounts.find(function(d){return d.key === allSeasons[i]})
-              showNum = 0;
-          if(shows !== undefined){showNum = (shows.values).length};
-          showNum = seasonScale(showNum);
+              showNum = seasonScale((shows !== undefined ? (shows.values).length : 0))
+              angleDegs = angle*(180/Math.PI);
           infoSVG.append("g")
-                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+(angle*(180/Math.PI))+")")
+                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+ angleDegs +")")
                  .call(radarAxis);
 
           infoSVG.append("g")
-                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+(angle*(180/Math.PI))+") translate(75,-5)")
+                 .attr("transform","translate(" + boxWidth[2] + "," + boxHeight[0] + ") rotate("+ angleDegs +") translate(75,-5)")
                  .append("text")
                    .text(allSeasons[i]);
 
           infoSVG.append("circle")
                  .attr("r", 5)
-                 .attr("cx", (boxWidth[2])+(showNum*c))
-                 .attr("cy", boxHeight[0]+(showNum*s))
+                 .attr("cx", boxWidth[2] + (showNum*c))
+                 .attr("cy", boxHeight[0] + (showNum*s))
                  .attr("fill", seasonColours(allSeasons[i]));
         }
 
         infoSVG.append("text")
                .attr("x", boxWidth[0])
                .attr("y", margin.top-30)
-               //.attr("dy", "1em")
                .style("font-weight", "bolder")
                .style("text-anchor", "middle")
                .text(person.name + "'s top 5 co-cast members");
+
          infoSVG.append("text")
                .attr("x", boxWidth[2])
                .attr("y", margin.top-30)
-               //.attr("dy", "1em")
                .style("font-weight", "bolder")
                .style("text-anchor", "middle")
                .text("How many shows of each season " + person.name + " has been in");
      }
-
-      /*
-      var box1 = info.append("input")
-        .attr("id", "degBox1")
-        .attr("name", "degBox1")
-        .attr("placeholder", "put the name of person 1")
-        .attr("type", "text")
-        .text("Ian Sheard");
-      var box2 = info.append("input")
-        .attr("id", "degBox2")
-        .attr("name", "degBox2")
-        .attr("placeholder", "Input the name of person 2")
-        .attr("type", "text")
-        .text("Ian Sheard");
-
-      var routebutton = info.append("button")
-        .attr("onclick", "findRoute()")
-        .append("text")
-        .text("Go");
-
-      var routePar = info.append("par")
-        .attr("id", "routePar")
-        .append("text")
-        .text("The route will appear here");
-        */
-
     }
 
     /*
@@ -839,7 +812,7 @@ function process(){
 
       /*
        *
-       *  YEAR INTAKE TYPE THING
+       *  Number of people in their first shows per year
        *
        */
 

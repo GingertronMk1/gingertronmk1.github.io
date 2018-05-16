@@ -26,6 +26,10 @@ function searchGraph(){
     .attr("mouse-events","none")
     .attr("opacity", 0.1);
 
+  d3.selectAll("circle[class=\"connNode\"]")
+    .filter(function(d){return d.name==sValue;})
+    .each(function(){this.parentElement.appendChild(this);});
+
   d3.selectAll("line[class=\"connLink\"]")
     .filter(function(d){return d.source.name!=sValue && d.target.name!=sValue;})
     .style("stroke","grey")
@@ -44,13 +48,6 @@ function resetGraph(){
     .style("stroke-width", function(d){return 0.5*(d.strength);})
     .style("stroke","black")
     .attr("opacity",1);
- /*
-    .on("mouseover", function(d){
-      d3.select(this).attr("fill","black"); 
-      printDetails(d);
-    })
-    .on("mouseout", function(d){d3.select(this).attr("fill","red");});
-    */
 }
 
 function filterSeason(){
@@ -263,7 +260,7 @@ function process(){
 
       var link_force =  d3.forceLink(links)
         .id(function(d){return d.name;})
-        .strength(function(d){return Math.sqrt(d.strength)/10;});
+        .strength(function(d){return Math.sqrt(d.strength/30);});
 
       var charge_force = d3.forceManyBody()
         .strength(-100);
@@ -304,12 +301,13 @@ function process(){
         .attr("class","node")
         .attr("class","connNode")
         .attr("r", function(d){return 3*(Math.sqrt((d.links).length));})
-        .style("stroke-width", function(d){return 0.1*(Math.sqrt((d.links).length));})
+        .style("stroke-width", function(d){return 0.15*(Math.sqrt((d.links).length));})
         .style("stroke", "white")
         .attr("fill", function(d){return yearColourAxis(d.firstYear);})
         .attr("id", function(d){return d.name;})
         .on("mouseover", function(d){
           d3.select(this).attr("fill","black");
+          this.parentElement.appendChild(this);
           printDetails(d);
         })
         .on("mouseout", function(d){d3.select(this).attr("fill", t=>yearColourAxis(t.firstYear));})

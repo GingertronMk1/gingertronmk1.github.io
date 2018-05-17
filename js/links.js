@@ -18,7 +18,6 @@ var resp,
 function searchGraph(){
   resetGraph();
   var sValue = document.getElementById("searchVal").value;
-  //console.log(sValue);
   d3.select("par[id=\"infobox\"]").text(sValue);
 
   d3.selectAll("circle[class=\"connNode\"]")
@@ -64,19 +63,6 @@ function resetFilterSeason(){
   d3.selectAll("circle").attr("opacity", 1).attr("pointer-events","all");
   d3.selectAll("path").attr("opacity", 1).attr("pointer-events","all");
   d3.selectAll("input[type=\"checkbox\"]").property("checked","true");
-}
-
-function printDetails(a){
-  var it = d3.select("text[id=\"infoText\"]"),
-    is = d3.select("text[id=\"infoShows\"]"),
-    il = d3.select("text[id=\"infoLinks\"]"),
-    ib = d3.select("rect[id=\"infoBox\"]");
-  it.text(a.name);
-  is.text("Has been in " + (a.shows).length + ((a.shows).length == 1 ? " show" : " shows"));
-  il.text("Has a total of " + (a.links).length + ((a.links).length == 1 ? " link" : " links"));
-  var textWidth = d3.max([it,is,il], function(d){return (d.node().getBBox()).width;}) + 10;
-  ib.attr("x", width - (textWidth + 5))
-    .attr("width", textWidth);
 }
 
 function seasonColours(s){
@@ -235,9 +221,6 @@ function process(){
         .text(yLabel);
 
     }
-    //console.log(allActorsObjs);
-    //console.log(links.sort());
-    //console.log(links.sort(function(l1,l2){return l2.strength-l1.strength;}).slice(0,10))
 
     /*
      *
@@ -314,11 +297,135 @@ function process(){
         .on("mouseover", function(d){
           d3.select(this).attr("fill","black");
           this.parentElement.appendChild(this);
-          //infoText.text(d.name);
-          printDetails(d);
+          infoText.text(d.name);
+          infoShows.text("Has been in " + (d.shows).length + ((d.shows).length == 1 ? " show" : " shows"));
+          infoLinks.text("Has a total of " + (d.links).length + ((d.links).length == 1 ? " link" : " links"));
+          var textWidth = d3.max([infoText,infoShows,infoLinks], function(i){return (i.node().getBBox()).width;}) + 10;
+          infoBox.attr("x", width - (textWidth + 5))
+            .attr("width", textWidth)
+            .attr("height", "4.4em");
         })
-        .on("mouseout", function(d){d3.select(this).attr("fill", t=>yearColourAxis(t.firstYear));})
-        .on("click", function(d){getInfo(d);});
+        .on("mouseout", function(t){d3.select(this).attr("fill", yearColourAxis(t.firstYear));})
+        .on("click", function(person){
+          var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
+              boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
+          infoSVG.selectAll("*").remove();
+          document.getElementById("infoSVG").scrollIntoView();
+
+          /*
+           *  BAR GRAPH OF TOP 5 LINKS
+           */
+
+          var topLinks = person.links.slice(0,5),
+
+              barX = d3.scaleBand()
+                       .range([0,boxWidth[1]])
+                       .domain(topLinks.map(function(l){return l.name;}))
+                       .padding(0.1),
+              barY = d3.scaleLinear()
+                       .range([boxHeight[1],0])
+                       .domain([0,d3.max(topLinks, function(d){return d.strength;})]),
+
+
+              barXAxis = d3.axisBottom(barX),
+              barYAxis = d3.axisLeft(barY)
+                           .ticks(d3.max(topLinks, function(d){return d.strength;}));
+
+          // Add the X Axis
+          infoSVG.append("g")
+            .attr("transform", "translate(0," + boxHeight[1] + ")")
+            .call(barXAxis)
+            .selectAll("text")
+            .attr("text-anchor", "start")
+            .attr("transform","rotate(15)");
+
+          // Add the Y Axis
+          infoSVG.append("g")
+            .call(barYAxis);
+
+          infoSVG.selectAll("bar")
+            .data(topLinks)
+            .enter().append("rect")
+            .attr("x", function(d){return barX(d.name);})
+            .attr("y", function(d){return barY(d.strength);})
+            .attr("width", barX.bandwidth)
+            .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
+            .attr("fill", "rgb(0,0,0)")
+            .append("svg:title")
+              .text(function(d){return d.connections.map(function(c){return c.title;});});
+
+          infoSVG.append("text")
+            .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
+            .style("font-weight", "bolder")
+            .style("text-anchor", "middle")
+            .text("Number Of Shared Shows");
+
+
+          /*
+           *  RADAR GRAPH BREAKDOWN OF SHOWS BY SEASON
+           */
+
+          var divisions = (2*Math.PI)/allSeasons.length,
+              seasonCounts = d3.nest()
+                               .key(function(d){return d.season;})
+                               .entries(person.shows),
+
+              circleCenter = boxWidth[2] + (margin.left/2),
+
+              radius = (boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0]),
+
+              seasonScale = d3.scaleLinear()
+                              .range([0, radius])
+                              .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]),
+              radarAxis = d3.axisBottom(seasonScale)
+                            .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
+
+          for(i=0;i<allSeasons.length;i++){   // Interesting to note the use of a for-loop rather than a forEach() call here, at least I think
+            var angle = divisions*i,
+              s = Math.sin(angle),
+              c = Math.cos(angle),
+              shows = seasonCounts.find(function(d){return d.key === allSeasons[i]}),
+              showNames = (shows !== undefined ? (shows.values).map(function(s){return s.title;}) : "Nothing in here")
+              showNum = seasonScale((shows !== undefined ? (shows.values).length : 0)),
+              angleDegs = angle*(180/Math.PI);
+
+            infoSVG.append("g")
+              .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +")")
+              .call(radarAxis);
+
+            infoSVG.append("g")
+              .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +") translate(75,-5)")
+              .append("text")
+              .attr("text-anchor", "center")
+              .text(allSeasons[i])
+
+            infoSVG.append("circle")
+              .attr("r", 5)
+              .attr("cx", circleCenter + (showNum*c))
+              .attr("cy", boxHeight[0] + (showNum*s))
+              .attr("fill", seasonColours(allSeasons[i]))
+              .append("svg:title")
+                .text(showNames);
+          }
+
+          infoSVG.append("text")
+            .attr("x", boxWidth[0])
+            .attr("y", margin.top-30)
+            .style("font-weight", "bolder")
+            .style("text-anchor", "middle")
+            .text(person.name + "'s top 5 co-cast members");
+
+          infoSVG.append("text")
+            .attr("x", circleCenter)
+            .attr("y", margin.top-30)
+            .style("font-weight", "bolder")
+            .style("text-anchor", "middle")
+            .text("How many shows of each season " + person.name + " has been in");
+
+
+
+
+        });
 
       // Adding a legend
       var legendHeight = (svg.attr("height")/2.1),    //2.1 for rendering purposes
@@ -382,47 +489,53 @@ function process(){
 
 
 
-      // Adding more information to the nodes
+      /*
+       *  NAME, NUMBER OF SHOWS, NUMBER OF LINKS IN A RECTANGLE
+       *  AT THE TOP-RIGHT OF THE GRAPH
+       */
 
-      svg.append("rect")
+      var infoBox = svg.append("rect")
         .attr("id", "infoBox")
         .attr("x", width - 95)
         .attr("y", 5)
         .attr("width", 0)
-        .attr("height", "4.4em")
+        .attr("height", "2.2em")
         .attr("fill", "white")
         .attr("opacity", 0.5);
 
-      svg.append("text")
+      var infoText = svg.append("text")
         .attr("id","infoText")
         .attr("font-size", 12)
+        .attr("font-color", "black")
         .attr("x", width - 10)
         .attr("y", 5)
         .attr("dy", "1.1em")
         .attr("text-anchor", "end")
         .text("Hover over a node to see a name");
 
-      svg.append("text")
+      var infoShows = svg.append("text")
         .attr("id","infoShows")
+        .attr("font-color", "black")
         .attr("font-size", 12)
         .attr("x", width - 10)
         .attr("y", 5)
         .attr("dy", "2.2em")
         .attr("text-anchor", "end");
-      svg.append("text")
+
+      var infoLinks = svg.append("text")
         .attr("id","infoLinks")
+        .attr("font-color", "black")
         .attr("font-size", 12)
         .attr("x", width - 10)
         .attr("y", 5)
         .attr("dy", "3.3em")
         .attr("text-anchor", "end");
 
+      infoBox.attr("width", (infoText.node().getBBox()).width + 10)
+        .attr("x", width - ((infoText.node().getBBox()).width + 15));
+
       var info = centre.append("div")
-        .attr("id", "info")
-        .attr("padding", "10px")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("fill", "blue");
+        .attr("id", "info");
 
       var searcher = info.append("input")
         .attr("id", "searchVal")
@@ -440,6 +553,10 @@ function process(){
         .append("text")
         .text("Reset");
 
+      /*
+       *  MORE DETAILS ABOUT SOMEONE AVAILABLE ON CLICKING THEIR NODE
+       */
+
       var infoSVG = centre.append("svg")
         .attr("id","infoSVG")
         .attr("width",width)
@@ -447,22 +564,25 @@ function process(){
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      infoSVG.append("text")
+        .attr("x", widthM/2)
+        .attr("y", height/4)
+        .attr("font-size", 30)
+        .attr("text-anchor", "middle")
+        .attr("dy", "1em")
+        .text("Click on a node to get more information");
 
-      function getInfo(person) {
+      function detailedInfo(person) {
         var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
           boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
         infoSVG.selectAll("*").remove();
-        document.getElementById("infoSVG").focus({preventScroll:false});
-        //console.log(person);
+        document.getElementById("infoSVG").scrollIntoView();
 
         /*
-         *
          *  BAR GRAPH OF TOP 5 LINKS
-         *
          */
 
         var topLinks = person.links.slice(0,5);
-        //console.log(topLinks);
         var barX = d3.scaleBand()
           .range([0,boxWidth[1]])
           .domain(topLinks.map(function(l){return l.name;}))
@@ -471,11 +591,11 @@ function process(){
           .range([boxHeight[1],0])
           .domain([0,d3.max(topLinks, function(d){return d.strength;})]);
 
-        //console.log(d3.max(topLinks, function(d){return d.strength;}));
 
         var barXAxis = d3.axisBottom(barX);
         var barYAxis = d3.axisLeft(barY)
           .ticks(d3.max(topLinks, function(d){return d.strength;}));
+
         // Add the X Axis
         infoSVG.append("g")
           .attr("transform", "translate(0," + boxHeight[1] + ")")
@@ -491,8 +611,8 @@ function process(){
         infoSVG.selectAll("bar")
           .data(topLinks)
           .enter().append("rect")
-          .attr("x", function(d){console.log(barX(d.name)); return barX(d.name);})
-          .attr("y", function(d){console.log("bary " + barY(d.strength)); return barY(d.strength);})
+          .attr("x", function(d){return barX(d.name);})
+          .attr("y", function(d){return barY(d.strength);})
           .attr("width", barX.bandwidth)
           .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
           .attr("fill", "rgb(0,0,0)");
@@ -505,9 +625,7 @@ function process(){
 
 
         /*
-         *  WE'VE GOT A THING CALLED RADAR GRAPH
-         *  IT'S A RADAR GRAPH OF SHOWS BY SEASON BREAKDOWN
-         *  FUNNY GOLDEN EARRING REFERENCE
+         *  RADAR GRAPH BREAKDOWN OF SHOWS BY SEASON
          */
 
         var divisions = (2*Math.PI)/allSeasons.length;
@@ -525,6 +643,7 @@ function process(){
         var radarAxis = d3.axisBottom(seasonScale)
           .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
 
+        /*
         infoSVG.append("circle")
           .attr("r", radius)
           .attr("cx", circleCenter)
@@ -532,14 +651,16 @@ function process(){
           .attr("fill", "white")
           .style("stroke", "black")
           .style("stroke-width", "1");
+          */
 
-        for(i=0;i<allSeasons.length;i++){
+        for(i=0;i<allSeasons.length;i++){   // Interesting to note the use of a for-loop rather than a forEach() call here, at least I think
           var angle = divisions*i,
             s = Math.sin(angle),
             c = Math.cos(angle),
-            shows = seasonCounts.find(function(d){return d.key === allSeasons[i]})
-          showNum = seasonScale((shows !== undefined ? (shows.values).length : 0))
-          angleDegs = angle*(180/Math.PI);
+            shows = seasonCounts.find(function(d){return d.key === allSeasons[i]}),
+            showNum = seasonScale((shows !== undefined ? (shows.values).length : 0)),
+            angleDegs = angle*(180/Math.PI);
+
           infoSVG.append("g")
             .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +")")
             .call(radarAxis);
@@ -547,7 +668,8 @@ function process(){
           infoSVG.append("g")
             .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +") translate(75,-5)")
             .append("text")
-            .text(allSeasons[i]);
+            .attr("text-anchor", "center")
+            .text(allSeasons[i])
 
           infoSVG.append("circle")
             .attr("r", 5)
@@ -586,7 +708,6 @@ function process(){
       var top10Actors = allActorsObjs
         .sort(function(a,b){return (b.shows).length - (a.shows).length;});
       top10Actors = top10Actors.slice(0,10);
-      //console.log(top10Actors);
 
       svg = centre.append("svg")
         .attr("id", "mostShowsGraph")
@@ -852,7 +973,6 @@ function process(){
             bVal = (b.key).slice(0,4);
           return aVal-bVal;});
 
-      //console.log(newNos);
 
       svg = centre.append("svg")
         .attr("id","newNosGraph")
@@ -869,8 +989,6 @@ function process(){
         .domain([0,d3.max(newNos, function(d){return (d.values).length;})])
         .range([heightM,0]);
 
-      //console.log(d3.extent(newNos, function(d){return d.key;}));
-      //console.log(d3.extent(newNos, function(d){return (d.values).length;}));
 
       linevalue = d3.line()
         .x(function(d){return x(year_titleToDate(d.key));})

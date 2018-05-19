@@ -22,7 +22,6 @@ function searchGraph(){
 
   d3.selectAll("circle[class=\"connNode\"]")
     .filter(function(d){return d.name!=sValue;})
-    .attr("mouse-events","none")
     .attr("opacity", 0.1);
 
   d3.selectAll("circle[class=\"connNode\"]")
@@ -41,7 +40,6 @@ function searchGraph(){
 
 function resetGraph(){
   d3.selectAll("circle[class=\"connNode\"]")
-    .attr("mouse-events","all")
     .attr("opacity",1);
   d3.selectAll("line[class=\"connLink\"]")
     .style("stroke-width", function(d){return 0.5*(d.strength);})
@@ -95,7 +93,10 @@ function process(){
     var svg,
       linevalue,
       x,
-      y;
+      y,
+      xAxis,
+      yAxis;
+
 
     resp = JSON.parse(xhr.responseText);
 
@@ -351,8 +352,15 @@ function process(){
             .attr("width", barX.bandwidth)
             .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
             .attr("fill", "rgb(0,0,0)")
+            //.append("svg:title")
+              //.text(function(d){return d.connections.map(function(c){return c.title;});});
             .append("svg:title")
-              .text(function(d){return d.connections.map(function(c){return c.title;});});
+              .append("text")
+                .text(function(d){
+                  var conns = [];
+                  (d.connections).forEach(function(c){conns += (c.title + "\n");});
+                  return conns;
+                });
 
           infoSVG.append("text")
             .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
@@ -385,7 +393,7 @@ function process(){
               s = Math.sin(angle),
               c = Math.cos(angle),
               shows = seasonCounts.find(function(d){return d.key === allSeasons[i]}),
-              showNames = (shows !== undefined ? (shows.values).map(function(s){return s.title;}) : "Nothing in here")
+              showNames = (shows !== undefined ? shows.values : [{title:"Nothing"}])
               showNum = seasonScale((shows !== undefined ? (shows.values).length : 0)),
               angleDegs = angle*(180/Math.PI);
 
@@ -405,8 +413,13 @@ function process(){
               .attr("cy", boxHeight[0] + (showNum*s))
               .attr("fill", seasonColours(allSeasons[i]))
               .append("svg:title")
-                .text(showNames);
-          }
+                .append("text")
+                  .text(function(d){
+                    var titles = [];
+                    showNames.forEach(function(s){titles += (s.title + "\n");});
+                    return titles;
+                  });
+         }
 
           infoSVG.append("text")
             .attr("x", boxWidth[0])
@@ -421,10 +434,6 @@ function process(){
             .style("font-weight", "bolder")
             .style("text-anchor", "middle")
             .text("How many shows of each season " + person.name + " has been in");
-
-
-
-
         });
 
       // Adding a legend
@@ -643,16 +652,6 @@ function process(){
         var radarAxis = d3.axisBottom(seasonScale)
           .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
 
-        /*
-        infoSVG.append("circle")
-          .attr("r", radius)
-          .attr("cx", circleCenter)
-          .attr("cy", boxHeight[0])
-          .attr("fill", "white")
-          .style("stroke", "black")
-          .style("stroke-width", "1");
-          */
-
         for(i=0;i<allSeasons.length;i++){   // Interesting to note the use of a for-loop rather than a forEach() call here, at least I think
           var angle = divisions*i,
             s = Math.sin(angle),
@@ -725,8 +724,8 @@ function process(){
         .range([heightM, 0])
         .domain([0,d3.max(top10Actors,function(d){return (d.shows).length;})]);
 
-      var xAxis = d3.axisBottom(x);
-      var yAxis = d3.axisLeft(y);
+      xAxis = d3.axisBottom(x);
+      yAxis = d3.axisLeft(y);
 
       // Add the X Axis
       svg.append("g")
@@ -740,7 +739,6 @@ function process(){
       svg.append("g")
         .call(yAxis);
 
-
       svg.selectAll("bar")
         .data(top10Actors)
         .enter().append("rect")
@@ -748,7 +746,14 @@ function process(){
         .attr("y", function(d){return y((d.shows).length);})
         .attr("width", x.bandwidth)
         .attr("height", function(d){return heightM-y((d.shows).length);})
-        .attr("fill", function(d){return yearColourAxis(d.firstYear);});
+        .attr("fill", function(d){return yearColourAxis(d.firstYear);})
+        .append("svg:title")
+          .append("text")
+            .text(function(d){
+              var titles = [];
+              (d.shows).forEach(function(s){titles += (s.title + "\n");});
+              return titles;
+            });
 
       addAxisLabels("","Number of Shows");
 
@@ -904,7 +909,12 @@ function process(){
         .attr("cy", function(d){return y((d.values).length);})
         .attr("fill", function(d){return seasonColours(d.season);})
         .append("svg:title")
-        .text(function(d){return d.season + " " + d.key + ": " + (d.values).length + " shows"});
+          .append("text")
+            .text(function(d){
+              var titles = [];
+              (d.values).sort(function(a,b){return a.date - b.date;}).forEach(function(v){titles+=(v.title + "\n");})
+              return d.season + " " + d.key + ": " + (d.values).length + " shows\n----\n" + titles;
+            });
 
 
       // Add the X Axis

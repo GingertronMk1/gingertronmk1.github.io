@@ -752,7 +752,7 @@ function process(){
             .text(function(d){
               var titles = [];
               (d.shows).forEach(function(s){titles += (s.title + "\n");});
-              return (titles + titles.length());
+              return (titles + "---\n" + d.shows.length + " shows");
             });
 
       addAxisLabels("","Number of Shows");

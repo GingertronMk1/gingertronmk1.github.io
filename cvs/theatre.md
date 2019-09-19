@@ -13,6 +13,16 @@ I am also a strong collaborator within a team, and am always keen to share any e
 
 {% include education.md %}
 
+# Experience
+
+##### 2017-2019: Nottingham New Theatre, Company Master Carpenter
+
+I oversaw all aspects of set design and construction, assisting teams with the design of sets to ensure they would be constructable within the budget and time constraints available.
+I was also in charge of the theatre's workshop, responsible for the training and maintenance of all tools and equipment within it.
+Additionally I assigned set designers and constructors to shows based on experience and complexity of set, was present at all changeovers (2 per week), and took part in weekly logistics meetings to make sure that the theatre's workshop could run smoothly with numerous teams all wishing to build set items at once.
+
+Beyond these position-specific roles I partook in twice-termly proposals meetings, discussing the merits and drawbacks of shows proposed for production at the theatre, weekly committee meetings to determine the running of the theatre in the shorter term, and at least weekly front of house shifts in roles ranging from bar service to ticket sales.
+
 # Skills
 As a result of my having been Master Carpenter at the Nottingham New Theatre I am proficient in the usage and training of many power and manual tools.
 Beyond this I am a fast learner, having had to become familiar with new pieces of equipment as I added them to the workshop inventory.

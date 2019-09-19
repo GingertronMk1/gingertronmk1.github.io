@@ -13,6 +13,16 @@ I am also a strong collaborator within a team, and am always keen to share any e
 
 {% include education.md %}
 
+# Previous Employment
+
+##### Aug-Sep 2019: Imaginaire Digital, Web Developer
+
+Responsibilities including:
+- Wordpress development
+- Laravel development
+- DevOps involvement - assisting in the creation of bash scripts to automate VM setup and deployment
+
+
 # Technical Skills/Projects
 
 ##### Programming Languages
@@ -37,7 +47,6 @@ I am also a strong collaborator within a team, and am always keen to share any e
 
 In addition to the projects I worked on as part of my degree (which can be found under the *Time* repository in the GitHub link above) I am also a contributor to the Nottingham New Theatre History Project, mostly in a data entry role.
 As well as this I created a website designed to show statistics and information about the links between actors at the Nottingham New Theatre, using JavaScript and the d3 library.
-
 
 For my Master's dissertation (in the *Dissertation* repository in the GitHub link above) I recreated the game *Frogger* using the Haskell functional programming language.
 Within this I gathered requirements, created a development plan, and implemented an object-oriented approach in the functional language.

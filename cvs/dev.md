@@ -45,10 +45,10 @@ Responsibilities including:
 - GitHub
 - IntelliJ
 
-In addition to the projects I worked on as part of my degree (which can be found under the *Time* repository in the GitHub link above) I am also a contributor to the Nottingham New Theatre History Project, mostly in a data entry role.
+In addition to the projects I worked on as part of my degree I am also a contributor to the Nottingham New Theatre History Project, in a predominantly data entry role.
 As well as this I created a website designed to show statistics and information about the links between actors at the Nottingham New Theatre, using JavaScript and the d3 library.
 
-For my Master's dissertation (in the *Dissertation* repository in the GitHub link above) I recreated the game *Frogger* using the Haskell functional programming language.
+For my Master's dissertation I recreated the game *Frogger* using the Haskell functional programming language.
 Within this I gathered requirements, created a development plan, and implemented an object-oriented approach in the functional language.
 I carried out user testing and adjusted various aspects of the game based upon feedback from the test subjects, as well as making use of the Travis CI suite.
 
@@ -67,7 +67,7 @@ As well as this I have been in a number of shows, which has led to my being able
 With the Improv Society I have gained valuable experience speaking in front of large groups of people and making quick, well-justified decisions in a short time-frame.
 Within this society I was also elected Publicity and Media Officer, in charge of the public face of the society and attracting audiences to shows.
 
-During the summer of 2014 I volunteered at the Centre for Digital Innovation in Hull (C4DI).
+During the summer of 2014 I took part in an unpaid internship at the Centre for Digital Innovation in Hull (C4DI).
 Whilst there my project, together with a colleague, was to research the concept of smart cities in other countries and how their technologies could work in Hull, City of Culture 2017.
 This culminated in producing and presenting a slide show presentation for the bosses of the C4DI, the information from which was going to be presented to the local council.
 Whilst there I also developed a website for one of the founders of the C4DI, which traced people's fast food litter and marked on a map where it was alongside a picture and a comment.

@@ -1,5 +1,6 @@
 ---
 layout: cv
+title: Development CV
 ---
 
 # Profile

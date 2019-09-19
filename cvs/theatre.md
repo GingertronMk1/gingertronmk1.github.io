@@ -1,5 +1,6 @@
 ---
 layout: cv
+title: Theatre CV
 ---
 
 # Profile

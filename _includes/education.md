@@ -8,7 +8,7 @@ Modules including:
 - Software Engineering Group Project (90%)
 - Individual Programming Project (70%)
 
-##### 2013-2015: Beverley Joint 6^th Form, A-Levels
+##### 2013-2015: Beverley Joint 6th Form, A-Levels
 - Maths A
 - Physics B
 - Chemistry B

@@ -1,13 +1,17 @@
 ---
 layout: cv
-title: Development CV
+title: Dev CV
 ---
+
+{% include hero.html content="Developer CV" %}
 
 # Profile
 I am a Computer Science graduate with a 2:1 MSci.
 I have excellent communication and administrative skills developed from being a member of a number of committees during my time at the University of Nottingham.
 I am a strong worker under pressure, able to quickly make decisions based on information available to me, and I have a good ability to convert someone's request into a more technical format, whatever that format might be.
 I am also a strong collaborator within a team, and am always keen to share any experience, tips, or tricks with those who need or want them in order for the team I am a part of to be as strong as it can be.
+
+{% include education.md %}
 
 # Technical Skills/Projects
 
@@ -58,4 +62,3 @@ During the summer of 2014 I volunteered at the Centre for Digital Innovation in 
 Whilst there my project, together with a colleague, was to research the concept of smart cities in other countries and how their technologies could work in Hull, City of Culture 2017.
 This culminated in producing and presenting a slide show presentation for the bosses of the C4DI, the information from which was going to be presented to the local council.
 Whilst there I also developed a website for one of the founders of the C4DI, which traced people's fast food litter and marked on a map where it was alongside a picture and a comment.
-

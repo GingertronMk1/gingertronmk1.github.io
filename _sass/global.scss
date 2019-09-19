@@ -1,3 +1,23 @@
 html {
   font-family: sans-serif;
 }
+
+header {
+  a {
+    padding: 1rem;
+    background-color: $grey-2;
+    color: $white;
+  }
+
+  a:hover {
+    text-decoration: none;
+    color: $white;
+    background-color: $grey-0;
+  }
+}
+
+.hero {
+  min-height: 15vh;
+  background-color: $primary;
+  color: white;
+}

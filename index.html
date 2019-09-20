@@ -11,10 +11,8 @@ title: Home
     <meta name="author" content="">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     {% include head.html %}
-    <link href="css/normalize.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
   </head>
 
   <body>
@@ -22,13 +20,17 @@ title: Home
     {% include hero.html content=page.title %}
 
     <div class="content container my-3">
-    <ul class="list-group">
-      {% for p in site.pages %}
+      <ul class="list-group">
+        {% for p in site.pages %}
         {% if p.title and p.url != page.url %}
-          <li class="list-group-item"><a href={{ p.url }}>{{ p.title }}</a></li>
+        <li class="list-group-item">
+          <a href={{ p.url }}>
+            {{ p.title }}
+          </a>
+        </li>
         {% endif %}
-      {% endfor %}
-    </ul>
+        {% endfor %}
+      </ul>
     </div>
 
     {% include footer.html %}

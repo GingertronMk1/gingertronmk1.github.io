@@ -32,10 +32,12 @@ Responsibilities including:
 - PHP
 - Haskell
 
-##### Libraries/APIs
+##### Libraries/APIs/Frameworks
 - OpenGL
 - d3
 - jQuery
+- Laravel
+- Jekyll
 
 ##### Development Environments
 - MS Visual Studio

@@ -12,23 +12,11 @@
     {% include header.html %}
 
     {% if page.title %}
-    <div class="container-fluid
-            row
-            text-center
-            align-items-center
-            mx-auto
-            px-auto
-            mb-3
-            hero"
-            >
-            <div class="col-12">
-              <h1 class="my-auto py-auto text-white">{{ page.title }}</h1>
-            </div>
-    </div>
+    {% include hero.html content=page.title %}
     {% endif %}
 
     <div class="container row mx-auto px-auto">
-    {{ content }}
+      {{ content }}
     </div>
 
     {% include footer.html %}

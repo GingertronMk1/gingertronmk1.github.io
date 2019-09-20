@@ -7,11 +7,11 @@ description: >-
 
 socials:
   - network: Twitter
-    link: http://www.twitter.com/gingertronMk1
+    link: https://www.twitter.com/gingertronMk1
   - network: GitHub
-    link: http://www.github.com/gingertronmk1
-
-future: true
+    link: https://www.github.com/gingertronmk1
+  - network: LinkedIn
+    link: https://www.linkedin.com/in/jackellis1504/
 
 # Build settings
 markdown: kramdown

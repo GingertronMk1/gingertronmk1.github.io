@@ -5,14 +5,6 @@ description: >-
   I am a web developer with a Master's in Computer Science and a freelance theatre backstage
   person with experience in sound design, set design and construction, and changeovers.
 
-socials:
-  - network: Twitter
-    link: https://www.twitter.com/gingertronMk1
-  - network: GitHub
-    link: https://www.github.com/gingertronmk1
-  - network: LinkedIn
-    link: https://www.linkedin.com/in/jackellis1504/
-
 # Build settings
 markdown: kramdown
 permalink: pretty
@@ -23,3 +15,7 @@ sass:
 url: gingertronmk1.github.io
 plugins:
   - jekyll-sitemap
+
+exclude:
+  - .jekyll-cache
+

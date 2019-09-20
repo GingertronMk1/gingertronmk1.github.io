@@ -4,8 +4,12 @@ email: jackellis1504@gmail.com
 description: >-
   I am a web developer with a Master's in Computer Science and a freelance theatre backstage
   person with experience in sound design, set design and construction, and changeovers.
-twitter_username: gingertronmk1
-github_username:  gingertronmk1
+
+socials:
+  - network: Twitter
+    link: http://www.twitter.com/gingertronMk1
+  - network: GitHub
+    link: http://www.github.com/gingertronmk1
 
 future: true
 
@@ -17,5 +21,5 @@ sass:
   style: nested
 
 url: gingertronmk1.github.io
-gems:
+plugins:
   - jekyll-sitemap

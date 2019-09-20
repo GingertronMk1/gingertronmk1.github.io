@@ -1,18 +1,21 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
+    <meta charset="utf-8">
     <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="{{ '/assets/css/cv.css' | relative_url }}">
     {% include head.html %}
   </head>
   <body>
     {% include header.html %}
-    <div class="content container mx-auto px-auto">
-        {{ content }}
+
+    {% if page.title %}
+    {% include hero.html content=page.title %}
+    {% endif %}
+
+    <div class="content container row mx-auto px-auto">
+      {{ content }}
     </div>
+
     {% include footer.html %}
-    <footer>
-    </footer>
   </body>
 </html>
-

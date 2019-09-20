@@ -3,8 +3,8 @@ title:  Jack Ellis
 layout: default
 ---
 
-{% for page in site.pages %}
-  {% if page.title %}
-- [{{ page.title }}]({{ page.url }})
+{% for p in site.pages %}
+  {% if p.title and p.url != page.url  %}
+- [{{ p.title }}]({{ p.url }})
   {% endif %}
 {% endfor %}

@@ -26,7 +26,7 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  fullHistory         = 0;    // 1 means all shows ever, 0 means all shows since 2010
+  fullHistory         = 1;    // 1 means all shows ever, 0 means all shows since 2010
 
 function searchGraph(){
   resetGraph();

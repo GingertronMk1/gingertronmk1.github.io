@@ -4,9 +4,10 @@ var centre = d3.select("#main-div")
   .append("div")
   .attr("id", "centre");
 
+var mainDiv = d3.select("#main-div");
 
 var width = window.innerWidth-100,
-  height = window.innerHeight-50;
+    height = window.innerHeight-50;
 margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,
   heightM = height - margin.top - margin.bottom;
@@ -25,8 +26,7 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  longGraphs          = 1;    // set to 0 if you want the entire history, 1 if you want it from 2010 onwards
-
+  fullHistory         = 0;    // 1 means all shows ever, 0 means all shows since 2010
 
 function searchGraph(){
   resetGraph();
@@ -115,14 +115,11 @@ function process(){
     resp = JSON.parse(xhr.responseText);
 
     // resp now has the text and you can process it.
-    if(longGraphs == 2){
-      allShows = resp.filter(function(x){return x.type ==="show";});
-    } else if(longGraphs == 1){
+    if(fullHistory == 1){
       allShows = resp.filter(function(x){return x.type==="show" && x.title != "Freshers' Fringe";});
     } else {
       allShows = resp.filter(function(x){return x.type==="show"
           && x.title != "Freshers' Fringe"
-          && x.title != "Charity Gala"
           && x.year_title>="2010&ndash;11";
       });
     }
@@ -568,11 +565,13 @@ function process(){
 
       var searchbutton = info.append("button")
         .attr("onclick", "searchGraph()")
+        .attr("class", "btn btn-primary")
         .append("text")
         .text("Search");
 
       var resetbutton = info.append("button")
         .attr("onclick", "resetGraph()")
+        .attr("class", "btn btn-secondary")
         .append("text")
         .text("Reset");
 
@@ -975,14 +974,15 @@ function process(){
       centre.append("br");
       centre.append("button")
         .attr("onclick", "filterSeason()")
+        .attr("class", "btn btn-primary")
         .append("text")
         .text("Filter Season");
 
       centre.append("button")
         .attr("onclick", "resetFilterSeason()")
+        .attr("class", "btn btn-danger")
         .append("text")
         .text("Reset");
-
 
       /*
        *

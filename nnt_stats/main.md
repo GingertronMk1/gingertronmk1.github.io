@@ -1,5 +1,5 @@
 ---
-title: something
+layout: none
 ---
 
 <html>

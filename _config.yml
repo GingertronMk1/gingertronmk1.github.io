@@ -15,3 +15,7 @@ permalink: pretty
 
 sass:
   style: nested
+
+url: gingertronmk1.github.io
+gems:
+  - jekyll-sitemap

@@ -1,5 +1,6 @@
 ---
-layout: none
+title: NNT Statistics
+layout: default
 ---
 
 <html>
@@ -15,12 +16,10 @@ layout: none
   </head>
 
   <body>
-    {% include header.html %}
 
     <div id="main-div">
     </div>
 
-    {% include footer.html %}
   </body>
 </html>
 

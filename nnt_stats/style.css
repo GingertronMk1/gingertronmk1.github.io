@@ -1,0 +1,38 @@
+body {
+  font: 12px sans-serif;
+  color: #ffffff;
+  background-color: #40173b;
+}
+
+svg {
+  font: 10px sans-serif;
+  background-color: white;
+  stroke-width: 1px;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+}
+
+p {
+  color: black;
+  font-size: 40px;
+  z-index: 0;
+}
+
+#wrapper {
+  text-align: center;
+}
+
+#centre {
+  display: inline-block;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+circle {
+  stroke: black;
+  stroke-width: 1px;
+}

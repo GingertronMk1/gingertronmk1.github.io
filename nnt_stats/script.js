@@ -1,59 +1,4 @@
-<DOCTYPE html>
-<html>
-
-  <head>
-    <meta charset="utf-8">
-    <title>NNT Statistics</title>
-    <meta name="author" content="Jack Ellis">
-    <meta name="description" content="Some visualisations based on information gathered from the NNT History site">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-body {
-  font: 12px sans-serif;
-  color: #ffffff;
-  background-color: #40173b;
-}
-
-    svg {
-      font: 10px sans-serif;
-      background-color: white;
-      stroke-width: 1px;
-      text-align: right;
-      padding: 3px;
-      margin: 1px;
-    }
-
-    p {
-      color: black;
-      font-size: 40px;
-      z-index: 0;
-    }
-
-    #wrapper {
-      text-align: center;
-    }
-
-    #centre {
-      display: inline-block;
-    }
-
-    .line {
-      fill: none;
-      stroke-width: 2px;
-    }
-
-    circle {
-      stroke: black;
-      stroke-width: 1px;
-    }
-    </style>
-  </head>
-
-  <body>
-
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script>
-      var centre = d3.select("body")
+var centre = d3.select("#main-div")
   .append("div")
   .attr("id", "wrapper")
   .append("div")
@@ -66,9 +11,7 @@ margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,
   heightM = height - margin.top - margin.bottom;
 
-    </script>
-    <script>
-      var xhr = new XMLHttpRequest();
+var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
 xhr.open("GET", "https://history.newtheatre.org.uk/feeds/search.json", true);
 xhr.send();
@@ -1106,7 +1049,4 @@ function process(){
     }
   }
 }
-    </script>
-  </body>
-</html>
 

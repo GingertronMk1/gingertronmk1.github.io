@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title>Jack Ellis</title>
+    <title>{{ page.title }}</title>
 
     {% include head.html %}
   </head>
@@ -15,7 +15,7 @@
     {% include hero.html content=page.title %}
     {% endif %}
 
-    <div class="container row mx-auto px-auto">
+    <div class="content container row mx-auto px-auto">
       {{ content }}
     </div>
 

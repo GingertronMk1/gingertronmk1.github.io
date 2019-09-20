@@ -2,9 +2,16 @@
  * GLOBAL STYLING
  */
 
-html {
+html,
+body {
+  height: 100%;
   font-family: sans-serif;
   overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 h1,
@@ -21,8 +28,11 @@ a:hover {
   text-decoration: none;
 }
 
+.content {
+  flex: 1 0 auto;
+}
 /*
- *  INCLUDES STYLING
+ *  `_INCLUDES` STYLING
  */
 
 // HEADER
@@ -43,8 +53,10 @@ header {
 // FOOTER
 
 footer {
-  border-top: 0.1rem solid grey;
   padding: 1rem;
+  background-color: $grey-1;
+  color: $white;
+  flex-shrink: 0;
 
   ul {
     list-style-type: none;
@@ -54,6 +66,11 @@ footer {
 
   a {
     padding: 0;
+    color: $white;
+  }
+
+  a:hover {
+    color: $grey-0;
   }
 }
 

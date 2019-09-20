@@ -1,9 +1,7 @@
 ---
-layout: cv
-title: Theatre CV
+layout: default
+title: Theatrical CV
 ---
-
-{% include hero.html content="Theatrical CV" %}
 
 # Profile
 I am a Computer Science graduate with a 2:1 MSci.

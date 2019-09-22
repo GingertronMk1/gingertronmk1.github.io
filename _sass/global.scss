@@ -21,14 +21,18 @@ a:hover {
 .content {
   flex: 1 0 auto;
 
-  * {
+  h1,   // Making the text
+  h2,   // sections within
+  h3,   // "content" divs
+  h4,   // the full width
+  h5,   // to force it
+  h6,   // to render
+  p,    // properly
+  ul {
     min-width: 100%;
   }
 }
 
-.index-card {
-  color: inherit;
-}
 /*
  *  `_INCLUDES` STYLING
  */

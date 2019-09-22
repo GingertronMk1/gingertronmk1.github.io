@@ -1,30 +1,30 @@
 <header class="header container-fluid row m-0 p-0 text-center align-items-center">
-  <!-- BIG SCREENS -->
   {% for n in site.data.navs %}
   <a class="col-3 d-none d-sm-block" href={{ n.url }}>{{ n.title }}</a>
   {% endfor %}
 
-  <!-- SMALL SCREENS -->
-  <div class="flex-fill d-block d-sm-none"></div>
-  <nav class="navbar navbar-expand-lg navbar-dark d-block d-sm-none">
-    <button class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        {% for n in site.data.navs %}
-        <li class="nav-item-active">
-          <a class="nav-link" href={{ n.url }}>{{ n.title }}</a>
-        </li>
-        {% endfor %}
-      </ul>
+
+  <div class="pos-f-t d-block d-sm-none">
+    <div class="collapse" id="navbarToggleExternalContent">
+      <div class="px-4">
+        <ul class="text-center py-2 m-0">
+          {% for n in site.data.navs %}
+          <li class="py-2"><a class="p-0" href={{ n.url }}>{{ n.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-  </nav>
+    <nav class="navbar navbar-dark">
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarToggleExternalContent"
+              aria-controls="navbarToggleExternalContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+  </div>
 
 </header>

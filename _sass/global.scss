@@ -42,7 +42,7 @@ header {
 
   a {
     padding: 1rem;
-    background-color: $grey-1;
+    background-color: inherit;
     color: $white;
   }
 
@@ -50,9 +50,23 @@ header {
     color: $white;
     background-color: $grey-0;
   }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  div#navbarToggleExternalContent {
+    min-width: 100vw;
+  }
+
+  li:hover {
+    background-color: $grey-0;
+  }
 }
 
-nav {
+nav,
+.navbar {
   background-color: inherit;
 }
 

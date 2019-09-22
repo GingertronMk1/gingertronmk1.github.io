@@ -1,4 +1,12 @@
 <!-- METAS -->
+{% if page.title %}
+{% assign title=page.title %}
+{% else %}
+{% assign title="Jack Ellis" %}
+{% endif %}
+
+<title>{{ title }}</title>
+
 <meta charset="utf-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">

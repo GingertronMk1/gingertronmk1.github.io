@@ -52,6 +52,14 @@ header {
   }
 }
 
+nav {
+  background-color: inherit;
+}
+
+.navbar-nav {
+  min-width: 100vw;
+}
+
 // FOOTER
 
 footer {

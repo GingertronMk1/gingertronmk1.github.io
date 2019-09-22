@@ -12,8 +12,8 @@ I am a versatile backstage member, with 2 years as a Master Carpenter at the Not
 </div>
 <div class="col-12 col-md-6 card py-3">
 
-<h1 class="text-center">Programming</h1>
+<h1 class="text-center">Development</h1>
 
-I am a graduate of the University of Nottinham with a 2:1 MSci in Computer Science.
+I am a graduate of the University of Nottingham with a 2:1 MSci in Computer Science.
 
 </div>

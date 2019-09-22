@@ -1,4 +1,4 @@
-<header class="header container-fluid row m-0 p-0 text-center align-items-center">
+<header class="container-fluid row m-0 p-0 text-center align-items-center">
   {% for n in site.data.navs %}
   <a class="col-3 d-none d-sm-block" href={{ n.url }}>{{ n.title }}</a>
   {% endfor %}
@@ -9,7 +9,7 @@
       <div class="px-4">
         <ul class="text-center py-2 m-0">
           {% for n in site.data.navs %}
-          <li class="py-2"><a class="p-0" href={{ n.url }}>{{ n.title }}</a></li>
+          <a class="p-0 w-100 h-100" href={{ n.url }}><li class="py-2">{{ n.title }}</li></a>
           {% endfor %}
         </ul>
       </div>

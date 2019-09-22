@@ -20,7 +20,6 @@ Responsibilities including:
 - Laravel development
 - DevOps involvement - assisting in the creation of bash scripts to automate VM setup and deployment
 
-
 # Technical Skills/Projects
 
 ##### Programming Languages
@@ -45,12 +44,13 @@ Responsibilities including:
 - GitHub
 - IntelliJ
 
-In addition to the projects I worked on as part of my degree I am also a contributor to the Nottingham New Theatre History Project, in a predominantly data entry role.
-As well as this I created a website designed to show statistics and information about the links between actors at the Nottingham New Theatre, using JavaScript and the d3 library.
-
 For my Master's dissertation I recreated the game *Frogger* using the Haskell functional programming language.
 Within this I gathered requirements, created a development plan, and implemented an object-oriented approach in the functional language.
 I carried out user testing and adjusted various aspects of the game based upon feedback from the test subjects, as well as making use of the Travis CI suite.
+The code and documentation can be found [here](https://github.com/GingertronMk1/Dissertation).
+
+In addition to the projects I worked on as part of my degree I am also a contributor to the Nottingham New Theatre History Project, in a predominantly data entry role.
+As well as this I created a website designed to show statistics and information about the links between actors at the Nottingham New Theatre, using JavaScript and the d3 library, available [here](/nnt_stats/main/), with the code available [here](https://github.com/GingertronMk1/gingertronmk1.github.io/tree/master/nnt_stats).
 
 # Additional Experience and Extracurriculars
 
@@ -71,3 +71,4 @@ During the summer of 2014 I took part in an unpaid internship at the Centre for 
 Whilst there my project, together with a colleague, was to research the concept of smart cities in other countries and how their technologies could work in Hull, City of Culture 2017.
 This culminated in producing and presenting a slide show presentation for the bosses of the C4DI, the information from which was going to be presented to the local council.
 Whilst there I also developed a website for one of the founders of the C4DI, which traced people's fast food litter and marked on a map where it was alongside a picture and a comment.
+The code for this project can be found [here](https://github.com/GingertronMk1/McRubbish).

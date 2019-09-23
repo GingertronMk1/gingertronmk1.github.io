@@ -22,7 +22,7 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  fullHistory         = 0;    // 1 means all shows ever, 0 means all shows since 2010
+  fullHistory         = 1;    // 1 means all shows ever, 0 means all shows since 2010
 
 var cardClasses = "card col-12";
 
@@ -247,6 +247,7 @@ function process() {
     if(showConnectionGraph){
 
       connCard = d3.select("#connCard");
+      connCard.html("");
 
       svg = connCard.append("svg")
         .attr("id", "connGraph")
@@ -722,6 +723,7 @@ function process() {
       top10Actors = top10Actors.slice(0,10);
 
       mostShowsCard = d3.select("#mostShowsCard");
+      mostShowsCard.html("");
 
       svg = mostShowsCard.append("svg")
         .attr("id", "mostShowsGraph")
@@ -777,6 +779,7 @@ function process() {
       allDatedShows = allShows.filter(function(d){return !(isNaN(d.date.getDate()))});
 
       castNosCard = d3.select("#castNosCard");
+      castNosCard.html("");
 
       svg = castNosCard.append("svg")
         .attr("id", "castNosGraph")
@@ -821,7 +824,8 @@ function process() {
 
       //CAST VS CREW NUMBERS
 
-      castCrewNosCard = d3.select("#castCrewNosCard")
+      castCrewNosCard = d3.select("#castCrewNosCard");
+      castCrewNosCard.html("");
 
       svg = castCrewNosCard.append("svg")
         .attr("id","castCrewNosGraph")
@@ -886,6 +890,7 @@ function process() {
       showCounts2.sort(function(a,b){return (b.key-a.key);});
 
       showNosCard = d3.select("#showNosCard");
+      showNosCard.html("");
 
       svg = showNosCard.append("svg")
         .attr("id","showNosGraph")
@@ -958,6 +963,7 @@ function process() {
        */
 
       filterCard = d3.select("#filterCard");
+      filterCard.html("");
 
       allSeasons.forEach(function(s){
         filterCard.append("br");
@@ -1008,6 +1014,8 @@ function process() {
           return aVal-bVal;});
 
       newNosCard = d3.select("#newNosCard");
+      console.log(newNosCard.selectAll());
+      newNosCard.html("");
 
       svg = newNosCard.append("svg")
         .attr("id","newNosGraph")

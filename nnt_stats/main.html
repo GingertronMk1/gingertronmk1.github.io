@@ -16,7 +16,7 @@ layout: none
   <body>
     {% include header.html %}
     {% include hero.html content=page.title %}
-    {% assign cardClasses="card col-12" %}
+    {% assign cardClasses="card col-12 py-3" %}
     {% capture loader %}
     <div class="spinner-border m-auto p-0" style="width: 3rem; height: 3rem;" role="status">
       <span class="sr-only">Loading...</span>
@@ -26,6 +26,9 @@ layout: none
     <div class="content container row" id="main-div">
       <div id="connCard" class="{{ cardClasses }}">
         {{ loader }}
+        <p class="text-center">
+        Please wait while the connection data is calculated
+        </p>
       </div>
       <div id="mostShowsCard" class="{{ cardClasses }}">
         {{ loader }}

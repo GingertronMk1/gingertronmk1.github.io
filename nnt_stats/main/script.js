@@ -1,6 +1,6 @@
 var mainDiv = document.getElementById("main-div");
 
-var width = mainDiv.offsetWidth * 0.9;
+var width = mainDiv.offsetWidth - (0.05 * window.innerWidth);
   height = window.innerHeight * 0.8,
   margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,

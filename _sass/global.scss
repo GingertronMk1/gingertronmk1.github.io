@@ -20,6 +20,13 @@ a:hover {
 
 .content {
   flex: 1 0 auto;
+  padding: 0;
+  margin: 1.5rem auto;
+
+  @include screen-size($screen-s) {
+    padding: 0 1rem;
+  }
+
 
   h1,   // Making the text
   h2,   // sections within

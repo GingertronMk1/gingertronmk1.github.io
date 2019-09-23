@@ -1,10 +1,11 @@
 <header class="container-fluid row m-0 p-0 text-center">
+  <!-- BIG SCREEN NAVBAR -->
   {% for n in site.data.navs %}
   <a class="col-3 d-none d-sm-block" href={{ n.url }}>{{ n.title }}</a>
   {% endfor %}
 
-
-  <div class="pos-f-t d-block d-sm-none">
+  <!-- SMALL SCREEN NAVBAR -->
+  <div class="d-block d-sm-none">
     <nav class="navbar navbar-dark">
       <button class="navbar-toggler"
               type="button"

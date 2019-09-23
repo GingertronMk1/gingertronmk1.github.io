@@ -34,3 +34,8 @@ circle {
 button.btn {
   margin: 0.5rem;
 }
+
+.content svg {
+  margin: auto;
+  padding: auto;
+}

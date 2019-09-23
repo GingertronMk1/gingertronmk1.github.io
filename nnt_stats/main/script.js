@@ -1,20 +1,12 @@
-var centre = d3.select("#main-div")
-  .append("div")
-  .attr("id", "wrapper")
-  .append("div")
-  .attr("id", "centre")
-  .attr("class", "container row mx-auto p-0");
+var mainDiv = document.getElementById("main-div");
 
-var mainDiv = d3.select("#main-div");
-
-var width = window.innerWidth * 0.75,
+var width = mainDiv.offsetWidth * 0.9;
   height = window.innerHeight * 0.8,
   margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,
   heightM = height - margin.top - margin.bottom;
 
 console.log(width);
-console.log(document.getElementById("centre").offsetWidth);
 
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
@@ -254,9 +246,7 @@ function process() {
 
     if(showConnectionGraph){
 
-      connCard = centre.append("div")
-        .attr("id", "connCard")
-        .attr("class", cardClasses);
+      connCard = d3.select("#connCard");
 
       svg = connCard.append("svg")
         .attr("id", "connGraph")
@@ -731,9 +721,7 @@ function process() {
         .sort(function(a,b){return (b.shows).length - (a.shows).length;});
       top10Actors = top10Actors.slice(0,10);
 
-      mostShowsCard = centre.append("div")
-        .attr("id", "mostShowsCard")
-        .attr("class", cardClasses)
+      mostShowsCard = d3.select("#mostShowsCard");
 
       svg = mostShowsCard.append("svg")
         .attr("id", "mostShowsGraph")
@@ -788,9 +776,7 @@ function process() {
 
       allDatedShows = allShows.filter(function(d){return !(isNaN(d.date.getDate()))});
 
-      castNosCard = centre.append("div")
-        .attr("id", "castNosCard")
-        .attr("class", cardClasses);
+      castNosCard = d3.select("#castNosCard");
 
       svg = castNosCard.append("svg")
         .attr("id", "castNosGraph")
@@ -835,9 +821,7 @@ function process() {
 
       //CAST VS CREW NUMBERS
 
-      castCrewNosCard = centre.append("div")
-        .attr("id", "castCrewNosCard")
-        .attr("class", cardClasses);
+      castCrewNosCard = d3.select("#castCrewNosCard")
 
       svg = castCrewNosCard.append("svg")
         .attr("id","castCrewNosGraph")
@@ -901,9 +885,7 @@ function process() {
       });
       showCounts2.sort(function(a,b){return (b.key-a.key);});
 
-      showNosCard = centre.append("div")
-        .attr("id", "showNosCard")
-        .attr("class", cardClasses);
+      showNosCard = d3.select("#showNosCard");
 
       svg = showNosCard.append("svg")
         .attr("id","showNosGraph")
@@ -975,9 +957,7 @@ function process() {
        *
        */
 
-      filterCard = centre.append("div")
-        .attr("id", "filterCard")
-        .attr("class", cardClasses)
+      filterCard = d3.select("#filterCard");
 
       allSeasons.forEach(function(s){
         filterCard.append("br");
@@ -1027,9 +1007,7 @@ function process() {
             bVal = (b.key).slice(0,4);
           return aVal-bVal;});
 
-      newNosCard = centre.append("div")
-        .attr("id", "newNosCard")
-        .attr("class", cardClasses);
+      newNosCard = d3.select("#newNosCard");
 
       svg = newNosCard.append("svg")
         .attr("id","newNosGraph")

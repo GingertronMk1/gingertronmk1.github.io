@@ -16,8 +16,23 @@ layout: none
   <body>
     {% include header.html %}
     {% include hero.html content=page.title %}
+    {% assign cardClasses="card col-12" %}
 
     <div class="content container row" id="main-div">
+      <div id="connCard" class="{{ cardClasses }}">
+      </div>
+      <div id="mostShowsCard" class="{{ cardClasses }}">
+      </div>
+      <div id="castNosCard" class="{{ cardClasses }}">
+      </div>
+      <div id="castCrewNosCard" class="{{ cardClasses }}">
+      </div>
+      <div id="showNosCard" class="{{ cardClasses }}">
+      </div>
+      <div id="filterCard" class="{{ cardClasses }}">
+      </div>
+      <div id="newNosCard" class="{{ cardClasses }}">
+      </div>
     </div>
 
     {% include footer.html %}

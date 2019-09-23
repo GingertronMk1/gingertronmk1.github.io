@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Theatrical CV
+permalink: /theatre
 ---
 
 # Profile

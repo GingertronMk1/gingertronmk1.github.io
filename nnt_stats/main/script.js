@@ -2,15 +2,19 @@ var centre = d3.select("#main-div")
   .append("div")
   .attr("id", "wrapper")
   .append("div")
-  .attr("id", "centre");
+  .attr("id", "centre")
+  .attr("class", "container row mx-auto p-0");
 
 var mainDiv = d3.select("#main-div");
 
-var width = window.innerWidth-100,
-    height = window.innerHeight-50;
-margin = {top: 20, right: 50, bottom: 20, left: 80},
+var width = window.innerWidth * 0.75,
+  height = window.innerHeight * 0.8,
+  margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,
   heightM = height - margin.top - margin.bottom;
+
+console.log(width);
+console.log(document.getElementById("centre").offsetWidth);
 
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
@@ -26,9 +30,11 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  fullHistory         = 1;    // 1 means all shows ever, 0 means all shows since 2010
+  fullHistory         = 0;    // 1 means all shows ever, 0 means all shows since 2010
 
-function searchGraph(){
+var cardClasses = "card col-12";
+
+function searchGraph() {
   resetGraph();
   var sValue = document.getElementById("searchVal").value;
   d3.select("par[id=\"infobox\"]").text(sValue);
@@ -51,7 +57,7 @@ function searchGraph(){
     .style("stroke-width", function(d){return 1*(d.strength);});
 }
 
-function resetGraph(){
+function resetGraph() {
   d3.selectAll("circle[class=\"connNode\"]")
     .attr("opacity",1);
   d3.selectAll("line[class=\"connLink\"]")
@@ -60,23 +66,23 @@ function resetGraph(){
     .attr("opacity",1);
 }
 
-function filterSeason(){
+function filterSeason() {
   allSeasons.forEach(function(s){
     if(!document.getElementById(s + "Filt").checked){
       d3.selectAll("[season=\"" + s + "\"]").attr("opacity", 0).attr("pointer-events","none");
     } else {
       d3.selectAll("[season=\"" + s + "\"]").attr("opacity", 1).attr("pointer-events","all");
     };
-  });
+  })
 }
 
-function resetFilterSeason(){
+function resetFilterSeason() {
   d3.selectAll("circle").attr("opacity", 1).attr("pointer-events","all");
   d3.selectAll("path").attr("opacity", 1).attr("pointer-events","all");
   d3.selectAll("input[type=\"checkbox\"]").property("checked","true");
 }
 
-function seasonColours(s){
+function seasonColours(s) {
   switch(s){
     case "In House":return "yellow"; break;
     case "UNCUT": return "orange"; break;
@@ -96,7 +102,7 @@ function seasonColours(s){
 function year_titleToDate(yt){return Date.parse(yt.slice(0,4));}
 function rmDups(list){return Array.from(new Set(list));}
 
-function process(){
+function process() {
   if (xhr.readyState==4){
     /*
      *
@@ -248,7 +254,11 @@ function process(){
 
     if(showConnectionGraph){
 
-      svg = centre.append("svg")
+      connCard = centre.append("div")
+        .attr("id", "connCard")
+        .attr("class", cardClasses);
+
+      svg = connCard.append("svg")
         .attr("id", "connGraph")
         .attr("width", width)
         .attr("height", height);
@@ -554,7 +564,7 @@ function process(){
       infoBox.attr("width", (infoText.node().getBBox()).width + 10)
         .attr("x", width - ((infoText.node().getBBox()).width + 15));
 
-      var info = centre.append("div")
+      var info = connCard.append("div")
         .attr("id", "info");
 
       var searcher = info.append("input")
@@ -579,7 +589,7 @@ function process(){
        *  MORE DETAILS ABOUT SOMEONE AVAILABLE ON CLICKING THEIR NODE
        */
 
-      var infoSVG = centre.append("svg")
+      var infoSVG = connCard.append("svg")
         .attr("id","infoSVG")
         .attr("width",width)
         .attr("height",(height/2) + 50)
@@ -721,7 +731,11 @@ function process(){
         .sort(function(a,b){return (b.shows).length - (a.shows).length;});
       top10Actors = top10Actors.slice(0,10);
 
-      svg = centre.append("svg")
+      mostShowsCard = centre.append("div")
+        .attr("id", "mostShowsCard")
+        .attr("class", cardClasses)
+
+      svg = mostShowsCard.append("svg")
         .attr("id", "mostShowsGraph")
         .attr("width", width)
         .attr("height", height + 50)
@@ -774,7 +788,11 @@ function process(){
 
       allDatedShows = allShows.filter(function(d){return !(isNaN(d.date.getDate()))});
 
-      svg = centre.append("svg")
+      castNosCard = centre.append("div")
+        .attr("id", "castNosCard")
+        .attr("class", cardClasses);
+
+      svg = castNosCard.append("svg")
         .attr("id", "castNosGraph")
         .attr("width", width)
         .attr("height", height + 20)
@@ -817,7 +835,11 @@ function process(){
 
       //CAST VS CREW NUMBERS
 
-      svg = centre.append("svg")
+      castCrewNosCard = centre.append("div")
+        .attr("id", "castCrewNosCard")
+        .attr("class", cardClasses);
+
+      svg = castCrewNosCard.append("svg")
         .attr("id","castCrewNosGraph")
         .attr("width", width)
         .attr("height", height + 20)
@@ -879,7 +901,11 @@ function process(){
       });
       showCounts2.sort(function(a,b){return (b.key-a.key);});
 
-      svg = centre.append("svg")
+      showNosCard = centre.append("div")
+        .attr("id", "showNosCard")
+        .attr("class", cardClasses);
+
+      svg = showNosCard.append("svg")
         .attr("id","showNosGraph")
         .attr("width", width)
         .attr("height", height + 20)
@@ -949,15 +975,19 @@ function process(){
        *
        */
 
+      filterCard = centre.append("div")
+        .attr("id", "filterCard")
+        .attr("class", cardClasses)
+
       allSeasons.forEach(function(s){
-        centre.append("br");
-        centre.append("input")
+        filterCard.append("br");
+        filterCard.append("input")
           .attr("type", "checkbox")
           .attr("id", s + "Filt")
           .attr("name", s + "Filt")
           .property("checked","true");
 
-        centre.append("label")
+        filterCard.append("label")
           .attr("for", s + "Filt")
           .text(s + "  ")
           .append("div")
@@ -971,14 +1001,14 @@ function process(){
       });
 
       // RESETTING
-      centre.append("br");
-      centre.append("button")
+      filterCard.append("br");
+      filterCard.append("button")
         .attr("onclick", "filterSeason()")
         .attr("class", "btn btn-primary")
         .append("text")
         .text("Filter Season");
 
-      centre.append("button")
+      filterCard.append("button")
         .attr("onclick", "resetFilterSeason()")
         .attr("class", "btn btn-danger")
         .append("text")
@@ -997,8 +1027,11 @@ function process(){
             bVal = (b.key).slice(0,4);
           return aVal-bVal;});
 
+      newNosCard = centre.append("div")
+        .attr("id", "newNosCard")
+        .attr("class", cardClasses);
 
-      svg = centre.append("svg")
+      svg = newNosCard.append("svg")
         .attr("id","newNosGraph")
         .attr("width", width)
         .attr("height", height + 20)

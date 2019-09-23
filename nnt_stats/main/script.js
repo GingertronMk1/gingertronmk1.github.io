@@ -1,12 +1,10 @@
 var mainDiv = document.getElementById("main-div");
 
-var width = mainDiv.offsetWidth - (0.05 * window.innerWidth);
+var width = mainDiv.offsetWidth * 0.8;
   height = window.innerHeight * 0.8,
   margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,
   heightM = height - margin.top - margin.bottom;
-
-console.log(width);
 
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;

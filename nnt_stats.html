@@ -2,6 +2,15 @@
 title: NNT Statistics
 layout: none
 permalink: /nnt_stats
+cardIDs:
+- "connCard"
+- "mostShowsCard"
+- "castNosCard"
+- "castCrewNosCard"
+- "showNosCard"
+- "filterCard"
+- "newNosCard"
+
 ---
 
 <!DOCTYPE html>
@@ -17,39 +26,19 @@ permalink: /nnt_stats
   <body>
     {% include header.html %}
     {% include hero.html content=page.title %}
-    {% assign cardClasses="card col-12 my-1 py-3" %}
-    {% capture loader %}
-    <div class="spinner-border m-auto p-0" style="width: 3rem; height: 3rem;" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-    {% endcapture %}
 
+    {% assign cardClasses="card col-12 my-1 py-3" %}
 
     <div class="content container row text-center" id="main-div">
-      <div id="connCard" class="{{ cardClasses }}">
-        {{ loader }}
-        <p class="text-center">
-        Please wait while the connection data is calculated
-        </p>
+
+      {% for cardID in page.cardIDs %}
+      <div id="{{ cardID }}" class="{{ cardClasses }}">
+        <div class="spinner-border m-auto p-0" style="width: 3rem; height: 3rem;" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
-      <div id="mostShowsCard" class="{{ cardClasses }}">
-        {{ loader }}
-      </div>
-      <div id="castNosCard" class="{{ cardClasses }}">
-        {{ loader }}
-      </div>
-      <div id="castCrewNosCard" class="{{ cardClasses }}">
-        {{ loader }}
-      </div>
-      <div id="showNosCard" class="{{ cardClasses }}">
-        {{ loader }}
-      </div>
-      <div id="filterCard" class="{{ cardClasses }}">
-        {{ loader }}
-      </div>
-      <div id="newNosCard" class="{{ cardClasses }}">
-        {{ loader }}
-      </div>
+      {% endfor %}
+
     </div>
 
     {% include footer.html %}

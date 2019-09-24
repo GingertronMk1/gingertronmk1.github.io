@@ -4,7 +4,7 @@
 var mainDiv = document.getElementById("main-div");
 
 var width = mainDiv.offsetWidth * 0.8;
-  height = window.innerHeight * 0.8,
+height = window.innerHeight * 0.8,
   margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,
   heightM = height - margin.top - margin.bottom;
@@ -142,14 +142,6 @@ function process() {
     allActors.forEach(function(a){allActorsObjs.push(actorToObject(a));});
     allYears = (rmDups(allShows.map(function(d){return d.year_title;}))).sort();
 
-    function allActorsLinks(a){
-      var temp = [],
-        actorsShows = allShows.filter(function(d){return (d.cast).includes(a);});
-      actorsShows.forEach(function(s){(s.cast).forEach(function(d){temp.push(d);});});
-      temp = (rmDups(temp)).filter(function(d){return d != a;}).sort();
-      return temp;
-    }
-
     function allActorsShows(a){
       var temp = [];
       (allShows.filter(function(d){return (d.cast).includes(a);}))
@@ -205,17 +197,6 @@ function process() {
     }
 
 
-    allActorsObjs.forEach(function(so){
-      (so.links).forEach(function(ta){
-        if(so.name != ta.name && links.filter(function(d){return (d.source == ta.name && d.target == so.name)
-            || (d.source == so.name && d.target == ta.name);})
-          .length == 0){
-          links.push({source:so.name,target:ta.name,strength:ta.strength});
-        }
-      })
-    });
-
-
     var yearColourAxis = d3.scaleOrdinal()
       .domain(allYears)
       .range(d3.quantize(d3.interpolate("#0000ff","#ff0000"), allYears.length));
@@ -236,7 +217,6 @@ function process() {
         .style("font-weight", "bolder")
         .style("text-anchor", "middle")
         .text(yLabel);
-
     }
 
     /*
@@ -251,82 +231,373 @@ function process() {
      *
      */
 
+    //}
+
+
     if(showConnectionGraph){
+      setTimeout(function() { // Timing it out so it runs async
+        allActorsObjs.forEach(function(so){
+          (so.links).forEach(function(ta){
+            if(so.name != ta.name && links.filter(function(d){return (d.source == ta.name && d.target == so.name)
+                || (d.source == so.name && d.target == ta.name);})
+              .length == 0){
+              links.push({source:so.name,target:ta.name,strength:ta.strength});
+            }
+          })
+        });
 
-      connCard = d3.select("#connCard");
-      connCard.html("");
 
-      svg = connCard.append("svg")
-        .attr("id", "connGraph")
-        .attr("width", width)
-        .attr("height", height);
 
-      var radius = 15;
+        connCard = d3.select("#connCard");
+        connCard.html("");
 
-      //set up the simulation and add forces
-      var simulation = d3.forceSimulation()
-        .nodes(allActorsObjs);
+        svg = connCard.append("svg")
+          .attr("id", "connGraph")
+          .attr("width", width)
+          .attr("height", height);
 
-      var link_force =  d3.forceLink(links)
-        .id(function(d){return d.name;})
-        .strength(function(d){return Math.sqrt(d.strength/30);});
+        var radius = 15;
 
-      var charge_force = d3.forceManyBody()
-        .strength(-100);
+        //set up the simulation and add forces
+        var simulation = d3.forceSimulation()
+          .nodes(allActorsObjs);
 
-      var center_force = d3.forceCenter(width / 2, height / 2);
+        var link_force =  d3.forceLink(links)
+          .id(function(d){return d.name;})
+          .strength(function(d){return Math.sqrt(d.strength/30);});
 
-      simulation
-        .force("charge_force", charge_force)
-        .force("center_force", center_force)
-        .force("links",link_force)
-        .on("tick", tickActions);
+        var charge_force = d3.forceManyBody()
+          .strength(-100);
 
-      //add encompassing group for the zoom
-      var g = svg.append("g")
-        .attr("class", "everything");
+        var center_force = d3.forceCenter(width / 2, height / 2);
 
-      //draw lines for the links
-      var link = g.append("g")
-        .attr("class", "links")
-        .selectAll("line")
-        .data(links)
-        .enter()
-        .append("line")
-        .attr("class","link")
-        .attr("class","connLink")
-        .style("stroke-width", function(d){return 0.5*(d.strength);})
-        .style("stroke", "black")
-        .attr("source", function(d){return d.source.name;})
-        .attr("sink", function(d){return d.target.name;});
+        simulation
+          .force("charge_force", charge_force)
+          .force("center_force", center_force)
+          .force("links",link_force)
+          .on("tick", tickActions);
 
-      //draw circles for the nodes
-      var node = g.append("g")
-        .attr("class", "nodes")
-        .selectAll("circle")
-        .data(allActorsObjs)
-        .enter()
-        .append("circle")
-        .attr("class","node")
-        .attr("class","connNode")
-        .attr("r", function(d){return 3*(Math.sqrt((d.links).length));})
-        .style("stroke-width", function(d){return 0.15*(Math.sqrt((d.links).length));})
-        .style("stroke", "white")
-        .attr("fill", function(d){return yearColourAxis(d.firstYear);})
-        .attr("id", function(d){return d.name;})
-        .on("mouseover", function(d){
-          d3.select(this).attr("fill","black");
-          this.parentElement.appendChild(this);
-          infoText.text(d.name);
-          infoShows.text("Has been in " + (d.shows).length + ((d.shows).length == 1 ? " show" : " shows"));
-          infoLinks.text("Has a total of " + (d.links).length + ((d.links).length == 1 ? " link" : " links"));
-          var textWidth = d3.max([infoText,infoShows,infoLinks], function(i){return (i.node().getBBox()).width;}) + 10;
-          infoBox.attr("x", width - (textWidth + 5))
-            .attr("width", textWidth)
-            .attr("height", "4.4em");
-        })
-        .on("mouseout", function(t){d3.select(this).attr("fill", yearColourAxis(t.firstYear));})
-        .on("click", function(person){
+        //add encompassing group for the zoom
+        var g = svg.append("g")
+          .attr("class", "everything");
+
+        //draw lines for the links
+        var link = g.append("g")
+          .attr("class", "links")
+          .selectAll("line")
+          .data(links)
+          .enter()
+          .append("line")
+          .attr("class","link")
+          .attr("class","connLink")
+          .style("stroke-width", function(d){return 0.5*(d.strength);})
+          .style("stroke", "black")
+          .attr("source", function(d){return d.source.name;})
+          .attr("sink", function(d){return d.target.name;});
+
+        //draw circles for the nodes
+        var node = g.append("g")
+          .attr("class", "nodes")
+          .selectAll("circle")
+          .data(allActorsObjs)
+          .enter()
+          .append("circle")
+          .attr("class","node")
+          .attr("class","connNode")
+          .attr("r", function(d){return 3*(Math.sqrt((d.links).length));})
+          .style("stroke-width", function(d){return 0.15*(Math.sqrt((d.links).length));})
+          .style("stroke", "white")
+          .attr("fill", function(d){return yearColourAxis(d.firstYear);})
+          .attr("id", function(d){return d.name;})
+          .on("mouseover", function(d){
+            d3.select(this).attr("fill","black");
+            this.parentElement.appendChild(this);
+            infoText.text(d.name);
+            infoShows.text("Has been in " + (d.shows).length + ((d.shows).length == 1 ? " show" : " shows"));
+            infoLinks.text("Has a total of " + (d.links).length + ((d.links).length == 1 ? " link" : " links"));
+            var textWidth = d3.max([infoText,infoShows,infoLinks], function(i){return (i.node().getBBox()).width;}) + 10;
+            infoBox.attr("x", width - (textWidth + 5))
+              .attr("width", textWidth)
+              .attr("height", "4.4em");
+          })
+          .on("mouseout", function(t){d3.select(this).attr("fill", yearColourAxis(t.firstYear));})
+          .on("click", function(person){
+            var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
+              boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
+            infoSVG.selectAll("*").remove();
+            document.getElementById("infoSVG").scrollIntoView();
+
+            /*
+             *  BAR GRAPH OF TOP 5 LINKS
+             */
+
+            var topLinks = person.links.slice(0,5),
+
+              barX = d3.scaleBand()
+              .range([0,boxWidth[1]])
+              .domain(topLinks.map(function(l){return l.name;}))
+              .padding(0.1),
+              barY = d3.scaleLinear()
+              .range([boxHeight[1],0])
+              .domain([0,d3.max(topLinks, function(d){return d.strength;})]),
+
+
+              barXAxis = d3.axisBottom(barX),
+              barYAxis = d3.axisLeft(barY)
+              .ticks(d3.max(topLinks, function(d){return d.strength;}));
+
+            // Add the X Axis
+            infoSVG.append("g")
+              .attr("transform", "translate(0," + boxHeight[1] + ")")
+              .call(barXAxis)
+              .selectAll("text")
+              .attr("text-anchor", "start")
+              .attr("transform","rotate(15)");
+
+            // Add the Y Axis
+            infoSVG.append("g")
+              .call(barYAxis);
+
+            infoSVG.selectAll("bar")
+              .data(topLinks)
+              .enter().append("rect")
+              .attr("x", function(d){return barX(d.name);})
+              .attr("y", function(d){return barY(d.strength);})
+              .attr("width", barX.bandwidth)
+              .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
+              .attr("fill", "rgb(0,0,0)")
+            //.append("svg:title")
+            //.text(function(d){return d.connections.map(function(c){return c.title;});});
+              .append("svg:title")
+              .append("text")
+              .text(function(d){
+                var conns = [];
+                (d.connections).forEach(function(c){conns += (c.title + "\n");});
+                return conns;
+              });
+
+            infoSVG.append("text")
+              .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
+              .style("font-weight", "bolder")
+              .style("text-anchor", "middle")
+              .text("Number Of Shared Shows");
+
+
+            /*
+             *  RADAR GRAPH BREAKDOWN OF SHOWS BY SEASON
+             */
+
+            var divisions = (2*Math.PI)/allSeasons.length,
+              seasonCounts = d3.nest()
+              .key(function(d){return d.season;})
+              .entries(person.shows),
+
+              circleCenter = boxWidth[2] + (margin.left/2),
+
+              radius = (boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0]),
+
+              seasonScale = d3.scaleLinear()
+              .range([0, radius])
+              .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]),
+              radarAxis = d3.axisBottom(seasonScale)
+              .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
+
+            for(i=0;i<allSeasons.length;i++){   // Interesting to note the use of a for-loop rather than a forEach() call here, at least I think
+              var angle = divisions*i,
+                s = Math.sin(angle),
+                c = Math.cos(angle),
+                shows = seasonCounts.find(function(d){return d.key === allSeasons[i]}),
+                showNames = (shows !== undefined ? shows.values : [{title:"Nothing"}])
+              showNum = seasonScale((shows !== undefined ? (shows.values).length : 0)),
+                angleDegs = angle*(180/Math.PI);
+
+              infoSVG.append("g")
+                .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +")")
+                .call(radarAxis);
+
+              infoSVG.append("g")
+                .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +") translate(75,-5)")
+                .append("text")
+                .attr("text-anchor", "center")
+                .text(allSeasons[i])
+
+              infoSVG.append("circle")
+                .attr("r", 5)
+                .attr("cx", circleCenter + (showNum*c))
+                .attr("cy", boxHeight[0] + (showNum*s))
+                .attr("fill", seasonColours(allSeasons[i]))
+                .append("svg:title")
+                .append("text")
+                .text(function(d){
+                  var titles = [];
+                  showNames.forEach(function(s){titles += (s.title + "\n");});
+                  return titles;
+                });
+            }
+
+            infoSVG.append("text")
+              .attr("x", boxWidth[0])
+              .attr("y", margin.top-30)
+              .style("font-weight", "bolder")
+              .style("text-anchor", "middle")
+              .text(person.name + "'s top 5 co-cast members");
+
+            infoSVG.append("text")
+              .attr("x", circleCenter)
+              .attr("y", margin.top-30)
+              .style("font-weight", "bolder")
+              .style("text-anchor", "middle")
+              .text("How many shows of each season " + person.name + " has been in");
+          });
+
+        // Adding a legend
+        var legendHeight = (svg.attr("height")/2.1),    //2.1 for rendering purposes
+          legendWidth = 70;
+
+        var legend = svg.append("g")
+          .attr("class", "legend")
+          .attr("x", width-margin.left)
+          .attr("y", margin.top);
+
+        for(i = 0; i < allYears.length; i++){
+          var sectionHeight = legendHeight/allYears.length;
+          legend.append("rect")
+            .attr("x", 0)
+            .attr("y", sectionHeight*i)
+            .attr("height", (sectionHeight*1.05))
+            .attr("width", legendWidth)
+            .attr("fill", function(d){return yearColourAxis(allYears[i])})
+        }
+
+        legend.append("text")
+          .attr("text-anchor","middle")
+          .attr("alignment-baseline","middle")
+          .attr("fill","white")
+          .attr("x", legendWidth/2)
+          .attr("y", 20)
+          .text(allYears[0]);
+        legend.append("text")
+          .attr("text-anchor","middle")
+          .attr("alignment-baseline","middle")
+          .attr("fill","white")
+          .attr("x", legendWidth/2)
+          .attr("y", legendHeight-20)
+          .text(allYears[allYears.length-1]);
+
+        //add zoom capabilities
+        var zoom_handler = d3.zoom()
+          .scaleExtent([0.1, 3])
+          .on("zoom", zoom_actions);
+
+        zoom_handler(svg);
+
+        //Zoom functions
+        function zoom_actions(){
+          g.attr("transform", d3.event.transform)
+        }
+
+        function tickActions(){
+          //update circle positions each tick of the simulation
+          node
+            .attr("cx", function(d){ return d.x; })
+            .attr("cy", function(d){ return d.y; });
+
+          //update link positions
+          link
+            .attr("x1", function(d){ return d.source.x; })
+            .attr("y1", function(d){ return d.source.y; })
+            .attr("x2", function(d){ return d.target.x; })
+            .attr("y2", function(d){ return d.target.y; });
+        }
+
+
+
+        /*
+         *  NAME, NUMBER OF SHOWS, NUMBER OF LINKS IN A RECTANGLE
+         *  AT THE TOP-RIGHT OF THE GRAPH
+         */
+
+        var infoBox = svg.append("rect")
+          .attr("id", "infoBox")
+          .attr("x", width - 95)
+          .attr("y", 5)
+          .attr("width", 0)
+          .attr("height", "2.2em")
+          .attr("fill", "white")
+          .attr("opacity", 0.5);
+
+        var infoText = svg.append("text")
+          .attr("id","infoText")
+          .attr("font-size", 12)
+          .attr("font-color", "black")
+          .attr("x", width - 10)
+          .attr("y", 5)
+          .attr("dy", "1.1em")
+          .attr("text-anchor", "end")
+          .text("Hover over a node to see a name");
+
+        var infoShows = svg.append("text")
+          .attr("id","infoShows")
+          .attr("font-color", "black")
+          .attr("font-size", 12)
+          .attr("x", width - 10)
+          .attr("y", 5)
+          .attr("dy", "2.2em")
+          .attr("text-anchor", "end");
+
+        var infoLinks = svg.append("text")
+          .attr("id","infoLinks")
+          .attr("font-color", "black")
+          .attr("font-size", 12)
+          .attr("x", width - 10)
+          .attr("y", 5)
+          .attr("dy", "3.3em")
+          .attr("text-anchor", "end");
+
+        infoBox.attr("width", (infoText.node().getBBox()).width + 10)
+          .attr("x", width - ((infoText.node().getBBox()).width + 15));
+
+        var info = connCard.append("div")
+          .attr("id", "info");
+
+        var searcher = info.append("input")
+          .attr("id", "searchVal")
+          .attr("name", "searchVal")
+          .attr("placeholder", "Search a person")
+          .attr("type", "text");
+
+        var searchbutton = info.append("button")
+          .attr("onclick", "searchGraph()")
+          .attr("class", "btn btn-primary")
+          .append("text")
+          .text("Search");
+
+        var resetbutton = info.append("button")
+          .attr("onclick", "resetGraph()")
+          .attr("class", "btn btn-secondary")
+          .append("text")
+          .text("Reset");
+
+        /*
+         *  MORE DETAILS ABOUT SOMEONE AVAILABLE ON CLICKING THEIR NODE
+         */
+
+        var infoSVG = connCard.append("svg")
+          .attr("id","infoSVG")
+          .attr("width",width)
+          .attr("height",(height/2) + 50)
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        infoSVG.append("text")
+          .attr("x", widthM/2)
+          .attr("y", height/4)
+          .attr("font-size", 30)
+          .attr("text-anchor", "middle")
+          .attr("dy", "1em")
+          .text("Click on a node to get more information");
+
+        function detailedInfo(person) {
           var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
             boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
           infoSVG.selectAll("*").remove();
@@ -336,19 +607,18 @@ function process() {
            *  BAR GRAPH OF TOP 5 LINKS
            */
 
-          var topLinks = person.links.slice(0,5),
-
-            barX = d3.scaleBand()
+          var topLinks = person.links.slice(0,5);
+          var barX = d3.scaleBand()
             .range([0,boxWidth[1]])
             .domain(topLinks.map(function(l){return l.name;}))
-            .padding(0.1),
-            barY = d3.scaleLinear()
+            .padding(0.1);
+          var barY = d3.scaleLinear()
             .range([boxHeight[1],0])
-            .domain([0,d3.max(topLinks, function(d){return d.strength;})]),
+            .domain([0,d3.max(topLinks, function(d){return d.strength;})]);
 
 
-            barXAxis = d3.axisBottom(barX),
-            barYAxis = d3.axisLeft(barY)
+          var barXAxis = d3.axisBottom(barX);
+          var barYAxis = d3.axisLeft(barY)
             .ticks(d3.max(topLinks, function(d){return d.strength;}));
 
           // Add the X Axis
@@ -370,16 +640,7 @@ function process() {
             .attr("y", function(d){return barY(d.strength);})
             .attr("width", barX.bandwidth)
             .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
-            .attr("fill", "rgb(0,0,0)")
-          //.append("svg:title")
-          //.text(function(d){return d.connections.map(function(c){return c.title;});});
-            .append("svg:title")
-            .append("text")
-            .text(function(d){
-              var conns = [];
-              (d.connections).forEach(function(c){conns += (c.title + "\n");});
-              return conns;
-            });
+            .attr("fill", "rgb(0,0,0)");
 
           infoSVG.append("text")
             .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
@@ -392,19 +653,19 @@ function process() {
            *  RADAR GRAPH BREAKDOWN OF SHOWS BY SEASON
            */
 
-          var divisions = (2*Math.PI)/allSeasons.length,
-            seasonCounts = d3.nest()
+          var divisions = (2*Math.PI)/allSeasons.length;
+          var seasonCounts = d3.nest()
             .key(function(d){return d.season;})
-            .entries(person.shows),
+            .entries(person.shows);
 
-            circleCenter = boxWidth[2] + (margin.left/2),
+          var circleCenter = boxWidth[2] + (margin.left/2);
 
-            radius = (boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0]),
+          var radius = (boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0]);
 
-            seasonScale = d3.scaleLinear()
+          var seasonScale = d3.scaleLinear()
             .range([0, radius])
-            .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]),
-            radarAxis = d3.axisBottom(seasonScale)
+            .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]);
+          var radarAxis = d3.axisBottom(seasonScale)
             .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
 
           for(i=0;i<allSeasons.length;i++){   // Interesting to note the use of a for-loop rather than a forEach() call here, at least I think
@@ -412,8 +673,7 @@ function process() {
               s = Math.sin(angle),
               c = Math.cos(angle),
               shows = seasonCounts.find(function(d){return d.key === allSeasons[i]}),
-              showNames = (shows !== undefined ? shows.values : [{title:"Nothing"}])
-            showNum = seasonScale((shows !== undefined ? (shows.values).length : 0)),
+              showNum = seasonScale((shows !== undefined ? (shows.values).length : 0)),
               angleDegs = angle*(180/Math.PI);
 
             infoSVG.append("g")
@@ -430,14 +690,7 @@ function process() {
               .attr("r", 5)
               .attr("cx", circleCenter + (showNum*c))
               .attr("cy", boxHeight[0] + (showNum*s))
-              .attr("fill", seasonColours(allSeasons[i]))
-              .append("svg:title")
-              .append("text")
-              .text(function(d){
-                var titles = [];
-                showNames.forEach(function(s){titles += (s.title + "\n");});
-                return titles;
-              });
+              .attr("fill", seasonColours(allSeasons[i]));
           }
 
           infoSVG.append("text")
@@ -453,267 +706,9 @@ function process() {
             .style("font-weight", "bolder")
             .style("text-anchor", "middle")
             .text("How many shows of each season " + person.name + " has been in");
-        });
-
-      // Adding a legend
-      var legendHeight = (svg.attr("height")/2.1),    //2.1 for rendering purposes
-        legendWidth = 70;
-
-      var legend = svg.append("g")
-        .attr("class", "legend")
-        .attr("x", width-margin.left)
-        .attr("y", margin.top);
-
-      for(i = 0; i < allYears.length; i++){
-        var sectionHeight = legendHeight/allYears.length;
-        legend.append("rect")
-          .attr("x", 0)
-          .attr("y", sectionHeight*i)
-          .attr("height", (sectionHeight*1.05))
-          .attr("width", legendWidth)
-          .attr("fill", function(d){return yearColourAxis(allYears[i])})
-      }
-
-      legend.append("text")
-        .attr("text-anchor","middle")
-        .attr("alignment-baseline","middle")
-        .attr("fill","white")
-        .attr("x", legendWidth/2)
-        .attr("y", 20)
-        .text(allYears[0]);
-      legend.append("text")
-        .attr("text-anchor","middle")
-        .attr("alignment-baseline","middle")
-        .attr("fill","white")
-        .attr("x", legendWidth/2)
-        .attr("y", legendHeight-20)
-        .text(allYears[allYears.length-1]);
-
-      //add zoom capabilities
-      var zoom_handler = d3.zoom()
-        .scaleExtent([0.1, 3])
-        .on("zoom", zoom_actions);
-
-      zoom_handler(svg);
-
-      //Zoom functions
-      function zoom_actions(){
-        g.attr("transform", d3.event.transform)
-      }
-
-      function tickActions(){
-        //update circle positions each tick of the simulation
-        node
-          .attr("cx", function(d){ return d.x; })
-          .attr("cy", function(d){ return d.y; });
-
-        //update link positions
-        link
-          .attr("x1", function(d){ return d.source.x; })
-          .attr("y1", function(d){ return d.source.y; })
-          .attr("x2", function(d){ return d.target.x; })
-          .attr("y2", function(d){ return d.target.y; });
-      }
-
-
-
-      /*
-       *  NAME, NUMBER OF SHOWS, NUMBER OF LINKS IN A RECTANGLE
-       *  AT THE TOP-RIGHT OF THE GRAPH
-       */
-
-      var infoBox = svg.append("rect")
-        .attr("id", "infoBox")
-        .attr("x", width - 95)
-        .attr("y", 5)
-        .attr("width", 0)
-        .attr("height", "2.2em")
-        .attr("fill", "white")
-        .attr("opacity", 0.5);
-
-      var infoText = svg.append("text")
-        .attr("id","infoText")
-        .attr("font-size", 12)
-        .attr("font-color", "black")
-        .attr("x", width - 10)
-        .attr("y", 5)
-        .attr("dy", "1.1em")
-        .attr("text-anchor", "end")
-        .text("Hover over a node to see a name");
-
-      var infoShows = svg.append("text")
-        .attr("id","infoShows")
-        .attr("font-color", "black")
-        .attr("font-size", 12)
-        .attr("x", width - 10)
-        .attr("y", 5)
-        .attr("dy", "2.2em")
-        .attr("text-anchor", "end");
-
-      var infoLinks = svg.append("text")
-        .attr("id","infoLinks")
-        .attr("font-color", "black")
-        .attr("font-size", 12)
-        .attr("x", width - 10)
-        .attr("y", 5)
-        .attr("dy", "3.3em")
-        .attr("text-anchor", "end");
-
-      infoBox.attr("width", (infoText.node().getBBox()).width + 10)
-        .attr("x", width - ((infoText.node().getBBox()).width + 15));
-
-      var info = connCard.append("div")
-        .attr("id", "info");
-
-      var searcher = info.append("input")
-        .attr("id", "searchVal")
-        .attr("name", "searchVal")
-        .attr("placeholder", "Search a person")
-        .attr("type", "text");
-
-      var searchbutton = info.append("button")
-        .attr("onclick", "searchGraph()")
-        .attr("class", "btn btn-primary")
-        .append("text")
-        .text("Search");
-
-      var resetbutton = info.append("button")
-        .attr("onclick", "resetGraph()")
-        .attr("class", "btn btn-secondary")
-        .append("text")
-        .text("Reset");
-
-      /*
-       *  MORE DETAILS ABOUT SOMEONE AVAILABLE ON CLICKING THEIR NODE
-       */
-
-      var infoSVG = connCard.append("svg")
-        .attr("id","infoSVG")
-        .attr("width",width)
-        .attr("height",(height/2) + 50)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      infoSVG.append("text")
-        .attr("x", widthM/2)
-        .attr("y", height/4)
-        .attr("font-size", 30)
-        .attr("text-anchor", "middle")
-        .attr("dy", "1em")
-        .text("Click on a node to get more information");
-
-      function detailedInfo(person) {
-        var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
-          boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
-        infoSVG.selectAll("*").remove();
-        document.getElementById("infoSVG").scrollIntoView();
-
-        /*
-         *  BAR GRAPH OF TOP 5 LINKS
-         */
-
-        var topLinks = person.links.slice(0,5);
-        var barX = d3.scaleBand()
-          .range([0,boxWidth[1]])
-          .domain(topLinks.map(function(l){return l.name;}))
-          .padding(0.1);
-        var barY = d3.scaleLinear()
-          .range([boxHeight[1],0])
-          .domain([0,d3.max(topLinks, function(d){return d.strength;})]);
-
-
-        var barXAxis = d3.axisBottom(barX);
-        var barYAxis = d3.axisLeft(barY)
-          .ticks(d3.max(topLinks, function(d){return d.strength;}));
-
-        // Add the X Axis
-        infoSVG.append("g")
-          .attr("transform", "translate(0," + boxHeight[1] + ")")
-          .call(barXAxis)
-          .selectAll("text")
-          .attr("text-anchor", "start")
-          .attr("transform","rotate(15)");
-
-        // Add the Y Axis
-        infoSVG.append("g")
-          .call(barYAxis);
-
-        infoSVG.selectAll("bar")
-          .data(topLinks)
-          .enter().append("rect")
-          .attr("x", function(d){return barX(d.name);})
-          .attr("y", function(d){return barY(d.strength);})
-          .attr("width", barX.bandwidth)
-          .attr("height", function(d){return (boxHeight[1])-barY(d.strength);})
-          .attr("fill", "rgb(0,0,0)");
-
-        infoSVG.append("text")
-          .attr("transform", "translate("+(0-margin.left/2)+","+(boxHeight[0])+") rotate(-90)")
-          .style("font-weight", "bolder")
-          .style("text-anchor", "middle")
-          .text("Number Of Shared Shows");
-
-
-        /*
-         *  RADAR GRAPH BREAKDOWN OF SHOWS BY SEASON
-         */
-
-        var divisions = (2*Math.PI)/allSeasons.length;
-        var seasonCounts = d3.nest()
-          .key(function(d){return d.season;})
-          .entries(person.shows);
-
-        var circleCenter = boxWidth[2] + (margin.left/2);
-
-        var radius = (boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0]);
-
-        var seasonScale = d3.scaleLinear()
-          .range([0, radius])
-          .domain([0,d3.max(seasonCounts, function(d){return (d.values).length;})]);
-        var radarAxis = d3.axisBottom(seasonScale)
-          .ticks(d3.max(seasonCounts, function(d){return (d.values).length;}));
-
-        for(i=0;i<allSeasons.length;i++){   // Interesting to note the use of a for-loop rather than a forEach() call here, at least I think
-          var angle = divisions*i,
-            s = Math.sin(angle),
-            c = Math.cos(angle),
-            shows = seasonCounts.find(function(d){return d.key === allSeasons[i]}),
-            showNum = seasonScale((shows !== undefined ? (shows.values).length : 0)),
-            angleDegs = angle*(180/Math.PI);
-
-          infoSVG.append("g")
-            .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +")")
-            .call(radarAxis);
-
-          infoSVG.append("g")
-            .attr("transform","translate(" + circleCenter + "," + boxHeight[0] + ") rotate("+ angleDegs +") translate(75,-5)")
-            .append("text")
-            .attr("text-anchor", "center")
-            .text(allSeasons[i])
-
-          infoSVG.append("circle")
-            .attr("r", 5)
-            .attr("cx", circleCenter + (showNum*c))
-            .attr("cy", boxHeight[0] + (showNum*s))
-            .attr("fill", seasonColours(allSeasons[i]));
         }
-
-        infoSVG.append("text")
-          .attr("x", boxWidth[0])
-          .attr("y", margin.top-30)
-          .style("font-weight", "bolder")
-          .style("text-anchor", "middle")
-          .text(person.name + "'s top 5 co-cast members");
-
-        infoSVG.append("text")
-          .attr("x", circleCenter)
-          .attr("y", margin.top-30)
-          .style("font-weight", "bolder")
-          .style("text-anchor", "middle")
-          .text("How many shows of each season " + person.name + " has been in");
-      }
+      }, 1);
     }
-
     /*
      *
      * OTHER CHARTS HERE

@@ -9,9 +9,9 @@ permalink: /nnt_stats
   <head>
     {% include head.html %}
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="main/script.js" defer></script>
+    <script src="/assets/js/nnt_stats.js" defer></script>
     <link rel="stylesheet"
-          href="main/style.css">
+          href="/assets/css/nnt_stats.css">
   </head>
 
   <body>
@@ -23,6 +23,8 @@ permalink: /nnt_stats
       <span class="sr-only">Loading...</span>
     </div>
     {% endcapture %}
+
+
     <div class="content container row text-center" id="main-div">
       <div id="connCard" class="{{ cardClasses }}">
         {{ loader }}

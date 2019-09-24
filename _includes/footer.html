@@ -2,7 +2,12 @@
   <div class="col-6 text-left">
     <ul>
       {% for social in site.data.socials %}
-        <li><a href="{{ social.url }}">{{ social.network }}</a></li>
+      <li>
+        <a href="{{ social.url }}">
+          <i class="fab {{ social.fa-class }}"></i>
+          {{ social.network }}
+        </a>
+      </li>
       {% endfor %}
     </ul>
   </div>

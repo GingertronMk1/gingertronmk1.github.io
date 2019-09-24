@@ -1,3 +1,6 @@
+---
+---
+
 var mainDiv = document.getElementById("main-div");
 
 var width = mainDiv.offsetWidth * 0.8;
@@ -20,7 +23,11 @@ var resp,
   allYears = [],
   showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
-  fullHistory         = 1;    // 1 means all shows ever, 0 means all shows since 2010
+  fullHistory         = 0;
+
+if ("{{ site.data.location.env }}" == "production") {
+  fullHistory = 1;
+}
 
 var cardClasses = "card col-12";
 

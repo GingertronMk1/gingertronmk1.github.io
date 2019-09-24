@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Developer CV
-permalink: /theatre
+permalink: /dev
 ---
 
 # Profile

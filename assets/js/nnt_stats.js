@@ -25,9 +25,11 @@ var resp,
   showOtherGraphs     = 1,    // set to 0 if you don't want the additional graphs
   fullHistory         = 0;
 
-if ("{{ site.data.location.env }}" == "production") {
-  fullHistory = 1;
-}
+{% if site.data.development.is_true %}
+var fullHistory = 0;
+{% else %}
+var fullHistory = 1;
+{% endif %}
 
 var cardClasses = "card col-12";
 

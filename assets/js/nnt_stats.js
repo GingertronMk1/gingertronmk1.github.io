@@ -1016,7 +1016,6 @@ function process() {
           return aVal-bVal;});
 
       newNosCard = d3.select("#newNosCard");
-      console.log(newNosCard.selectAll());
       newNosCard.html("");
 
       svg = newNosCard.append("svg")

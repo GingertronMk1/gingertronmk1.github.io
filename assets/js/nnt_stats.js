@@ -1,9 +1,10 @@
 ---
+layout: none
 ---
 
-var mainDiv = document.getElementById("main-div");
+var content = document.getElementById("content");
 
-var width = mainDiv.offsetWidth * 0.8;
+var width = content.offsetWidth * 0.8;
 height = window.innerHeight * 0.8,
   margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,

@@ -17,3 +17,12 @@ permalink: /
   I am a graduate of the University of Nottingham with a 2:1 MSci in Computer Science.
   I have experience in many levels of programming, from web design using Laravel and Jekyll to local applications using C++ and Haskell.
 </div>
+
+{% if site.posts.size > 0 %}
+<div class="col-12 card">
+  <h1>Posts</h1>
+  {% for p in site.posts %}
+  {{ p.title }}
+  {% endfor %}
+</div>
+{% endif %}

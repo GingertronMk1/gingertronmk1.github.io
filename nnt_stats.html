@@ -1,6 +1,6 @@
 ---
 title: NNT Statistics
-layout: none
+layout: default
 permalink: /nnt_stats
 cardIDs:
 - "connCard"
@@ -10,38 +10,21 @@ cardIDs:
 - "showNosCard"
 - "filterCard"
 - "newNosCard"
+head:
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
+  <script src="/assets/js/nnt_stats.js" defer></script>
+
+  <link rel="stylesheet"
+        href="/assets/css/nnt_stats.css">
 
 ---
 
-<!DOCTYPE html>
-<html>
-  <head>
-    {% include head.html %}
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="/assets/js/nnt_stats.js" defer></script>
-    <link rel="stylesheet"
-          href="/assets/css/nnt_stats.css">
-  </head>
-
-  <body>
-    {% include header.html %}
-    {% include hero.html content=page.title %}
-
-    {% assign cardClasses="card col-12 my-1 py-3" %}
-
-    <div class="content container row text-center" id="main-div">
-
-      {% for cardID in page.cardIDs %}
-      <div id="{{ cardID }}" class="{{ cardClasses }}">
-        <div class="spinner-border m-auto p-0" style="width: 3rem; height: 3rem;" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-      {% endfor %}
-
+  {% assign cardClasses="card col-12 my-1 py-3" %}
+  {% for cardID in page.cardIDs %}
+  <div id="{{ cardID }}" class="{{ cardClasses }}">
+    <div class="spinner-border m-auto p-0" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
-
-    {% include footer.html %}
-  </body>
-</html>
-
+  </div>
+  {% endfor %}

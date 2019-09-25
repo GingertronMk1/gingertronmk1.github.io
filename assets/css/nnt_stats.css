@@ -7,20 +7,6 @@ svg {
   margin: 1px;
 }
 
-p {
-  color: black;
-  font-size: 40px;
-  z-index: 0;
-}
-
-#wrapper {
-  text-align: center;
-}
-
-#centre {
-  display: inline-block;
-}
-
 .line {
   fill: none;
   stroke-width: 2px;

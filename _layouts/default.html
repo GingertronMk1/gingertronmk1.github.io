@@ -2,6 +2,7 @@
 <html>
   <head>
     {% include head.html %}
+    {{ page.head }}
   </head>
 
   <body>
@@ -11,7 +12,7 @@
     {% include hero.html content=page.title %}
     {% endif %}
 
-    <div class="content container row">
+    <div id="content" class="container row">
       {{ content }}
     </div>
 

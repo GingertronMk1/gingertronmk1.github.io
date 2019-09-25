@@ -13,23 +13,23 @@ cardIDs:
 
 ---
 
-  <script src="https://d3js.org/d3.v4.min.js">
-  </script>
-  <script src="{{ '/assets/js/nnt_stats.js' | relative_url }}"
-          defer>
-  </script>
-  <link rel="stylesheet"
-        href="{{ '/assets/css/nnt_stats.css' | relative_url }}">
+<script src="https://d3js.org/d3.v4.min.js">
+</script>
+<script src="{{ '/assets/js/nnt_stats.js' | relative_url }}"
+        defer>
+</script>
+<link rel="stylesheet"
+      href="{{ '/assets/css/nnt_stats.css' | relative_url }}">
 
-  {% assign cardClasses="card col-12 my-0 py-3" %}
-  {% assign spinnerSize="5rem" %}
+{% assign cardClasses="card col-12 my-0 py-3" %}
+{% assign spinnerSize="5rem" %}
 
-  {% for cardID in page.cardIDs %}
-  <div id="{{ cardID }}" class="{{ cardClasses }}">
-    <div class="spinner-border m-auto p-0"
-         style="width: {{ spinnerSize }}; height: {{ spinnerSize }};"
-         role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
+{% for cardID in page.cardIDs %}
+<div id="{{ cardID }}" class="{{ cardClasses }}">
+  <div class="spinner-border m-auto p-0"
+       style="width: {{ spinnerSize }}; height: {{ spinnerSize }};"
+       role="status">
+    <span class="sr-only">Loading...</span>
   </div>
-  {% endfor %}
+</div>
+{% endfor %}

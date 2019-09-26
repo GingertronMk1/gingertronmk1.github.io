@@ -2,6 +2,18 @@
 <html>
   <head>
     {% include head.html %}
+
+    {% for s in page.styles %}
+    <link rel="stylesheet" href="{{ s.href | relative_url }}">
+    {% endfor %}
+
+    {% for s in page.scripts %}
+    {% if s.defer == 0 %}
+    <script src="{{ s.src | relative_url }}"></script>
+    {% else %}
+    <script src="{{ s.src | relative_url }}" defer></script>
+    {% endif %}
+    {% endfor %}
   </head>
 
   <body>

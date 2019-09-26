@@ -8,10 +8,10 @@
     {% endfor %}
 
     {% for s in page.scripts %}
-    {% if s.defer == 0 %}
-    <script src="{{ s.src | relative_url }}"></script>
-    {% else %}
+    {% if s.defer %}
     <script src="{{ s.src | relative_url }}" defer></script>
+    {% else %}
+    <script src="{{ s.src | relative_url }}"></script>
     {% endif %}
     {% endfor %}
   </head>

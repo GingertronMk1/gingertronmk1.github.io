@@ -5,23 +5,24 @@ permalink: /
 
 ---
 
-{% assign classes="col-12 col-sm-6 card py-3" %}
+{% assign cardClasses="col-12 col-sm-6" %}
 
-<div class="{{ classes }}">
-  <h1 class="text-center">Theatre</h1>
+{% capture theatreText %}
+I am a versatile backstage member, with 2 years as a Master Carpenter at the Nottingham New Theatre and experience sound and video designing.
+{% endcapture %}
 
-  I am a versatile backstage member, with 2 years as a Master Carpenter at the Nottingham New Theatre and experience sound and video designing.
-</div>
-<div class="{{ classes }}">
-  <h1 class="text-center">Development</h1>
+{% include indexCard.html classes=cardClasses headerText="Theatre" bodyText=theatreText href="/theatre" %}
 
-  I am a graduate of the University of Nottingham with a 2:1 MSci in Computer Science.
-  I have experience in many levels of programming, from web design using Laravel and Jekyll to local applications using C++ and Haskell.
-</div>
+{% capture devText %}
+I am a graduate of the University of Nottingham with a 2:1 MSci in Computer Science.
+I have experience in many levels of programming, from web design using Laravel and Jekyll to local applications using C++ and Haskell.
+{% endcapture %}
+
+{% include indexCard.html classes=cardClasses headerText="Development" bodyText=devText href="/dev" %}
 
 {% if site.posts.size > 0 %}
 <div class="col-12 card">
-  <h1>Posts</h1>
+  <h1 class="text-center card-header">Posts</h1>
   {% for p in site.posts %}
   {{ p.title }}
   {% endfor %}

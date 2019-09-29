@@ -3,22 +3,31 @@ layout: default
 title: Home
 permalink: /
 
+cards:
+- header: Theatre
+  text: I am a versatile backstage member, with 2 years as a Master Carpenter at the Nottingham New Theatre and experience sound and video designing.
+  href: /theatre
+- header: Development
+  text: I am a graduate of the University of Nottingham with a 2:1 MSci in Computer Science. I have experience in many levels of programming, from web design using Laravel and Jekyll to local applications using C++ and Haskell.
+  href: /dev
+
 ---
 
-{% assign cardClasses="col-12 col-sm-6" %}
-
-{% capture theatreText %}
-I am a versatile backstage member, with 2 years as a Master Carpenter at the Nottingham New Theatre and experience sound and video designing.
+{% capture cardClasses %}
+col-12 col-sm-{{ 12 | divided_by: page.cards.size }}
 {% endcapture %}
 
-{% include indexCard.html classes=cardClasses headerText="Theatre" bodyText=theatreText href="/theatre" %}
+{% for c in page.cards %}
+<div class="{{ cardClasses }} card p-0">
+  <h1 class="card-header text-center">{{ c.header }}</h1>
 
-{% capture devText %}
-I am a graduate of the University of Nottingham with a 2:1 MSci in Computer Science.
-I have experience in many levels of programming, from web design using Laravel and Jekyll to local applications using C++ and Haskell.
-{% endcapture %}
+  <p class="card-body text-left">
+    {{ c.text }}
+  </p>
 
-{% include indexCard.html classes=cardClasses headerText="Development" bodyText=devText href="/dev" %}
+  <a class="card-footer" href="{{ c.href }}">More</a>
+</div>
+{% endfor %}
 
 {% if site.posts.size > 0 %}
 <div class="col-12 card">

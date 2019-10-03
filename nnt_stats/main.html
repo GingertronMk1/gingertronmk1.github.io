@@ -28,9 +28,14 @@ scripts:
 
 {% assign cardClasses="card col-12 my-0 py-3" %}
 {% assign spinnerSize="5rem" %}
+{% capture spinnerStyle %}
+width: {{ spinnerSize }};
+height: {{ spinnerSize }};
+{% endcapture %}
 
 {% for cardID in page.cardIDs %}
 <div id="{{ cardID }}" class="{{ cardClasses }}">
+  <a name="{{ cardID }}"></a>
   <div class="spinner-border m-auto p-0"
        style="width: {{ spinnerSize }}; height: {{ spinnerSize }};"
        role="status">

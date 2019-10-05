@@ -1,6 +1,6 @@
-$screen-s: 576px;   // Bootstrap's
-$screen-m: 768px;   // sizes for
-$screen-l: 992px;   // screen
+$screen-s:  576px;   // Bootstrap's
+$screen-m:  768px;   // sizes for
+$screen-l:  992px;   // screen
 $screen-xl: 1200px; // mixins
 
 @mixin screen_size($canvas) {

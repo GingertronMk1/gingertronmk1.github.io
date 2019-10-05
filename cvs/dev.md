@@ -23,27 +23,16 @@ Responsibilities including:
 
 # Technical Skills/Projects
 
-##### Programming Languages
-- C++
-- JavaScript
-- HTML
-- CSS
-- SQL
-- PHP
-- Haskell
+Programming Languages | Libraries/Frameworks  | Development Environments
+----------------------|-----------------------|-------------------------
+ - C++                | - OpenGL              | - MS Visual Studio
+ - JavaScript         | - d3                  | - vi
+ - HTML               | - jQuery              | - GitHub
+ - CSS/SASS           | - Laravel             | - IntelliJ
+ - SQL                | - Jekyll              |
+ - PHP                | - Bootstrap           |
+ - Haskell            |                       |
 
-##### Libraries/APIs/Frameworks
-- OpenGL
-- d3
-- jQuery
-- Laravel
-- Jekyll
-
-##### Development Environments
-- MS Visual Studio
-- vi
-- GitHub
-- IntelliJ
 
 For my Master's dissertation I recreated the game *Frogger* using the Haskell functional programming language.
 Within this I gathered requirements, created a development plan, and implemented an object-oriented approach in the functional language.

@@ -35,8 +35,10 @@ a:hover {
   h5,   // to force it
   h6,   // to render
   p,    // properly
-  ul {
+  ul,
+  table {
     min-width: 100%;
+    margin-bottom: 1rem;
   }
 }
 

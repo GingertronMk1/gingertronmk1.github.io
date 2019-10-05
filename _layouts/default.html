@@ -4,14 +4,14 @@
     {% include head.html %}
 
     {% for s in page.styles %}
-    <link rel="stylesheet" href="{{ s.href | relative_url }}">
+    <link rel="stylesheet" href="{{ s.path | relative_url }}">
     {% endfor %}
 
     {% for s in page.scripts %}
     {% if s.defer %}
-    <script src="{{ s.src | relative_url }}" defer></script>
+    <script src="{{ s.path | relative_url }}" defer></script>
     {% else %}
-    <script src="{{ s.src | relative_url }}"></script>
+    <script src="{{ s.path | relative_url }}"></script>
     {% endif %}
     {% endfor %}
   </head>

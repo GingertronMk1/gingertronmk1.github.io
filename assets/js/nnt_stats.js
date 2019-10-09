@@ -4,7 +4,7 @@ layout: none
 
 var content = document.getElementById("content");
 
-var width = content.offsetWidth * 0.8;
+var width = content.offsetWidth - 20;
 height = window.innerHeight * 0.8,
   margin = {top: 20, right: 50, bottom: 20, left: 80},
   widthM = width - margin.left - margin.right,
@@ -27,10 +27,12 @@ var resp,
 
 // This auto-sets to 1 if the file `_data/development.yml` is not present (i.e. up here)
 {% if site.data.development.is_true %}
-var fullHistory = 0;
+{% assign fh="0" %}
 {% else %}
-var fullHistory = 1;
+{% assign fh="1" %}
 {% endif %}
+
+var fullHistory = {{ fh }};
 
 var cardClasses = "card col-12";
 

@@ -4,15 +4,23 @@
     {% include head.html %}
 
     {% for s in page.styles %}
-    <link rel="stylesheet" href="{{ s.path | relative_url }}">
+    {% capture firstFour %}
+    {{ s.path | slice: 0,3 }}
+    {% endcapture %}
+    {% unless firstFour == "http" %}
+    {% capture s.path %}{{ s.path | relative_url }}{% endcapture %}
+    {% endunless %}
+    <link rel="stylesheet" href="{{ s.path }}">
     {% endfor %}
 
     {% for s in page.scripts %}
-    {% if s.defer %}
-    <script src="{{ s.path | relative_url }}" defer></script>
-    {% else %}
-    <script src="{{ s.path | relative_url }}"></script>
-    {% endif %}
+    {% capture firstFour %}
+    {{ s.path | slice: 0,3 }}
+    {% endcapture %}
+    {% unless firstFour == "http" %}
+    {% capture s.path %}{{ s.path | relative_url }}{% endcapture %}
+    {% endunless %}
+    <script src="{{ s.path }}"{% if s.defer %} defer{% endif %}></script>
     {% endfor %}
   </head>
 

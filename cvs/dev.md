@@ -14,7 +14,7 @@ I am also a strong collaborator within a team, and am always keen to share any e
 
 # Previous Employment
 
-##### Aug-Sep 2019: Imaginaire Digital, Web Developer
+### Aug-Sep 2019: Imaginaire Digital, Web Developer
 
 Responsibilities including:
 - Wordpress development
@@ -23,16 +23,30 @@ Responsibilities including:
 
 # Technical Skills/Projects
 
-Programming Languages | Libraries/Frameworks  | Development Environments
-----------------------|-----------------------|-------------------------
- - C++                | - OpenGL              | - MS Visual Studio
- - JavaScript         | - d3                  | - vi
- - HTML               | - jQuery              | - GitHub
- - CSS/SASS           | - Laravel             | - IntelliJ
- - SQL                | - Jekyll              |
- - PHP                | - Bootstrap           |
- - Haskell            |                       |
+### Programming Languages
 
+- C++
+- JavaScript
+- HTML
+- CSS/SASS
+- SQL
+- PHP
+- Haskell
+
+### Libraries/Frameworks
+
+- OpenGL
+- d3
+- jQuery
+- Laravel
+- Jekyll
+- Bootstrap
+
+### Development Environments
+- MS Visual Studio
+- vi
+- GitHub
+- IntelliJ
 
 For my Master's dissertation I recreated the game *Frogger* using the Haskell functional programming language.
 Within this I gathered requirements, created a development plan, and implemented an object-oriented approach in the functional language.

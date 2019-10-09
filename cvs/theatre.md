@@ -14,7 +14,7 @@ I am also a strong collaborator within a team, and am always keen to share any e
 
 # Experience
 
-##### 2017-2019: Nottingham New Theatre, Company Master Carpenter
+### 2017-2019: Nottingham New Theatre, Company Master Carpenter
 
 I oversaw all aspects of set design and construction, assisting teams with the design of sets to ensure they would be constructable within the budget and time constraints available.
 I was also in charge of the theatre's workshop, responsible for the training and maintenance of all tools and equipment within it.

@@ -16,13 +16,8 @@ cardIDs:
 
 content_class: text-center
 
-styles:
-- path: /assets/css/nnt_stats.css
-
 scripts:
 - path: https://d3js.org/d3.v4.min.js
-- path: /assets/js/nnt_stats.js
-  defer: true
 
 ---
 
@@ -38,3 +33,17 @@ scripts:
   </div>
 </div>
 {% endfor %}
+
+<script>
+var showConnectionGraph = 1;    // set to 0 if you don't want the main connection graph
+var showOtherGraphs     = 1;    // set to 0 if you don't want the additional graphs
+
+// This auto-sets to 1 if the file `_data/development.yml` is not present (i.e. up here)
+{% if site.data.development.is_true %}
+{% assign fh="0" %}
+{% else %}
+{% assign fh="1" %}
+{% endif %}
+
+var fullHistory = {{ fh }};
+</script>

@@ -3,6 +3,29 @@
   <head>
     {% include head.html %}
 
+    {% capture basename %}{{ page.path | split: "." | first }}{% endcapture %}
+    {% capture cssname %}/assets/css/{{ basename }}.css{% endcapture %}
+    {% capture cssname %}{{ cssname | rstrip | lstrip }}{% endcapture %}
+    {% capture jsname %}/assets/js/{{ basename }}.js{% endcapture %}
+    {% capture jsname %}{{ jsname | rstrip | lstrip }}{% endcapture %}
+
+    {% comment %}
+    This iterates through all of the static files on the website
+    It auto-adds relevant css and js files
+    {% endcomment %}
+    {% for f in site.static_files %}
+    {% if f.path == jsname %}
+    <script src="{{ jsname }}" defer></script>
+    {% elsif f.path == cssname %}
+    <link rel="stylesheet" href="{{ cssname }}">
+    {% endif %}
+    {% endfor %}
+
+    {% comment %}
+    This iterates through the "styles" frontmatter, adding css files
+    If that file is local it uses the "relative_url" filter
+    If that file comes from the internet (i.e. a http/s request), it does not
+    {% endcomment %}
     {% for s in page.styles %}
     {% capture firstFour %}
     {{ s.path | slice: 0,3 }}
@@ -13,14 +36,25 @@
     <link rel="stylesheet" href="{{ s.path }}">
     {% endfor %}
 
+    {% comment %}
+    This iterates through the "scripts" frontmatter, adding js files
+    If that file is local it uses the "relative_url" filter
+    If that file comes from the internet (i.e. a http/s request), it does not
+    If the "defer" option is present the script will be deferred
+    {% endcomment %}
     {% for s in page.scripts %}
     {% capture firstFour %}
     {{ s.path | slice: 0,3 }}
     {% endcapture %}
-    {% unless firstFour == "http" %}
-    {% capture s.path %}{{ s.path | relative_url }}{% endcapture %}
-    {% endunless %}
-    <script src="{{ s.path }}"{% if s.defer %} defer{% endif %}></script>
+    {% if firstFour == "http" %}
+    {% capture scr %}src="{{ s.path | relative_url }}"{% endcapture %}
+    {% else %}
+    {% capture scr %}src="{{ s.path }}"{% endcapture %}
+    {% endif %}
+    {% if s.defer %}
+    {% capture scr %}{{ scr }} defer{% endcapture %}
+    {% endif %}
+    <script {{ scr }}></script>
     {% endfor %}
   </head>
 

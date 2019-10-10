@@ -1,7 +1,3 @@
----
-layout: none
----
-
 var content = document.getElementById("content");
 
 var width = content.offsetWidth - 20;
@@ -21,18 +17,7 @@ var resp,
   allSeasons = [],
   allActorsObjs = [],
   links = [],
-  allYears = [],
-  showConnectionGraph = 1,    // set to 0 if you don't want the main connection graph
-  showOtherGraphs     = 1;    // set to 0 if you don't want the additional graphs
-
-// This auto-sets to 1 if the file `_data/development.yml` is not present (i.e. up here)
-{% if site.data.development.is_true %}
-{% assign fh="0" %}
-{% else %}
-{% assign fh="1" %}
-{% endif %}
-
-var fullHistory = {{ fh }};
+  allYears = [];
 
 var cardClasses = "card col-12";
 

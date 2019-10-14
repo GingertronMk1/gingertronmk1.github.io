@@ -1,8 +1,8 @@
 - title: Home
   url: /
 - title: Theatre
-  url: /theatre
+  url: /cvs/theatre
 - title: Development
-  url: /dev
+  url: /cvs/dev
 - title: NNT Stats
   url: /nnt_stats

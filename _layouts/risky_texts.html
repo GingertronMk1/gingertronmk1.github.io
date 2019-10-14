@@ -69,3 +69,16 @@ layout: default
 </div>
 {% assign lastPerson=t.person %}
 {% endfor %}
+
+<div class="col-6 text-left mt-3">
+  <a class="btn btn-primary" href="/risky_texts/{{ page.scene | minus: 1 }}">
+    Previous
+  </a>
+</div>
+<div class="col-6 text-right mt-3">
+  <a class="btn btn-primary" href="/risky_texts/{{ page.scene | plus: 1 }}">
+    Next
+  </a>
+</div>
+
+{{ page.name }}

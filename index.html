@@ -25,14 +25,3 @@ cards:
   <a class="card-footer" href="{{ c.href }}">More</a>
 </div>
 {% endfor %}
-
-<!-- IF THERE ARE POSTS, INDEX THEM HERE -->
-
-{% if site.posts.size > 0 %}
-<div class="col-12 card mt-2">
-  <h1 class="text-center card-header">Posts</h1>
-  {% for p in site.posts %}
-  {{ p.title }}
-  {% endfor %}
-</div>
-{% endif %}

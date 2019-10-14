@@ -12,7 +12,20 @@ permalink: pretty
 sass:
   style: nested
 
+collections:
+  risky_texts:
+    output: true
+    permalink: :collection/:name
+
+defaults:
+  - scope:
+      path: ""
+      type: "risky_texts"
+    values:
+      layout: "risky_texts"
+
 url: gingertronmk1.github.io
+
 plugins:
   - jekyll-sitemap
 

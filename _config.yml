@@ -16,6 +16,10 @@ collections:
   risky_texts:
     output: true
     permalink: :collection/:name
+    sort_by: scene
+  cvs:
+    output: true
+    permalink: :collection/:name
 
 defaults:
   - scope:
@@ -23,6 +27,11 @@ defaults:
       type: "risky_texts"
     values:
       layout: "risky_texts"
+  - scope:
+      path: ""
+      type: "cvs"
+    values:
+      layout: "default"
 
 url: gingertronmk1.github.io
 

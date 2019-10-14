@@ -19,18 +19,22 @@ layout: default
 {% elsif lastPerson != t.person %}
 {% assign colClass="col-12 pt-3" %}
 {% endif %}
+
+{% capture textStyles %}
+color: white;
+max-width: 70%;
+{% endcapture %}
 <div class="{{ colClass }}">
   {% if t.person == "me" %}
 
   {% capture textStyles %}
+  {{ textStyles }}
+  background-color: rgb(0,170,240);
   border-top-left-radius: {{ textRadius }};
   border-bottom-left-radius: {{ textRadius }};
   {% unless lastPerson == t.person %}
   border-top-right-radius: {{ textRadius }};
   {% endunless %}
-  background-color: rgb(0,170,240);
-  color: white;
-  max-width: 70%;
   {% endcapture %}
 
   <div class="d-flex flex-row-reverse">
@@ -42,14 +46,13 @@ layout: default
   {% elsif t.person == "them" %}
 
   {% capture textStyles %}
+  {{ textStyles }}
+  background-color: rgb(150,150,150);
   border-top-right-radius: {{ textRadius }};
   border-bottom-right-radius: {{ textRadius }};
   {% unless lastPerson == t.person %}
   border-top-left-radius: {{ textRadius }};
   {% endunless %}
-  background-color: rgb(150,150,150);
-  color: white;
-  max-width: 70%;
   {% endcapture %}
 
   <div class="d-flex flex-row">
@@ -70,15 +73,20 @@ layout: default
 {% assign lastPerson=t.person %}
 {% endfor %}
 
+
 <div class="col-6 text-left mt-3">
+  {% if page.scene > 1 %}
   <a class="btn btn-primary" href="/risky_texts/{{ page.scene | minus: 1 }}">
     Previous
   </a>
+  {% endif %}
 </div>
 <div class="col-6 text-right mt-3">
+  {% if page.scene < site.risky_texts.size %}
   <a class="btn btn-primary" href="/risky_texts/{{ page.scene | plus: 1 }}">
     Next
   </a>
+  {% endif %}
 </div>
 
 {{ page.name }}

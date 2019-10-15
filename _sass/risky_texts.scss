@@ -1,0 +1,32 @@
+$text-radius: 1rem;
+
+.text {
+  color: white;
+  max-width: 70%;
+  padding: 0.5rem 1rem;
+}
+
+.text.me {
+  background-color: rgb(0,170,240);
+  border-top-left-radius: $text-radius;
+  border-bottom-left-radius: $text-radius;
+}
+
+.text.me.chain-top {
+  border-top-right-radius: $text-radius;
+}
+
+.text.them {
+  background-color: rgb(150,150,150);
+  border-top-right-radius: $text-radius;
+  border-bottom-right-radius: $text-radius;
+}
+
+.text.them.chain-top {
+  border-top-left-radius: $text-radius;
+}
+
+.text.time {
+  font-weight: 900;
+  color: grey;
+}

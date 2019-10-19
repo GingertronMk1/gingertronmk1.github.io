@@ -5,6 +5,17 @@ layout: default
 <link rel="stylesheet"
       href="{{ 'assets/css/risky_texts.css' | relative_url }}">
 
+<div class="col-12">
+<canvas class="align-self-center"
+        id="c"
+        height="640"
+        width="960"
+        style="border: 1px solid grey;
+               justify-self: stretch;
+               text-align: center">
+</canvas>
+</div>
+
 {% for t in page.texts %}
 
 {% assign lastPerson = "nobody" %}
@@ -86,3 +97,63 @@ layout: default
   </a>
   {% endif %}
 </div>
+
+<script>
+
+  function remove_px(px) {
+    return parseInt(px.substring(0, px.length - 2));
+  }
+
+var c = document.getElementById("c"),
+    canv = c.getContext("2d"),
+    texts = document.getElementsByClassName("text"),
+    x = 480,
+    y = 12,
+    font = "12px sans-serif";
+
+for (let t of texts) {
+  //console.log(t.className);
+  var pt_px = getComputedStyle(
+          t.parentNode
+           .parentNode
+        ).getPropertyValue('padding-top'),
+      pt = remove_px(pt_px),
+      h_px = getComputedStyle(
+          t//.parentNode
+        ).getPropertyValue('height')
+      h = 0,//remove_px(h_px),
+      classes = t.className.split(" "),
+      person = classes[1],
+      message = t.textContent.trim();
+
+  y += ((pt + h + 12)/2);
+
+  if (c.height < y) {
+    var oldCanv = canv.getImageData(0,0,c.width,c.height);
+    c.height = y + 2 * (pt + h);
+    canv.putImageData(oldCanv, 0, 0);
+  }
+
+  canv.font = font;
+
+  if (person == "me") {
+    canv.fillText(message, 640-canv.measureText(message).width, y);
+  } else if (person == "them") {
+    canv.fillText(message, 320, y);
+  } else if (person == "time") {
+    canv.fillText(message, 480-(canv.measureText(message).width / 2), y);
+  }
+
+  console.log(
+    "Padding-Top:", pt,       "\n",
+    "Height: "    , h,        "\n",
+    "Person: "    , classes,   "\n",
+    "Message: "   , message,  "\n",
+    "Y: "         , y,        "\n",
+    //"H2: "        , height
+  );
+
+  y += ((pt + h + 12)/2);
+
+}
+</script>

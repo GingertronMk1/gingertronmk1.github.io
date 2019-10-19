@@ -13,7 +13,7 @@ title: Risky Texts We Sent As Teens
   <ul class="list-group">
     {% for t in texts %}
     <a class="list-group-item list-group-item-action" href="{{ t.url | relative_url }}">
-      {{ t.title }}
+      Scene {{ t.scene }}: {{ t.title }}
     </a>
     {% endfor %}
   </ul>

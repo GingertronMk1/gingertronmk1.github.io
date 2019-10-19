@@ -101,7 +101,7 @@ layout: default
 <script>
 
   function remove_px(px) {
-    return parseInt(px.substring(0, px.length - 2));
+    return parseInt(px.replace("(\d*)px/g", "\\1"));
   }
 
 var c = document.getElementById("c"),
@@ -112,16 +112,15 @@ var c = document.getElementById("c"),
     font = "12px sans-serif";
 
 for (let t of texts) {
-  //console.log(t.className);
   var pt_px = getComputedStyle(
           t.parentNode
            .parentNode
         ).getPropertyValue('padding-top'),
       pt = remove_px(pt_px),
       h_px = getComputedStyle(
-          t//.parentNode
+          t
         ).getPropertyValue('height')
-      h = 0,//remove_px(h_px),
+      h = 0,
       classes = t.className.split(" "),
       person = classes[1],
       message = t.textContent.trim();

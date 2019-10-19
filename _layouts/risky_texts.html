@@ -7,14 +7,16 @@ layout: default
 
 {% for t in page.texts %}
 
+{% assign lastPerson = "nobody" %}
+
 {% assign textClasses="text" %}
 
 {% if forloop.first == true %}
-{% assign colClass="col-12" %}
+{% assign colClass = "col-12" %}
 {% elsif lastPerson == t.person %}
-{% assign colClass="col-12 pt-1" %}
+{% assign colClass = "col-12 pt-1" %}
 {% elsif lastPerson != t.person %}
-{% assign colClass="col-12 pt-3" %}
+{% assign colClass = "col-12 pt-3" %}
 {% endif %}
 
 <div class="{{ colClass }}">
@@ -48,13 +50,13 @@ layout: default
   </div>
 
   {% elsif t.person == "time" %}
-  <div class="text-center text time">
+  <div class="text time text-center">
     {{ t.message | strip }}
   </div>
   {% endif %}
 
 </div>
-{% assign lastPerson=t.person %}
+{% assign lastPerson = t.person %}
 {% endfor %}
 
 {% assign prevSceneN = page.scene | minus: 1 %}
@@ -84,5 +86,3 @@ layout: default
   </a>
   {% endif %}
 </div>
-
-{{ page.name }}

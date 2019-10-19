@@ -5,9 +5,10 @@ layout: default
 <link rel="stylesheet"
       href="{{ 'assets/css/risky_texts.css' | relative_url }}">
 
+{% assign lastPerson = "nobody" %}
+
 {% for t in page.texts %}
 
-{% assign lastPerson = "nobody" %}
 
 {% assign textClasses="text" %}
 

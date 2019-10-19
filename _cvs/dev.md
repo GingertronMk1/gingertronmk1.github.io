@@ -12,6 +12,11 @@ I am also a strong collaborator within a team, and am always keen to share any e
 
 # Previous Employment
 
+### Oct 2019 - Present: Fifteen, Back-End Developer
+
+Responsibilities including:
+- General post-deployment site maintenance
+
 ### Aug-Sep 2019: Imaginaire Digital, Web Developer
 
 Responsibilities including:

@@ -2,8 +2,12 @@ $text-radius: 1rem;
 
 .text {
   color: white;
-  max-width: 70%;
   padding: 0.5rem 1rem;
+}
+
+.text.me,
+.text.them {
+  max-width: 70%;
 }
 
 .text.me {
@@ -29,4 +33,5 @@ $text-radius: 1rem;
 .text.time {
   font-weight: 900;
   color: grey;
+  min-width: 100%;
 }

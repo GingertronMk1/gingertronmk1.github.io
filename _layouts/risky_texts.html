@@ -9,7 +9,6 @@ layout: default
 
 {% for t in page.texts %}
 
-
 {% assign textClasses="text" %}
 
 {% if forloop.first == true %}
@@ -19,6 +18,8 @@ layout: default
 {% elsif lastPerson != t.person %}
 {% assign colClass = "col-12 pt-3" %}
 {% endif %}
+
+{% capture formattedMsg %}{{ t.message | strip | newline_to_br }}{% endcapture %}
 
 <div class="{{ colClass }}">
   {% if t.person == "me" %}
@@ -31,7 +32,7 @@ layout: default
 
   <div class="d-flex flex-row-reverse">
     <div class="{{ textClasses }}">
-      {{ t.message | strip }}
+      {{ formattedMsg }}
     </div>
   </div>
 
@@ -46,13 +47,13 @@ layout: default
 
   <div class="d-flex flex-row">
     <div class="{{ textClasses }}">
-      {{ t.message | strip }}
+      {{ formattedMsg }}
     </div>
   </div>
 
   {% elsif t.person == "time" %}
   <div class="text time text-center">
-    {{ t.message | strip }}
+    {{ formattedMsg }}
   </div>
   {% endif %}
 
@@ -60,29 +61,33 @@ layout: default
 {% assign lastPerson = t.person %}
 {% endfor %}
 
+{% assign ts = site.risky_texts %}
+
 {% assign prevSceneN = page.scene | minus: 1 %}
 {% assign nextSceneN = page.scene | plus: 1 %}
 
-{% for rt in site.risky_texts %}
-{% if rt.scene == prevSceneN %}
-{% assign prevScene = rt %}
-{% elsif rt.scene == nextSceneN %}
-{% assign nextScene = rt %}
+{% for t in ts %}
+{% if t.scene == prevSceneN %}
+{% assign prevScene = t %}
+{% elsif t.scene == nextSceneN %}
+{% assign nextScene = t %}
 {% endif %}
 {% endfor %}
 
-<div class="col-3 text-left mt-3">
-  {% if page.scene > 1 %}
-  <a class="btn btn-primary" href="{{ prevScene.url | relative_url }}">
+{% assign navClasses = "col-6 pt-5 mt-5" %}
+
+<div class="{{ navClasses }} text-left">
+  {% if page.scene > ts.first.scene %}
+  <a class="btn btn-primary justify-self-left"
+     href="{{ prevScene.url | relative_url }}">
     Previous
   </a>
   {% endif %}
 </div>
-<div class="col-6 text-center">
-</div>
-<div class="col-3 text-right mt-3">
-  {% if page.scene < site.risky_texts.size %}
-  <a class="btn btn-primary" href="{{ nextScene.url | relative_url }}">
+<div class="{{ navClasses }} text-right">
+  {% if page.scene < ts.last.scene %}
+  <a class="btn btn-primary justify-self-right"
+     href="{{ nextScene.url | relative_url }}">
     Next
   </a>
   {% endif %}

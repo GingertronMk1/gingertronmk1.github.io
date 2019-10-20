@@ -7,11 +7,11 @@ title: Risky Texts We Sent As Teens
 
 ---
 
-{% capture ts %}{{ site.risky_texts | sort: "scene", "first" }}{% endcapture %}
+{% assign ts = site.risky_texts | sort: "scene", "first" %}
 
 <div class="col-12">
   <ul class="list-group">
-    {% for t in site.risky_texts | sort: "scene","first" %}
+    {% for t in ts %}
     <a class="list-group-item list-group-item-action" href="{{ t.url | relative_url }}">
       Scene {{ t.scene }}: {{ t.title }}
     </a>

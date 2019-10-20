@@ -1,0 +1,38 @@
+---
+layout: default
+
+---
+
+<link rel="stylesheet"
+      href="{{ 'assets/css/risky_texts.css' | relative_url }}">
+
+<div class="col-12 form-group">
+  <label for="input-form">
+    Please enter your risky texts here!</br>
+    They should be of the form <em>person: message</em>, where <em>person</em> is one of:
+    <ul>
+      <li> <em>me</em>, blue messages from the right of the screen </li>
+      <li> <em>them</em>, grey messages from the left of the screen </li>
+      <li> <em>time</em>, grey text in the center of the screen, </li>
+    </ul>
+    and they should be separated by new lines (i.e. one empty line between texts).
+
+  </label>
+  <textarea id="input-form" class="form-control mw-100" rows="7" value="">
+me: a blue message on the right of the screen
+
+them: a grey message on the left of the screen
+
+time: grey bolded text at the center of the screen
+
+and this text won't be shown at all!
+  </textarea>
+
+  <button class="btn btn-primary my-2" 
+          onClick="generate_texts(); return false">
+    Generate your risky texts
+  </button>
+
+  <div class="col-12 row" id="all-texts-div">
+  </div>
+</div>

@@ -1,5 +1,6 @@
+var allTextsDiv = document.getElementById("all-texts-div");
+
 function generate_texts() {
-  var allTextsDiv = document.getElementById("all-texts-div");
   while (allTextsDiv.firstChild) {
     allTextsDiv.removeChild(allTextsDiv.firstChild);
   }
@@ -11,12 +12,10 @@ function generate_texts() {
   var firstText = true;
 
   texts.forEach(function(item) {
-    console.log(item);
     var regex = /(.*?):([\s\S]*)/s
     var person = item.split(regex)[1];
     var message = item.split(regex)[2];
 
-    console.log(person, message);
 
     var colDiv = document.createElement("div");
     var conDiv = document.createElement("div");
@@ -47,6 +46,7 @@ function generate_texts() {
         break;
       default:
         conClasses = "d-none";
+        message = "";
         break;
     }
 
@@ -63,3 +63,5 @@ function generate_texts() {
     lastPerson = person;
   });
 }
+
+allTextsDiv.addEventListener("load", generate_texts());

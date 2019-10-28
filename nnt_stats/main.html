@@ -6,13 +6,20 @@ layout: default
 permalink: /nnt_stats
 
 cardIDs:
-- connCard
-- mostShowsCard
-- castNosCard
-- castCrewNosCard
-- showNosCard
-- filterCard
-- newNosCard
+- id: connCard
+  description: A graph showing connections between all actors in NNT history
+- id: mostShowsCard
+  description: A graph showing the top 10 most-credited actors
+- id: castNosCard
+  description: A graph showing the history of cast sizes
+- id: castCrewNosCard
+  description: A graph showing the relationship between cast and crew size
+- id: showNosCard
+  description: A graph showing how many shows the NNT has put on year-on-year
+- id: filterCard
+  description: Filter the above graphs
+- id: newNosCard
+  description: A graph showing the number of people each year who take part in their first NNT show
 
 content_class: text-center
 
@@ -23,15 +30,26 @@ scripts:
 
 {% assign spinnerSize="5rem" %}
 
+<section id="contents" class="card col-12 my-1 p-0">
+  <div class="card-header">
+    Contents
+  </div>
+  <ul>
+  {% for cardID in page.cardIDs %}
+  <li><a href="#{{ cardID.id }}">{{ cardID.description }}</a></li>
+  {% endfor %}
+  </ul>
+</section>
+
 {% for cardID in page.cardIDs %}
-<div id="{{ cardID }}" class="card col-12 my-1 p-0">
-  <a name="{{ cardID }}"></a>
+<section id="{{ cardID.id }}" class="card col-12 my-1 p-0">
+  <!--<a name="{{ cardID.id }}"></a>-->
   <div class="spinner-border mx-auto my-3 p-0"
        style="width: {{ spinnerSize }}; height: {{ spinnerSize }};"
        role="status">
     <span class="sr-only">Loading...</span>
   </div>
-</div>
+</section>
 {% endfor %}
 
 <script>

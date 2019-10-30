@@ -4,11 +4,12 @@ layout: default
 ---
 
 <link rel="stylesheet"
-      href="{{ 'assets/css/risky_texts.css' | relative_url }}">
+      href="{{ 'assets/css/texts.css' | relative_url }}">
+
 
 <div class="col-12 form-group">
   <label for="input-form">
-    Please enter your risky texts here!</br>
+    Please enter your texts here!</br>
     They should be of the form <em>person: message</em>, where <em>person</em> is one of:
     <ul>
       <li> <em>me</em>, blue messages from the right of the screen </li>
@@ -37,4 +38,12 @@ And this text won't be shown at all!
 
   <div class="col-12 row" id="all-texts-div">
   </div>
+
+  <hr>
+
+  <canvas width="480"
+          height="640"
+          id="text-canvas"
+          style="border: 1px solid black">
+  </canvas>
 </div>

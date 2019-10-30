@@ -25,11 +25,6 @@ collections:
 defaults:
   - scope:
       path: ""
-      type: "risky_texts"
-    values:
-      layout: "risky_texts"
-  - scope:
-      path: ""
       type: "cvs"
     values:
       layout: "default"

@@ -1,0 +1,37 @@
+.left-right {
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    width: 50%;
+    align-content: center;
+    justify-content: center;
+  }
+
+  &__content {
+    margin: 5rem auto;
+    background-color: rgba(white, 0.7);
+    padding: 1rem;
+  }
+
+  &__left {
+    margin-left: 5rem;
+    margin-right: 0;
+  }
+
+  &__right {
+    margin-right: 5rem;
+    margin-left: 0;
+  }
+}

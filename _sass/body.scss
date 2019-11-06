@@ -1,0 +1,42 @@
+html,
+body {
+  height: 100%;
+  font-family: sans-serif;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+#filler {
+  flex: 1 0 auto;
+}
+
+#content {
+  padding: 0;
+  margin: 1.5rem auto;
+
+  @include screen-size($screen-s) {
+    padding: 0 1rem;
+  }
+
+
+  h1,   // Making the text
+  h2,   // sections within
+  h3,   // "content" divs
+  h4,   // the full width
+  h5,   // to force it
+  h6,   // to render
+  p,    // properly
+  ul,
+  table {
+    min-width: 100%;
+    margin-bottom: 1rem;
+  }
+}

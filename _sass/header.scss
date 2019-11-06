@@ -1,0 +1,37 @@
+header {
+  background-color: $grey-1;
+
+  a {
+    padding: 1rem;
+    background-color: inherit;
+    color: $white;
+  }
+
+  a:hover {
+    color: $white;
+    background-color: $grey-0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  div#navbarToggleExternalContent {
+    min-width: 100vw;
+  }
+
+  li:hover {
+    background-color: $grey-0;
+  }
+}
+
+nav,
+.navbar {
+  background-color: inherit;
+}
+
+.navbar-nav {
+  min-width: 100vw;
+}
+

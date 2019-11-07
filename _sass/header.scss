@@ -51,6 +51,12 @@
         }
       }
 
+      &.active {
+        & > .navbar__small--list {
+          height: auto;
+        }
+      }
+
       &--list {
         display: flex;
         width: 100%;

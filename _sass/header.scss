@@ -49,6 +49,25 @@
       &__toggle {
         display: flex;
         height: 2rem;
+
+        &.active {
+          span {
+            position: relative;
+            margin: 0;
+            display: none;
+            &:first-child {
+              transform: rotate(45deg);
+              display: block;
+              z-index: 1;
+            }
+
+            &:nth-child(2) {
+              transform: rotate(-45deg);
+              display: block;
+              z-index: 2;
+            }
+          }
+        }
       }
 
       &__list {

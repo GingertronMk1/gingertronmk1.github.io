@@ -24,6 +24,7 @@
         height: 2px;
         margin: 3px 0;
         background-color: white;
+        transition: all 0.1s linear;
       }
     }
 
@@ -54,17 +55,19 @@
           span {
             position: relative;
             margin: 0;
-            display: none;
+            opacity: 0;
             &:first-child {
               transform: rotate(45deg);
               display: block;
               z-index: 1;
+              opacity: 1;
             }
 
-            &:nth-child(2) {
+            &:last-child {
               transform: rotate(-45deg);
               display: block;
               z-index: 2;
+              opacity: 1;
             }
           }
         }

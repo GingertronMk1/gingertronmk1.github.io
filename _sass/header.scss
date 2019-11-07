@@ -53,20 +53,16 @@
 
         &.active {
           span {
-            position: relative;
+            position: absolute;
             margin: 0;
             opacity: 0;
             &:first-child {
               transform: rotate(45deg);
-              display: block;
-              z-index: 1;
               opacity: 1;
             }
 
             &:last-child {
               transform: rotate(-45deg);
-              display: block;
-              z-index: 2;
               opacity: 1;
             }
           }

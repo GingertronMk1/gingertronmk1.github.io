@@ -55,13 +55,16 @@
           span {
             position: absolute;
             margin: 0;
-            opacity: 0;
-            &:first-child {
+            &[index="1"] {
               transform: rotate(45deg);
               opacity: 1;
             }
 
-            &:last-child {
+            &[index="2"] {
+              opacity: 0;
+            }
+
+            &[index="3"] {
               transform: rotate(-45deg);
               opacity: 1;
             }

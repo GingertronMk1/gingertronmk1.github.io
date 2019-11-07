@@ -3,9 +3,9 @@
   <div class="navbar">
 
     <div id="nav-toggle" class="navbar__toggle">
-      <span></span>
-      <span></span>
-      <span></span>
+      {% for i in (1..3) %}
+      <span index="{{ i }}"></span>
+      {% endfor %}
     </div>
 
     <div class="navbar__list">

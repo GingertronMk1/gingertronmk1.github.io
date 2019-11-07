@@ -1,83 +1,68 @@
 .header {
-  background-color: $grey-1;
-  display: flex;
-  flex-align: space-between;
+  width: 100%;
+  background: $grey-1;
+  color: white;
 
-  &__link {
-    flex: 1;
-    text-align: center;
-    padding: 1rem;
-    background-color: inherit;
-    color: $white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  a {
+    color: white;
 
     &:hover {
-      color: $white;
-      background-color: $grey-0;
+      color: white;
+      background: $grey-0;
     }
   }
 
   .navbar {
-    width: 100%;
-
-    &__large,
-    &__small {
-      width: 100%;
-    }
-
-    &__large {
-      display: flex;
-    }
-
-    &__small {
+    &__toggle {
       display: none;
-      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 0.5rem;
 
-      &--toggle {
-        justify-self: flex-end;
-        width: 100%;
-        height: 2rem;
+      span {
+        width: 2rem;
+        height: 2px;
+        margin: 3px;
+        background-color: white;
+      }
+    }
+
+    &__list {
+      display: flex;
+      flex-direction: row;
+      transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &__link {
+      text-align: center;
+      flex: 1;
+      padding: 1rem;
+
+      &.active {
+        background-color: $grey-0;
+      }
+    }
+  }
+
+  @media (max-width: $small) {
+    .navbar {
+      &__toggle {
         display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        padding: 0.5rem;
-
-        span {
-          width: 2rem;
-          height: 3px;
-          background-color: white;
-        }
+        height: 2rem;
       }
 
-      &--list {
-        display: flex;
-        width: 100%;
-        height: 0px;
-        transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
+      &__list {
+        height: 0;
+        flex-direction: column;
+        justify-content: start;
 
         &.active {
           height: 100vh;
         }
-
-        ul {
-          list-style: none;
-          width: 100%;
-          margin: 0;
-          padding: 0;
-        }
-      }
-    }
-
-    @media (max-width: $small) {
-      &__large {
-        display: none;
       }
 
-      &__small {
-        display: flex;
+      &__link {
+        flex: 0;
       }
     }
   }

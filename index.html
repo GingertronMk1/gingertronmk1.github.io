@@ -7,31 +7,25 @@ cards:
 - header: Theatre
   text: I am a versatile backstage member, with 2 years as a Master Carpenter at the Nottingham New Theatre and experience sound and video designing.
   href: cvs/theatre
-  image: theatre_image.png
 - header: Development
   text: I am a graduate of the University of Nottingham with a 2:1 MSci in Computer Science.
         I have experience in many levels of programming, from web design using Laravel and Jekyll to local applications using C++ and Haskell.
   href: cvs/dev
-  image: dev_image.png
 
 ---
 
 <!-- THEATRE AND DEVELOPMENT CARDS -->
 
-
 <div class="left-right">
   {% for c in page.cards %}
-  {% capture bg_image %}assets/img/{{ c.image }}{% endcapture %}
-  <div class="left-right__wrapper" style="background-image: url({{ bg_image | relative_url }})">
+  <div class="left-right__inner" style="">
     <div class="left-right__left">
       <div class="left-right__content">
         <h2>{{ c.header }}</h2>
         <p>{{ c.text }}</h2>
       </div>
     </div>
-
-
-         
+    <div class="left-right__right"></div>
     </div>
   </div>
   {% endfor %}

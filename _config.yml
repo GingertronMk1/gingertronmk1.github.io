@@ -27,7 +27,7 @@ defaults:
       path: ""
       type: "cvs"
     values:
-      layout: "default"
+      layout: "cv"
 
 url: gingertronmk1.github.io
 

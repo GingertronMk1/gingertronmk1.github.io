@@ -1,31 +1,30 @@
-<header class="container-fluid row m-0 p-0 text-center">
-  <!-- BIG SCREEN NAVBAR -->
-  {% for n in site.data.navs %}
-  <a class="col-3 d-none d-sm-block" href={{ n.url }}>{{ n.title }}</a>
-  {% endfor %}
+<header class="header">
+  <div class="navbar">
+    <!-- BIG SCREEN NAVBAR -->
+    <div class="navbar__large">
+      {% for n in site.data.navs %}
+      <a class="header__link" href={{ n.url }}>{{ n.title }}</a>
+      {% endfor %}
+    </div>
 
-  <!-- SMALL SCREEN NAVBAR -->
-  <div class="d-block d-sm-none">
-    <nav class="navbar navbar-dark">
-      <button class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarToggleExternalContent"
-              aria-controls="navbarToggleExternalContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </nav>
-    <div class="collapse" id="navbarToggleExternalContent">
-      <div class="px-4">
-        <ul class="text-center py-2 m-0">
+    <!-- TODO: REDO SMALL SCREEN NAV -->
+    <div class="navbar__small">
+      <div id="nav-toggle" class="navbar__small--toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar__small--list">
+        <ul>
           {% for n in site.data.navs %}
-          <a class="p-0 w-100 h-100" href={{ n.url }}><li class="py-2">{{ n.title }}</li></a>
+          <li>
+            <a class="header__link" href={{ n.url }}>
+              {{ n.title }}
+            </a>
+          </li>
           {% endfor %}
         </ul>
       </div>
     </div>
   </div>
-
 </header>

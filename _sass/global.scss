@@ -1,7 +1,4 @@
-@import "variables";
-@import "mixins";
-@import "header";
-@import "body";
-@import "footer";
-@import "components/hero";
-@import "components/left-right";
+div[class*="__wrapper"] {
+  width: 95%;
+  max-width: 1280px;
+}

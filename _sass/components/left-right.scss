@@ -1,5 +1,23 @@
+/*
+
+<div class="left-right">
+  <div class="left-right__inner">
+    <div class="left-right__left">
+      <div class="left-right__content"></div>
+    </div>
+    <div class="left-right__right">
+      <div class="left-right__content"></div>
+    </div>
+  </div>
+</div>
+
+ */
+
+
+
+
 .left-right {
-  &__wrapper {
+  &__inner {
     display: flex;
     flex-direction: row;
     background-position: center;
@@ -20,18 +38,35 @@
   }
 
   &__content {
-    margin: 5rem auto;
+    width: 60%;
+    margin: 3rem auto;
     background-color: rgba(white, 0.7);
     padding: 1rem;
   }
 
   &__left {
-    margin-left: 5rem;
-    margin-right: 0;
+    order: -1;
+    background-color: red;
   }
 
   &__right {
-    margin-right: 5rem;
-    margin-left: 0;
+    order: 1;
+    background-color: green;
+  }
+
+  @media (max-width: $medium) {
+    &__inner {
+      flex-direction: column-reverse;
+
+      &:nth-child(even) {
+        flex-direction: column-reverse;
+      }
+    }
+
+    &__left,
+    &__right {
+      width: 100%;
+      min-height: 10rem;
+    }
   }
 }

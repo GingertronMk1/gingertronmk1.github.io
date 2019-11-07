@@ -3,6 +3,8 @@ body {
   height: 100%;
   font-family: sans-serif;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -10,22 +12,22 @@ body {
   flex-direction: column;
 }
 
+a,
 a:hover {
   text-decoration: none;
 }
 
 #filler {
-  flex: 1 0 auto;
+  flex: 1;
 }
 
-#content {
+.content {
+  width: 100%;
   padding: 0;
-  margin: 1.5rem auto;
-
-  @include screen-size($screen-s) {
-    padding: 0 1rem;
-  }
-
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 
   h1,   // Making the text
   h2,   // sections within

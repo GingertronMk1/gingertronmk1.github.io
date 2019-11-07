@@ -3,7 +3,7 @@ layout: default
 title: Home
 permalink: /
 
-cards:
+sections:
 - header: Theatre
   text: I am a versatile backstage member, with 2 years as a Master Carpenter at the Nottingham New Theatre and experience sound and video designing.
   href: cvs/theatre
@@ -14,15 +14,15 @@ cards:
 
 ---
 
-<!-- THEATRE AND DEVELOPMENT CARDS -->
+<!-- THEATRE AND DEVELOPMENT sections -->
 
 <div class="left-right">
-  {% for c in page.cards %}
+  {% for s in page.sections %}
   <div class="left-right__inner" style="">
     <div class="left-right__left">
       <div class="left-right__content">
-        <h2>{{ c.header }}</h2>
-        <p>{{ c.text }}</h2>
+        <h2>{{ s.header }}</h2>
+        <p>{{ s.text }}</h2>
       </div>
     </div>
     <div class="left-right__right"></div>

@@ -7,3 +7,6 @@ $grey-2:  scale-color($grey-1, $lightness: -50%);
 $grey-3:  scale-color($grey-2, $lightness: -50%);
 $grey-3:  scale-color($grey-3, $lightness: -50%);     // Darkest
 
+// MEDIA QUERY SCREENS
+$medium: 768px;
+$small: 480px;

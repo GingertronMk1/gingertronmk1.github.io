@@ -1,5 +1,5 @@
-<footer class="container-fluid row m-0 align-items-end">
-  <div class="col-6 text-left">
+<footer class="footer print-hide">
+  <div class="footer__div footer__div--left">
     <ul>
       {% for social in site.data.socials %}
       <li>
@@ -11,7 +11,7 @@
       {% endfor %}
     </ul>
   </div>
-  <div class="col-6 text-right">
+  <div class="footer__div footer__div--right">
     &copy; Jack Ellis {{ 'now' | date: "%Y" }}
   </div>
 </footer>

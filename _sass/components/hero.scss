@@ -1,7 +1,15 @@
 // HERO
 
-#hero {
+.hero {
   min-height: 15vh;
   background-color: $primary;
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__text {
+    text-align: center;
+    margin: auto 0;
+  }
 }

@@ -1,25 +1,55 @@
-// FOOTER
-
-/*
-footer {
+footer,
+.footer {
   padding: 1rem;
   background-color: $grey-1;
   color: $white;
-  flex-shrink: 0;
+  flex: 0;
+  display: flex;
+
+  &__div {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+
+    &--left {
+      order: -1;
+      text-align: left;
+      justify-content: flex-start;
+    }
+
+    &--right {
+      order: 1;
+      text-align: right;
+      justify-content: flex-end;
+    }
+  }
 
   ul {
-    list-style-type: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style-position: outside;
+    list-style: none;
+
+    li {
+      margin: 0.5rem;
+    }
   }
 
   a {
-    padding: 0;
-    color: $white;
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+    }
   }
 
-  a:hover {
-    color: $grey-0;
+  @media (max-width: $small){
+    flex-direction: column;
+
+    &__div {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
   }
 }
-*/

@@ -1,37 +1,75 @@
-$text-radius: 1rem;
+.risky-texts {
 
-.text {
-  color: white;
-  padding: 0.5rem 1rem;
-}
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.text.me,
-.text.them {
-  max-width: 70%;
-}
+  &__input {
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+  }
 
-.text.me {
-  background-color: rgb(0,170,240);
-  border-top-left-radius: $text-radius;
-  border-bottom-left-radius: $text-radius;
-}
+  &__display {
+    $text-radius: 1rem;
+    width: 100%;
 
-.text.me.chain-top {
-  border-top-right-radius: $text-radius;
-}
+    .message {
+      display: flex;
+      margin-top: 0.1rem;
 
-.text.them {
-  background-color: rgb(150,150,150);
-  border-top-right-radius: $text-radius;
-  border-bottom-right-radius: $text-radius;
-}
+      &--me {
+        flex-direction: row-reverse;
+      }
 
-.text.them.chain-top {
-  border-top-left-radius: $text-radius;
-}
+      &--time {
+        justify-content: center;
+      }
 
-.text.time {
-  font-weight: 900;
-  color: grey;
-  min-width: 100%;
+      &--chain-top {
+        margin-top: 0.5rem;
+      }
+    }
+
+    .text {
+      padding: 0.5rem;
+      color: white;
+
+      &--me,
+      &--them {
+        max-width: 70%;
+      }
+
+      &--me {
+        background-color: rgb(0,170,240);
+        border-top-left-radius: $text-radius;
+        border-bottom-left-radius: $text-radius;
+
+        &.text--chain-top {
+          border-top-right-radius: $text-radius;
+        }
+      }
+
+      &--them {
+        background-color: rgb(150,150,150);
+        border-top-right-radius: $text-radius;
+        border-bottom-right-radius: $text-radius;
+
+        &.text--chain-top {
+          border-top-left-radius: $text-radius;
+        }
+      }
+
+      &--time {
+        font-weight: 900;
+        color: grey;
+        min-width: 100%;
+        text-align: center;
+      }
+    }
+
+  }
 }

@@ -1,9 +1,18 @@
 .risky-texts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  $me-colour: #0088d2;
+  $them-colour: rgb(150,150,150);
 
   &__wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: auto;
+    max-width: 768px;
   }
 
   &__input {
@@ -11,6 +20,24 @@
     display: flex;
     flex-direction: column;
     width: 80%;
+
+    textarea {
+      border: 2px solid black;
+      border-radius: 0.5rem;
+      margin: 1rem auto;
+      padding: 0.5rem;
+      width: 100%;
+    }
+
+    button {
+      background-color: $me-colour;
+      margin: auto;
+      max-width: 640px;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 2px solid $me-colour;
+    }
   }
 
   &__display {
@@ -35,7 +62,7 @@
     }
 
     .text {
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
       color: white;
 
       &--me,
@@ -44,7 +71,7 @@
       }
 
       &--me {
-        background-color: rgb(0,170,240);
+        background-color: $me-colour;
         border-top-left-radius: $text-radius;
         border-bottom-left-radius: $text-radius;
 
@@ -54,7 +81,7 @@
       }
 
       &--them {
-        background-color: rgb(150,150,150);
+        background-color: $them-colour;
         border-top-right-radius: $text-radius;
         border-bottom-right-radius: $text-radius;
 

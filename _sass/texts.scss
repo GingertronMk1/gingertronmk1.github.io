@@ -43,13 +43,21 @@
   &__display {
     $text-radius: 1rem;
     width: 100%;
+    max-width: 1080px;
+    display: flex;
+    flex-direction: column;
 
     .message {
       display: flex;
-      margin-top: 0.1rem;
+      margin: 0;
+      width: 100%;
 
       &--me {
-        flex-direction: row-reverse;
+        justify-content: flex-end;
+      }
+
+      &--them {
+        justify-content: flex-start;
       }
 
       &--time {
@@ -64,6 +72,7 @@
     .text {
       padding: 0.5rem 1rem;
       color: white;
+      margin: 0 auto;
 
       &--me,
       &--them {
@@ -97,6 +106,5 @@
         text-align: center;
       }
     }
-
   }
 }

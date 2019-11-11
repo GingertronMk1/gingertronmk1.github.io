@@ -11,3 +11,8 @@ div[class*="__wrapper"] {
     display: none !important;
   }
 }
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

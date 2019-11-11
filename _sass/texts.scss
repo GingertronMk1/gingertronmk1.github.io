@@ -11,12 +11,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;
+    margin: 1rem auto;
     max-width: 768px;
   }
 
   &__input {
-    padding: 2rem 0;
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -43,21 +42,14 @@
   &__display {
     $text-radius: 1rem;
     width: 100%;
-    max-width: 1080px;
-    display: flex;
-    flex-direction: column;
+    max-width: 768px;
 
     .message {
       display: flex;
-      margin: 0;
-      width: 100%;
+      margin-top: 0.1rem;
 
       &--me {
-        justify-content: flex-end;
-      }
-
-      &--them {
-        justify-content: flex-start;
+        flex-direction: row-reverse;
       }
 
       &--time {
@@ -72,7 +64,6 @@
     .text {
       padding: 0.5rem 1rem;
       color: white;
-      margin: 0 auto;
 
       &--me,
       &--them {
@@ -106,5 +97,6 @@
         text-align: center;
       }
     }
+
   }
 }

@@ -5,6 +5,15 @@ layout: default
 
 <script src="{{ 'assets/js/texts_gen.js' | relative_url }}" defer></script>
 
+{% capture input_val %}
+me: A blue message on the right of the screen
+
+them: A grey message on the left of the screen
+
+time: Grey bolded text at the center of the screen
+
+And this text won't be shown at all!
+{% endcapture %}
 
 <div class="risky-texts">
   <div class="risky-texts__wrapper">
@@ -20,15 +29,7 @@ layout: default
         and they should be separated by new lines (i.e. one empty line between texts).
 
       </label>
-      <textarea id="input-form" rows="7" value="">
-me: A blue message on the right of the screen
-
-them: A grey message on the left of the screen
-
-time: Grey bolded text at the center of the screen
-
-And this text won't be shown at all!
-      </textarea>
+      <textarea id="input-form" rows="7">{{ input_val | strip }}</textarea>
 
       <button onClick="generate_texts(); return false">
         Generate your risky texts

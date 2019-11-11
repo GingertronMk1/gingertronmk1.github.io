@@ -17,16 +17,16 @@ a:hover {
   text-decoration: none;
 }
 
-#filler {
+.flex-filler {
   flex: 1;
 }
 
 .content {
   width: 100%;
-  padding: 0;
+  padding: 0 auto;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   h1,   // Making the text
@@ -40,5 +40,9 @@ a:hover {
   table {
     min-width: 100%;
     margin-bottom: 1rem;
+  }
+
+  & > div {
+    margin: auto;
   }
 }

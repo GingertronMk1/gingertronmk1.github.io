@@ -43,7 +43,7 @@ footer,
     }
   }
 
-  @media (max-width: $small){
+  @include MQ($small){
     flex-direction: column;
 
     &__div {

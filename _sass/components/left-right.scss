@@ -54,7 +54,7 @@
     background-color: green;
   }
 
-  @media (max-width: $medium) {
+  @include MQ($medium) {
     &__inner {
       flex-direction: column-reverse;
 

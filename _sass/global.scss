@@ -17,3 +17,15 @@ div[class*="__wrapper"] {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@for $i from 1 through 10 {
+  .padding-#{$i} {
+    padding: #{$i}rem;
+  }
+}
+
+@mixin MQ($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}

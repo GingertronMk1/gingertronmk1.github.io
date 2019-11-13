@@ -48,7 +48,7 @@
     }
   }
 
-  @media (max-width: $small) {
+  @include MQ($small) {
     .navbar {
       &__toggle {
         display: flex;

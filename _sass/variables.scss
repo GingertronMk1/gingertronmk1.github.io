@@ -1,4 +1,6 @@
-$primary: #002366;                                    // Royal Blue
+$primary: rgb(255, 124, 55);                                    // Royal Blue
+
+$standard-background: linear-gradient(to bottom right, $primary, scale-color($primary, $lightness: -10%));
 
 $white:   #FFFFFF;                                    // Brightest
 $grey-0:  scale-color($white,  $lightness: -50%);

@@ -84,5 +84,7 @@ function generate_texts() {
 }
 
 window.onload = function() {
-  generate_texts();
+  if (allTextsDiv){
+    generate_texts();
+  }
 }

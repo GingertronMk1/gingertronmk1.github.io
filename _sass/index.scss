@@ -1,0 +1,7 @@
+.home-page {
+  text-align: center;
+
+  & > * {
+    text-align: inherit;
+  }
+}

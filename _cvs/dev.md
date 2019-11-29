@@ -15,7 +15,8 @@ I am also a strong collaborator within a team, and am always keen to share any e
 ### Oct 2019 - Present: Fifteen, Back-End Developer
 
 Responsibilities including:
-- General post-deployment site maintenance
+- General maintenance of Wordpress websites
+- Wordpress and Symfony development
 
 ### Aug-Sep 2019: Imaginaire Digital, Web Developer
 

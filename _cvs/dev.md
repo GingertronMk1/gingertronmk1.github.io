@@ -45,6 +45,7 @@ Responsibilities including:
 - Laravel
 - Jekyll
 - Bootstrap
+- Vue.js
 
 ### Development Environments
 - MS Visual Studio

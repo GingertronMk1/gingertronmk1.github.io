@@ -31,9 +31,10 @@ function generate_texts() {
      *  PRINTING TO HTML AND DIVS
      *
      */
-    var regex = /(.*?): ([\s\S]*)/s
+    var regex = /(.+?): ([\s\S]+)/s
     var person = item.split(regex)[1];
     var message = item.split(regex)[2];
+    console.log(person, message);
 
     if (!(person && message)) {
       return;
@@ -48,8 +49,7 @@ function generate_texts() {
     var textClasses = "text";
     var messageClasses = "message"
 
-    if (lastPerson === person) {
-    } else {
+    if (lastPerson !== person) {
       textClasses += " text--chain-top";
       messageClasses += " message--chain-top";
     }

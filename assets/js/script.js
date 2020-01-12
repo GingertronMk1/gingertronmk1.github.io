@@ -1,5 +1,5 @@
-var toggle = document.getElementById("nav-toggle");
-var nav_list = document.getElementsByClassName("navbar__list")[0];
+var toggle = document.querySelector("#nav-toggle");
+var nav_list = document.querySelectorAll(".navbar__list")[0];
 
 toggle.onclick = function() {
   toggle.classList.toggle("active");
@@ -12,14 +12,14 @@ toggle.onclick = function() {
  *
  */
 
-var allTextsDiv = document.getElementById("all-texts-div");
+var allTextsDiv = document.querySelector("#all-texts-div");
 
 function generate_texts() {
   while (allTextsDiv.firstChild) {
     allTextsDiv.removeChild(allTextsDiv.firstChild);
   }
 
-  var texts = document.getElementById("input-form").value.split("\n\n");
+  var texts = document.querySelector("#input-form").value.split("\n\n");
   var lastPerson = "";
   var firstText = true;
 

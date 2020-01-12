@@ -1,4 +1,4 @@
-var content = document.getElementById("content");
+var content = document.querySelector("#content");
 
 var width = content.offsetWidth - 20;
 height = window.innerHeight * 0.8,
@@ -23,7 +23,7 @@ var cardClasses = "card col-12";
 
 function searchGraph() {
   resetGraph();
-  var sValue = document.getElementById("searchVal").value;
+  var sValue = document.querySelector("#searchVal").value;
   d3.select("par[id=\"infobox\"]").text(sValue);
 
   d3.selectAll("circle[class=\"connNode\"]")
@@ -55,7 +55,7 @@ function resetGraph() {
 
 function filterSeason() {
   allSeasons.forEach(function(s){
-    if(!document.getElementById(s + "Filt").checked){
+    if(!document.querySelector("#" + s + "Filt").checked){
       d3.selectAll("[season=\"" + s + "\"]").attr("opacity", 0).attr("pointer-events","none");
     } else {
       d3.selectAll("[season=\"" + s + "\"]").attr("opacity", 1).attr("pointer-events","all");
@@ -313,7 +313,7 @@ function process() {
             var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
               boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
             infoSVG.selectAll("*").remove();
-            document.getElementById("infoSVG").scrollIntoView();
+            document.querySelector("#infoSVG").scrollIntoView();
 
             /*
              *  BAR GRAPH OF TOP 5 LINKS
@@ -589,7 +589,7 @@ function process() {
           var boxWidth = [1,2,3,4].map(function(d){return d*(widthM/4);}),
             boxHeight = [1,2,3,4].map(function(d){return d*(heightM/4);});
           infoSVG.selectAll("*").remove();
-          document.getElementById("infoSVG").scrollIntoView();
+          document.querySelector("#infoSVG").scrollIntoView();
 
           /*
            *  BAR GRAPH OF TOP 5 LINKS

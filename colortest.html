@@ -1,0 +1,35 @@
+---
+layout: default
+
+colors:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- A
+- B
+- C
+- D
+- E
+- F
+
+---
+
+{% for color1 in page.colors %}
+{% for color2 in page.colors %}
+{% for color3 in page.colors %}
+
+{% capture color %}{{ color1 }}{{ color2 }}{{ color3 }}{{ color1 }}{{ color2 }}{{ color3 }}{% endcapture %}
+
+<div style="width: 100%; background-color: #{{- color -}}; min-height: 1px">
+</div>
+
+{% endfor %}
+{% endfor %}
+{% endfor %}

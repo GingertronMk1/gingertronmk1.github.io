@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 1rem auto;
+    margin: 1.6rem auto;
     max-width: 768px;
   }
 
@@ -19,14 +19,14 @@
     display: flex;
     flex-direction: column;
     width: 80%;
-    padding: 1rem 0;
+    padding: 1.6rem 0;
     border-bottom: 2px solid $grey-0;
 
     textarea {
       border: 2px solid black;
-      border-radius: 0.5rem;
-      margin: 1rem auto;
-      padding: 0.5rem;
+      border-radius: 0.8rem;
+      margin: 1.6rem auto;
+      padding: 0.8rem;
       width: 100%;
     }
 
@@ -35,21 +35,23 @@
       margin: auto;
       max-width: 640px;
       color: white;
-      padding: 1rem;
-      border-radius: 0.5rem;
+      padding: 1.6rem;
+      border-radius: 0.8rem;
       border: 2px solid $me-colour;
     }
   }
 
   &__display {
-    $text-radius: 1rem;
+    $text-radius: 1.6rem;
     width: 100%;
     max-width: 768px;
-    padding: 1rem 0;
+    padding: 1.6rem 0;
 
     .message {
       display: flex;
-      margin-top: 0.1rem;
+      margin-top: 0.3rem;
+      font-size: 1.6rem;
+
 
       &--me {
         flex-direction: row-reverse;
@@ -60,12 +62,12 @@
       }
 
       &--chain-top {
-        margin-top: 0.5rem;
+        margin-top: 0.8rem;
       }
     }
 
     .text {
-      padding: 0.5rem 1rem;
+      padding: 0.8rem 1.6rem;
       color: white;
 
       &--me,

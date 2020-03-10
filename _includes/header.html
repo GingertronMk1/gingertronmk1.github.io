@@ -3,18 +3,36 @@
   <div class="navbar">
 
     <div id="nav-toggle" class="navbar__toggle">
-      {% for i in (1..3) %}
-      <span index="{{ i }}"></span>
-      {% endfor %}
+      {% for i in (1..3) %}<span index="{{ i }}"></span>{% endfor %}
     </div>
 
     <div class="navbar__list">
+
       {% for n in site.data.navs %}
-      <a class="navbar__link {% if page.url == n.url %}active{% endif %}"
-         href={{ n.url }}>
+
+      {% if n.subnav %}
+
+      <div class="navbar__link">
+        {{ n.title }}
+        <div class="navbar__sub-list">
+          {% for sn in n.subnav %}
+          <a href="{{ sn.url }}" class="navbar__link">
+            {{ sn.title }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% else %}
+
+      <a href="{{ n.url }}" class="navbar__link">
         {{ n.title }}
       </a>
+
+      {% endif %}
+
       {% endfor %}
+
     </div>
 
   </div>

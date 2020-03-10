@@ -32,6 +32,13 @@
       display: flex;
       flex-direction: row;
       transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.6rem;
+
+      &:hover {
+        & > .navbar__sub-list {
+          display: flex;
+        }
+      }
     }
 
     &__link {
@@ -40,10 +47,31 @@
       justify-content: center;
       text-align: center;
       flex: 1;
-      padding: 1rem;
+      padding: 1.5rem 1rem;
+      position: relative;
 
       &.active {
         background-color: $grey-0;
+      }
+
+      &:hover {
+        .navbar__sub-list {
+          display: flex;
+        }
+      }
+    }
+
+    &__sub-list {
+      display: none;
+      position: absolute;
+      flex-direction: column;
+      right: 0;
+      top: 100%;
+      width: 100%;
+      background-color: $grey-1;
+
+      &:hover {
+        display: flex;
       }
     }
   }

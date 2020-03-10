@@ -104,11 +104,13 @@
       }
 
       &__list {
+        display: none;
         height: 0;
         flex-direction: column;
         justify-content: start;
 
         &.active {
+          display: flex;
           height: 100vh;
         }
       }

@@ -31,7 +31,7 @@ function generate_texts() {
      *  PRINTING TO HTML AND DIVS
      *
      */
-    var regex = /(.+?): ([\s\S]+)/s
+    var regex = /(.+?): ([\s\S]+)/
     var person = item.split(regex)[1];
     var message = item.split(regex)[2];
     console.log(person, message);

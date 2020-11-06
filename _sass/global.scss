@@ -1,6 +1,5 @@
 // DO NOT SET ANYTHING FOR `.active`
 
-
 div[class*="__wrapper"] {
   width: 90%;
   max-width: 1280px;
@@ -18,14 +17,35 @@ div[class*="__wrapper"] {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@for $i from 1 through 10 {
-  .padding-#{$i} {
-    padding: #{$i}rem;
-  }
-}
-
 @mixin MQ($breakpoint) {
   @media (max-width: $breakpoint) {
     @content;
+  }
+}
+
+@for $var from 1 to 10 {
+  @each $class, $attr in ("m": "margin", "p": "padding") {
+    $val: #{$var / 2}rem;
+
+    @each $class_mod, $dir in ("t": "top", "b": "bottom", "r": "left", "l": "right")
+    {
+      .#{$class}-#{$class_mod}-#{$var} {
+        #{$attr}-#{$dir}: $val;
+      }
+    }
+
+    .#{$class}-#{$var} {
+      #{$attr}: $val;
+    }
+
+    .#{$class}-x-#{$var} {
+      #{$attr}-left: $val;
+      #{$attr}-right: $val;
+    }
+
+    .#{$class}-y-#{$var} {
+      #{$attr}-top: $val;
+      #{$attr}-bottom: $val;
+    }
   }
 }

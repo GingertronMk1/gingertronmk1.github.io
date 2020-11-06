@@ -2,6 +2,14 @@
 title: Developer CV
 ---
 
+# Table of Contents
+
+- [Profile](#profile)
+- [Previous Employment](#previous-employment)
+- [Technical Skills/Projects](#technical-skillsprojects)
+- [Additional Experience and Extracurriculars](#additional-experience-and-extracurriculars)
+
+
 # Profile
 I am a Computer Science graduate with a 2:1 MSci.
 I have excellent communication and administrative skills developed from being a member of a number of committees during my time at the University of Nottingham.
@@ -10,20 +18,30 @@ I am also a strong collaborator within a team, and am always keen to share any e
 
 {% include education.md %}
 
+
 # Previous Employment
 
-### Oct 2019 - Present: Fifteen, Back-End Developer
+### July 2020 - Present: We Are Sweet, Developer
 
-Responsibilities including:
-- General maintenance of Wordpress websites
-- Wordpress and Symfony development
+In this role I am responsible for the maintenance and upgrading of a large ticketing system built in Yii2.
+My first major task in this project was to create a bulk importer with which a user could upload a spreadsheet of data and map columns to attributes of a number of different types of models within the system, and those models would then be saved into the database.
+
+
+### Oct 2019 - March 2020: Fifteen, Back-End Developer
+
+Here I was responsible for the development and maintenance of a number of php-based websites, built using WordPress, Laravel, and Symfony.
+
+I was initially tasked with the creation of a brochure site for Birch Bedrooms, taking a design from a series of InVision drawings and converting them into a full responsive Wordpress site, liaising with the designer about any issues or inconsistencies that I noticed during the process.
+
+I was also tasked with updating the website for Birmingham Metropolitan College with new features to add to their application system - this website made heavy use of custom Wordpress plugins for which there was no real documentation, as well as a bridge API to pass data back and forth to their custom student/course management system, Unit-e.
 
 ### Aug-Sep 2019: Imaginaire Digital, Web Developer
 
-Responsibilities including:
-- Wordpress development
-- Laravel development
-- DevOps involvement - assisting in the creation of bash scripts to automate VM setup and deployment
+I undertook an internship at Imaginaire Digital, a web design and marketing firm, for a month.
+In this time I worked primarily as a WordPress developer, modifying an in-house custom theme for a client website. I also worked on an internal dashboard application using Laravel and Laravel Nova.
+
+In addition to the development roles I aided in a DevOps capacity, advancing the firm's workflow by way of helping design bash scripts to automatically instantiate and set up virtual machines for development purposes.
+
 
 # Technical Skills/Projects
 
@@ -46,9 +64,11 @@ Responsibilities including:
 - Jekyll
 - Bootstrap
 - Vue.js
+- Yii 2
 
 ### Development Environments
-- MS Visual Studio
+
+- MS Visual Studio/Visual Studio Code
 - vi
 - GitHub
 - IntelliJ
@@ -81,3 +101,5 @@ Whilst there my project, together with a colleague, was to research the concept 
 This culminated in producing and presenting a slide show presentation for the bosses of the C4DI, the information from which was going to be presented to the local council.
 Whilst there I also developed a website for one of the founders of the C4DI, which traced people's fast food litter and marked on a map where it was alongside a picture and a comment.
 The code for this project can be found [here](https://github.com/GingertronMk1/McRubbish).
+
+<div class="p-y-2"></div>

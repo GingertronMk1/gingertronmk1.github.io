@@ -23,31 +23,50 @@ div[class*="__wrapper"] {
   }
 }
 
-
-
 // Padding and margin utility classes
 
-$class_attr: "m" "margin", "p" "padding";
+$class_attr: (
+  "m": "margin",
+  "p": "padding",
+);
 
-$class_mod_dir:
-  "t" ("top"),
-  "b" ("bottom"),
-  "r" ("left"),
-  "l" ("right"),
-  "x" ("left", "right"),
-  "y" ("top", "bottom");
+$class_mod_dir: (
+  "t": (
+    "top",
+  ),
+  "b": (
+    "bottom",
+  ),
+  "r": (
+    "left",
+  ),
+  "l": (
+    "right",
+  ),
+  "x": (
+    "left",
+    "right",
+  ),
+  "y": (
+    "top",
+    "bottom",
+  ),
+);
 
-@for $var from 1 to 10 {                          // p/ms 1 through 10
-  @each $class, $attr in $class_attr {            // m for margin, p for padding
+@for $var from 1 to 10 {
+  // p/ms 1 through 10
+  @each $class, $attr in $class_attr {
+    // m for margin, p for padding
     $val: #{$var / 2}rem;
 
     .#{$class}-#{$var} {
-      #{$attr}: $val;
+      #{$attr}: $val; // Base class, all directions
     }
 
-    @each $class_mod, $dirs in $class_mod_dir {   // The directions
-      .#{$class}-#{$class_mod}-#{$var} {
-        @each $dir in $dirs {
+    @each $class_mod, $dirs in $class_mod_dir {
+      // The directions
+      @each $dir in $dirs {
+        .#{$class}-#{$class_mod}-#{$var} {
           #{$attr}-#{$dir}: $val;
         }
       }

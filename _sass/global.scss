@@ -53,11 +53,11 @@ $class_mod_dir: (
   ),
 );
 
-@for $var from 1 to 10 {
+@for $var from 1 through 10 {
   // p/ms 1 through 10
+  $val: #{$var / 2}rem;
   @each $class, $attr in $class_attr {
     // m for margin, p for padding
-    $val: #{$var / 2}rem;
 
     .#{$class}-#{$var} {
       #{$attr}: $val; // Base class, all directions
@@ -67,9 +67,13 @@ $class_mod_dir: (
       // The directions
       @each $dir in $dirs {
         .#{$class}-#{$class_mod}-#{$var} {
-          #{$attr}-#{$dir}: $val;
+          #{$attr}-#{$dir}: $val !important;
         }
       }
     }
+  }
+
+  .font-size-#{$var} {
+    font-size: $val;
   }
 }

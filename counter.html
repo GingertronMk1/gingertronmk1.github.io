@@ -1,0 +1,26 @@
+---
+layout: default
+
+title: Counter
+---
+
+{% assign button_classes="button button--center p-y-1 font-size-10" %}
+
+<div class="p-y-2">
+  <div class="{{ button_classes }}" id="up">+</div>
+  <input type="number" name="counter" value="1" class="m-y-3 font-size-5" />
+  <div class="{{ button_classes }}" id="down">-</div>
+</div>
+
+<script type="text/javascript">
+  document.getElementById("up").addEventListener("click", function () {
+    var input = document.querySelector("input[name=counter]");
+    var input_val = input.value;
+    input.value = parseInt(input.value) + 1;
+  });
+  document.getElementById("down").addEventListener("click", function () {
+    var input = document.querySelector("input[name=counter]");
+    var input_val = input.value;
+    input.value = parseInt(input.value) - 1;
+  });
+</script>

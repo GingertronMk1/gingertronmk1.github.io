@@ -34,5 +34,8 @@
   },
   "browserslist": [
     "cover 100%"
-  ]
+  ],
+  "dependencies": {
+    "vue": "^2.6.12"
+  }
 }

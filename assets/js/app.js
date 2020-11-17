@@ -286,15 +286,23 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     /* harmony import */
 
 
-    var _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! ./vue_components/TextGen.vue */
     "./_assets/js/vue_components/TextGen.vue");
+
+    var toggle = document.querySelector("#nav-toggle");
+    var nav_list = document.querySelectorAll(".navbar__list")[0];
+
+    toggle.onclick = function () {
+      toggle.classList.toggle("active");
+      nav_list.classList.toggle("active");
+    };
 
     var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       el: '#app',
       components: {
         season_gen: _vue_components_SeasonGen_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-        text_gen: _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+        text_gen: _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
       }
     });
     /***/

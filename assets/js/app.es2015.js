@@ -98,7 +98,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _vue_components_SeasonGen_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vue_components/SeasonGen.vue */ "./_assets/js/vue_components/SeasonGen.vue");
-/* harmony import */ var _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./vue_components/TextGen.vue */ "./_assets/js/vue_components/TextGen.vue");
+/* harmony import */ var _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vue_components/TextGen.vue */ "./_assets/js/vue_components/TextGen.vue");
+var toggle = document.querySelector("#nav-toggle");
+var nav_list = document.querySelectorAll(".navbar__list")[0];
+
+toggle.onclick = function () {
+  toggle.classList.toggle("active");
+  nav_list.classList.toggle("active");
+};
+
 
 
 
@@ -106,7 +114,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
     season_gen: _vue_components_SeasonGen_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    text_gen: _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    text_gen: _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 

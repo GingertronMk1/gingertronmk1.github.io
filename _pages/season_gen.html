@@ -5,23 +5,9 @@ title: Season Generator
 
 permalink: /season_gen
 
+# Kinda just a wrapper for a Vue component
 ---
 
-<div class="season">
-  <div class="season__form">
-  <div class="season__input"></div>
-  <button class="btn" onclick="add_input()">Add another show</button>
-  <button class="btn" onclick="generate_options()">Generate Options</button>
-  </div>
-  <div class="season__option"></div>
+<div id="app" class="p-y-3">
+  <season_gen></season_gen>
 </div>
-
-<script type="text/template" id="season__input-template">
-  <input class="season__title-input"
-         type="text"
-         name="show[NUMBERREPLACE][title]"
-         placeholder="Show name">
-  <input class="season__slots-input"
-         name="show[NUMBERREPLACE][slots]"
-         placeholder="Show's slot preference, comma-separated">
-</script>

@@ -4,40 +4,8 @@ layout: default
 title: Text Generator
 
 permalink: /text_gen
-
 ---
 
-{% capture input_val %}
-me: A blue message on the right of the screen
-
-them: A grey message on the left of the screen
-
-time: Grey bolded text at the center of the screen
-
-And this text won't be shown at all!
-{% endcapture %}
-
-<div class="risky-texts">
-  <div class="risky-texts__wrapper">
-    <div class="risky-texts__input">
-      <label for="input-form">
-        Please enter your texts here!</br>
-        They should be of the form <em>person: message</em>, where <em>person</em> is one of:
-        <ul>
-          <li> <em>me</em>, blue messages from the right of the screen </li>
-          <li> <em>them</em>, grey messages from the left of the screen </li>
-          <li> <em>time</em>, grey text in the center of the screen, </li>
-        </ul>
-        and they should be separated by new lines (i.e. one empty line between texts).
-
-      </label>
-      <textarea id="input-form" rows="7">{{ input_val | strip }}</textarea>
-
-      <button onClick="generate_texts(); return false">
-        Generate your risky texts
-      </button>
-    </div>
-    <div class="risky-texts__display" id="all-texts-div">
-    </div>
-  </div>
+<div class="risky-texts" id="app">
+    <text_gen></text_gen>
 </div>

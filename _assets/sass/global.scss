@@ -77,3 +77,7 @@ $class_mod_dir: (
     font-size: $val;
   }
 }
+
+.user-select {
+  user-select: none;
+}

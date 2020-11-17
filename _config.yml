@@ -8,11 +8,15 @@ description: >-
 # Build settings
 markdown: kramdown
 permalink: pretty
-include: ['_pages']
-exclude: ['vendor', '.jekyll-cache']
+include: 
+  - _pages
 
-sass:
-  sass_dir: _sass
+exclude: 
+  - vendor
+  - .jekyll-cache
+  - node_modules
+  - '*.json'
+  - webpack.mix.js
 
 collections:
   risky_texts:

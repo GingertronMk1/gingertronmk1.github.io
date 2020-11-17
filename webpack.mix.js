@@ -24,4 +24,4 @@ mix.js(         // Horrible workaround
     "assets/js/app.js"
 );
 
-mix.sass("_assets/sass/style.scss", "assets/css/style.css");
+mix.sass("_assets/sass/style.scss", "assets/css/app.css");

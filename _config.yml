@@ -9,6 +9,7 @@ description: >-
 markdown: kramdown
 permalink: pretty
 include: ['_pages']
+exclude: ['vendor', '.jekyll-cache']
 
 sass:
   sass_dir: _sass
@@ -33,6 +34,3 @@ url: gingertronmk1.github.io
 
 plugins:
   - jekyll-sitemap
-
-exclude:
-  - .jekyll-cache

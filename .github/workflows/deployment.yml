@@ -26,6 +26,8 @@ jobs:
           echo test, and deploy your project.
           npm install
           npm run production
+          git config --global user.email "gingertronmk1@@users.noreply.github.com"
+          git config --global user.name "Jack Ellis"
           git add .
           git commit -m "Production assets"
           git push

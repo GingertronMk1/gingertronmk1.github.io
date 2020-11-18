@@ -73,7 +73,7 @@ export default {
             try {
               let slot = oki[_slot]; // The current show for this slot
               let perm2 = perm.slice(0);
-              console.log(perm2, slot);
+              // console.log(perm2, slot);
               if (perm2.indexOf(slot) == -1) {
                 perm2.push(slot);
                 n.push(perm2);
@@ -110,7 +110,7 @@ export default {
         }
       });
 
-      console.log(preferences, Object.keys(preferences));
+      // console.log(preferences, Object.keys(preferences));
       return this.recurse_generate(preferences, Object.keys(preferences), 0);
     },
   },

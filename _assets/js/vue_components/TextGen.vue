@@ -43,19 +43,19 @@ And this text won't be shown at all!
     texts: function() {
       const regex = /(.+?): ([\s\S]+)/;
       let texts = this.input_text.split("\n\n");
-      console.log(texts);
+      // console.log(texts);
       let lastPerson = "";
 
       let all_texts = [];
 
       texts.forEach(function(text) {
-        console.log(text);
+        // console.log(text);
         let person = text.split(regex)[1];
         let message = text.split(regex)[2];
         if (!(person && message)) {
           return false;
         }
-        console.log(person, message);
+        // console.log(person, message);
         person = person.trim();
         message = message.trim();
         let textClasses = ["text"];

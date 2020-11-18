@@ -13,7 +13,13 @@
         and they should be separated by new lines (i.e. one empty line between
         texts).
       </label>
-      <textarea id="input-form" rows="7" v-model="input_text"></textarea>
+      <textarea
+        id="input-form"
+        rows="7"
+        v-model="input_text"
+        :class="input_class"
+      ></textarea>
+      <button class="p-2" v-on:click="toggleFloat()">Toggle Floating Editor</button>
     </div>
     <div class="risky-texts__display" id="all-texts-div">
       <div v-for="text in texts" v-bind:key="text" :class="text.messageClasses">
@@ -35,7 +41,17 @@ time: Grey bolded text at the center of the screen
 
 And this text won't be shown at all!
 `,
+      input_class: "",
     };
+  },
+  methods: {
+    toggleFloat() {
+      if(this.input_class === null) {
+        this.input_class = "floating";
+      } else {
+        this.input_class = null;
+      }
+    }
   },
   computed: {
     texts: function() {

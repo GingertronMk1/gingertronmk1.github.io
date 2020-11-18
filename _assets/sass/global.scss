@@ -60,7 +60,7 @@ $class_mod_dir: (
     // m for margin, p for padding
 
     .#{$class}-#{$var} {
-      #{$attr}: $val; // Base class, all directions
+      #{$attr}: $val !important; // Base class, all directions
     }
 
     @each $class_mod, $dirs in $class_mod_dir {

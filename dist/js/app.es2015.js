@@ -862,11 +862,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      input_text: "\nme: A blue message on the right of the screen\n\nthem: A grey message on the left of the screen\n\ntime: Grey bolded text at the center of the screen\n\nAnd this text won't be shown at all!\n"
+      input_text: "\nme: A blue message on the right of the screen\n\nthem: A grey message on the left of the screen\n\ntime: Grey bolded text at the center of the screen\n\nAnd this text won't be shown at all!\n",
+      input_class: ""
     };
+  },
+  methods: {
+    toggleFloat: function toggleFloat() {
+      if (this.input_class === null) {
+        this.input_class = "floating";
+      } else {
+        this.input_class = null;
+      }
+    }
   },
   computed: {
     texts: function texts() {
@@ -1610,6 +1626,7 @@ var render = function() {
               expression: "input_text"
             }
           ],
+          class: _vm.input_class,
           attrs: { id: "input-form", rows: "7" },
           domProps: { value: _vm.input_text },
           on: {
@@ -1620,7 +1637,19 @@ var render = function() {
               _vm.input_text = $event.target.value
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                return _vm.toggleFloat()
+              }
+            }
+          },
+          [_vm._v("Floating Editor")]
+        )
       ]),
       _vm._v(" "),
       _c(

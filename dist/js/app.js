@@ -1053,8 +1053,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     //
     //
     //
-    //
-    //
 
     /* harmony default export */
 
@@ -1902,9 +1900,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         on: {
           click: function click($event) {
             _vm.count++;
-          },
-          keyup: function keyup($event) {
-            return _vm.keyboardCounter(_vm.e);
           }
         }
       }, [_vm._v("\n    +\n  ")]), _vm._v(" "), _c("input", {
@@ -1936,9 +1931,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         on: {
           click: function click($event) {
             _vm.count--;
-          },
-          keyup: function keyup($event) {
-            return _vm.keyboardCounter(_vm.e);
           }
         }
       }, [_vm._v("\n    -\n  ")])]);

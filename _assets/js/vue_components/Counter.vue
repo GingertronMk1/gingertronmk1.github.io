@@ -3,7 +3,6 @@
     <div
       :class="button_classes"
       v-on:click="count++"
-      v-on:keyup="keyboardCounter(e)"
     >
       +
     </div>
@@ -16,7 +15,6 @@
     <div
       :class="button_classes"
       v-on:click="count--"
-      v-on:keyup="keyboardCounter(e)"
     >
       -
     </div>

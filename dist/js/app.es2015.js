@@ -675,8 +675,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1433,9 +1431,6 @@ var render = function() {
         on: {
           click: function($event) {
             _vm.count++
-          },
-          keyup: function($event) {
-            return _vm.keyboardCounter(_vm.e)
           }
         }
       },
@@ -1471,9 +1466,6 @@ var render = function() {
         on: {
           click: function($event) {
             _vm.count--
-          },
-          keyup: function($event) {
-            return _vm.keyboardCounter(_vm.e)
           }
         }
       },

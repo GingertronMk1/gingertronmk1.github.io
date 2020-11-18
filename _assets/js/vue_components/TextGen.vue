@@ -17,11 +17,7 @@
     </div>
     <div class="risky-texts__display" id="all-texts-div">
       <div v-for="text in texts" v-bind:key="text" :class="text.messageClasses">
-        <div
-          :class="text.textClasses"
-          style="white-space: pre-line;"
-          v-text="text.message"
-        ></div>
+        <div :class="text.textClasses" v-text="text.message"></div>
       </div>
     </div>
   </div>

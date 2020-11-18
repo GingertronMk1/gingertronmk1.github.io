@@ -1260,10 +1260,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     //
     //
     //
-    //
-    //
-    //
-    //
 
     /* harmony default export */
 
@@ -2120,9 +2116,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           "class": text.messageClasses
         }, [_c("div", {
           "class": text.textClasses,
-          staticStyle: {
-            "white-space": "pre-line"
-          },
           domProps: {
             textContent: _vm._s(text.message)
           }

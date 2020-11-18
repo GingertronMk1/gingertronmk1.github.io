@@ -1125,9 +1125,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     //
     //
     //
-    //
-    //
-    //
 
     /* harmony default export */
 
@@ -2031,8 +2028,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           key: permutation
         }, _vm._l(permutation, function (show) {
           return _c("li", {
-            key: show
-          }, [_vm._v("\n      " + _vm._s(show) + "\n    ")]);
+            key: show,
+            domProps: {
+              textContent: _vm._s(show)
+            }
+          });
         }), 0);
       }), 0) : _c("h2", [_vm._v("No valid seasons exist")])], 2);
     };

@@ -740,9 +740,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1563,9 +1560,10 @@ var render = function() {
                 "ol",
                 { key: permutation },
                 _vm._l(permutation, function(show) {
-                  return _c("li", { key: show }, [
-                    _vm._v("\n      " + _vm._s(show) + "\n    ")
-                  ])
+                  return _c("li", {
+                    key: show,
+                    domProps: { textContent: _vm._s(show) }
+                  })
                 }),
                 0
               )

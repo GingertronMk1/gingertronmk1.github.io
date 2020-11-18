@@ -870,6 +870,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -878,15 +880,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     texts: function texts() {
-      var regex = /(.+?): ([\s\S]+)/;
+      var regex = /(.+?)(: *?)([\s\S]+)/;
       var texts = this.input_text.split("\n\n"); // console.log(texts);
 
       var lastPerson = "";
       var all_texts = [];
       texts.forEach(function (text) {
         // console.log(text);
-        var person = text.split(regex)[1];
-        var message = text.split(regex)[2];
+        var split_text = text.split(regex);
+        var person = split_text[1];
+        var message = split_text[3];
 
         if (!(person && message)) {
           return false;
@@ -926,7 +929,7 @@ __webpack_require__.r(__webpack_exports__);
         all_texts.push({
           textClasses: textClasses,
           messageClasses: messageClasses,
-          message: message.replace("\n", "</br>")
+          message: message
         });
         lastPerson = person;
       });
@@ -1634,9 +1637,11 @@ var render = function() {
         { staticClass: "risky-texts__display", attrs: { id: "all-texts-div" } },
         _vm._l(_vm.texts, function(text) {
           return _c("div", { key: text, class: text.messageClasses }, [
-            _c("div", { class: text.textClasses }, [
-              _vm._v("\n        " + _vm._s(text.message) + "\n      ")
-            ])
+            _c("div", {
+              class: text.textClasses,
+              staticStyle: { "white-space": "pre-line" },
+              domProps: { textContent: _vm._s(text.message) }
+            })
           ])
         }),
         0

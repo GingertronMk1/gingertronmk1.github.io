@@ -1515,6 +1515,7 @@ footer a:hover,
 .risky-texts__display .text {
   padding: 0.8rem 1.6rem;
   color: white;
+  line-height: 2rem;
 }
 
 .risky-texts__display .text--me,

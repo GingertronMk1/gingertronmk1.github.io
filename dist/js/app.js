@@ -1262,6 +1262,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     //
     //
     //
+    //
+    //
 
     /* harmony default export */
 
@@ -1274,15 +1276,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       },
       computed: {
         texts: function texts() {
-          var regex = /(.+?): ([\s\S]+)/;
+          var regex = /(.+?)(: *?)([\s\S]+)/;
           var texts = this.input_text.split("\n\n"); // console.log(texts);
 
           var lastPerson = "";
           var all_texts = [];
           texts.forEach(function (text) {
             // console.log(text);
-            var person = text.split(regex)[1];
-            var message = text.split(regex)[2];
+            var split_text = text.split(regex);
+            var person = split_text[1];
+            var message = split_text[3];
 
             if (!(person && message)) {
               return false;
@@ -1322,7 +1325,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             all_texts.push({
               textClasses: textClasses,
               messageClasses: messageClasses,
-              message: message.replace("\n", "</br>")
+              message: message
             });
             lastPerson = person;
           });
@@ -2116,8 +2119,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           key: text,
           "class": text.messageClasses
         }, [_c("div", {
-          "class": text.textClasses
-        }, [_vm._v("\n        " + _vm._s(text.message) + "\n      ")])]);
+          "class": text.textClasses,
+          staticStyle: {
+            "white-space": "pre-line"
+          },
+          domProps: {
+            textContent: _vm._s(text.message)
+          }
+        })]);
       }), 0)]);
     };
 

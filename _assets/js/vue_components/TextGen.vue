@@ -17,9 +17,11 @@
     </div>
     <div class="risky-texts__display" id="all-texts-div">
       <div v-for="text in texts" v-bind:key="text" :class="text.messageClasses">
-        <div :class="text.textClasses">
-          {{ text.message }}
-        </div>
+        <div
+          :class="text.textClasses"
+          style="white-space: pre-line;"
+          v-text="text.message"
+        ></div>
       </div>
     </div>
   </div>
@@ -41,7 +43,7 @@ And this text won't be shown at all!
   },
   computed: {
     texts: function() {
-      const regex = /(.+?): ([\s\S]+)/;
+      const regex = /(.+?)(: *?)([\s\S]+)/;
       let texts = this.input_text.split("\n\n");
       // console.log(texts);
       let lastPerson = "";
@@ -50,8 +52,9 @@ And this text won't be shown at all!
 
       texts.forEach(function(text) {
         // console.log(text);
-        let person = text.split(regex)[1];
-        let message = text.split(regex)[2];
+        const split_text = text.split(regex);
+        let person = split_text[1];
+        let message = split_text[3];
         if (!(person && message)) {
           return false;
         }
@@ -86,7 +89,7 @@ And this text won't be shown at all!
         all_texts.push({
           textClasses: textClasses,
           messageClasses: messageClasses,
-          message: message.replace("\n", "</br>"),
+          message: message,
         });
 
         lastPerson = person;

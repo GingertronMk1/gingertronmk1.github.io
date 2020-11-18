@@ -66,7 +66,7 @@ And this text won't be shown at all!
           messageClasses.push("message--chain-top");
         }
 
-        switch (person) {
+        switch (person.toLowerCase()) {
           case "me":
             textClasses.push("text--me");
             messageClasses.push("message--me");
@@ -97,7 +97,6 @@ And this text won't be shown at all!
   },
   mounted() {
     this.input_text = this.input_text.trim();
-    this.generate();
   },
 };
 </script>

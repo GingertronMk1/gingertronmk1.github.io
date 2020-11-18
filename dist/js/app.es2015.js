@@ -1642,13 +1642,14 @@ var render = function() {
         _c(
           "button",
           {
+            staticClass: "p-2",
             on: {
               click: function($event) {
                 return _vm.toggleFloat()
               }
             }
           },
-          [_vm._v("Floating Editor")]
+          [_vm._v("Toggle Floating Editor")]
         )
       ]),
       _vm._v(" "),

@@ -19,7 +19,7 @@
         v-model="input_text"
         :class="input_class"
       ></textarea>
-      <button v-on:click="toggleFloat()">Floating Editor</button>
+      <button class="p-2" v-on:click="toggleFloat()">Toggle Floating Editor</button>
     </div>
     <div class="risky-texts__display" id="all-texts-div">
       <div v-for="text in texts" v-bind:key="text" :class="text.messageClasses">

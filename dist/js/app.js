@@ -2120,12 +2120,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           }
         }
       }), _vm._v(" "), _c("button", {
+        staticClass: "p-2",
         on: {
           click: function click($event) {
             return _vm.toggleFloat();
           }
         }
-      }, [_vm._v("Floating Editor")])]), _vm._v(" "), _c("div", {
+      }, [_vm._v("Toggle Floating Editor")])]), _vm._v(" "), _c("div", {
         staticClass: "risky-texts__display",
         attrs: {
           id: "all-texts-div"

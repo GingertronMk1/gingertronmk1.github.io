@@ -18,10 +18,10 @@ const mix = require("laravel-mix");
 
 mix.js(         // Horrible workaround
     "_assets/js/*.js",
-    "assets/js/app.es2015.js"
+    "dist/js/app.es2015.js"
 ).babel(
-    "assets/js/app.es2015.js",
-    "assets/js/app.js"
+    "dist/js/app.es2015.js",
+    "dist/js/app.js"
 );
 
-mix.sass("_assets/sass/style.scss", "assets/css/app.css");
+mix.sass("_assets/sass/style.scss", "dist/css/app.css");

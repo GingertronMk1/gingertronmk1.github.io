@@ -107,12 +107,8 @@ export default {
         }
       });
 
-      // console.log(preferences, Object.keys(preferences));
       return this.recurse_generate(preferences, Object.keys(preferences), 0);
     },
-  },
-  mounted() {
-    // this.generate_options();
   },
 };
 </script>

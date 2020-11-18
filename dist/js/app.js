@@ -1210,12 +1210,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
                 }
               });
             }
-          }); // console.log(preferences, Object.keys(preferences));
-
+          });
           return this.recurse_generate(preferences, Object.keys(preferences), 0);
         }
-      },
-      mounted: function mounted() {// this.generate_options();
       }
     };
     /***/

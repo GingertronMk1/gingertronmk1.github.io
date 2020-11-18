@@ -20,14 +20,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: NPM install and run production
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
           npm install
           npm run production
-          git config --global user.email "gingertronmk1@@users.noreply.github.com"
-          git config --global user.name "Jack Ellis"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add .
           git commit -m "Production assets"
           git push

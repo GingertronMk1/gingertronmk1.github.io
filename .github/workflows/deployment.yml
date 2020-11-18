@@ -26,3 +26,6 @@ jobs:
           echo test, and deploy your project.
           npm install
           npm run production
+          git add .
+          git commit -m "Production assets"
+          git push

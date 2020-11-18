@@ -1,6 +1,7 @@
 # gingertronmk1.github.io
 
-A Jekyll website containing my CVs and other projects
+A Jekyll website containing my CVs and other projects.
+Recently I have migrated it to use NPM for asset compilation - SASS and JS are found now in the `_assets` folder, and they compile to the `dist` folder.
 
 # Installation and Running
 

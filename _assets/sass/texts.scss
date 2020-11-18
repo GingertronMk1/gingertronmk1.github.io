@@ -69,6 +69,8 @@
     .text {
       padding: 0.8rem 1.6rem;
       color: white;
+      line-height: 2rem;
+      white-space: pre-line;
 
       &--me,
       &--them {

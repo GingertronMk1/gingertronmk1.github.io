@@ -15,13 +15,10 @@
       </button>
     </div>
 
-
     <span v-if="permutations.length">
-    <ol v-for="permutation in permutations" v-bind:key="permutation">
-      <li v-for="show in permutation" v-bind:key="show">
-        {{ show }}
-      </li>
-    </ol>
+      <ol v-for="permutation in permutations" v-bind:key="permutation">
+        <li v-for="show in permutation" v-bind:key="show" v-text="show"></li>
+      </ol>
     </span>
     <h2 v-else>No valid seasons exist</h2>
   </div>
@@ -110,12 +107,8 @@ export default {
         }
       });
 
-      // console.log(preferences, Object.keys(preferences));
       return this.recurse_generate(preferences, Object.keys(preferences), 0);
     },
-  },
-  mounted() {
-    // this.generate_options();
   },
 };
 </script>

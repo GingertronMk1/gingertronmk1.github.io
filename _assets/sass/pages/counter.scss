@@ -1,0 +1,27 @@
+.counter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__counter {
+        width: 69%;
+    }
+
+    &__increment {
+        width: 29%;
+    }
+
+    &__counter, &__increment {
+        display: flex;
+        flex-direction: column;
+    }
+
+    @include MQ($medium) {
+        flex-direction: column;
+
+        &__counter, &__increment {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+}

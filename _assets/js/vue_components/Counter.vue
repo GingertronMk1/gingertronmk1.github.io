@@ -49,10 +49,10 @@ export default {
       }
     },
     countUp() {
-      this.count = this.count + this.increment;
+      this.count = parseFloat(parseFloat(this.count) + parseFloat(this.increment));
     },
     countDown() {
-      this.count = this.count - this.increment;
+      this.count = parseFloat(parseFloat(this.count) - parseFloat(this.increment));
     },
     incrementUp() {
       this.increment++;

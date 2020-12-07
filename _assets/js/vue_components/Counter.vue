@@ -1,22 +1,26 @@
 <template>
-  <div class="p-y-2">
-    <div
-      :class="button_classes"
-      v-on:click="count++"
-    >
-      +
+  <div class="p-y-2 counter">
+    <div class="counter__counter">
+      <h3>Counter</h3>
+      <div :class="button_classes" v-on:click="countUp()">+{{ increment }}</div>
+      <input
+        type="number"
+        name="counter"
+        v-model="count"
+        class="m-y-3 font-size-5"
+      />
+      <div :class="button_classes" v-on:click="countDown()">-{{ increment }}</div>
     </div>
-    <input
-      type="number"
-      name="counter"
-      v-model="count"
-      class="m-y-3 font-size-5"
-    />
-    <div
-      :class="button_classes"
-      v-on:click="count--"
-    >
-      -
+    <div class="counter__increment">
+      <h3>Increment</h3>
+      <div :class="button_classes" v-on:click="incrementUp()">+</div>
+      <input
+        type="number"
+        name="counter"
+        v-model="increment"
+        class="m-y-3 font-size-5"
+      />
+      <div :class="button_classes" v-on:click="incrementDown()">-</div>
     </div>
   </div>
 </template>
@@ -25,6 +29,7 @@ export default {
   data() {
     return {
       count: 0,
+      increment: 1,
       button_classes: ["button", "button--center", "p-y-1", "font-size-10"],
     };
   },
@@ -34,15 +39,27 @@ export default {
         case 75:
         case 87:
         case 38:
-          this.count++;
+          this.countUp();
           break;
         case 74:
         case 83:
         case 40:
-          this.count--;
+          this.countDown();
           break;
       }
     },
+    countUp() {
+      this.count = this.count + this.increment;
+    },
+    countDown() {
+      this.count = this.count - this.increment;
+    },
+    incrementUp() {
+      this.increment++;
+    },
+    incrementDown() {
+      this.increment--;
+    }
   },
   mounted() {
     document.addEventListener("keydown", this.keyboardCounter);

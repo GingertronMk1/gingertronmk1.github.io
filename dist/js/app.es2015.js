@@ -679,6 +679,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -703,17 +707,42 @@ __webpack_require__.r(__webpack_exports__);
           break;
       }
     },
+    parseFloat: function (_parseFloat) {
+      function parseFloat(_x) {
+        return _parseFloat.apply(this, arguments);
+      }
+
+      parseFloat.toString = function () {
+        return _parseFloat.toString();
+      };
+
+      return parseFloat;
+    }(function (val) {
+      var new_val = parseFloat(val);
+
+      if (isNaN(new_val)) {
+        new_val = 0;
+      }
+
+      return new_val;
+    }),
     countUp: function countUp() {
-      this.count = parseFloat(parseFloat(this.count) + parseFloat(this.increment));
+      this.count = this.parseFloat(this.parseFloat(this.count) + this.parseFloat(this.increment));
     },
     countDown: function countDown() {
-      this.count = parseFloat(parseFloat(this.count) - parseFloat(this.increment));
+      this.count = this.parseFloat(this.parseFloat(this.count) - this.parseFloat(this.increment));
     },
     incrementUp: function incrementUp() {
       this.increment++;
     },
     incrementDown: function incrementDown() {
       this.increment--;
+    },
+    makeIncrementNumber: function makeIncrementNumber() {
+      this.increment = this.parseFloat(this.increment);
+    },
+    makeCounterNumber: function makeCounterNumber() {
+      this.counter = this.parseFloat(this.counter);
     }
   },
   mounted: function mounted() {
@@ -1476,9 +1505,12 @@ var render = function() {
           }
         ],
         staticClass: "m-y-3 font-size-5",
-        attrs: { type: "number", name: "counter" },
+        attrs: { type: "text", pattern: "\\d", name: "counter" },
         domProps: { value: _vm.count },
         on: {
+          change: function($event) {
+            return _vm.makeCounterNumber()
+          },
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -1528,9 +1560,12 @@ var render = function() {
           }
         ],
         staticClass: "m-y-3 font-size-5",
-        attrs: { type: "number", name: "counter" },
+        attrs: { type: "text", pattern: "\\d", name: "counter" },
         domProps: { value: _vm.increment },
         on: {
+          change: function($event) {
+            return _vm.makeIncrementNumber()
+          },
           input: function($event) {
             if ($event.target.composing) {
               return

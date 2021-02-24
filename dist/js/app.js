@@ -1057,6 +1057,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     //
     //
     //
+    //
+    //
+    //
+    //
 
     /* harmony default export */
 
@@ -1085,17 +1089,42 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               break;
           }
         },
+        parseFloat: function (_parseFloat) {
+          function parseFloat(_x) {
+            return _parseFloat.apply(this, arguments);
+          }
+
+          parseFloat.toString = function () {
+            return _parseFloat.toString();
+          };
+
+          return parseFloat;
+        }(function (val) {
+          var new_val = parseFloat(val);
+
+          if (isNaN(new_val)) {
+            new_val = 0;
+          }
+
+          return new_val;
+        }),
         countUp: function countUp() {
-          this.count = parseFloat(parseFloat(this.count) + parseFloat(this.increment));
+          this.count = this.parseFloat(this.parseFloat(this.count) + this.parseFloat(this.increment));
         },
         countDown: function countDown() {
-          this.count = parseFloat(parseFloat(this.count) - parseFloat(this.increment));
+          this.count = this.parseFloat(this.parseFloat(this.count) - this.parseFloat(this.increment));
         },
         incrementUp: function incrementUp() {
           this.increment++;
         },
         incrementDown: function incrementDown() {
           this.increment--;
+        },
+        makeIncrementNumber: function makeIncrementNumber() {
+          this.increment = this.parseFloat(this.increment);
+        },
+        makeCounterNumber: function makeCounterNumber() {
+          this.counter = this.parseFloat(this.counter);
         }
       },
       mounted: function mounted() {
@@ -1939,13 +1968,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }],
         staticClass: "m-y-3 font-size-5",
         attrs: {
-          type: "number",
+          type: "text",
+          pattern: "\\d",
           name: "counter"
         },
         domProps: {
           value: _vm.count
         },
         on: {
+          change: function change($event) {
+            return _vm.makeCounterNumber();
+          },
           input: function input($event) {
             if ($event.target.composing) {
               return;
@@ -1979,13 +2012,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }],
         staticClass: "m-y-3 font-size-5",
         attrs: {
-          type: "number",
+          type: "text",
+          pattern: "\\d",
           name: "counter"
         },
         domProps: {
           value: _vm.increment
         },
         on: {
+          change: function change($event) {
+            return _vm.makeIncrementNumber();
+          },
           input: function input($event) {
             if ($event.target.composing) {
               return;

@@ -1,7 +1,8 @@
 // HERO
 
 .hero {
-  min-height: 15vh;
+  min-height: 10rem;
+  max-height: 20rem;
   background-image: $standard-background;
   color: white;
   display: flex;

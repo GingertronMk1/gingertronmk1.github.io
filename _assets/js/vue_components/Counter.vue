@@ -4,10 +4,12 @@
       <h3>Counter</h3>
       <div :class="button_classes" v-on:click="countUp()">+{{ increment }}</div>
       <input
-        type="number"
+        type="text"
+        pattern="\d"
         name="counter"
         v-model="count"
         class="m-y-3 font-size-5"
+        v-on:change="makeCounterNumber()"
       />
       <div :class="button_classes" v-on:click="countDown()">-{{ increment }}</div>
     </div>
@@ -15,10 +17,12 @@
       <h3>Increment</h3>
       <div :class="button_classes" v-on:click="incrementUp()">+</div>
       <input
-        type="number"
+        type="text"
+        pattern="\d"
         name="counter"
         v-model="increment"
         class="m-y-3 font-size-5"
+        v-on:change="makeIncrementNumber()"
       />
       <div :class="button_classes" v-on:click="incrementDown()">-</div>
     </div>
@@ -48,18 +52,31 @@ export default {
           break;
       }
     },
+    parseFloat(val) {
+      let new_val = parseFloat(val);
+      if(isNaN(new_val)) {
+        new_val = 0;
+      }
+      return new_val;
+    },
     countUp() {
-      this.count = parseFloat(parseFloat(this.count) + parseFloat(this.increment));
+      this.count = this.parseFloat(this.parseFloat(this.count) + this.parseFloat(this.increment));
     },
     countDown() {
-      this.count = parseFloat(parseFloat(this.count) - parseFloat(this.increment));
+      this.count = this.parseFloat(this.parseFloat(this.count) - this.parseFloat(this.increment));
     },
     incrementUp() {
       this.increment++;
     },
     incrementDown() {
       this.increment--;
-    }
+    },
+    makeIncrementNumber() {
+      this.increment = this.parseFloat(this.increment);
+    },
+    makeCounterNumber() {
+      this.counter = this.parseFloat(this.counter);
+    },
   },
   mounted() {
     document.addEventListener("keydown", this.keyboardCounter);

@@ -2,6 +2,8 @@ div[class*=__wrapper] {
   width: 90%;
   max-width: 1280px;
   margin: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 @media print {
@@ -1708,5 +1710,16 @@ footer a:hover,
     width: 100%;
     margin-bottom: 1rem;
   }
+}
+
+.content--cvs {
+  background-color: #cccccc;
+}
+
+.content--cvs .content__wrapper {
+  background-color: #FFFFFF;
+  -webkit-box-shadow: 0 1rem 1rem #202020;
+     -moz-box-shadow: 0 1rem 1rem #202020;
+          box-shadow: 0 1rem 1rem #202020;
 }
 

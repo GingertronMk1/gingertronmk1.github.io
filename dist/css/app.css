@@ -1138,6 +1138,7 @@ footer__div,
      -moz-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
+  font-size: 1.6rem;
 }
 
 footer__div--left,
@@ -1215,10 +1216,16 @@ footer a:hover,
         -ms-flex-pack: center;
             justify-content: center;
   }
+
+  footer__div--right,
+  .footer__div--right {
+    margin-top: 1rem;
+  }
 }
 
 .hero {
-  min-height: 15vh;
+  min-height: 10rem;
+  max-height: 20rem;
   background-image: -webkit-gradient(linear, left top, right bottom, from(#ff7c37), to(#ff6818));
   background-image: -webkit-linear-gradient(top left, #ff7c37, #ff6818);
   background-image: -moz-linear-gradient(top left, #ff7c37, #ff6818);

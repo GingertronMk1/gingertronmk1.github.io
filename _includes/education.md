@@ -1,14 +1,10 @@
 # Education
+{% for education in site.data.education %}
 
-### 2015-2019: University of Nottingham, MSci Computer Science, 2:1
-Modules including:
+### {{ education.from }}-{{ education.to }}: {{ education.school }}, {{ education.qualification }}
 
-- C++ Programming (77%)
-- Fundamentals of Information Visualisation (83%)
-- Software Engineering Group Project (90%)
-- Individual Programming Project (70%)
+{% for part in education.parts %}
+- {{ part.part }}: {{ part.grade }}
+{% endfor %}
 
-### 2013-2015: Beverley Joint 6th Form, A-Levels
-- Maths A
-- Physics B
-- Chemistry B
+{% endfor %}

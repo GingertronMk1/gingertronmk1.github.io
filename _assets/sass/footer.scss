@@ -10,6 +10,7 @@ footer,
     flex: 1;
     display: flex;
     align-items: flex-end;
+    font-size: 1.6rem;
 
     &--left {
       order: -1;
@@ -50,6 +51,10 @@ footer,
       width: 100%;
       text-align: center;
       justify-content: center;
+
+      &--right {
+        margin-top: 1rem;
+      }
     }
   }
 }

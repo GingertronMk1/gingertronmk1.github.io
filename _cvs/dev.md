@@ -1,5 +1,39 @@
 ---
 title: Developer CV
+
+jobs:
+    - org: We Are Sweet
+      title: Developer
+      from: July 2020
+      to: Present
+      description: |
+        Responsible for the maintenance, support, and feature adding of major PHP projects, including a building management web application and an elderly care provider system. Within these projects I have worked specifically on back-end improvements, including a bulk import system, an SMS-based job signoff system, and a document publishing scheduler.
+
+        Alongside these development roles I am also responsible for the curation of social media posts within the company as "Social Media Champion".
+
+    - org: Fifteen Design
+      title: Back-End Developer
+      from: October 2019
+      to: March 2020
+      description: |
+        Responsible for the development and maintenance of a number of php-based websites, built using WordPress, Laravel, and Symfony.
+
+        Initially responsible for the creation of a brochure site for Birch Bedrooms, taking a design from a series of InVision drawings and converting them into a full responsive Wordpress site, liaising with the designer about any issues or inconsistencies that I noticed during the process.
+
+        Also tasked with updating the website for Birmingham Metropolitan College with new features to add to their application system - this website made heavy use of custom Wordpress plugins for which there was no real documentation, as well as a bridge API to pass data back and forth to their custom student/course management system, Unit-e.
+
+        Finally engaged in client-facing support work, handling tickets using Freshdesk and communicating directly with clients regarding the status of their work.
+
+    - org: Imaginaire Digital
+      title: Web Developer
+      from: August 2019
+      to: September 2019
+      description: |
+        Responsible for the development of a client website using Wordpress and a custom theme, as well as an internal dashboard system built in Laravel and Laravel Nova.
+        Additional to this I was involved in creating automation scripts for easier creation of development environments.
+
+
+
 ---
 
 # Table of Contents
@@ -9,6 +43,7 @@ title: Developer CV
 - [Technical Skills/Projects](#technical-skillsprojects)
 - [Additional Experience and Extracurriculars](#additional-experience-and-extracurriculars)
 
+------
 
 # Profile
 I am a Computer Science graduate with a 2:1 MSci.
@@ -16,32 +51,21 @@ I have excellent communication and administrative skills developed from being a 
 I am a strong worker under pressure, able to quickly make decisions based on information available to me, and I have a good ability to convert someone's request into a more technical format, whatever that format might be.
 I am also a strong collaborator within a team, and am always keen to share any experience, tips, or tricks with those who need or want them in order for the team I am a part of to be as strong as it can be.
 
-{% include education.md %}
-
+------
 
 # Previous Employment
 
-### July 2020 - Present: We Are Sweet, Developer
+{% for job in page.jobs %}
+### {{job.from}} - {{ job.to }}: {{ job.org }}, {{ job.title }}
 
-In this role I am responsible for the maintenance and upgrading of a large ticketing system built in Yii2.
-My first major task in this project was to create a bulk importer with which a user could upload a spreadsheet of data and map columns to attributes of a number of different types of models within the system, and those models would then be saved into the database.
+{{ job.description}}
+{% endfor %}
 
+------
 
-### Oct 2019 - March 2020: Fifteen, Back-End Developer
+{% include education.md %}
 
-Here I was responsible for the development and maintenance of a number of php-based websites, built using WordPress, Laravel, and Symfony.
-
-I was initially tasked with the creation of a brochure site for Birch Bedrooms, taking a design from a series of InVision drawings and converting them into a full responsive Wordpress site, liaising with the designer about any issues or inconsistencies that I noticed during the process.
-
-I was also tasked with updating the website for Birmingham Metropolitan College with new features to add to their application system - this website made heavy use of custom Wordpress plugins for which there was no real documentation, as well as a bridge API to pass data back and forth to their custom student/course management system, Unit-e.
-
-### Aug-Sep 2019: Imaginaire Digital, Web Developer
-
-I undertook an internship at Imaginaire Digital, a web design and marketing firm, for a month.
-In this time I worked primarily as a WordPress developer, modifying an in-house custom theme for a client website. I also worked on an internal dashboard application using Laravel and Laravel Nova.
-
-In addition to the development roles I aided in a DevOps capacity, advancing the firm's workflow by way of helping design bash scripts to automatically instantiate and set up virtual machines for development purposes.
-
+------
 
 # Technical Skills/Projects
 
@@ -80,6 +104,8 @@ The code and documentation can be found [here](https://github.com/GingertronMk1/
 
 In addition to the projects I worked on as part of my degree I am also a contributor to the Nottingham New Theatre History Project, in a predominantly data entry role.
 As well as this I created a website designed to show statistics and information about the links between actors at the Nottingham New Theatre, using JavaScript and the d3 library, available [here](/nnt_stats/main/), with the code available [here](https://github.com/GingertronMk1/gingertronmk1.github.io/tree/master/nnt_stats).
+
+------
 
 # Additional Experience and Extracurriculars
 

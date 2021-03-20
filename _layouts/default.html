@@ -13,7 +13,7 @@
     {% endunless %}
     {% endif %}
 
-    <div id="content" class="content">
+    <div id="content" class="content {{ layout.extra_classes }} {{ page.extra_classes }}">
       {{ content }}
     </div>
 

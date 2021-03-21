@@ -34,7 +34,12 @@ export default {
     return {
       count: 0,
       increment: 1,
-      button_classes: ["button", "button--center", "p-y-1", "font-size-10"],
+      button_classes: [
+        "button",
+        "button--center",
+        "p-y-1",
+        "font-size-10"
+      ],
     };
   },
   methods: {

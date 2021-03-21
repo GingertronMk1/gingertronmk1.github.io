@@ -26,9 +26,7 @@ jobs:
           npm run production
       - name: Push conditionally
         run: |
-          DIFF=$(git diff-index --exit-code HEAD)
-          echo "$DIFF"
-          if [ -n "$DIFF" ]; then
+          if [ -n "$(git diff-index --exit-code HEAD)" ]; then
             git config user.name github-actions
             git config user.email github-actions@github.com
             git add .

@@ -1505,7 +1505,7 @@ var render = function() {
             expression: "count"
           }
         ],
-        class: _vm.button_classes,
+        class: _vm.input_classes,
         attrs: { type: "text", pattern: "\\d", name: "counter" },
         domProps: { value: _vm.count },
         on: {
@@ -1524,7 +1524,7 @@ var render = function() {
       _c(
         "div",
         {
-          class: _vm.input_classes,
+          class: _vm.button_classes,
           on: {
             click: function($event) {
               return _vm.countDown()

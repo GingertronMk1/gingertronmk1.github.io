@@ -8,10 +8,10 @@
         pattern="\d"
         name="counter"
         v-model="count"
-        :class="button_classes"
+        :class="input_classes"
         v-on:change="makeCounterNumber()"
       />
-      <div :class="input_classes" v-on:click="countDown()">-{{ increment }}</div>
+      <div :class="button_classes" v-on:click="countDown()">-{{ increment }}</div>
     </div>
     <div class="counter__increment">
       <h3>Increment</h3>

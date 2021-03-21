@@ -1967,7 +1967,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           value: _vm.count,
           expression: "count"
         }],
-        "class": _vm.button_classes,
+        "class": _vm.input_classes,
         attrs: {
           type: "text",
           pattern: "\\d",
@@ -1989,7 +1989,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           }
         }
       }), _vm._v(" "), _c("div", {
-        "class": _vm.input_classes,
+        "class": _vm.button_classes,
         on: {
           click: function click($event) {
             return _vm.countDown();

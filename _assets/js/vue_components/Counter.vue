@@ -11,7 +11,7 @@
         :class="button_classes"
         v-on:change="makeCounterNumber()"
       />
-      <div :class="button_classes" v-on:click="countDown()">-{{ increment }}</div>
+      <div :class="input_classes" v-on:click="countDown()">-{{ increment }}</div>
     </div>
     <div class="counter__increment">
       <h3>Increment</h3>
@@ -21,7 +21,7 @@
         pattern="\d"
         name="counter"
         v-model="increment"
-        :class="button_classes"
+        :class="input_classes"
         v-on:change="makeIncrementNumber()"
       />
       <div :class="button_classes" v-on:click="incrementDown()">-</div>

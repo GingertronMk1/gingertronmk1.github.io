@@ -8,7 +8,7 @@
         pattern="\d"
         name="counter"
         v-model="count"
-        class="m-y-3 font-size-5"
+        :class="button_classes"
         v-on:change="makeCounterNumber()"
       />
       <div :class="button_classes" v-on:click="countDown()">-{{ increment }}</div>
@@ -21,7 +21,7 @@
         pattern="\d"
         name="counter"
         v-model="increment"
-        class="m-y-3 font-size-5"
+        :class="button_classes"
         v-on:change="makeIncrementNumber()"
       />
       <div :class="button_classes" v-on:click="incrementDown()">-</div>
@@ -35,6 +35,7 @@ export default {
       count: 0,
       increment: 1,
       button_classes: ["button", "button--center", "p-y-1", "font-size-10"],
+      input_classes: ["m-y-3", "font-size-5"]
     };
   },
   methods: {

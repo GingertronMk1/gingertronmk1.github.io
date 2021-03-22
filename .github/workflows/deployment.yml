@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
           git checkout live
-          git merge -X theirs master
+          git merge -X theirs master --allow-unrelated-histories
           git push origin live
 
 

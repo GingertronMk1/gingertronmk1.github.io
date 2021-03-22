@@ -6,7 +6,7 @@ name: Deployment
 # events but only for the master branch
 on:
   push:
-    branches: [ live ]
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -17,9 +17,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      # Runs a set of commands using the runners shell
+      - name: Fetch origin
+        shell: bash
+        run: git fetch origin
       - name: NPM install and run production
         shell: bash
         run: |
@@ -33,6 +34,12 @@ jobs:
             git config user.email github-actions@github.com
             git add .
             git commit -m "Production assets"
-            git push
           fi
+      - name: Checkout to `live` and push
+        shell: bash
+        run: |
+          git checkout live
+          git merge -X theirs master --allow-unrelated-histories
+          git push origin live
+
 

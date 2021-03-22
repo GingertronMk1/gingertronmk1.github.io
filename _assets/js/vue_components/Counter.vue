@@ -12,6 +12,7 @@
         v-on:change="makeCounterNumber()"
       />
       <div :class="button_classes" v-on:click="countDown()">-{{ increment }}</div>
+      <div :class="reset_classes" v-on:click="resetCounter()">RC</div>
     </div>
     <div class="counter__increment">
       <h3>Increment</h3>
@@ -25,6 +26,7 @@
         v-on:change="makeIncrementNumber()"
       />
       <div :class="button_classes" v-on:click="incrementDown()">-</div>
+      <div :class="reset_classes" v-on:click="resetIncrement()">RI</div>
     </div>
   </div>
 </template>
@@ -35,6 +37,7 @@ export default {
       count: 0,
       increment: 1,
       button_classes: ["button", "button--center", "p-y-1", "font-size-10"],
+      reset_classes: ["button", "button--center", "p-y-1", "m-t-2", "font-size-5"],
       input_classes: ["m-y-3", "font-size-5"]
     };
   },
@@ -76,7 +79,13 @@ export default {
       this.increment = this.parseFloat(this.increment);
     },
     makeCounterNumber() {
-      this.counter = this.parseFloat(this.counter);
+      this.count = this.parseFloat(this.count);
+    },
+    resetCounter() {
+      this.count = 0;
+    },
+    resetIncrement() {
+      this.increment = 1;
     },
   },
   mounted() {

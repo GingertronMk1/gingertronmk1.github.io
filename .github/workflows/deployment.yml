@@ -38,8 +38,9 @@ jobs:
       - name: Checkout to `live` and push
         shell: bash
         run: |
-          git checkout origin live
+          git checkout live
+          git merge origin/live
           git merge -X theirs master
-          git push
+          git push origin live
 
 

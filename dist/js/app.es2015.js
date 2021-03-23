@@ -685,6 +685,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1540,7 +1542,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v("-" + _vm._s(_vm.increment))]
+        [_vm._v("\n      -" + _vm._s(_vm.increment) + "\n    ")]
       ),
       _vm._v(" "),
       _c(

@@ -19,7 +19,9 @@
         v-model="input_text"
         :class="input_class"
       ></textarea>
-      <button class="p-2" v-on:click="toggleFloat()">Toggle Floating Editor</button>
+      <button class="p-2" v-on:click="toggleFloat()">
+        Toggle Floating Editor
+      </button>
     </div>
     <div class="risky-texts__display" id="all-texts-div">
       <div v-for="text in texts" v-bind:key="text" :class="text.messageClasses">
@@ -41,64 +43,64 @@ time: Grey bolded text at the center of the screen
 
 And this text won't be shown at all!
 `,
-      input_class: "",
+      input_class: '',
     };
   },
   methods: {
     toggleFloat() {
-      if(this.input_class === null) {
-        this.input_class = "floating";
+      if (this.input_class === null) {
+        this.input_class = 'floating';
       } else {
         this.input_class = null;
       }
-    }
+    },
   },
   computed: {
     texts: function() {
       const regex = /(.+?)(: *?)([\s\S]+)/;
-      let texts = this.input_text.split("\n\n");
+      const texts = this.input_text.split('\n\n');
       // console.log(texts);
-      let lastPerson = "";
+      let lastPerson = '';
 
-      let all_texts = [];
+      const allTexts = [];
 
       texts.forEach(function(text) {
         // console.log(text);
-        const split_text = text.split(regex);
-        let person = split_text[1];
-        let message = split_text[3];
+        const splitText = text.split(regex);
+        let person = splitText[1];
+        let message = splitText[3];
         if (!(person && message)) {
           return false;
         }
         // console.log(person, message);
         person = person.trim();
         message = message.trim();
-        let textClasses = ["text"];
-        let messageClasses = ["message"];
+        const textClasses = ['text'];
+        const messageClasses = ['message'];
 
         if (lastPerson !== person) {
-          textClasses.push("text--chain-top");
-          messageClasses.push("message--chain-top");
+          textClasses.push('text--chain-top');
+          messageClasses.push('message--chain-top');
         }
 
         switch (person.toLowerCase()) {
-          case "me":
-            textClasses.push("text--me");
-            messageClasses.push("message--me");
+          case 'me':
+            textClasses.push('text--me');
+            messageClasses.push('message--me');
             break;
-          case "them":
-            textClasses.push("text--them");
-            messageClasses.push("message--them");
+          case 'them':
+            textClasses.push('text--them');
+            messageClasses.push('message--them');
             break;
-          case "time":
-            textClasses.push("text--time");
-            messageClasses.push("message--time");
+          case 'time':
+            textClasses.push('text--time');
+            messageClasses.push('message--time');
             break;
           default:
             break;
         }
 
-        all_texts.push({
+        allTexts.push({
           textClasses: textClasses,
           messageClasses: messageClasses,
           message: message,
@@ -107,7 +109,7 @@ And this text won't be shown at all!
         lastPerson = person;
       });
 
-      return all_texts;
+      return allTexts;
     },
   },
   mounted() {

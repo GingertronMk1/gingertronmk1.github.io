@@ -1,4 +1,4 @@
-name: Auto-Label
+name: Lint
 
 on:
   pull_request: 

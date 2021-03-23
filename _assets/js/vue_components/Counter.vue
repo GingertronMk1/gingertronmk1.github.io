@@ -11,7 +11,9 @@
         :class="input_classes"
         v-on:change="makeCounterNumber()"
       />
-      <div :class="button_classes" v-on:click="countDown()">-{{ increment }}</div>
+      <div :class="button_classes" v-on:click="countDown()">
+        -{{ increment }}
+      </div>
       <div :class="reset_classes" v-on:click="resetCounter()">RC</div>
     </div>
     <div class="counter__increment">
@@ -37,8 +39,14 @@ export default {
       count: 0,
       increment: 1,
       button_classes: ["button", "button--center", "p-y-1", "font-size-10"],
-      reset_classes: ["button", "button--center", "p-y-1", "m-t-2", "font-size-5"],
-      input_classes: ["m-y-3", "font-size-5"]
+      reset_classes: [
+        "button",
+        "button--center",
+        "p-y-1",
+        "m-t-2",
+        "font-size-5",
+      ],
+      input_classes: ["m-y-3", "font-size-5"],
     };
   },
   methods: {
@@ -58,16 +66,20 @@ export default {
     },
     parseFloat(val) {
       let new_val = parseFloat(val);
-      if(isNaN(new_val)) {
+      if (isNaN(new_val)) {
         new_val = 0;
       }
       return new_val;
     },
     countUp() {
-      this.count = this.parseFloat(this.parseFloat(this.count) + this.parseFloat(this.increment));
+      this.count = this.parseFloat(
+        this.parseFloat(this.count) + this.parseFloat(this.increment)
+      );
     },
     countDown() {
-      this.count = this.parseFloat(this.parseFloat(this.count) - this.parseFloat(this.increment));
+      this.count = this.parseFloat(
+        this.parseFloat(this.count) - this.parseFloat(this.increment)
+      );
     },
     incrementUp() {
       this.increment++;

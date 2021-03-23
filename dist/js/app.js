@@ -1063,6 +1063,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     //
     //
     //
+    //
+    //
 
     /* harmony default export */
 
@@ -2004,7 +2006,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             return _vm.countDown();
           }
         }
-      }, [_vm._v("-" + _vm._s(_vm.increment))]), _vm._v(" "), _c("div", {
+      }, [_vm._v("\n      -" + _vm._s(_vm.increment) + "\n    ")]), _vm._v(" "), _c("div", {
         "class": _vm.reset_classes,
         on: {
           click: function click($event) {

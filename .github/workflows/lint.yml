@@ -1,0 +1,14 @@
+name: Auto-Label
+
+on:
+  pull_request: master
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Lint
+        shell: bash
+        run: npm run lint

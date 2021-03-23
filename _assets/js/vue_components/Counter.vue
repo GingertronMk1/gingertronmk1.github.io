@@ -38,15 +38,15 @@ export default {
     return {
       count: 0,
       increment: 1,
-      button_classes: ["button", "button--center", "p-y-1", "font-size-10"],
+      button_classes: ['button', 'button--center', 'p-y-1', 'font-size-10'],
       reset_classes: [
-        "button",
-        "button--center",
-        "p-y-1",
-        "m-t-2",
-        "font-size-5",
+        'button',
+        'button--center',
+        'p-y-1',
+        'm-t-2',
+        'font-size-5',
       ],
-      input_classes: ["m-y-3", "font-size-5"],
+      input_classes: ['m-y-3', 'font-size-5'],
     };
   },
   methods: {
@@ -65,20 +65,20 @@ export default {
       }
     },
     parseFloat(val) {
-      let new_val = parseFloat(val);
-      if (isNaN(new_val)) {
-        new_val = 0;
+      let newVal = parseFloat(val);
+      if (isNaN(newVal)) {
+        newVal = 0;
       }
-      return new_val;
+      return newVal;
     },
     countUp() {
       this.count = this.parseFloat(
-        this.parseFloat(this.count) + this.parseFloat(this.increment)
+          this.parseFloat(this.count) + this.parseFloat(this.increment),
       );
     },
     countDown() {
       this.count = this.parseFloat(
-        this.parseFloat(this.count) - this.parseFloat(this.increment)
+          this.parseFloat(this.count) - this.parseFloat(this.increment),
       );
     },
     incrementUp() {
@@ -101,7 +101,7 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener("keydown", this.keyboardCounter);
+    document.addEventListener('keydown', this.keyboardCounter);
   },
 };
 </script>

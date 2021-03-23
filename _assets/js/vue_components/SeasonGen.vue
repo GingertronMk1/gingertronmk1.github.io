@@ -30,53 +30,52 @@ export default {
       shows_slots: [
         {
           id: 0,
-          show: "Show 1",
-          slots: "1,2",
+          show: 'Show 1',
+          slots: '1,2',
         },
         {
           id: 1,
-          show: "Show 2",
-          slots: "3",
+          show: 'Show 2',
+          slots: '3',
         },
         {
           id: 2,
-          show: "Show 3",
-          slots: "4,5",
+          show: 'Show 3',
+          slots: '4,5',
         },
         {
           id: 3,
-          show: "Show 4",
-          slots: "1,3,5",
+          show: 'Show 4',
+          slots: '1,3,5',
         },
         {
           id: 4,
-          show: "Show 5",
-          slots: "2,4",
+          show: 'Show 5',
+          slots: '2,4',
         },
       ],
     };
   },
   methods: {
     recurse_generate(object, keys, index) {
-      //console.log("index:", index, "keys:", keys);
       if (index + 1 < keys.length) {
         const after = this.recurse_generate(object, keys, index + 1);
         const oki = object[keys[index]];
-        let n = [];
+        const n = [];
 
-        for (let _perm in after) {
-          let perm = after[_perm]; // One option for after this slot
-          for (let _slot in oki) {
-            try {
-              let slot = oki[_slot]; // The current show for this slot
-              let perm2 = perm.slice(0);
-              // console.log(perm2, slot);
-              if (perm2.indexOf(slot) == -1) {
-                perm2.push(slot);
-                n.push(perm2);
+        for (const _perm in after) {
+          if (after[_perm]) {
+            const perm = after[_perm]; // One option for after this slot
+            for (const _slot in oki) {
+              if (oki[_slot] && perm.slice(0)) {
+                const slot = oki[_slot]; // The current show for this slot
+                const perm2 = perm.slice(0);
+                // console.log(perm2, slot);
+                if (perm2.indexOf(slot) == -1) {
+                  perm2.push(slot);
+                  n.push(perm2);
+                }
               }
-            } catch (e) {
-              console.error(e);
             }
           }
         }
@@ -88,15 +87,15 @@ export default {
   },
   computed: {
     permutations: function() {
-      let preferences = [];
+      const preferences = [];
 
-      this.shows_slots.forEach((show_slots) => {
-        const showname = show_slots.show;
-        const slots = show_slots.slots.split(",");
-        if (slots != "" && showname != "") {
+      this.shows_slots.forEach((showSlots) => {
+        const showname = showSlots.show;
+        const slots = showSlots.slots.split(',');
+        if (slots != '' && showname != '') {
           slots.forEach((slot) => {
             slot = slot.trim();
-            if (slot !== "") {
+            if (slot !== '') {
               if (!preferences[slot]) {
                 preferences[slot] = [showname];
               } else {

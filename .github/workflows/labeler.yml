@@ -11,5 +11,5 @@ jobs:
       - name: Pull Request Labeller
         uses: GingertronMk1/pull-request-labeler@v3
         with:
-          configuration-path: '.github/labelconfig.yml'
+          configuration-path: ".github/labelconfig.yml"
           repo-token: "${{ secrets.GITHUB_TOKEN }}"

@@ -1,8 +1,6 @@
 name: Auto-Label
 
-on:
-  pull_request:
-    branches: [ live ]
+on: pull_request
 
 jobs:
   label:

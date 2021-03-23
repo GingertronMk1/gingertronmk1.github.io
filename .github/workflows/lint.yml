@@ -1,7 +1,8 @@
 name: Auto-Label
 
 on:
-  pull_request: master
+  pull_request: 
+    branches: master
 
 jobs:
   label:

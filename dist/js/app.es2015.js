@@ -692,9 +692,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       count: 0,
       increment: 1,
-      button_classes: ["button", "button--center", "p-y-1", "font-size-10"],
-      reset_classes: ["button", "button--center", "p-y-1", "m-t-2", "font-size-5"],
-      input_classes: ["m-y-3", "font-size-5"]
+      button_classes: ['button', 'button--center', 'p-y-1', 'font-size-10'],
+      reset_classes: ['button', 'button--center', 'p-y-1', 'm-t-2', 'font-size-5'],
+      input_classes: ['m-y-3', 'font-size-5']
     };
   },
   methods: {
@@ -724,13 +724,13 @@ __webpack_require__.r(__webpack_exports__);
 
       return parseFloat;
     }(function (val) {
-      var new_val = parseFloat(val);
+      var newVal = parseFloat(val);
 
-      if (isNaN(new_val)) {
-        new_val = 0;
+      if (isNaN(newVal)) {
+        newVal = 0;
       }
 
-      return new_val;
+      return newVal;
     }),
     countUp: function countUp() {
       this.count = this.parseFloat(this.parseFloat(this.count) + this.parseFloat(this.increment));
@@ -758,7 +758,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    document.addEventListener("keydown", this.keyboardCounter);
+    document.addEventListener('keydown', this.keyboardCounter);
   }
 });
 
@@ -803,50 +803,49 @@ __webpack_require__.r(__webpack_exports__);
     return {
       shows_slots: [{
         id: 0,
-        show: "Show 1",
-        slots: "1,2"
+        show: 'Show 1',
+        slots: '1,2'
       }, {
         id: 1,
-        show: "Show 2",
-        slots: "3"
+        show: 'Show 2',
+        slots: '3'
       }, {
         id: 2,
-        show: "Show 3",
-        slots: "4,5"
+        show: 'Show 3',
+        slots: '4,5'
       }, {
         id: 3,
-        show: "Show 4",
-        slots: "1,3,5"
+        show: 'Show 4',
+        slots: '1,3,5'
       }, {
         id: 4,
-        show: "Show 5",
-        slots: "2,4"
+        show: 'Show 5',
+        slots: '2,4'
       }]
     };
   },
   methods: {
     recurse_generate: function recurse_generate(object, keys, index) {
-      //console.log("index:", index, "keys:", keys);
       if (index + 1 < keys.length) {
         var after = this.recurse_generate(object, keys, index + 1);
         var oki = object[keys[index]];
         var n = [];
 
         for (var _perm in after) {
-          var perm = after[_perm]; // One option for after this slot
+          if (after[_perm]) {
+            var perm = after[_perm]; // One option for after this slot
 
-          for (var _slot in oki) {
-            try {
-              var slot = oki[_slot]; // The current show for this slot
+            for (var _slot in oki) {
+              if (oki[_slot] && perm.slice(0)) {
+                var slot = oki[_slot]; // The current show for this slot
 
-              var perm2 = perm.slice(0); // console.log(perm2, slot);
+                var perm2 = perm.slice(0); // console.log(perm2, slot);
 
-              if (perm2.indexOf(slot) == -1) {
-                perm2.push(slot);
-                n.push(perm2);
+                if (perm2.indexOf(slot) == -1) {
+                  perm2.push(slot);
+                  n.push(perm2);
+                }
               }
-            } catch (e) {
-              console.error(e);
             }
           }
         }
@@ -862,15 +861,15 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     permutations: function permutations() {
       var preferences = [];
-      this.shows_slots.forEach(function (show_slots) {
-        var showname = show_slots.show;
-        var slots = show_slots.slots.split(",");
+      this.shows_slots.forEach(function (showSlots) {
+        var showname = showSlots.show;
+        var slots = showSlots.slots.split(',');
 
-        if (slots != "" && showname != "") {
+        if (slots != '' && showname != '') {
           slots.forEach(function (slot) {
             slot = slot.trim();
 
-            if (slot !== "") {
+            if (slot !== '') {
               if (!preferences[slot]) {
                 preferences[slot] = [showname];
               } else {
@@ -926,17 +925,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       input_text: "\nme: A blue message on the right of the screen\n\nthem: A grey message on the left of the screen\n\ntime: Grey bolded text at the center of the screen\n\nAnd this text won't be shown at all!\n",
-      input_class: ""
+      input_class: ''
     };
   },
   methods: {
     toggleFloat: function toggleFloat() {
       if (this.input_class === null) {
-        this.input_class = "floating";
+        this.input_class = 'floating';
       } else {
         this.input_class = null;
       }
@@ -945,15 +946,15 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     texts: function texts() {
       var regex = /(.+?)(: *?)([\s\S]+)/;
-      var texts = this.input_text.split("\n\n"); // console.log(texts);
+      var texts = this.input_text.split('\n\n'); // console.log(texts);
 
-      var lastPerson = "";
-      var all_texts = [];
+      var lastPerson = '';
+      var allTexts = [];
       texts.forEach(function (text) {
         // console.log(text);
-        var split_text = text.split(regex);
-        var person = split_text[1];
-        var message = split_text[3];
+        var splitText = text.split(regex);
+        var person = splitText[1];
+        var message = splitText[3];
 
         if (!(person && message)) {
           return false;
@@ -962,42 +963,42 @@ __webpack_require__.r(__webpack_exports__);
 
         person = person.trim();
         message = message.trim();
-        var textClasses = ["text"];
-        var messageClasses = ["message"];
+        var textClasses = ['text'];
+        var messageClasses = ['message'];
 
         if (lastPerson !== person) {
-          textClasses.push("text--chain-top");
-          messageClasses.push("message--chain-top");
+          textClasses.push('text--chain-top');
+          messageClasses.push('message--chain-top');
         }
 
         switch (person.toLowerCase()) {
-          case "me":
-            textClasses.push("text--me");
-            messageClasses.push("message--me");
+          case 'me':
+            textClasses.push('text--me');
+            messageClasses.push('message--me');
             break;
 
-          case "them":
-            textClasses.push("text--them");
-            messageClasses.push("message--them");
+          case 'them':
+            textClasses.push('text--them');
+            messageClasses.push('message--them');
             break;
 
-          case "time":
-            textClasses.push("text--time");
-            messageClasses.push("message--time");
+          case 'time':
+            textClasses.push('text--time');
+            messageClasses.push('message--time');
             break;
 
           default:
             break;
         }
 
-        all_texts.push({
+        allTexts.push({
           textClasses: textClasses,
           messageClasses: messageClasses,
           message: message
         });
         lastPerson = person;
       });
-      return all_texts;
+      return allTexts;
     }
   },
   mounted: function mounted() {
@@ -1795,7 +1796,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Toggle Floating Editor")]
+          [_vm._v("\n      Toggle Floating Editor\n    ")]
         )
       ]),
       _vm._v(" "),

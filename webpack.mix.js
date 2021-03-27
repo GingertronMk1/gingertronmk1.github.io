@@ -16,12 +16,10 @@ const mix = require("laravel-mix");
  | ]
  */
 
-mix.js(         // Horrible workaround
-    "_assets/js/*.js",
-    "dist/js/app.es2015.js"
-).babel(
-    "dist/js/app.es2015.js",
-    "dist/js/app.js"
-);
+const es2015 = "dist/js/app.es2015.js";
+
+mix
+.js("_assets/js/*.js", es2015)      // nasty horrible workaround
+.babel(es2015, "dist/js/app.js");
 
 mix.sass("_assets/sass/style.scss", "dist/css/app.css");

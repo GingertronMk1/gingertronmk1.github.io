@@ -17,7 +17,10 @@
 
     <span v-if="permutations.length">
       <ol v-for="(permutation, index) in permutations" v-bind:key="index">
-        <li v-for="(show, index) in permutation" v-bind:key="index" v-text="show"></li>
+        <li v-for="(show, index) in permutation"
+            v-bind:key="index"
+            v-text="show">
+        </li>
       </ol>
     </span>
     <h2 v-else>No valid seasons exist</h2>

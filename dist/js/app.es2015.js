@@ -1822,7 +1822,9 @@ var render = function() {
               _vm._v(" "),
               _vm._l(group, function(val, attr) {
                 return _c("label", { key: attr }, [
-                  _vm._v("\n        " + _vm._s(attr) + "\n        "),
+                  _vm._v(
+                    "\n        " + _vm._s(attr.toUpperCase()) + "\n        "
+                  ),
                   _c("input", {
                     directives: [
                       {

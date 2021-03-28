@@ -2329,7 +2329,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }, [_c("h3", [_vm._v(_vm._s(name.toUpperCase()))]), _vm._v(" "), _vm._l(group, function (val, attr) {
           return _c("label", {
             key: attr
-          }, [_vm._v("\n        " + _vm._s(attr) + "\n        "), _c("input", {
+          }, [_vm._v("\n        " + _vm._s(attr.toUpperCase()) + "\n        "), _c("input", {
             directives: [{
               name: "model",
               rawName: "v-model",

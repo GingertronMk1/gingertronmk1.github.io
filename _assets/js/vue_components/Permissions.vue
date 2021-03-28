@@ -4,7 +4,7 @@
       <div class="permissions__col" v-for="(group, name) in groups" :key="name">
         <h3>{{ name.toUpperCase() }}</h3>
         <label v-for="(val, attr) in group" :key="attr">
-          {{ attr }}
+          {{ attr.toUpperCase() }}
           <input type="checkbox" v-model="group[attr]" />
         </label>
 

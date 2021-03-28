@@ -1258,22 +1258,23 @@ footer a:hover,
   margin: auto 0;
 }
 
-/*
+.fiftyfifty {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+     -moz-box-orient: vertical;
+     -moz-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+}
 
-<div class="left-right">
-  <div class="left-right__inner">
-    <div class="left-right__left">
-      <div class="left-right__content"></div>
-    </div>
-    <div class="left-right__right">
-      <div class="left-right__content"></div>
-    </div>
-  </div>
-</div>
-
- */
-
-.left-right__inner {
+.fiftyfifty__row {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -1286,14 +1287,15 @@ footer a:hover,
      -moz-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  background-position: center;
-  -moz-background-size: cover;
-    -o-background-size: cover;
-       background-size: cover;
-  background-repeat: no-repeat;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+     -moz-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 30rem;
 }
 
-.left-right__inner:nth-child(even) {
+.fiftyfifty__row:nth-of-type(2n) {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
   -webkit-flex-direction: row-reverse;
@@ -1303,75 +1305,51 @@ footer a:hover,
           flex-direction: row-reverse;
 }
 
-.left-right__left,
-.left-right__right {
+@media (max-width: 768px) {
+  .fiftyfifty__row {
+    display: column;
+  }
+}
+
+.fiftyfifty__image,
+.fiftyfifty__text {
+  max-width: 50%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+     -moz-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.fiftyfifty__image {
+  background-position: top center;
+  -moz-background-size: cover;
+    -o-background-size: cover;
+       background-size: cover;
+}
+
+.fiftyfifty__text {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  width: 50%;
-  -webkit-align-content: center;
-      -ms-flex-line-pack: center;
-          align-content: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-     -moz-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+     -moz-box-orient: horizontal;
+     -moz-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+     -moz-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.left-right__content {
-  width: 60%;
-  margin: 3rem auto;
-  background-color: rgba(255, 255, 255, 0.7);
+.fiftyfifty__text-inner {
   padding: 1rem;
-}
-
-.left-right__left {
-  -webkit-box-ordinal-group: 0;
-  -webkit-order: -1;
-     -moz-box-ordinal-group: 0;
-      -ms-flex-order: -1;
-          order: -1;
-  background-color: red;
-}
-
-.left-right__right {
-  -webkit-box-ordinal-group: 2;
-  -webkit-order: 1;
-     -moz-box-ordinal-group: 2;
-      -ms-flex-order: 1;
-          order: 1;
-  background-color: green;
-}
-
-@media (max-width: 768px) {
-  .left-right__inner {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-    -webkit-flex-direction: column-reverse;
-       -moz-box-orient: vertical;
-       -moz-box-direction: reverse;
-        -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse;
-  }
-
-  .left-right__inner:nth-child(even) {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-    -webkit-flex-direction: column-reverse;
-       -moz-box-orient: vertical;
-       -moz-box-direction: reverse;
-        -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse;
-  }
-
-  .left-right__left,
-  .left-right__right {
-    width: 100%;
-    min-height: 10rem;
-  }
 }
 
 .button {

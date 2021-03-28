@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint _assets/js/**/*",
+    "fix": "eslint --fix _assets/js/**/*",
+    "fix-dry": "eslint --fix-dry-run _assets/js/**/*",
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "npm run development -- --watch",

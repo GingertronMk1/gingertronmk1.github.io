@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      v-for="show_slots in shows_slots"
-      v-bind:key="show_slots"
+      v-for="(show_slots, index) in shows_slots"
+      v-bind:key="index"
       class="p-y-1"
     >
       <input v-model="show_slots.show" />
@@ -16,8 +16,11 @@
     </div>
 
     <span v-if="permutations.length">
-      <ol v-for="permutation in permutations" v-bind:key="permutation">
-        <li v-for="show in permutation" v-bind:key="show" v-text="show"></li>
+      <ol v-for="(permutation, index) in permutations" v-bind:key="index">
+        <li v-for="(show, index) in permutation"
+            v-bind:key="index"
+            v-text="show">
+        </li>
       </ol>
     </span>
     <h2 v-else>No valid seasons exist</h2>

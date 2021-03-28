@@ -14,3 +14,5 @@
       url: /text_gen
     - title: Counter
       url: /counter
+    - title: Permissions
+      url: /permissions

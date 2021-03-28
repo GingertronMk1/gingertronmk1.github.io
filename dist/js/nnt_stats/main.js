@@ -1,4 +1,4 @@
-var content = document.querySelector("#content");
+var content = document.querySelector(".content");
 
 var width = content.offsetWidth - 20;
 height = window.innerHeight * 0.8,

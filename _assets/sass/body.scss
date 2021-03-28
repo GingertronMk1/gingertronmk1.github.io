@@ -9,8 +9,7 @@ body {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+  @include flex-col;
 }
 
 a,
@@ -25,8 +24,7 @@ a:hover {
 .content {
   width: 100%;
   padding: 0 auto;
-  display: flex;
-  flex-direction: column;
+  @include flex-col;
   justify-content: center;
   align-items: center;
 

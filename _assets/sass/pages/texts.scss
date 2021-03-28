@@ -1,6 +1,5 @@
 .risky-texts {
-  display: flex;
-  flex-direction: column;
+  @include flex-col;
   align-items: center;
   width: 100%;
 
@@ -8,16 +7,14 @@
   $them-colour: #A0A0A0;
 
   &__wrapper {
-    display: flex;
-    flex-direction: column;
+    @include flex-col;
     align-items: center;
     margin: 1.6rem auto;
     max-width: 768px;
   }
 
   &__input {
-    display: flex;
-    flex-direction: column;
+    @include flex-col;
     width: 80%;
     padding: 1.6rem 0;
     border-bottom: 2px solid $grey-0;

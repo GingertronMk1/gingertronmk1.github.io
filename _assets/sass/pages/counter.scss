@@ -1,6 +1,5 @@
 .counter {
-    display: flex;
-    flex-direction: row;
+    @include flex-row;
     justify-content: space-between;
 
     &__counter {
@@ -12,8 +11,7 @@
     }
 
     &__counter, &__increment {
-        display: flex;
-        flex-direction: column;
+        @include flex-col;
     }
 
     @include MQ($medium) {

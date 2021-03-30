@@ -1,7 +1,9 @@
-.home-page {
-  text-align: center;
-
-  & > * {
-    text-align: inherit;
+.index {
+  .fiftyfifty {
+    height: 100%;
+    min-height: 75vh;
+    &__row {
+      flex: 1;
+    }
   }
 }

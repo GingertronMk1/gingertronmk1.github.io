@@ -9,7 +9,7 @@ body {
 }
 
 body {
-  @include flex-col;
+  @include flex(column);
 }
 
 a,
@@ -24,9 +24,7 @@ a:hover {
 .content {
   width: 100%;
   padding: 0 auto;
-  @include flex-col;
-  justify-content: center;
-  align-items: center;
+  @include flex(column, center, center);
 
   h1,   // Making the text
   h2,   // sections within

@@ -5,8 +5,7 @@
   max-height: 20rem;
   background-image: $standard-background;
   color: white;
-  @include flex-col;
-  justify-content: center;
+  @include flex(column, center);
 
   &__text {
     text-align: center;

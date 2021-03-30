@@ -29,7 +29,7 @@
     }
 
     &__list {
-      @include flex-row;
+      @include flex(row);
       transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       font-size: 1.6rem;
 
@@ -41,7 +41,7 @@
     }
 
     &__link {
-      @include flex-col;
+      @include flex(column, center, center);
       justify-content: center;
       text-align: center;
       flex: 1;

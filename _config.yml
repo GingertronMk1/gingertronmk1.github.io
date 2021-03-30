@@ -35,9 +35,7 @@ defaults:
     values:
       layout: "cv"
 
-url: gingertronmk1.github.io
-
-site_url: https://gingertronmk1.github.io/gingertronmk1.github.io
+url: https://gingertronmk1.github.io
 
 plugins:
   - jekyll-sitemap

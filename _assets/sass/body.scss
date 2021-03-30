@@ -9,8 +9,7 @@ body {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+  @include flex(column);
 }
 
 a,
@@ -25,10 +24,7 @@ a:hover {
 .content {
   width: 100%;
   padding: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include flex(column, center, center);
 
   h1,   // Making the text
   h2,   // sections within

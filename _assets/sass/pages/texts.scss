@@ -1,23 +1,18 @@
 .risky-texts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include flex(column, $align: center);
   width: 100%;
 
   $me-colour: #0088d2;
   $them-colour: #A0A0A0;
 
   &__wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @include flex(column, $align: center);
     margin: 1.6rem auto;
     max-width: 768px;
   }
 
   &__input {
-    display: flex;
-    flex-direction: column;
+    @include flex(column);
     width: 80%;
     padding: 1.6rem 0;
     border-bottom: 2px solid $grey-0;

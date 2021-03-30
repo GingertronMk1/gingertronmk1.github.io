@@ -19,11 +19,6 @@ div[class*="__wrapper"] {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@mixin MQ($breakpoint) {
-  @media (max-width: $breakpoint) {
-    @content;
-  }
-}
 
 // Padding and margin utility classes
 

@@ -1,0 +1,112 @@
+.risky-texts {
+  @include flex(column, $align: center);
+  width: 100%;
+
+  $me-colour: #0088d2;
+  $them-colour: #A0A0A0;
+
+  &__wrapper {
+    @include flex(column, $align: center);
+    margin: 1.6rem auto;
+    max-width: 768px;
+  }
+
+  &__input {
+    @include flex(column);
+    width: 80%;
+    padding: 1.6rem 0;
+    border-bottom: 2px solid $grey-0;
+
+    textarea {
+      border: 2px solid black;
+      border-radius: 0.8rem;
+      margin: 1.6rem auto;
+      padding: 0.8rem;
+      width: 100%;
+
+      &.floating {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 60%;
+        margin: 1rem;
+        box-shadow: 0.1rem 0.1rem 0.3rem;
+      }
+    }
+
+    button {
+      background-color: $me-colour;
+      margin: auto;
+      max-width: 640px;
+      color: white;
+      padding: 1.6rem;
+      border-radius: 0.8rem;
+      border: 2px solid $me-colour;
+    }
+  }
+
+  &__display {
+    $text-radius: 1.6rem;
+    width: 100%;
+    max-width: 768px;
+    padding: 1.6rem 0;
+
+    .message {
+      display: flex;
+      margin-top: 0.3rem;
+      font-size: 1.6rem;
+
+
+      &--me {
+        flex-direction: row-reverse;
+      }
+
+      &--time {
+        justify-content: center;
+      }
+
+      &--chain-top {
+        margin-top: 0.8rem;
+      }
+    }
+
+    .text {
+      padding: 0.8rem 1.6rem;
+      color: white;
+      line-height: 2rem;
+      white-space: pre-line;
+
+      &--me,
+      &--them {
+        max-width: 70%;
+      }
+
+      &--me {
+        background-color: $me-colour;
+        border-top-left-radius: $text-radius;
+        border-bottom-left-radius: $text-radius;
+
+        &.text--chain-top {
+          border-top-right-radius: $text-radius;
+        }
+      }
+
+      &--them {
+        background-color: $them-colour;
+        border-top-right-radius: $text-radius;
+        border-bottom-right-radius: $text-radius;
+
+        &.text--chain-top {
+          border-top-left-radius: $text-radius;
+        }
+      }
+
+      &--time {
+        font-weight: 900;
+        color: grey;
+        min-width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}

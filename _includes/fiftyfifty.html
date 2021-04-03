@@ -1,0 +1,16 @@
+<div class="fiftyfifty">
+  {% for line in include.lines %}
+  <div class="fiftyfifty__row">
+    <div
+      class="fiftyfifty__image"
+      style="background-image:url({{ line.image | relative_url }})"
+    ></div>
+
+    <div class="fiftyfifty__text">
+      <div class="fiftyfifty__text-inner">
+        {{ line.text | newline_to_br }}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>

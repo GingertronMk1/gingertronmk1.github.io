@@ -1,0 +1,18 @@
+- title: Home
+  url: /
+- title: Theatre
+  url: /cvs/theatre
+- title: Development
+  url: /cvs/dev
+- title: Others
+  subnav:
+    - title: Season Gen
+      url: /season_gen
+    - title: NNT Stats
+      url: /nnt_stats
+    - title: Text Gen
+      url: /text_gen
+    - title: Counter
+      url: /counter
+    - title: Permissions
+      url: /permissions

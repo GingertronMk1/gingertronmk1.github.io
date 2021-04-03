@@ -1,0 +1,24 @@
+.counter {
+    @include flex(row, space-between);
+
+    &__counter {
+        width: 69%;
+    }
+
+    &__increment {
+        width: 29%;
+    }
+
+    &__counter, &__increment {
+        @include flex(column);
+    }
+
+    @include MQ($medium) {
+        flex-direction: column;
+
+        &__counter, &__increment {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+.index {
+  .fiftyfifty {
+    height: 100%;
+    min-height: 75vh;
+    &__row {
+      flex: 1;
+    }
+  }
+}

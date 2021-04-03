@@ -1,0 +1,27 @@
+svg {
+  font: 10px sans-serif;
+  background-color: white;
+  stroke-width: 1px;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+circle {
+  stroke: black;
+  stroke-width: 1px;
+}
+
+button.btn {
+  margin: 0.5rem;
+}
+
+#content svg {
+  margin: 10px;
+  padding: 0;
+}

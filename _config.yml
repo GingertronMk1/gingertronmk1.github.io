@@ -1,0 +1,40 @@
+# Site settings
+title: Jack Ellis
+email: jackellis1504@gmail.com
+description: >-
+  I am a web developer with a Master's in Computer Science and a freelance theatre backstage
+  person with experience in sound design, set design and construction, and changeovers.
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+include: 
+  - _pages
+
+exclude: 
+  - vendor
+  - .jekyll-cache
+  - node_modules
+  - '*.json'
+  - webpack.mix.js
+
+collections:
+  risky_texts:
+    output: true
+    permalink: :collection/:name
+    sort_by: scene
+  cvs:
+    output: true
+    permalink: :collection/:name
+
+defaults:
+  - scope:
+      path: ""
+      type: "cvs"
+    values:
+      layout: "cv"
+
+url: https://gingertronmk1.github.io
+
+plugins:
+  - jekyll-sitemap

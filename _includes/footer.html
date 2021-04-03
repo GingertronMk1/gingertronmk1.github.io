@@ -1,0 +1,17 @@
+<footer class="footer">
+  <div class="footer__div footer__div--left">
+    <ul>
+      {% for social in site.data.socials %}
+      <li>
+        <a href="{{ social.url }}">
+          <i class="fab {{ social.fa-class }}"></i>
+          {{ social.network }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="footer__div footer__div--right">
+    &copy; Jack Ellis {{ 'now' | date: "%Y" }}
+  </div>
+</footer>

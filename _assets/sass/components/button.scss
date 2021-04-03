@@ -1,0 +1,11 @@
+.button {
+    background: $standard-background;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid $primary;
+    color: $white;
+
+    &--center {
+        text-align: center;
+    }
+}

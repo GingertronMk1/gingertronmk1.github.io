@@ -1,0 +1,10 @@
+_site
+.sass-cache
+.jekyll-metadata
+.jekyll-cache
+.vscode
+_data/development.yml
+misc/*.png
+vendor/**/*
+node_modules
+node_modules/**/*

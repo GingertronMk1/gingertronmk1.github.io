@@ -1,0 +1,69 @@
+---
+title: NNT Statistics
+
+layout: default
+
+permalink: /nnt_stats
+
+cardIDs:
+- id: connCard
+  description: A graph showing connections between all actors in NNT history
+- id: mostShowsCard
+  description: A graph showing the top 10 most-credited actors
+- id: castNosCard
+  description: A graph showing the history of cast sizes
+- id: castCrewNosCard
+  description: A graph showing the relationship between cast and crew size
+- id: showNosCard
+  description: A graph showing how many shows the NNT has put on year-on-year
+- id: filterCard
+  description: Filter the above graphs
+- id: newNosCard
+  description: A graph showing the number of people each year who take part in their first NNT show
+
+content_class: text-center
+
+scripts:
+- path: https://d3js.org/d3.v4.min.js
+
+---
+
+{% assign spinnerSize="5rem" %}
+
+<section id="contents" class="card col-12 my-1 p-0">
+  <div class="card-header">
+    Contents
+  </div>
+  <ul>
+  {% for cardID in page.cardIDs %}
+  <li><a href="#{{ cardID.id }}">{{ cardID.description }}</a></li>
+  {% endfor %}
+  </ul>
+</section>
+
+{% for cardID in page.cardIDs %}
+<section id="{{ cardID.id }}" class="card col-12 my-1 p-0">
+  <!--<a name="{{ cardID.id }}"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: {{ spinnerSize }}; height: {{ spinnerSize }};"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+{% endfor %}
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.15.0/d3.min.js"></script>
+<script src="{{ 'dist/js/nnt_stats/main.js' | relative_url }}"></script>
+
+<script>
+var showConnectionGraph = 1;    // set to 0 if you don't want the main connection graph
+var showOtherGraphs     = 1;    // set to 0 if you don't want the additional graphs
+
+// This auto-sets to 1 if the file `_data/development.yml` is not present (i.e. up here)
+{% if site.data.development.is_true %}
+{% assign fh="0" %}
+{% else %}
+{% assign fh="1" %}
+{% endif %}
+
+var fullHistory = {{ fh }};
+</script>

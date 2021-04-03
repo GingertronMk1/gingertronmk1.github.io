@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- METAS -->
+
+
+<title>NNT Statistics</title>
+
+<meta charset="utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- OPEN SANS FONT -->
+
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+/>
+
+<!-- FONT AWESOME -->
+<script
+  src="https://kit.fontawesome.com/78bbce86e2.js"
+  crossorigin="anonymous"
+></script>
+
+<!-- MY CSS -->
+
+<link rel="stylesheet" href="/dist/css/app.css" />
+
+<!-- MY JAVASCRIPT -->
+
+<script src="/dist/js/app.js" defer></script>
+
+<!-- FAVICONS -->
+
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/favicons/apple-touch-icon.png"
+/>
+<link
+  rel="shortcut icon"
+  type="image/png"
+  href="/favicons/favicon-32x32.png"
+/>
+<link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+
+<link rel="manifest" href="/favicons/site.webmanifest" />
+<meta name="msapplication-TileColor" content="#da532c" />
+<meta name="theme-color" content="#ffffff" />
+
+  </head>
+
+  <body>
+    <header class="header">
+  <div class="navbar">
+    <div id="nav-toggle" class="navbar__toggle">
+      <span index="1"></span><span index="2"></span><span index="3"></span>
+    </div>
+
+    <div class="navbar__list">
+       
+
+      <a href="/" class="navbar__link">
+        Home
+      </a>
+
+        
+
+      <a href="/cvs/theatre" class="navbar__link">
+        Theatre
+      </a>
+
+        
+
+      <a href="/cvs/dev" class="navbar__link">
+        Development
+      </a>
+
+        
+
+      <div class="navbar__link">
+        Others
+        <div class="navbar__sub-list">
+          
+          <a href="/season_gen" class="navbar__link">
+            Season Gen
+          </a>
+          
+          <a href="/nnt_stats" class="navbar__link">
+            NNT Stats
+          </a>
+          
+          <a href="/text_gen" class="navbar__link">
+            Text Gen
+          </a>
+          
+          <a href="/counter" class="navbar__link">
+            Counter
+          </a>
+          
+          <a href="/permissions" class="navbar__link">
+            Permissions
+          </a>
+          
+        </div>
+      </div>
+
+       
+    </div>
+  </div>
+</header>
+
+
+    
+    
+    <div id="hero" class="hero">
+  <h1 class="hero__text">
+    NNT Statistics
+  </h1>
+</div>
+
+    
+    
+
+    <div id="app" class="content  ">
+      
+
+<section id="contents" class="card col-12 my-1 p-0">
+  <div class="card-header">
+    Contents
+  </div>
+  <ul>
+  
+  <li><a href="#connCard">A graph showing connections between all actors in NNT history</a></li>
+  
+  <li><a href="#mostShowsCard">A graph showing the top 10 most-credited actors</a></li>
+  
+  <li><a href="#castNosCard">A graph showing the history of cast sizes</a></li>
+  
+  <li><a href="#castCrewNosCard">A graph showing the relationship between cast and crew size</a></li>
+  
+  <li><a href="#showNosCard">A graph showing how many shows the NNT has put on year-on-year</a></li>
+  
+  <li><a href="#filterCard">Filter the above graphs</a></li>
+  
+  <li><a href="#newNosCard">A graph showing the number of people each year who take part in their first NNT show</a></li>
+  
+  </ul>
+</section>
+
+
+<section id="connCard" class="card col-12 my-1 p-0">
+  <!--<a name="connCard"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: 5rem; height: 5rem;"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+
+<section id="mostShowsCard" class="card col-12 my-1 p-0">
+  <!--<a name="mostShowsCard"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: 5rem; height: 5rem;"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+
+<section id="castNosCard" class="card col-12 my-1 p-0">
+  <!--<a name="castNosCard"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: 5rem; height: 5rem;"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+
+<section id="castCrewNosCard" class="card col-12 my-1 p-0">
+  <!--<a name="castCrewNosCard"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: 5rem; height: 5rem;"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+
+<section id="showNosCard" class="card col-12 my-1 p-0">
+  <!--<a name="showNosCard"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: 5rem; height: 5rem;"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+
+<section id="filterCard" class="card col-12 my-1 p-0">
+  <!--<a name="filterCard"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: 5rem; height: 5rem;"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+
+<section id="newNosCard" class="card col-12 my-1 p-0">
+  <!--<a name="newNosCard"></a>-->
+  <div class="spinner-border mx-auto my-3 p-0"
+       style="width: 5rem; height: 5rem;"
+       role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.15.0/d3.min.js"></script>
+<script src="/dist/js/nnt_stats/main.js"></script>
+
+<script>
+var showConnectionGraph = 1;    // set to 0 if you don't want the main connection graph
+var showOtherGraphs     = 1;    // set to 0 if you don't want the additional graphs
+
+// This auto-sets to 1 if the file `_data/development.yml` is not present (i.e. up here)
+
+
+var fullHistory = 1;
+</script>
+
+    </div>
+
+    <div class="flex-filler">
+    </div>
+
+    <footer class="footer">
+  <div class="footer__div footer__div--left">
+    <ul>
+      
+      <li>
+        <a href="https://www.twitter.com/GingertronMk1">
+          <i class="fab fa-twitter-square"></i>
+          Twitter
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://www.github.com/GingertronMk1">
+          <i class="fab fa-github-square"></i>
+          GitHub
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://www.linkedin.com/in/jackellis1504/">
+          <i class="fab fa-linkedin"></i>
+          LinkedIn
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="footer__div footer__div--right">
+    &copy; Jack Ellis 2021
+  </div>
+</footer>
+
+  </body>
+</html>

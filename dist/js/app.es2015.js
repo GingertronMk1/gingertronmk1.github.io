@@ -109,11 +109,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
-    season_gen: _vue_components_SeasonGen_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    text_gen: _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    seasonGen: _vue_components_SeasonGen_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    textGen: _vue_components_TextGen_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     counter: _vue_components_Counter_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     permissions: _vue_components_Permissions_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
@@ -122,12 +122,12 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
  * Nav menu stuff
  */
 
-var toggle = document.querySelector("#nav-toggle");
-var nav_list = document.querySelectorAll(".navbar__list")[0];
+var toggle = document.querySelector('#nav-toggle');
+var navList = document.querySelectorAll('.navbar__list')[0];
 
 toggle.onclick = function () {
-  toggle.classList.toggle("active");
-  nav_list.classList.toggle("active");
+  toggle.classList.toggle('active');
+  navList.classList.toggle('active');
 };
 
 /***/ }),

@@ -3,18 +3,18 @@
  */
 
 import Vue from 'vue';
-import season_gen from './vue_components/SeasonGen.vue';
-import text_gen from './vue_components/TextGen.vue';
+import seasonGen from './vue_components/SeasonGen.vue';
+import textGen from './vue_components/TextGen.vue';
 import counter from './vue_components/Counter.vue';
 import permissions from './vue_components/Permissions.vue';
 
-const app = new Vue({
+new Vue({
   el: '#app',
   components: {
-    season_gen,
-    text_gen,
+    seasonGen,
+    textGen,
     counter,
-    permissions
+    permissions,
   },
 });
 
@@ -22,10 +22,10 @@ const app = new Vue({
  * Nav menu stuff
  */
 
-var toggle = document.querySelector("#nav-toggle");
-var nav_list = document.querySelectorAll(".navbar__list")[0];
+const toggle = document.querySelector('#nav-toggle');
+const navList = document.querySelectorAll('.navbar__list')[0];
 
 toggle.onclick = function() {
-  toggle.classList.toggle("active");
-  nav_list.classList.toggle("active");
-}
+  toggle.classList.toggle('active');
+  navList.classList.toggle('active');
+};

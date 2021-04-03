@@ -15,5 +15,7 @@
         "vue"
     ],
     "rules": {
+        "require-jsdoc": "off",
+        "no-invalid-this": "off"
     }
 }

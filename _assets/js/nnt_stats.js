@@ -134,7 +134,8 @@ function rmDups(list) {
 axios
     .get('https://history.newtheatre.org.uk/feeds/search.json')
     .then((response) => {
-    /*
+      console.log(response);
+      /*
      *
      *  GONNA SET UP THE DRAWING STUFF NOW
      *
@@ -147,7 +148,7 @@ axios
       let xAxis;
       let yAxis;
 
-      const resp = response;
+      const resp = response.data;
 
       // resp now has the text and you can process it.
       if (fullHistory == 1) {
@@ -328,7 +329,7 @@ axios
             });
           });
 
-          connCard = d3.select('#connCard');
+          const connCard = d3.select('#connCard');
           connCard.html('');
 
           svg = connCard
@@ -553,7 +554,7 @@ axios
                     }),
                 );
 
-                for (i = 0; i < allSeasons.length; i++) {
+                for (let i = 0; i < allSeasons.length; i++) {
                   // Interesting to note the use of a for-loop rather than a
                   // forEach() call here, at least I think
                   const angle = divisions * i;
@@ -564,10 +565,10 @@ axios
                   });
                   const showNames =
                 shows !== undefined ? shows.values : [{title: 'Nothing'}];
-                  (showNum = seasonScale(
-                shows !== undefined ? shows.values.length : 0,
-                  )),
-                  (angleDegs = angle * (180 / Math.PI));
+                  const showNum = seasonScale(
+                  shows !== undefined ? shows.values.length : 0,
+                  );
+                  const angleDegs = angle * (180 / Math.PI);
 
                   infoSVG
                       .append('g')
@@ -648,7 +649,7 @@ axios
               .attr('x', width - margin.left)
               .attr('y', margin.top);
 
-          for (i = 0; i < allYears.length; i++) {
+          for (let i = 0; i < allYears.length; i++) {
             const sectionHeight = legendHeight / allYears.length;
             legend
                 .append('rect')
@@ -813,198 +814,9 @@ axios
               .attr('text-anchor', 'middle')
               .attr('dy', '1em')
               .text('Click on a node to get more information');
-
-          function detailedInfo(person) {
-            const boxWidth = [1, 2, 3, 4].map(function(d) {
-              return d * (widthM / 4);
-            });
-            const boxHeight = [1, 2, 3, 4].map(function(d) {
-              return d * (heightM / 4);
-            });
-            infoSVG.selectAll('*').remove();
-            document.querySelector('#infoSVG').scrollIntoView();
-
-            /*
-           *  BAR GRAPH OF TOP 5 LINKS
-           */
-
-            const topLinks = person.links.slice(0, 5);
-            const barX = d3
-                .scaleBand()
-                .range([0, boxWidth[1]])
-                .domain(
-                    topLinks.map(function(l) {
-                      return l.name;
-                    }),
-                )
-                .padding(0.1);
-            const barY = d3
-                .scaleLinear()
-                .range([boxHeight[1], 0])
-                .domain([
-                  0,
-                  d3.max(topLinks, function(d) {
-                    return d.strength;
-                  }),
-                ]);
-
-            const barXAxis = d3.axisBottom(barX);
-            const barYAxis = d3.axisLeft(barY).ticks(
-                d3.max(topLinks, function(d) {
-                  return d.strength;
-                }),
-            );
-
-            // Add the X Axis
-            infoSVG
-                .append('g')
-                .attr('transform', 'translate(0,' + boxHeight[1] + ')')
-                .call(barXAxis)
-                .selectAll('text')
-                .attr('text-anchor', 'start')
-                .attr('transform', 'rotate(15)');
-
-            // Add the Y Axis
-            infoSVG.append('g').call(barYAxis);
-
-            infoSVG
-                .selectAll('bar')
-                .data(topLinks)
-                .enter()
-                .append('rect')
-                .attr('x', function(d) {
-                  return barX(d.name);
-                })
-                .attr('y', function(d) {
-                  return barY(d.strength);
-                })
-                .attr('width', barX.bandwidth)
-                .attr('height', function(d) {
-                  return boxHeight[1] - barY(d.strength);
-                })
-                .attr('fill', 'rgb(0,0,0)');
-
-            infoSVG
-                .append('text')
-                .attr(
-                    'transform',
-                    'translate(' +
-                (0 - margin.left / 2) +
-                ',' +
-                boxHeight[0] +
-                ') rotate(-90)',
-                )
-                .style('font-weight', 'bolder')
-                .style('text-anchor', 'middle')
-                .text('Number Of Shared Shows');
-
-            /*
-           *  RADAR GRAPH BREAKDOWN OF SHOWS BY SEASON
-           */
-
-            const divisions = (2 * Math.PI) / allSeasons.length;
-            const seasonCounts = d3
-                .nest()
-                .key(function(d) {
-                  return d.season;
-                })
-                .entries(person.shows);
-
-            const circleCenter = boxWidth[2] + margin.left / 2;
-
-            const radius =
-            boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0];
-
-            const seasonScale = d3
-                .scaleLinear()
-                .range([0, radius])
-                .domain([
-                  0,
-                  d3.max(seasonCounts, function(d) {
-                    return d.values.length;
-                  }),
-                ]);
-            const radarAxis = d3.axisBottom(seasonScale).ticks(
-                d3.max(seasonCounts, function(d) {
-                  return d.values.length;
-                }),
-            );
-
-            for (i = 0; i < allSeasons.length; i++) {
-            // Interesting to note the use of a for-loop rather than a
-            // forEach() call here, at least I think
-              const angle = divisions * i;
-              const s = Math.sin(angle);
-              const c = Math.cos(angle);
-              const shows = seasonCounts.find(function(d) {
-                return d.key === allSeasons[i];
-              });
-              const showNum = seasonScale(
-              shows !== undefined ? shows.values.length : 0,
-              );
-              const angleDegs = angle * (180 / Math.PI);
-
-              infoSVG
-                  .append('g')
-                  .attr(
-                      'transform',
-                      'translate(' +
-                  circleCenter +
-                  ',' +
-                  boxHeight[0] +
-                  ') rotate(' +
-                  angleDegs +
-                  ')',
-                  )
-                  .call(radarAxis);
-
-              infoSVG
-                  .append('g')
-                  .attr(
-                      'transform',
-                      'translate(' +
-                  circleCenter +
-                  ',' +
-                  boxHeight[0] +
-                  ') rotate(' +
-                  angleDegs +
-                  ') translate(75,-5)',
-                  )
-                  .append('text')
-                  .attr('text-anchor', 'center')
-                  .text(allSeasons[i]);
-
-              infoSVG
-                  .append('circle')
-                  .attr('r', 5)
-                  .attr('cx', circleCenter + showNum * c)
-                  .attr('cy', boxHeight[0] + showNum * s)
-                  .attr('fill', seasonColours(allSeasons[i]));
-            }
-
-            infoSVG
-                .append('text')
-                .attr('x', boxWidth[0])
-                .attr('y', margin.top - 30)
-                .style('font-weight', 'bolder')
-                .style('text-anchor', 'middle')
-                .text(person.name + '\'s top 5 co-cast members');
-
-            infoSVG
-                .append('text')
-                .attr('x', circleCenter)
-                .attr('y', margin.top - 30)
-                .style('font-weight', 'bolder')
-                .style('text-anchor', 'middle')
-                .text(
-                    'How many shows of each season ' +
-                    person.name +
-                    ' has been in',
-                );
-          }
         }, 1);
       }
-      /*
+    /**
      *
      * OTHER CHARTS HERE
      * TO TURN THESE ON SET `showOtherGraphs` to 1
@@ -1019,7 +831,7 @@ axios
         });
         top10Actors = top10Actors.slice(0, 10);
 
-        mostShowsCard = d3.select('#mostShowsCard');
+        const mostShowsCard = d3.select('#mostShowsCard');
         mostShowsCard.html('');
 
         svg = mostShowsCard
@@ -1100,11 +912,11 @@ axios
 
         // CAST NUMBERS THROUGH THE YEARS
 
-        allDatedShows = allShows.filter(function(d) {
+        const allDatedShows = allShows.filter(function(d) {
           return !isNaN(d.date.getDate());
         });
 
-        castNosCard = d3.select('#castNosCard');
+        const castNosCard = d3.select('#castNosCard');
         castNosCard.html('');
 
         svg = castNosCard
@@ -1179,7 +991,7 @@ axios
 
         // CAST VS CREW NUMBERS
 
-        castCrewNosCard = d3.select('#castCrewNosCard');
+        const castCrewNosCard = d3.select('#castCrewNosCard');
         castCrewNosCard.html('');
 
         svg = castCrewNosCard
@@ -1211,7 +1023,7 @@ axios
             )
             .range([heightM, 0]);
 
-        colors = d3
+        d3
             .scaleTime()
             .domain(
                 d3.extent(allDatedShows, function(d) {
@@ -1284,7 +1096,7 @@ axios
           return b.key - a.key;
         });
 
-        showNosCard = d3.select('#showNosCard');
+        const showNosCard = d3.select('#showNosCard');
         showNosCard.html('');
 
         svg = showNosCard
@@ -1405,7 +1217,7 @@ axios
        *
        */
 
-        filterCard = d3.select('#filterCard');
+        const filterCard = d3.select('#filterCard');
         filterCard.html('');
 
         allSeasons.forEach(function(s) {
@@ -1465,7 +1277,7 @@ axios
               return aVal - bVal;
             });
 
-        newNosCard = d3.select('#newNosCard');
+        const newNosCard = d3.select('#newNosCard');
         newNosCard.html('');
 
         svg = newNosCard

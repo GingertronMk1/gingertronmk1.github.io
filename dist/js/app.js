@@ -476,18 +476,20 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }
 
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('https://history.newtheatre.org.uk/feeds/search.json').then(function (response) {
+      console.log(response);
       /*
-       *
-       *  GONNA SET UP THE DRAWING STUFF NOW
-       *
-       */
+      *
+      *  GONNA SET UP THE DRAWING STUFF NOW
+      *
+      */
+
       var svg;
       var linevalue;
       var x;
       var y;
       var xAxis;
       var yAxis;
-      var resp = response; // resp now has the text and you can process it.
+      var resp = response.data; // resp now has the text and you can process it.
 
       if (fullHistory == 1) {
         allShows = resp.filter(function (x) {
@@ -625,7 +627,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               }
             });
           });
-          connCard = d3.select('#connCard');
+          var connCard = d3.select('#connCard');
           connCard.html('');
           svg = connCard.append('svg').attr('id', 'connGraph').attr('width', width).attr('height', height); // set up the simulation and add forces
 
@@ -728,7 +730,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               return d.values.length;
             }));
 
-            var _loop = function _loop() {
+            var _loop = function _loop(i) {
               // Interesting to note the use of a for-loop rather than a
               // forEach() call here, at least I think
               var angle = divisions * i;
@@ -740,7 +742,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               var showNames = shows !== undefined ? shows.values : [{
                 title: 'Nothing'
               }];
-              showNum = seasonScale(shows !== undefined ? shows.values.length : 0), angleDegs = angle * (180 / Math.PI);
+              var showNum = seasonScale(shows !== undefined ? shows.values.length : 0);
+              var angleDegs = angle * (180 / Math.PI);
               infoSVG.append('g').attr('transform', 'translate(' + circleCenter + ',' + boxHeight[0] + ') rotate(' + angleDegs + ')').call(radarAxis);
               infoSVG.append('g').attr('transform', 'translate(' + circleCenter + ',' + boxHeight[0] + ') rotate(' + angleDegs + ') translate(75,-5)').append('text').attr('text-anchor', 'center').text(allSeasons[i]);
               infoSVG.append('circle').attr('r', 5).attr('cx', circleCenter + showNum * c).attr('cy', boxHeight[0] + showNum * s).attr('fill', seasonColours(allSeasons[i])).append('svg:title').append('text').text(function (d) {
@@ -752,8 +755,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               });
             };
 
-            for (i = 0; i < allSeasons.length; i++) {
-              _loop();
+            for (var i = 0; i < allSeasons.length; i++) {
+              _loop(i);
             }
 
             infoSVG.append('text').attr('x', boxWidth[0]).attr('y', margin.top - 30).style('font-weight', 'bolder').style('text-anchor', 'middle').text(person.name + '\'s top 5 co-cast members');
@@ -765,11 +768,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           var legendWidth = 70;
           var legend = svg.append('g').attr('class', 'legend').attr('x', width - margin.left).attr('y', margin.top);
 
-          for (i = 0; i < allYears.length; i++) {
+          var _loop2 = function _loop2(i) {
             var sectionHeight = legendHeight / allYears.length;
             legend.append('rect').attr('x', 0).attr('y', sectionHeight * i).attr('height', sectionHeight * 1.05).attr('width', legendWidth).attr('fill', function (d) {
               return yearColourAxis(allYears[i]);
             });
+          };
+
+          for (var i = 0; i < allYears.length; i++) {
+            _loop2(i);
           }
 
           legend.append('text').attr('text-anchor', 'middle').attr('alignment-baseline', 'middle').attr('fill', 'white').attr('x', legendWidth / 2).attr('y', 20).text(allYears[0]);
@@ -821,90 +828,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
           var infoSVG = connCard.append('svg').attr('id', 'infoSVG').attr('width', width).attr('height', height / 2 + 50).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
           infoSVG.append('text').attr('x', widthM / 2).attr('y', height / 4).attr('font-size', 30).attr('text-anchor', 'middle').attr('dy', '1em').text('Click on a node to get more information');
-
-          function detailedInfo(person) {
-            var boxWidth = [1, 2, 3, 4].map(function (d) {
-              return d * (widthM / 4);
-            });
-            var boxHeight = [1, 2, 3, 4].map(function (d) {
-              return d * (heightM / 4);
-            });
-            infoSVG.selectAll('*').remove();
-            document.querySelector('#infoSVG').scrollIntoView();
-            /*
-            *  BAR GRAPH OF TOP 5 LINKS
-            */
-
-            var topLinks = person.links.slice(0, 5);
-            var barX = d3.scaleBand().range([0, boxWidth[1]]).domain(topLinks.map(function (l) {
-              return l.name;
-            })).padding(0.1);
-            var barY = d3.scaleLinear().range([boxHeight[1], 0]).domain([0, d3.max(topLinks, function (d) {
-              return d.strength;
-            })]);
-            var barXAxis = d3.axisBottom(barX);
-            var barYAxis = d3.axisLeft(barY).ticks(d3.max(topLinks, function (d) {
-              return d.strength;
-            })); // Add the X Axis
-
-            infoSVG.append('g').attr('transform', 'translate(0,' + boxHeight[1] + ')').call(barXAxis).selectAll('text').attr('text-anchor', 'start').attr('transform', 'rotate(15)'); // Add the Y Axis
-
-            infoSVG.append('g').call(barYAxis);
-            infoSVG.selectAll('bar').data(topLinks).enter().append('rect').attr('x', function (d) {
-              return barX(d.name);
-            }).attr('y', function (d) {
-              return barY(d.strength);
-            }).attr('width', barX.bandwidth).attr('height', function (d) {
-              return boxHeight[1] - barY(d.strength);
-            }).attr('fill', 'rgb(0,0,0)');
-            infoSVG.append('text').attr('transform', 'translate(' + (0 - margin.left / 2) + ',' + boxHeight[0] + ') rotate(-90)').style('font-weight', 'bolder').style('text-anchor', 'middle').text('Number Of Shared Shows');
-            /*
-            *  RADAR GRAPH BREAKDOWN OF SHOWS BY SEASON
-            */
-
-            var divisions = 2 * Math.PI / allSeasons.length;
-            var seasonCounts = d3.nest().key(function (d) {
-              return d.season;
-            }).entries(person.shows);
-            var circleCenter = boxWidth[2] + margin.left / 2;
-            var radius = boxHeight[0] > boxWidth[0] ? boxWidth[0] : boxHeight[0];
-            var seasonScale = d3.scaleLinear().range([0, radius]).domain([0, d3.max(seasonCounts, function (d) {
-              return d.values.length;
-            })]);
-            var radarAxis = d3.axisBottom(seasonScale).ticks(d3.max(seasonCounts, function (d) {
-              return d.values.length;
-            }));
-
-            for (i = 0; i < allSeasons.length; i++) {
-              // Interesting to note the use of a for-loop rather than a
-              // forEach() call here, at least I think
-              var angle = divisions * i;
-              var s = Math.sin(angle);
-              var c = Math.cos(angle);
-              var shows = seasonCounts.find(function (d) {
-                return d.key === allSeasons[i];
-              });
-
-              var _showNum = seasonScale(shows !== undefined ? shows.values.length : 0);
-
-              var _angleDegs = angle * (180 / Math.PI);
-
-              infoSVG.append('g').attr('transform', 'translate(' + circleCenter + ',' + boxHeight[0] + ') rotate(' + _angleDegs + ')').call(radarAxis);
-              infoSVG.append('g').attr('transform', 'translate(' + circleCenter + ',' + boxHeight[0] + ') rotate(' + _angleDegs + ') translate(75,-5)').append('text').attr('text-anchor', 'center').text(allSeasons[i]);
-              infoSVG.append('circle').attr('r', 5).attr('cx', circleCenter + _showNum * c).attr('cy', boxHeight[0] + _showNum * s).attr('fill', seasonColours(allSeasons[i]));
-            }
-
-            infoSVG.append('text').attr('x', boxWidth[0]).attr('y', margin.top - 30).style('font-weight', 'bolder').style('text-anchor', 'middle').text(person.name + '\'s top 5 co-cast members');
-            infoSVG.append('text').attr('x', circleCenter).attr('y', margin.top - 30).style('font-weight', 'bolder').style('text-anchor', 'middle').text('How many shows of each season ' + person.name + ' has been in');
-          }
         }, 1);
       }
-      /*
-      *
-      * OTHER CHARTS HERE
-      * TO TURN THESE ON SET `showOtherGraphs` to 1
-      *
-      */
+      /**
+       *
+       * OTHER CHARTS HERE
+       * TO TURN THESE ON SET `showOtherGraphs` to 1
+       *
+       */
 
 
       if (showOtherGraphs) {
@@ -913,7 +844,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           return b.shows.length - a.shows.length;
         });
         top10Actors = top10Actors.slice(0, 10);
-        mostShowsCard = d3.select('#mostShowsCard');
+        var mostShowsCard = d3.select('#mostShowsCard');
         mostShowsCard.html('');
         svg = mostShowsCard.append('svg').attr('id', 'mostShowsGraph').attr('width', width).attr('height', height + 50).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         x = d3.scaleBand().range([0, widthM]).domain(top10Actors.map(function (d) {
@@ -945,10 +876,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         });
         addAxisLabels('', 'Number of Shows'); // CAST NUMBERS THROUGH THE YEARS
 
-        allDatedShows = allShows.filter(function (d) {
+        var allDatedShows = allShows.filter(function (d) {
           return !isNaN(d.date.getDate());
         });
-        castNosCard = d3.select('#castNosCard');
+        var castNosCard = d3.select('#castNosCard');
         castNosCard.html('');
         svg = castNosCard.append('svg').attr('id', 'castNosGraph').attr('width', width).attr('height', height + 20).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         x = d3.scaleTime().domain(d3.extent(allDatedShows, function (d) {
@@ -979,7 +910,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         });
         addAxisLabels('Year', 'Cast Size'); // CAST VS CREW NUMBERS
 
-        castCrewNosCard = d3.select('#castCrewNosCard');
+        var castCrewNosCard = d3.select('#castCrewNosCard');
         castCrewNosCard.html('');
         svg = castCrewNosCard.append('svg').attr('id', 'castCrewNosGraph').attr('width', width).attr('height', height + 20).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         x = d3.scaleLinear().domain(d3.extent(allDatedShows, function (d) {
@@ -988,7 +919,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         y = d3.scaleLinear().domain(d3.extent(allDatedShows, function (d) {
           return d.crew.length;
         })).range([heightM, 0]);
-        colors = d3.scaleTime().domain(d3.extent(allDatedShows, function (d) {
+        d3.scaleTime().domain(d3.extent(allDatedShows, function (d) {
           return d.date;
         })).range(['yellow', 'purple']);
         xAxis = d3.axisBottom(x);
@@ -1027,7 +958,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         showCounts2.sort(function (a, b) {
           return b.key - a.key;
         });
-        showNosCard = d3.select('#showNosCard');
+        var showNosCard = d3.select('#showNosCard');
         showNosCard.html('');
         svg = showNosCard.append('svg').attr('id', 'showNosGraph').attr('width', width).attr('height', height + 20).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         x = d3.scaleTime().domain(d3.extent(allYears.map(function (d) {
@@ -1081,7 +1012,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         *
         */
 
-        filterCard = d3.select('#filterCard');
+        var filterCard = d3.select('#filterCard');
         filterCard.html('');
         allSeasons.forEach(function (s) {
           filterCard.append('br');
@@ -1105,7 +1036,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           var bVal = b.key.slice(0, 4);
           return aVal - bVal;
         });
-        newNosCard = d3.select('#newNosCard');
+        var newNosCard = d3.select('#newNosCard');
         newNosCard.html('');
         svg = newNosCard.append('svg').attr('id', 'newNosGraph').attr('width', width).attr('height', height + 20).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         x = d3.scaleTime().domain(d3.extent(newNos, function (d) {

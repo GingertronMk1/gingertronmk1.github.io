@@ -4,6 +4,8 @@
   "description": "A Jekyll website containing my CVs and other projects",
   "main": "index.js",
   "scripts": {
+    "lint_stats": "eslint _assets/js/nnt_stats.js",
+    "lint_stats_fix": "eslint --fix _assets/js/nnt_stats.js",
     "lint": "eslint _assets/js/**/*",
     "fix": "eslint --fix _assets/js/**/*",
     "fix-dry": "eslint --fix-dry-run _assets/js/**/*",
@@ -41,6 +43,7 @@
     "cover 100%"
   ],
   "dependencies": {
+    "axios": "^0.21.1",
     "vue": "^2.6.12"
   }
 }

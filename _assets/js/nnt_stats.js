@@ -816,12 +816,12 @@ axios
               .text('Click on a node to get more information');
         }, 1);
       }
-    /**
-     *
-     * OTHER CHARTS HERE
-     * TO TURN THESE ON SET `showOtherGraphs` to 1
-     *
-     */
+      /**
+       *
+       * OTHER CHARTS HERE
+       * TO TURN THESE ON SET `showOtherGraphs` to 1
+       *
+       */
 
       if (showOtherGraphs) {
       // WHO'S BEEN IN THE MOST SHOWS

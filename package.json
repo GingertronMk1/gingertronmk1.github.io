@@ -4,11 +4,8 @@
   "description": "A Jekyll website containing my CVs and other projects",
   "main": "index.js",
   "scripts": {
-    "lint_stats": "eslint _assets/js/nnt_stats.js",
-    "lint_stats_fix": "eslint --fix _assets/js/nnt_stats.js",
-    "lint": "eslint _assets/js/**/*",
-    "fix": "eslint --fix _assets/js/**/*",
-    "fix-dry": "eslint --fix-dry-run _assets/js/**/*",
+    "lint": "eslint _assets/js/**/* _assets/js/*.js",
+    "fix": "eslint --fix _assets/js/**/* _assets/js/*.js",
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "npm run development -- --watch",

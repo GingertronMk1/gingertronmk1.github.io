@@ -1,9 +1,0 @@
-- network: Twitter
-  url: https://www.twitter.com/GingertronMk1
-  fa-class: fa-twitter-square
-- network: GitHub
-  url: https://www.github.com/GingertronMk1
-  fa-class: fa-github-square
-- network: LinkedIn
-  url: https://www.linkedin.com/in/jackellis1504/
-  fa-class: fa-linkedin

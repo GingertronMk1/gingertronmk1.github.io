@@ -175,19 +175,19 @@ var allYears = [];
 function searchGraph() {
   resetGraph();
   var sValue = document.querySelector('#searchVal').value;
-  d3__WEBPACK_IMPORTED_MODULE_1__["select"]('par[id="infobox"]').text(sValue);
-  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('circle[class="connNode"]').filter(function (d) {
+  d3__WEBPACK_IMPORTED_MODULE_1__["select"]('par#infobox').text(sValue);
+  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('circle.connNode').filter(function (d) {
     return d.name != sValue;
   }).attr('opacity', 0.1);
-  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('circle[class="connNode"]').filter(function (d) {
+  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('circle.connNode').filter(function (d) {
     return d.name == sValue;
   }).each(function (item) {
     item.parentElement.appendChild(item);
   });
-  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('line[class="connLink"]').filter(function (d) {
+  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('line.connLink').filter(function (d) {
     return d.source.name != sValue && d.target.name != sValue;
   }).style('stroke', 'grey').attr('opacity', 0.1);
-  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('line[class="connLink"]').filter(function (d) {
+  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('line.connLink').filter(function (d) {
     return d.source.name == sValue || d.target.name == sValue;
   }).style('stroke-width', function (d) {
     return 1 * d.strength;
@@ -195,8 +195,8 @@ function searchGraph() {
 }
 
 function resetGraph() {
-  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('circle[class="connNode"]').attr('opacity', 1);
-  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('line[class="connLink"]').style('stroke-width', function (d) {
+  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('circle.connNode').attr('opacity', 1);
+  d3__WEBPACK_IMPORTED_MODULE_1__["selectAll"]('line.connLink').style('stroke-width', function (d) {
     return 0.5 * d.strength;
   }).style('stroke', 'black').attr('opacity', 1);
 }

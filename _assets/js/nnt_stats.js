@@ -20,15 +20,15 @@ let allYears = [];
 function searchGraph() {
   resetGraph();
   const sValue = document.querySelector('#searchVal').value;
-  d3.select('par[id="infobox"]').text(sValue);
+  d3.select('par#infobox').text(sValue);
 
-  d3.selectAll('circle[class="connNode"]')
+  d3.selectAll('circle.connNode')
       .filter(function(d) {
         return d.name != sValue;
       })
       .attr('opacity', 0.1);
 
-  d3.selectAll('circle[class="connNode"]')
+  d3.selectAll('circle.connNode')
       .filter(function(d) {
         return d.name == sValue;
       })
@@ -36,14 +36,14 @@ function searchGraph() {
         item.parentElement.appendChild(item);
       });
 
-  d3.selectAll('line[class="connLink"]')
+  d3.selectAll('line.connLink')
       .filter(function(d) {
         return d.source.name != sValue && d.target.name != sValue;
       })
       .style('stroke', 'grey')
       .attr('opacity', 0.1);
 
-  d3.selectAll('line[class="connLink"]')
+  d3.selectAll('line.connLink')
       .filter(function(d) {
         return d.source.name == sValue || d.target.name == sValue;
       })
@@ -53,8 +53,8 @@ function searchGraph() {
 }
 
 function resetGraph() {
-  d3.selectAll('circle[class="connNode"]').attr('opacity', 1);
-  d3.selectAll('line[class="connLink"]')
+  d3.selectAll('circle.connNode').attr('opacity', 1);
+  d3.selectAll('line.connLink')
       .style('stroke-width', function(d) {
         return 0.5 * d.strength;
       })

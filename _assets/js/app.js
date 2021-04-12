@@ -7,6 +7,7 @@ import seasonGen from './vue_components/SeasonGen.vue';
 import textGen from './vue_components/TextGen.vue';
 import counter from './vue_components/Counter.vue';
 import permissions from './vue_components/Permissions.vue';
+import stats from './nnt_stats.js';
 
 new Vue({
   el: '#app',
@@ -29,3 +30,7 @@ toggle.onclick = function() {
   toggle.classList.toggle('active');
   navList.classList.toggle('active');
 };
+
+if (document.querySelector('.nnt-stats')) {
+  stats();
+}

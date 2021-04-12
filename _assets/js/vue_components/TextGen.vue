@@ -24,7 +24,9 @@
       </button>
     </div>
     <div class="risky-texts__display" id="all-texts-div">
-      <div v-for="text in texts" v-bind:key="text" :class="text.messageClasses">
+      <div v-for="(text, index) in texts"
+           v-bind:key="index"
+           :class="text.messageClasses">
         <div :class="text.textClasses" v-text="text.message"></div>
       </div>
     </div>

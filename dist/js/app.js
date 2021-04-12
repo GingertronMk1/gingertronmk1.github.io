@@ -282,11 +282,18 @@ function stats() {
     var xAxis;
     var yAxis;
     allShows = resp.filter(function (x) {
-      return x.type === 'show';
+      return x.type === 'show' && x.title != 'Freshers\' Fringe';
     });
     allPeople = resp.filter(function (x) {
       return x.type === 'person';
     }); // resp now has the text and you can process it.
+
+    if (true) {
+      allShows = allShows.filter(function (_ref2) {
+        var t = _ref2.year_title;
+        return t >= '2010&ndash;11';
+      });
+    }
 
     allShows = allShows.filter(function (x) {
       return x.title != 'Freshers\' Fringe';

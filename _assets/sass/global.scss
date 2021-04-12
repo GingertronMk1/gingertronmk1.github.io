@@ -17,8 +17,8 @@ div[class*="__wrapper"] {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
-
 
 // Padding and margin utility classes
 
@@ -78,3 +78,12 @@ $class_mod_dir: (
 .user-select {
   user-select: none;
 }
+
+$displays: 'flex', 'inline', 'block', 'grid', 'none';
+
+@each $display in $displays {
+  .d-#{$display} {
+    display: $display !important;
+  }
+}
+

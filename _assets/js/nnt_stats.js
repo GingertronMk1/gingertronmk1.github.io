@@ -17,6 +17,9 @@ let allActors = [];
 let allSeasons = [];
 let allYears = [];
 
+const showConnectionGraph = true;
+const showOtherGraphs = true;
+
 function searchGraph() {
   resetGraph();
   const sValue = document.querySelector('#searchVal').value;
@@ -133,15 +136,7 @@ export default function stats() {
         allPeople = resp.filter((x) => x.type === 'person');
 
         // resp now has the text and you can process it.
-        if (fullHistory === 1) {
-          allShows = allShows.filter((x) => x.title != 'Freshers\' Fringe');
-        } else {
-          allShows = allShows.filter((x) => {
-            const t = x.title != 'Freshers\' Fringe';
-            const y = x.year_title >= '2010&ndash;11';
-            return t && y;
-          });
-        }
+        allShows = allShows.filter((x) => x.title != 'Freshers\' Fringe');
         allShows.forEach(function(s) {
           s.year_title = s.year_title.replace('&ndash;', '-');
           s.date = s.date = new Date(s.date);

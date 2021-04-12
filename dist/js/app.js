@@ -171,6 +171,8 @@ var allPeople = [];
 var allActors = [];
 var allSeasons = [];
 var allYears = [];
+var showConnectionGraph = true;
+var showOtherGraphs = true;
 
 function searchGraph() {
   resetGraph();
@@ -286,18 +288,9 @@ function stats() {
       return x.type === 'person';
     }); // resp now has the text and you can process it.
 
-    if (fullHistory === 1) {
-      allShows = allShows.filter(function (x) {
-        return x.title != 'Freshers\' Fringe';
-      });
-    } else {
-      allShows = allShows.filter(function (x) {
-        var t = x.title != 'Freshers\' Fringe';
-        var y = x.year_title >= '2010&ndash;11';
-        return t && y;
-      });
-    }
-
+    allShows = allShows.filter(function (x) {
+      return x.title != 'Freshers\' Fringe';
+    });
     allShows.forEach(function (s) {
       s.year_title = s.year_title.replace('&ndash;', '-');
       s.date = s.date = new Date(s.date);

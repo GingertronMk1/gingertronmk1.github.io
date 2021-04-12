@@ -3382,6 +3382,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -35586,8 +35588,8 @@ var render = function() {
       _c(
         "div",
         { staticClass: "risky-texts__display", attrs: { id: "all-texts-div" } },
-        _vm._l(_vm.texts, function(text) {
-          return _c("div", { key: text, class: text.messageClasses }, [
+        _vm._l(_vm.texts, function(text, index) {
+          return _c("div", { key: index, class: text.messageClasses }, [
             _c("div", {
               class: text.textClasses,
               domProps: { textContent: _vm._s(text.message) }

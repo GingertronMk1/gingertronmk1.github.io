@@ -15,6 +15,9 @@ div[class*=__wrapper] {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .m-1 {
@@ -782,6 +785,26 @@ div[class*=__wrapper] {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+
+.d-flex {
+  display: "flex" !important;
+}
+
+.d-inline {
+  display: "inline" !important;
+}
+
+.d-block {
+  display: "block" !important;
+}
+
+.d-grid {
+  display: "grid" !important;
+}
+
+.d-none {
+  display: "none" !important;
 }
 
 .header {
@@ -1559,6 +1582,7 @@ footer a:hover,
   margin: 1.6rem auto;
   padding: 0.8rem;
   width: 100%;
+  resize: vertical;
 }
 
 .risky-texts__input textarea.floating {

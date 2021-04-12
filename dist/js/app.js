@@ -3253,29 +3253,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       shows_slots: [{
-        id: 0,
         show: 'Show 1',
-        slots: '1,2'
+        slots: '1'
       }, {
-        id: 1,
         show: 'Show 2',
-        slots: '3'
+        slots: '2'
       }, {
-        id: 2,
         show: 'Show 3',
-        slots: '4,5'
+        slots: '3,4'
       }, {
-        id: 3,
         show: 'Show 4',
-        slots: '1,3,5'
+        slots: '4,3'
       }, {
-        id: 4,
         show: 'Show 5',
-        slots: '2,4'
+        slots: '5'
       }]
     };
   },
@@ -3294,11 +3292,11 @@ __webpack_require__.r(__webpack_exports__);
               if (oki[_slot] && perm.slice(0)) {
                 var slot = oki[_slot]; // The current show for this slot
 
-                var perm2 = perm.slice(0); // console.log(perm2, slot);
+                var perm2 = perm.slice(0);
 
-                if (perm2.indexOf(slot) == -1) {
-                  perm2.push(slot);
-                  n.push(perm2);
+                if (perm2.indexOf(slot) === -1) {
+                  perm2.unshift(slot);
+                  n.unshift(perm2);
                 }
               }
             }
@@ -3311,24 +3309,51 @@ __webpack_require__.r(__webpack_exports__);
           return [x];
         });
       }
+    },
+    new_show: function new_show() {
+      var l = this.shows_slots.length + 1;
+      this.shows_slots.push({
+        show: 'Show ' + l,
+        slots: l.toString()
+      });
     }
   },
   computed: {
+    array_shows_slots: function array_shows_slots() {
+      var ass = [];
+      this.shows_slots.forEach(function (_ref) {
+        var show = _ref.show,
+            slots = _ref.slots;
+        ass.push({
+          show: show,
+          slots: slots.split(/ *, */)
+        });
+      });
+      return ass;
+    },
+    num_slots: function num_slots() {
+      var endSlot = 0;
+      this.array_shows_slots.forEach(function (_ref2) {
+        var slots = _ref2.slots;
+        slots.forEach(function (slot) {
+          return endSlot = slot > endSlot ? slot : endSlot;
+        });
+      });
+      return parseInt(endSlot);
+    },
     permutations: function permutations() {
       var preferences = [];
-      this.shows_slots.forEach(function (showSlots) {
-        var showname = showSlots.show;
-        var slots = showSlots.slots.split(',');
+      this.array_shows_slots.forEach(function (_ref3) {
+        var show = _ref3.show,
+            slots = _ref3.slots;
 
-        if (slots != '' && showname != '') {
+        if (slots != '' && show != '') {
           slots.forEach(function (slot) {
-            slot = slot.trim();
-
             if (slot !== '') {
               if (!preferences[slot]) {
-                preferences[slot] = [showname];
+                preferences[slot] = [show];
               } else {
-                preferences[slot].push(showname);
+                preferences[slot].push(show);
               }
             }
           });
@@ -35436,89 +35461,105 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm._l(_vm.shows_slots, function(show_slots, index) {
-        return _c("div", { key: index, staticClass: "p-y-1" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: show_slots.show,
-                expression: "show_slots.show"
-              }
-            ],
-            domProps: { value: show_slots.show },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+  return _c("div", { staticClass: "season-gen__wrapper" }, [
+    _c(
+      "div",
+      { staticClass: "season-gen__inputs" },
+      [
+        _vm._l(_vm.shows_slots, function(show_slots, index) {
+          return _c("div", { key: index, staticClass: "p-y-1" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: show_slots.show,
+                  expression: "show_slots.show"
                 }
-                _vm.$set(show_slots, "show", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: show_slots.slots,
-                expression: "show_slots.slots"
-              }
-            ],
-            domProps: { value: show_slots.slots },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              ],
+              domProps: { value: show_slots.show },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(show_slots, "show", $event.target.value)
                 }
-                _vm.$set(show_slots, "slots", $event.target.value)
               }
-            }
-          })
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: show_slots.slots,
+                  expression: "show_slots.slots"
+                }
+              ],
+              domProps: { value: show_slots.slots },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(show_slots, "slots", $event.target.value)
+                }
+              }
+            })
+          ])
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "p-y-1" }, [
+          _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.new_show()
+                }
+              }
+            },
+            [_vm._v("Add new")]
+          )
         ])
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "p-y-1" }, [
-        _c(
-          "button",
-          {
-            on: {
-              click: function($event) {
-                return _vm.shows_slots.push({ id: _vm.shows_slots.length })
-              }
-            }
-          },
-          [_vm._v("\n      Add new\n    ")]
-        )
-      ]),
-      _vm._v(" "),
-      _vm.permutations.length
-        ? _c(
-            "span",
-            _vm._l(_vm.permutations, function(permutation, index) {
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _vm.permutations.length
+      ? _c(
+          "table",
+          { staticClass: "season-gen__table" },
+          [
+            _c(
+              "tr",
+              _vm._l(_vm.num_slots, function(n) {
+                return _c("th", { key: n }, [
+                  _vm._v("\n        Slot " + _vm._s(n) + "\n      ")
+                ])
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.permutations, function(perm, index) {
               return _c(
-                "ol",
+                "tr",
                 { key: index },
-                _vm._l(permutation, function(show, index) {
-                  return _c("li", {
+                _vm._l(perm, function(show, index) {
+                  return _c("td", {
                     key: index,
                     domProps: { textContent: _vm._s(show) }
                   })
                 }),
                 0
               )
-            }),
-            0
-          )
-        : _c("h2", [_vm._v("No valid seasons exist")])
-    ],
-    2
-  )
+            })
+          ],
+          2
+        )
+      : _c("h2", [_vm._v("No valid seasons exist")])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

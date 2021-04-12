@@ -1,37 +1,23 @@
-.season {
+.season-gen {
   width: 100%;
   display: flex;
   flex-direction: row;
 
-  &__form {
-    flex: 1;
-    max-width: 40%;
-    fieldset {
-      border: none;
-      display: flex;
-    }
+  &__wrapper {
+    @include flex($align: center);
   }
 
-  &__input {
-    width: 100%;
-    input {
-      width: 100%;
-      flex: 1;
-
-      [name*=title] {
-        max-width: 40%;
-      }
-      [name*=slots] {
-        max-width: 60%;
-      }
+  &__table {
+    tr:nth-child(2n+1) {
+      background-color: #cccccc;
     }
-  }
+    th {
+      background-color: $grey-0;
+      color: $white;
+    }
 
-  &__option {
-    flex: 1;
-
-    ul > li {
-      margin-bottom: 1rem;
+    tr > * {
+      padding: 0.5rem;
     }
   }
 

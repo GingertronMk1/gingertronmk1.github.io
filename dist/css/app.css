@@ -15,6 +15,9 @@ div[class*=__wrapper] {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .m-1 {
@@ -784,6 +787,26 @@ div[class*=__wrapper] {
           user-select: none;
 }
 
+.d-flex {
+  display: "flex" !important;
+}
+
+.d-inline {
+  display: "inline" !important;
+}
+
+.d-block {
+  display: "block" !important;
+}
+
+.d-grid {
+  display: "grid" !important;
+}
+
+.d-none {
+  display: "none" !important;
+}
+
 .header {
   width: 100%;
   background: #404040;
@@ -1128,7 +1151,8 @@ button,
 select,
 input,
 textarea,
-li {
+li,
+table {
   font-size: 1.6rem;
 }
 
@@ -1559,6 +1583,7 @@ footer a:hover,
   margin: 1.6rem auto;
   padding: 0.8rem;
   width: 100%;
+  resize: vertical;
 }
 
 .risky-texts__input textarea.floating {
@@ -1673,7 +1698,7 @@ footer a:hover,
   text-align: center;
 }
 
-.season {
+.season-gen {
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1689,55 +1714,42 @@ footer a:hover,
           flex-direction: row;
 }
 
-.season__form {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-     -moz-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  max-width: 40%;
-}
-
-.season__form fieldset {
-  border: none;
+.season-gen__wrapper {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+     -moz-box-orient: vertical;
+     -moz-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+     -moz-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+     -moz-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.season__input {
-  width: 100%;
+.season-gen__table tr:nth-child(2n+1) {
+  background-color: #cccccc;
 }
 
-.season__input input {
-  width: 100%;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-     -moz-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+.season-gen__table th {
+  background-color: gray;
+  color: #FFFFFF;
 }
 
-.season__input input [name*=title] {
-  max-width: 40%;
-}
-
-.season__input input [name*=slots] {
-  max-width: 60%;
-}
-
-.season__option {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-     -moz-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.season__option ul > li {
-  margin-bottom: 1rem;
+.season-gen__table tr > * {
+  padding: 0.5rem;
 }
 
 .counter {

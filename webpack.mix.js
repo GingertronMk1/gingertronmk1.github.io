@@ -1,4 +1,4 @@
-const mix = require("laravel-mix");
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,9 +16,8 @@ const mix = require("laravel-mix");
  | ]
  */
 
-const es2015 = "dist/js/app.es2015.js";
 
 mix
-.js("_assets/js/*.js", es2015)      // nasty horrible workaround
-.babel(es2015, "dist/js/app.js")
-.sass("_assets/sass/style.scss", "dist/css/app.css");
+    .js('_assets/js/app.js', 'dist/js/app.js'); // nasty horrible workaround
+
+mix.sass('_assets/sass/style.scss', 'dist/css/app.css');

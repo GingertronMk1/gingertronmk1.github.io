@@ -4,6 +4,7 @@
   "description": "A Jekyll website containing my CVs and other projects",
   "main": "index.js",
   "scripts": {
+    "lint-rules": "eslint --print-config lint_file.json > lint_file.json",
     "lint": "eslint _assets/js/**/* _assets/js/*.js",
     "fix": "eslint --fix _assets/js/**/* _assets/js/*.js",
     "dev": "npm run development",
@@ -41,6 +42,7 @@
   ],
   "dependencies": {
     "axios": "^0.21.1",
+    "d3": "^6.6.2",
     "vue": "^2.6.12"
   }
 }

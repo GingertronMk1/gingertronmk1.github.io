@@ -26,41 +26,29 @@ function searchGraph() {
   d3.select('par#infobox').text(sValue);
 
   d3.selectAll('circle.connNode')
-      .filter(function(d) {
-        return d.name != sValue;
-      })
+      .filter((d) => d.name != sValue)
       .attr('opacity', 0.1);
 
   d3.selectAll('circle.connNode')
-      .filter(function(d) {
-        return d.name == sValue;
-      })
+      .filter((d) => d.name == sValue)
       .each(function(item) {
         item.parentElement.appendChild(item);
       });
 
   d3.selectAll('line.connLink')
-      .filter(function(d) {
-        return d.source.name != sValue && d.target.name != sValue;
-      })
+      .filter((d) => d.source.name != sValue && d.target.name != sValue)
       .style('stroke', 'grey')
       .attr('opacity', 0.1);
 
   d3.selectAll('line.connLink')
-      .filter(function(d) {
-        return d.source.name == sValue || d.target.name == sValue;
-      })
-      .style('stroke-width', function(d) {
-        return 1 * d.strength;
-      });
+      .filter((d) => d.source.name == sValue || d.target.name == sValue)
+      .style('stroke-width', (d) => 1 * d.strength);
 }
 
 function resetGraph() {
   d3.selectAll('circle.connNode').attr('opacity', 1);
   d3.selectAll('line.connLink')
-      .style('stroke-width', function(d) {
-        return 0.5 * d.strength;
-      })
+      .style('stroke-width', (d) => 0.5 * d.strength)
       .style('stroke', 'black')
       .attr('opacity', 1);
 }
@@ -132,10 +120,17 @@ export default function stats() {
         let xAxis;
         let yAxis;
 
-        allShows = resp.filter((x) => x.type === 'show');
+        allShows = resp.filter((x) => {
+          return x.type === 'show' && x.title != 'Freshers\' Fringe';
+        });
         allPeople = resp.filter((x) => x.type === 'person');
 
+
         // resp now has the text and you can process it.
+        if (process.env.NODE_ENV !== 'production') {
+          allShows = allShows.filter(({year_title: t}) => t >= '2010&ndash;11');
+        }
+
         allShows = allShows.filter((x) => x.title != 'Freshers\' Fringe');
         allShows.forEach(function(s) {
           s.year_title = s.year_title.replace('&ndash;', '-');
@@ -147,19 +142,13 @@ export default function stats() {
           });
         });
 
-        allSeasons = rmDups(
-            allShows.map(function(d) {
-              return d.season;
-            }),
-        ).sort();
+        allSeasons = rmDups(allShows.map((d) => d.season)).sort();
         allActors = rmDups(allActors).sort();
         allActors.forEach(function(a) {
           allActorsObjs.push(actorToObject(a, allShows, allPeople));
         });
         allYears = rmDups(
-            allShows.map(function(d) {
-              return d.year_title;
-            }),
+            allShows.map((d) => d.year_title),
         ).sort();
 
         const yearColourAxis = d3
@@ -223,12 +212,8 @@ export default function stats() {
 
             const linkForce = d3
                 .forceLink(links)
-                .id(function(d) {
-                  return d.name;
-                })
-                .strength(function(d) {
-                  return Math.sqrt(d.strength / 30);
-                });
+                .id((d) => d.name)
+                .strength((d) => Math.sqrt(d.strength / 30));
 
             const chargeForce = d3.forceManyBody().strength(-100);
 
@@ -265,16 +250,10 @@ export default function stats() {
                 .append('line')
                 .attr('class', 'link')
                 .attr('class', 'connLink')
-                .style('stroke-width', function(d) {
-                  return 0.5 * d.strength;
-                })
+                .style('stroke-width', (d) => 0.5 * d.strength)
                 .style('stroke', 'black')
-                .attr('source', function(d) {
-                  return d.source.name;
-                })
-                .attr('sink', function(d) {
-                  return d.target.name;
-                });
+                .attr('source', (d) => d.source.name)
+                .attr('sink', (d) => d.target.name);
 
             // draw circles for the nodes
             const node = g
@@ -286,19 +265,11 @@ export default function stats() {
                 .append('circle')
                 .attr('class', 'node')
                 .attr('class', 'connNode')
-                .attr('r', function(d) {
-                  return 3 * Math.sqrt(d.links.length);
-                })
-                .style('stroke-width', function(d) {
-                  return 0.15 * Math.sqrt(d.links.length);
-                })
+                .attr('r', (d) => 3 * Math.sqrt(d.links.length))
+                .style('stroke-width', (d) => 0.15 * Math.sqrt(d.links.length))
                 .style('stroke', 'white')
-                .attr('fill', function(d) {
-                  return yearColourAxis(d.firstYear);
-                })
-                .attr('id', function(d) {
-                  return d.name;
-                })
+                .attr('fill', (d) => yearColourAxis(d.firstYear))
+                .attr('id', (d) => d.name)
                 .on('mouseover', function(d) {
                   d3.select(d).attr('fill', 'black');
                   this.parentElement.appendChild(this);
@@ -314,9 +285,10 @@ export default function stats() {
                 (d.links.length == 1 ? ' link' : ' links'),
                   );
                   const textWidth =
-              d3.max([infoText, infoShows, infoLinks], function(i) {
-                return i.node().getBBox().width;
-              }) + 10;
+              d3.max(
+                  [infoText, infoShows, infoLinks],
+                  (i) => i.node().getBBox().width,
+              ) + 10;
                   infoBox
                       .attr('x', width - (textWidth + 5))
                       .attr('width', textWidth)
@@ -326,12 +298,8 @@ export default function stats() {
                   d3.select(this).attr('fill', yearColourAxis(t.firstYear));
                 })
                 .on('click', function(person) {
-                  const boxWidth = [1, 2, 3, 4].map(function(d) {
-                    return d * (widthM / 4);
-                  });
-                  const boxHeight = [1, 2, 3, 4].map(function(d) {
-                    return d * (heightM / 4);
-                  });
+                  const boxWidth = [1, 2, 3, 4].map((d) => d * (widthM / 4));
+                  const boxHeight = [1, 2, 3, 4].map((d) => d * (heightM / 4));
                   infoSVG.selectAll('*').remove();
                   document.querySelector('#infoSVG').scrollIntoView();
 
@@ -344,9 +312,7 @@ export default function stats() {
                       .scaleBand()
                       .range([0, boxWidth[1]])
                       .domain(
-                          topLinks.map(function(l) {
-                            return l.name;
-                          }),
+                          topLinks.map((l) => l.name),
                       )
                       .padding(0.1);
                   const barY = d3
@@ -354,15 +320,11 @@ export default function stats() {
                       .range([boxHeight[1], 0])
                       .domain([
                         0,
-                        d3.max(topLinks, function(d) {
-                          return d.strength;
-                        }),
+                        d3.max(topLinks, (d) => d.strength),
                       ]);
                   const barXAxis = d3.axisBottom(barX);
                   const barYAxis = d3.axisLeft(barY).ticks(
-                      d3.max(topLinks, function(d) {
-                        return d.strength;
-                      }),
+                      d3.max(topLinks, (d) => d.strength),
                   );
 
                   // Add the X Axis
@@ -382,16 +344,10 @@ export default function stats() {
                       .data(topLinks)
                       .enter()
                       .append('rect')
-                      .attr('x', function(d) {
-                        return barX(d.name);
-                      })
-                      .attr('y', function(d) {
-                        return barY(d.strength);
-                      })
+                      .attr('x', (d) => barX(d.name))
+                      .attr('y', (d) => barY(d.strength))
                       .attr('width', barX.bandwidth)
-                      .attr('height', function(d) {
-                        return boxHeight[1] - barY(d.strength);
-                      })
+                      .attr('height', (d) => boxHeight[1] - barY(d.strength))
                       .attr('fill', 'rgb(0,0,0)')
                       .append('svg:title')
                       .append('text')
@@ -435,14 +391,10 @@ export default function stats() {
                       .range([0, radius])
                       .domain([
                         0,
-                        d3.max(seasonCounts, function(d) {
-                          return d.values.length;
-                        }),
+                        d3.max(seasonCounts, (d) => d.values.length),
                       ]);
                   const radarAxis = d3.axisBottom(seasonScale).ticks(
-                      d3.max(seasonCounts, function(d) {
-                        return d.values.length;
-                      }),
+                      d3.max(seasonCounts, (d) => d.values.length),
                   );
 
                   for (let i = 0; i < allSeasons.length; i++) {
@@ -451,9 +403,9 @@ export default function stats() {
                     const angle = divisions * i;
                     const s = Math.sin(angle);
                     const c = Math.cos(angle);
-                    const shows = seasonCounts.find(function(d) {
-                      return d.key === allSeasons[i];
-                    });
+                    const shows = seasonCounts.find(
+                        (d) => d.key === allSeasons[i],
+                    );
                     const showNames =
                 shows !== undefined ? shows.values : [{title: 'Nothing'}];
                     const showNum = seasonScale(
@@ -548,9 +500,7 @@ export default function stats() {
                   .attr('y', sectionHeight * i)
                   .attr('height', sectionHeight * 1.05)
                   .attr('width', legendWidth)
-                  .attr('fill', function(d) {
-                    return yearColourAxis(allYears[i]);
-                  });
+                  .attr('fill', (d) => yearColourAxis(allYears[i]));
             }
 
             legend
@@ -691,9 +641,9 @@ export default function stats() {
         if (showOtherGraphs) {
           // WHO'S BEEN IN THE MOST SHOWS
 
-          let top10Actors = allActorsObjs.sort(function(a, b) {
-            return b.shows.length - a.shows.length;
-          });
+          let top10Actors = allActorsObjs.sort(
+              (a, b) => b.shows.length - a.shows.length,
+          );
           top10Actors = top10Actors.slice(0, 10);
 
           const mostShowsCard = d3.select('#mostShowsCard');
@@ -714,9 +664,7 @@ export default function stats() {
               .scaleBand()
               .range([0, widthM])
               .domain(
-                  top10Actors.map(function(d) {
-                    return d.name;
-                  }),
+                  top10Actors.map((d) => d.name),
               )
               .padding(0.1);
 
@@ -725,9 +673,7 @@ export default function stats() {
               .range([heightM, 0])
               .domain([
                 0,
-                d3.max(top10Actors, function(d) {
-                  return d.shows.length;
-                }),
+                d3.max(top10Actors, (d) => d.shows.length),
               ]);
 
           xAxis = d3.axisBottom(x);
@@ -750,19 +696,11 @@ export default function stats() {
               .data(top10Actors)
               .enter()
               .append('rect')
-              .attr('x', function(d) {
-                return x(d.name);
-              })
-              .attr('y', function(d) {
-                return y(d.shows.length);
-              })
+              .attr('x', (d) => x(d.name))
+              .attr('y', (d) => y(d.shows.length))
               .attr('width', x.bandwidth)
-              .attr('height', function(d) {
-                return heightM - y(d.shows.length);
-              })
-              .attr('fill', function(d) {
-                return yearColourAxis(d.firstYear);
-              })
+              .attr('height', (d) => heightM - y(d.shows.length))
+              .attr('fill', (d) => yearColourAxis(d.firstYear))
               .append('svg:title')
               .append('text')
               .text(function(d) {
@@ -777,9 +715,9 @@ export default function stats() {
 
           // CAST NUMBERS THROUGH THE YEARS
 
-          const allDatedShows = allShows.filter(function(d) {
-            return !isNaN(d.date.getDate());
-          });
+          const allDatedShows = allShows.filter(
+              (d) => !isNaN(d.date.getDate()),
+          );
 
           const castNosCard = d3.select('#castNosCard');
           castNosCard.html('');
@@ -798,9 +736,7 @@ export default function stats() {
           x = d3
               .scaleTime()
               .domain(
-                  d3.extent(allDatedShows, function(d) {
-                    return d.date;
-                  }),
+                  d3.extent(allDatedShows, (d) => d.date),
               )
               .range([0, widthM]);
 
@@ -832,25 +768,13 @@ export default function stats() {
               .enter()
               .append('circle')
               .attr('r', 5)
-              .attr('cx', function(d) {
-                return x(d.date);
-              })
-              .attr('cy', function(d) {
-                return y(d.cast.length);
-              })
-              .text(function(d) {
-                return d.title + ', ' + d.year_title;
-              })
-              .attr('season', function(d) {
-                return d.season;
-              })
-              .attr('fill', function(d) {
-                return seasonColours(d.season);
-              })
+              .attr('cx', (d) => x(d.date))
+              .attr('cy', (d) => y(d.cast.length))
+              .text((d) => d.title + ', ' + d.year_title)
+              .attr('season', (d) => d.season)
+              .attr('fill', (d) => seasonColours(d.season))
               .append('svg:title')
-              .text(function(d) {
-                return d.title + ', ' + d.year_title;
-              });
+              .text((d) => d.title + ', ' + d.year_title);
 
           addAxisLabels('Year', 'Cast Size', svg);
 
@@ -873,27 +797,21 @@ export default function stats() {
           x = d3
               .scaleLinear()
               .domain(
-                  d3.extent(allDatedShows, function(d) {
-                    return d.cast.length;
-                  }),
+                  d3.extent(allDatedShows, (d) => d.cast.length),
               )
               .range([0, widthM]);
 
           y = d3
               .scaleLinear()
               .domain(
-                  d3.extent(allDatedShows, function(d) {
-                    return d.crew.length;
-                  }),
+                  d3.extent(allDatedShows, (d) => d.crew.length),
               )
               .range([heightM, 0]);
 
           d3
               .scaleTime()
               .domain(
-                  d3.extent(allDatedShows, function(d) {
-                    return d.date;
-                  }),
+                  d3.extent(allDatedShows, (d) => d.date),
               )
               .range(['yellow', 'purple']);
 
@@ -915,22 +833,12 @@ export default function stats() {
               .enter()
               .append('circle')
               .attr('r', 5)
-              .attr('cx', function(d) {
-                return x(d.cast.length);
-              })
-              .attr('cy', function(d) {
-                return y(d.crew.length);
-              })
-              .attr('season', function(d) {
-                return d.season;
-              })
-              .attr('fill', function(d) {
-                return seasonColours(d.season);
-              })
+              .attr('cx', (d) => x(d.cast.length))
+              .attr('cy', (d) => y(d.crew.length))
+              .attr('season', (d) => d.season)
+              .attr('fill', (d) => seasonColours(d.season))
               .append('svg:title')
-              .text(function(d) {
-                return d.title + ', ' + d.year_title;
-              });
+              .text((d) => d.title + ', ' + d.year_title);
 
           addAxisLabels('Cast Size', 'Crew Size', svg);
 
@@ -941,9 +849,7 @@ export default function stats() {
                   Object.entries(allShows),
                   (d) => d.season,
                   (d) => d.year_title,
-              )).sort(function(a, b) {
-            return a.key - b.key;
-          });
+              )).sort((a, b) => a.key - b.key);
 
           const showCounts2 = [];
 
@@ -985,9 +891,7 @@ export default function stats() {
 
           allSeasons.forEach(function(s) {
             const thisSeasons = showCounts2
-                .filter(function(d) {
-                  return d.season == s;
-                })
+                .filter((d) => d.season == s)
                 .sort(function(a, b) {
                   const aVal = a.key.slice(0, 4);
                   const bVal = b.key.slice(0, 4);
@@ -1012,9 +916,7 @@ export default function stats() {
               .data(showCounts2)
               .enter()
               .append('circle')
-              .attr('season', function(d) {
-                return d.season;
-              })
+              .attr('season', (d) => d.season)
               .attr('r', 5)
               .attr('cx', (d) => x(yearTitleToDate(d.key)))
               .attr('cy', (d) => y(d.values.length))
@@ -1024,9 +926,7 @@ export default function stats() {
               .text(function(d) {
                 let titles = [];
                 d.values
-                    .sort(function(a, b) {
-                      return a.date - b.date;
-                    })
+                    .sort((a, b) => a.date - b.date)
                     .forEach(function(v) {
                       titles += v.title + '\n';
                     });
@@ -1136,9 +1036,7 @@ export default function stats() {
           x = d3
               .scaleTime()
               .domain(
-                  d3.extent(newNos, function(d) {
-                    return yearTitleToDate(d.key);
-                  }),
+                  d3.extent(newNos, (d) => yearTitleToDate(d.key)),
               )
               .range([0, widthM]);
 
@@ -1168,19 +1066,11 @@ export default function stats() {
               .enter()
               .append('circle')
               .attr('r', 5)
-              .attr('fill', function(d) {
-                return yearColourAxis(d.key);
-              })
-              .attr('cx', function(d) {
-                return x(yearTitleToDate(d.key));
-              })
-              .attr('cy', function(d) {
-                return y(d.values.length);
-              })
+              .attr('fill', (d) => yearColourAxis(d.key))
+              .attr('cx', (d) => x(yearTitleToDate(d.key)))
+              .attr('cy', (d) => y(d.values.length))
               .append('svg:title')
-              .text(function(d) {
-                return d.key + ': ' + d.values.length + ' new people';
-              });
+              .text((d) => d.key + ': ' + d.values.length + ' new people');
 
           // Add the X Axis
           svg
@@ -1225,18 +1115,14 @@ function actorToObject(a, showList, peopleList) {
     }
   });
   personLinks = personLinks
-      .filter(function(l) {
-        return l != a;
-      })
+      .filter((l) => l != a)
       .map(function(l) {
-        const conns = allShows.filter(function(d) {
-          return d.cast.includes(a) && d.cast.includes(l);
-        });
+        const conns = allShows.filter(
+            (d) => d.cast.includes(a) && d.cast.includes(l),
+        );
         return {name: l, connections: conns, strength: conns.length};
       })
-      .sort(function(l1, l2) {
-        return l2.strength - l1.strength;
-      });
+      .sort((l1, l2) => l2.strength - l1.strength);
 
   personShows = personShows.sort(function(s1, s2) {
     if (s1.title > s2.title) {

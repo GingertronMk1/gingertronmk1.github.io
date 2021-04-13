@@ -113,16 +113,21 @@ export default {
         } else {
           // This will ultimately replace options
           const _ret = [];
-          shows.forEach((show) => {
-            options.forEach((option) => {
-              // Duplicate options for each new show in a given slot
-              const _opt = Array.from(option);
-              if (_opt.indexOf(show) === -1) {
-                _opt.push(show);
-                _ret.push(_opt);
-              }
+          // Ensure that some shows exist with this preference
+          if (Array.isArray(shows)) {
+            shows.forEach((show) => {
+              options.forEach((option) => {
+                // Duplicate options for each new show in a given slot
+                const _opt = Array.from(option);
+                if (_opt.indexOf(show) === -1) {
+                  _opt.push(show);
+                  _ret.push(_opt);
+                }
+              });
             });
-          });
+          } else {
+            return [];
+          }
           options = Array.from(_ret);
         }
       }

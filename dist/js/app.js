@@ -3225,6 +3225,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -3341,23 +3343,33 @@ __webpack_require__.r(__webpack_exports__);
             return options.push([show]);
           });
         } else {
-          (function () {
+          var _ret2 = function () {
             // This will ultimately replace options
-            var _ret = [];
-            shows.forEach(function (show) {
-              options.forEach(function (option) {
-                // Duplicate options for each new show in a given slot
-                var _opt = Array.from(option);
+            var _ret = []; // Ensure that some shows exist with this preference
 
-                if (_opt.indexOf(show) === -1) {
-                  _opt.push(show);
+            if (Array.isArray(shows)) {
+              shows.forEach(function (show) {
+                options.forEach(function (option) {
+                  // Duplicate options for each new show in a given slot
+                  var _opt = Array.from(option);
 
-                  _ret.push(_opt);
-                }
+                  if (_opt.indexOf(show) === -1) {
+                    _opt.push(show);
+
+                    _ret.push(_opt);
+                  }
+                });
               });
-            });
+            } else {
+              return {
+                v: []
+              };
+            }
+
             options = Array.from(_ret);
-          })();
+          }();
+
+          if (_typeof(_ret2) === "object") return _ret2.v;
         }
       }
 

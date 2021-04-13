@@ -133,7 +133,7 @@ export default function stats() {
         let yAxis;
 
         allShows = resp.filter((x) => {
-          return x.type === 'show' && x.title != 'Freshers\' Fringe'
+          return x.type === 'show' && x.title != 'Freshers\' Fringe';
         });
         allPeople = resp.filter((x) => x.type === 'person');
 
@@ -142,7 +142,7 @@ export default function stats() {
         if (process.env.NODE_ENV !== 'production') {
           allShows = allShows.filter(({year_title: t}) => t >= '2010&ndash;11');
         }
-  
+
         allShows = allShows.filter((x) => x.title != 'Freshers\' Fringe');
         allShows.forEach(function(s) {
           s.year_title = s.year_title.replace('&ndash;', '-');

@@ -3,14 +3,46 @@
   display: flex;
   flex-direction: row;
 
+  &__inputs {
+    @include flex($align: center);
+    margin-top: 1rem;
+
+    fieldset {
+      @include flex(row, space-between, center);
+      width: 100%;
+      border: none;
+      input {
+        width: 100%;
+        flex: 1;
+        border: 2px solid black;
+        border-radius: 0.5rem;
+        padding: 0.25rem;
+
+        &[name*="show"] {
+          max-width: 39%;
+        }
+        &[name*="slots"] {
+          max-width: 59%;
+        }
+      }
+    }
+
+    .button {
+      margin-top: 1rem;
+    }
+  }
+
   &__wrapper {
     @include flex($align: center);
   }
 
   &__table {
-    tr:nth-child(2n+1) {
+    margin-top: 1rem;
+
+    tr:nth-child(2n + 1) {
       background-color: #cccccc;
     }
+
     th {
       background-color: $grey-0;
       color: $white;
@@ -20,5 +52,4 @@
       padding: 0.5rem;
     }
   }
-
 }

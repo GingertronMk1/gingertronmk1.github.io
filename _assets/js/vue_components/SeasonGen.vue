@@ -2,18 +2,16 @@
   <div class="season-gen__wrapper">
     <div class="season-gen__inputs">
 
-      <div
+      <fieldset
         v-for="(show_slots, index) in shows_slots"
         v-bind:key="index"
         class="p-y-1"
       >
-        <input v-model="show_slots.show" />
-        <input v-model="show_slots.slots" />
-      </div>
+        <input v-model="show_slots.show" :name="'show' + index" />
+        <input v-model="show_slots.slots" :name="'slots' + index" />
+      </fieldset>
 
-      <div class="p-y-1">
-        <button v-on:click="new_show()">Add new</button>
-      </div>
+      <button v-on:click="new_show()" class="button">Add new</button>
     </div>
 
     <table v-if="permutations.length" class="season-gen__table">
@@ -44,11 +42,11 @@ export default {
         },
         {
           show: 'Show 3',
-          slots: '3,4',
+          slots: '3',
         },
         {
           show: 'Show 4',
-          slots: '4,3',
+          slots: '4',
         },
         {
           show: 'Show 5',
@@ -58,32 +56,6 @@ export default {
     };
   },
   methods: {
-    recurse_generate(object, keys, index) {
-      if (index + 1 < keys.length) {
-        const after = this.recurse_generate(object, keys, index + 1);
-        const oki = object[keys[index]];
-        const n = [];
-
-        for (const _perm in after) {
-          if (after[_perm]) {
-            const perm = after[_perm]; // One option for after this slot
-            for (const _slot in oki) {
-              if (oki[_slot] && perm.slice(0)) {
-                const slot = oki[_slot]; // The current show for this slot
-                const perm2 = perm.slice(0);
-                if (perm2.indexOf(slot) === -1) {
-                  perm2.unshift(slot);
-                  n.unshift(perm2);
-                }
-              }
-            }
-          }
-        }
-        return n;
-      } else {
-        return object[keys[index]].map((x) => [x]);
-      }
-    },
     new_show() {
       const l = this.shows_slots.length + 1;
       this.shows_slots.push({
@@ -110,7 +82,7 @@ export default {
       });
       return parseInt(endSlot);
     },
-    permutations: function() {
+    preferences: function() {
       const preferences = [];
 
       this.array_shows_slots.forEach(({show: show, slots: slots}) => {
@@ -126,8 +98,36 @@ export default {
           });
         }
       });
+      // Preferences list initialised
+      // It is now a list of [ slot => shows ]
+      return preferences;
+    },
+    permutations: function() {
+      const preferences = this.preferences;
+      let options = [];
 
-      return this.recurse_generate(preferences, Object.keys(preferences), 0);
+      for (let x = 0; x < this.num_slots; x++) {
+        const shows = preferences[x+1];
+        if (x === 0) {
+          shows.forEach((show) => options.push([show]));
+        } else {
+          // This will ultimately replace options
+          const _ret = [];
+          shows.forEach((show) => {
+            options.forEach((option) => {
+              // Duplicate options for each new show in a given slot
+              const _opt = Array.from(option);
+              if (_opt.indexOf(show) === -1) {
+                _opt.push(show);
+                _ret.push(_opt);
+              }
+            });
+          });
+          options = Array.from(_ret);
+        }
+      }
+
+      return options;
     },
   },
 };

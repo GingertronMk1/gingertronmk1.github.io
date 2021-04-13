@@ -3254,8 +3254,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3267,10 +3265,10 @@ __webpack_require__.r(__webpack_exports__);
         slots: '2'
       }, {
         show: 'Show 3',
-        slots: '3,4'
+        slots: '3'
       }, {
         show: 'Show 4',
-        slots: '4,3'
+        slots: '4'
       }, {
         show: 'Show 5',
         slots: '5'
@@ -3278,38 +3276,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    recurse_generate: function recurse_generate(object, keys, index) {
-      if (index + 1 < keys.length) {
-        var after = this.recurse_generate(object, keys, index + 1);
-        var oki = object[keys[index]];
-        var n = [];
-
-        for (var _perm in after) {
-          if (after[_perm]) {
-            var perm = after[_perm]; // One option for after this slot
-
-            for (var _slot in oki) {
-              if (oki[_slot] && perm.slice(0)) {
-                var slot = oki[_slot]; // The current show for this slot
-
-                var perm2 = perm.slice(0);
-
-                if (perm2.indexOf(slot) === -1) {
-                  perm2.unshift(slot);
-                  n.unshift(perm2);
-                }
-              }
-            }
-          }
-        }
-
-        return n;
-      } else {
-        return object[keys[index]].map(function (x) {
-          return [x];
-        });
-      }
-    },
     new_show: function new_show() {
       var l = this.shows_slots.length + 1;
       this.shows_slots.push({
@@ -3341,7 +3307,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       return parseInt(endSlot);
     },
-    permutations: function permutations() {
+    preferences: function preferences() {
       var preferences = [];
       this.array_shows_slots.forEach(function (_ref3) {
         var show = _ref3.show,
@@ -3358,8 +3324,44 @@ __webpack_require__.r(__webpack_exports__);
             }
           });
         }
-      });
-      return this.recurse_generate(preferences, Object.keys(preferences), 0);
+      }); // Preferences list initialised
+      // It is now a list of [ slot => shows ]
+
+      return preferences;
+    },
+    permutations: function permutations() {
+      var preferences = this.preferences;
+      var options = [];
+
+      for (var x = 0; x < this.num_slots; x++) {
+        var shows = preferences[x + 1];
+
+        if (x === 0) {
+          shows.forEach(function (show) {
+            return options.push([show]);
+          });
+        } else {
+          (function () {
+            // This will ultimately replace options
+            var _ret = [];
+            shows.forEach(function (show) {
+              options.forEach(function (option) {
+                // Duplicate options for each new show in a given slot
+                var _opt = Array.from(option);
+
+                if (_opt.indexOf(show) === -1) {
+                  _opt.push(show);
+
+                  _ret.push(_opt);
+                }
+              });
+            });
+            options = Array.from(_ret);
+          })();
+        }
+      }
+
+      return options;
     }
   }
 });
@@ -35467,7 +35469,7 @@ var render = function() {
       { staticClass: "season-gen__inputs" },
       [
         _vm._l(_vm.shows_slots, function(show_slots, index) {
-          return _c("div", { key: index, staticClass: "p-y-1" }, [
+          return _c("fieldset", { key: index, staticClass: "p-y-1" }, [
             _c("input", {
               directives: [
                 {
@@ -35477,6 +35479,7 @@ var render = function() {
                   expression: "show_slots.show"
                 }
               ],
+              attrs: { name: "show" + index },
               domProps: { value: show_slots.show },
               on: {
                 input: function($event) {
@@ -35497,6 +35500,7 @@ var render = function() {
                   expression: "show_slots.slots"
                 }
               ],
+              attrs: { name: "slots" + index },
               domProps: { value: show_slots.slots },
               on: {
                 input: function($event) {
@@ -35510,19 +35514,18 @@ var render = function() {
           ])
         }),
         _vm._v(" "),
-        _c("div", { staticClass: "p-y-1" }, [
-          _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.new_show()
-                }
+        _c(
+          "button",
+          {
+            staticClass: "button",
+            on: {
+              click: function($event) {
+                return _vm.new_show()
               }
-            },
-            [_vm._v("Add new")]
-          )
-        ])
+            }
+          },
+          [_vm._v("Add new")]
+        )
       ],
       2
     ),

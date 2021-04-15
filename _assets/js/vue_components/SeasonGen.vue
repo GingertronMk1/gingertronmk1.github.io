@@ -3,20 +3,23 @@
     <div class="season-gen__inputs">
 
       <fieldset
-        v-for="(show_slots, index) in shows_slots"
+        v-for="(show_slots, index) in showsSlots"
         v-bind:key="index"
         class="p-y-1"
       >
         <input v-model="show_slots.show" :name="'show' + index" />
         <input v-model="show_slots.slots" :name="'slots' + index" />
+        <span class="season-gen__remove-show" v-on:click="removeShow(index)">
+          &times;
+        </span>
       </fieldset>
 
-      <button v-on:click="new_show()" class="button">Add new</button>
+      <button v-on:click="newShow()" class="button">Add new</button>
     </div>
 
     <table v-if="permutations.length" class="season-gen__table">
       <tr>
-        <th v-for="n in num_slots" v-bind:key="n">
+        <th v-for="n in numSlots" v-bind:key="n">
           Slot {{ n }}
         </th>
       </tr>
@@ -31,7 +34,7 @@
 export default {
   data: function() {
     return {
-      shows_slots: [
+      showsSlots: [
         {
           show: 'Show 1',
           slots: '1,5',
@@ -56,18 +59,21 @@ export default {
     };
   },
   methods: {
-    new_show() {
-      const l = this.shows_slots.length + 1;
-      this.shows_slots.push({
+    newShow() {
+      const l = this.showsSlots.length + 1;
+      this.showsSlots.push({
         show: 'Show ' + l,
         slots: l.toString(),
       });
     },
+    removeShow(index) {
+      this.showsSlots.splice(index, 1);
+    },
   },
   computed: {
-    array_shows_slots: function() {
+    arrayShowsSlots: function() {
       const ass = []; // haha, ass
-      this.shows_slots.forEach(({show: show, slots: slots}) => {
+      this.showsSlots.forEach(({show: show, slots: slots}) => {
         ass.push({
           show: show,
           slots: slots.split(/ *, */),
@@ -75,16 +81,16 @@ export default {
       });
       return ass;
     },
-    num_slots: function() {
-      let endSlot = 0;
-      this.array_shows_slots.forEach(function({slots: slots}) {
-        slots.forEach((slot) => endSlot = slot > endSlot ? slot : endSlot);
-      });
-      return parseInt(endSlot);
+    numSlots: function() {
+      return this.arrayShowsSlots
+          .map(({slots: slots}) => slots)
+          .flat()
+          .map((slot) => parseInt(slot))
+          .reduce((acc, slot) => Math.max(acc, slot), 0);
     },
     preferences: function() {
       const preferences = [];
-      this.array_shows_slots
+      this.arrayShowsSlots
           .filter(({show: show, slots: slots}) => slots !== [] && show !== '')
           .forEach(({show: show, slots: slots}) => {
             slots
@@ -102,7 +108,7 @@ export default {
     permutations: function() {
       const preferences = this.preferences;
       let options = (preferences[1]).map((p) => [p]);
-      for (let x = 1; x < this.num_slots; x++) {
+      for (let x = 1; x < this.numSlots; x++) {
         const shows = preferences[x+1];
         // This will ultimately replace options
         const _options = [];
@@ -124,6 +130,35 @@ export default {
         options = Array.from(_options);
       }
       return options;
+    },
+  },
+  mounted: function() {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(this.numSlots);
+      console.log((
+        this.arrayShowsSlots
+            .map(({slots: slots}) => slots)
+            .flat()
+            .map((x) => parseInt(x))
+      ));
+    }
+  },
+  watch: {
+    showsSlots: {
+      handler: function(newSS, oldSS) {
+        if (process.env.NODE_ENV !== 'production') {
+          [
+            'numSlots',
+            'arrayShowsSlots',
+            'preferences',
+            'permutations',
+          ].forEach((attr) => {
+            console.log(attr),
+            console.table(this[attr]);
+          });
+        }
+      },
+      deep: true,
     },
   },
 };

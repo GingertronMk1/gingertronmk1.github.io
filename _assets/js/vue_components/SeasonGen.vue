@@ -123,7 +123,6 @@ export default {
         }
         options = Array.from(_options);
       }
-
       return options;
     },
   },

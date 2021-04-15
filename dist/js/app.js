@@ -3261,19 +3261,19 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return {
       shows_slots: [{
         show: 'Show 1',
-        slots: '1'
+        slots: '1,5'
       }, {
         show: 'Show 2',
-        slots: '2'
+        slots: '2,4'
       }, {
         show: 'Show 3',
         slots: '3'
       }, {
         show: 'Show 4',
-        slots: '4'
+        slots: '4,2'
       }, {
         show: 'Show 5',
-        slots: '5'
+        slots: '5,1'
       }]
     };
   },
@@ -3288,7 +3288,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
   computed: {
     array_shows_slots: function array_shows_slots() {
-      var ass = [];
+      var ass = []; // haha, ass
+
       this.shows_slots.forEach(function (_ref) {
         var show = _ref.show,
             slots = _ref.slots;
@@ -3311,66 +3312,62 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     },
     preferences: function preferences() {
       var preferences = [];
-      this.array_shows_slots.forEach(function (_ref3) {
+      this.array_shows_slots.filter(function (_ref3) {
         var show = _ref3.show,
             slots = _ref3.slots;
-
-        if (slots != '' && show != '') {
-          slots.forEach(function (slot) {
-            if (slot !== '') {
-              if (!preferences[slot]) {
-                preferences[slot] = [show];
-              } else {
-                preferences[slot].push(show);
-              }
-            }
-          });
-        }
-      }); // Preferences list initialised
-      // It is now a list of [ slot => shows ]
-
+        return slots !== [] && show !== '';
+      }).forEach(function (_ref4) {
+        var show = _ref4.show,
+            slots = _ref4.slots;
+        slots.filter(function (slot) {
+          return slot !== '';
+        }).forEach(function (slot) {
+          if (!preferences[slot]) {
+            preferences[slot] = [show];
+          } else {
+            preferences[slot].push(show);
+          }
+        });
+      });
       return preferences;
     },
     permutations: function permutations() {
       var preferences = this.preferences;
-      var options = [];
+      var options = preferences[1].map(function (p) {
+        return [p];
+      });
 
-      for (var x = 0; x < this.num_slots; x++) {
-        var shows = preferences[x + 1];
+      var _loop = function _loop(x) {
+        var shows = preferences[x + 1]; // This will ultimately replace options
 
-        if (x === 0) {
+        var _options = []; // Ensure that some shows exist with this preference
+
+        if (Array.isArray(shows)) {
           shows.forEach(function (show) {
-            return options.push([show]);
+            options.filter(function (option) {
+              return option.indexOf(show) < 0;
+            }).forEach(function (option) {
+              // Duplicate options for each new show in a given slot
+              var _option = Array.from(option);
+
+              _option.push(show);
+
+              _options.push(_option);
+            });
           });
         } else {
-          var _ret2 = function () {
-            // This will ultimately replace options
-            var _ret = []; // Ensure that some shows exist with this preference
-
-            if (Array.isArray(shows)) {
-              shows.forEach(function (show) {
-                options.forEach(function (option) {
-                  // Duplicate options for each new show in a given slot
-                  var _opt = Array.from(option);
-
-                  if (_opt.indexOf(show) === -1) {
-                    _opt.push(show);
-
-                    _ret.push(_opt);
-                  }
-                });
-              });
-            } else {
-              return {
-                v: []
-              };
-            }
-
-            options = Array.from(_ret);
-          }();
-
-          if (_typeof(_ret2) === "object") return _ret2.v;
+          return {
+            v: []
+          };
         }
+
+        options = Array.from(_options);
+      };
+
+      for (var x = 1; x < this.num_slots; x++) {
+        var _ret = _loop(x);
+
+        if (_typeof(_ret) === "object") return _ret.v;
       }
 
       return options;

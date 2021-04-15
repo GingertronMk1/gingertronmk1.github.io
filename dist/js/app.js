@@ -3256,10 +3256,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      shows_slots: [{
+      showsSlots: [{
         show: 'Show 1',
         slots: '1,5'
       }, {
@@ -3278,19 +3281,22 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     };
   },
   methods: {
-    new_show: function new_show() {
-      var l = this.shows_slots.length + 1;
-      this.shows_slots.push({
+    newShow: function newShow() {
+      var l = this.showsSlots.length + 1;
+      this.showsSlots.push({
         show: 'Show ' + l,
         slots: l.toString()
       });
+    },
+    removeShow: function removeShow(index) {
+      this.showsSlots.splice(index, 1);
     }
   },
   computed: {
-    array_shows_slots: function array_shows_slots() {
+    arrayShowsSlots: function arrayShowsSlots() {
       var ass = []; // haha, ass
 
-      this.shows_slots.forEach(function (_ref) {
+      this.showsSlots.forEach(function (_ref) {
         var show = _ref.show,
             slots = _ref.slots;
         ass.push({
@@ -3300,19 +3306,19 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       });
       return ass;
     },
-    num_slots: function num_slots() {
-      var endSlot = 0;
-      this.array_shows_slots.forEach(function (_ref2) {
+    numSlots: function numSlots() {
+      return this.arrayShowsSlots.map(function (_ref2) {
         var slots = _ref2.slots;
-        slots.forEach(function (slot) {
-          return endSlot = slot > endSlot ? slot : endSlot;
-        });
-      });
-      return parseInt(endSlot);
+        return slots;
+      }).flat().map(function (slot) {
+        return parseInt(slot);
+      }).reduce(function (acc, slot) {
+        return Math.max(acc, slot);
+      }, 0);
     },
     preferences: function preferences() {
       var preferences = [];
-      this.array_shows_slots.filter(function (_ref3) {
+      this.arrayShowsSlots.filter(function (_ref3) {
         var show = _ref3.show,
             slots = _ref3.slots;
         return slots !== [] && show !== '';
@@ -3364,13 +3370,38 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         options = Array.from(_options);
       };
 
-      for (var x = 1; x < this.num_slots; x++) {
+      for (var x = 1; x < this.numSlots; x++) {
         var _ret = _loop(x);
 
         if (_typeof(_ret) === "object") return _ret.v;
       }
 
       return options;
+    }
+  },
+  mounted: function mounted() {
+    if (true) {
+      console.log(this.numSlots);
+      console.log(this.arrayShowsSlots.map(function (_ref5) {
+        var slots = _ref5.slots;
+        return slots;
+      }).flat().map(function (x) {
+        return parseInt(x);
+      }));
+    }
+  },
+  watch: {
+    showsSlots: {
+      handler: function handler(newSS, oldSS) {
+        var _this = this;
+
+        if (true) {
+          ['numSlots', 'arrayShowsSlots', 'preferences', 'permutations'].forEach(function (attr) {
+            console.log(attr), console.table(_this[attr]);
+          });
+        }
+      },
+      deep: true
     }
   }
 });
@@ -35477,7 +35508,7 @@ var render = function() {
       "div",
       { staticClass: "season-gen__inputs" },
       [
-        _vm._l(_vm.shows_slots, function(show_slots, index) {
+        _vm._l(_vm.showsSlots, function(show_slots, index) {
           return _c("fieldset", { key: index, staticClass: "p-y-1" }, [
             _c("input", {
               directives: [
@@ -35519,7 +35550,20 @@ var render = function() {
                   _vm.$set(show_slots, "slots", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass: "season-gen__remove-show",
+                on: {
+                  click: function($event) {
+                    return _vm.removeShow(index)
+                  }
+                }
+              },
+              [_vm._v("\n        ×\n      ")]
+            )
           ])
         }),
         _vm._v(" "),
@@ -35529,7 +35573,7 @@ var render = function() {
             staticClass: "button",
             on: {
               click: function($event) {
-                return _vm.new_show()
+                return _vm.newShow()
               }
             }
           },
@@ -35546,7 +35590,7 @@ var render = function() {
           [
             _c(
               "tr",
-              _vm._l(_vm.num_slots, function(n) {
+              _vm._l(_vm.numSlots, function(n) {
                 return _c("th", { key: n }, [
                   _vm._v("\n        Slot " + _vm._s(n) + "\n      ")
                 ])

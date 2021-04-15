@@ -23,6 +23,7 @@
         }
         &[name*="slots"] {
           max-width: 59%;
+          margin-left: 0.5rem;
         }
       }
     }
@@ -51,5 +52,14 @@
     tr > * {
       padding: 0.5rem;
     }
+  }
+
+  &__remove-show {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    color: $primary;
+    font-weight: 700;
+    font-size: 2rem;
+    @include flex($justify: center);
   }
 }

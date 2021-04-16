@@ -3270,13 +3270,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         slots: '2,1'
       }, {
         show: 'Show 3',
-        slots: '3,4'
+        slots: '3,4,5'
       }, {
         show: 'Show 4',
-        slots: '4,5'
+        slots: '4,5,3'
       }, {
         show: 'Show 5',
-        slots: '5,3'
+        slots: '5,3,4'
       }],
       log: false
     };

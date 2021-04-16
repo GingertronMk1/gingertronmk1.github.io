@@ -45,15 +45,15 @@ export default {
         },
         {
           show: 'Show 3',
-          slots: '3,4',
+          slots: '3,4,5',
         },
         {
           show: 'Show 4',
-          slots: '4,5',
+          slots: '4,5,3',
         },
         {
           show: 'Show 5',
-          slots: '5,3',
+          slots: '5,3,4',
         },
       ],
       log: false,

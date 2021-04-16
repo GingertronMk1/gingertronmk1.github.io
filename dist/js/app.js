@@ -3264,20 +3264,21 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return {
       showsSlots: [{
         show: 'Show 1',
-        slots: '1,5'
+        slots: '1,2'
       }, {
         show: 'Show 2',
-        slots: '2,4'
+        slots: '2,1'
       }, {
         show: 'Show 3',
-        slots: '3'
+        slots: '3,4'
       }, {
         show: 'Show 4',
-        slots: '4,2'
+        slots: '4,5'
       }, {
         show: 'Show 5',
-        slots: '5,1'
-      }]
+        slots: '5,3'
+      }],
+      log: false
     };
   },
   methods: {
@@ -3294,17 +3295,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
   computed: {
     arrayShowsSlots: function arrayShowsSlots() {
-      var ass = []; // haha, ass
-
-      this.showsSlots.forEach(function (_ref) {
+      return this.showsSlots.map(function (_ref) {
         var show = _ref.show,
             slots = _ref.slots;
-        ass.push({
+        return {
           show: show,
           slots: slots.split(/ *, */)
-        });
+        };
       });
-      return ass;
     },
     numSlots: function numSlots() {
       return this.arrayShowsSlots.map(function (_ref2) {
@@ -3317,70 +3315,89 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       }, 0);
     },
     preferences: function preferences() {
-      var preferences = [];
-      this.arrayShowsSlots.filter(function (_ref3) {
-        var show = _ref3.show,
-            slots = _ref3.slots;
-        return slots !== [] && show !== '';
-      }).forEach(function (_ref4) {
-        var show = _ref4.show,
-            slots = _ref4.slots;
-        slots.filter(function (slot) {
-          return slot !== '';
-        }).forEach(function (slot) {
-          if (!preferences[slot]) {
-            preferences[slot] = [show];
-          } else {
-            preferences[slot].push(show);
-          }
+      if (this.arrayShowsSlots.length) {
+        var preferences = [];
+        this.arrayShowsSlots.filter(function (_ref3) {
+          var show = _ref3.show,
+              slots = _ref3.slots;
+          return slots !== [] && show !== '';
+        }).forEach(function (_ref4) {
+          var show = _ref4.show,
+              slots = _ref4.slots;
+          slots.filter(function (slot) {
+            return slot !== '';
+          }).forEach(function (slot) {
+            if (!preferences[slot]) {
+              preferences[slot] = [show];
+            } else {
+              preferences[slot].push(show);
+            }
+          });
         });
-      });
-      return preferences;
+        return preferences;
+      }
+
+      return [];
     },
     permutations: function permutations() {
+      var _this = this;
+
       var preferences = this.preferences;
-      var options = preferences[1].map(function (p) {
-        return [p];
-      });
 
-      var _loop = function _loop(x) {
-        var shows = preferences[x + 1]; // This will ultimately replace options
+      if (preferences.length) {
+        var _ret = function () {
+          var options = preferences[1].map(function (p) {
+            return [p];
+          }); // Start from index 1 - we've done the index 0 work in the line above
 
-        var _options = []; // Ensure that some shows exist with this preference
+          var _loop = function _loop(x) {
+            var shows = preferences[x + 1]; // This will ultimately replace options
 
-        if (Array.isArray(shows)) {
-          shows.forEach(function (show) {
-            options.filter(function (option) {
-              return option.indexOf(show) < 0;
-            }).forEach(function (option) {
-              // Duplicate options for each new show in a given slot
-              var _option = Array.from(option);
+            var _options = []; // Ensure that some shows exist with this preference
 
-              _option.push(show);
+            if (Array.isArray(shows)) {
+              shows.forEach(function (show) {
+                options.filter(function (option) {
+                  return !option.includes(show);
+                }).forEach(function (option) {
+                  // Duplicate options for each new show in a given slot
+                  var _option = Array.from(option);
 
-              _options.push(_option);
-            });
-          });
-        } else {
-          return {
-            v: []
+                  _option.push(show);
+
+                  _options.push(_option);
+                });
+              });
+            } else {
+              return {
+                v: {
+                  v: []
+                }
+              };
+            }
+
+            options = Array.from(_options);
           };
-        }
 
-        options = Array.from(_options);
-      };
+          for (var x = 1; x < _this.numSlots; x++) {
+            var _ret2 = _loop(x);
 
-      for (var x = 1; x < this.numSlots; x++) {
-        var _ret = _loop(x);
+            if (_typeof(_ret2) === "object") return _ret2.v;
+          }
+
+          return {
+            v: options
+          };
+        }();
 
         if (_typeof(_ret) === "object") return _ret.v;
       }
 
-      return options;
+      return [];
     }
   },
   mounted: function mounted() {
-    if (true) {
+    if (this.log && "development" !== 'production') {
       console.log(this.numSlots);
       console.log(this.arrayShowsSlots.map(function (_ref5) {
         var slots = _ref5.slots;
@@ -3392,12 +3409,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   },
   watch: {
     showsSlots: {
-      handler: function handler(newSS, oldSS) {
-        var _this = this;
+      handler: function handler() {
+        var _this2 = this;
 
-        if (true) {
+        if (this.log && "development" !== 'production') {
           ['numSlots', 'arrayShowsSlots', 'preferences', 'permutations'].forEach(function (attr) {
-            console.log(attr), console.table(_this[attr]);
+            console.log(attr), console.table(_this2[attr]);
           });
         }
       },

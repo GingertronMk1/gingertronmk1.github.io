@@ -37,25 +37,26 @@ export default {
       showsSlots: [
         {
           show: 'Show 1',
-          slots: '1,5',
+          slots: '1,2',
         },
         {
           show: 'Show 2',
-          slots: '2,4',
+          slots: '2,1',
         },
         {
           show: 'Show 3',
-          slots: '3',
+          slots: '3,4',
         },
         {
           show: 'Show 4',
-          slots: '4,2',
+          slots: '4,5',
         },
         {
           show: 'Show 5',
-          slots: '5,1',
+          slots: '5,3',
         },
       ],
+      log: false,
     };
   },
   methods: {
@@ -72,14 +73,15 @@ export default {
   },
   computed: {
     arrayShowsSlots: function() {
-      const ass = []; // haha, ass
-      this.showsSlots.forEach(({show: show, slots: slots}) => {
-        ass.push({
+      return this.showsSlots.map(({
+        show: show,
+        slots: slots,
+      }) => {
+        return {
           show: show,
           slots: slots.split(/ *, */),
-        });
+        };
       });
-      return ass;
     },
     numSlots: function() {
       return this.arrayShowsSlots
@@ -89,51 +91,64 @@ export default {
           .reduce((acc, slot) => Math.max(acc, slot), 0);
     },
     preferences: function() {
-      const preferences = [];
-      this.arrayShowsSlots
-          .filter(({show: show, slots: slots}) => slots !== [] && show !== '')
-          .forEach(({show: show, slots: slots}) => {
-            slots
-                .filter((slot) => slot !== '')
-                .forEach((slot) => {
-                  if (!preferences[slot]) {
-                    preferences[slot] = [show];
-                  } else {
-                    preferences[slot].push(show);
-                  }
-                });
-          });
-      return preferences;
+      if (this.arrayShowsSlots.length) {
+        const preferences = [];
+        this.arrayShowsSlots
+            .filter(({
+              show: show,
+              slots: slots,
+            }) => slots !== [] && show !== '')
+            .forEach(({
+              show: show,
+              slots: slots,
+            }) => {
+              slots
+                  .filter((slot) => slot !== '')
+                  .forEach((slot) => {
+                    if (!preferences[slot]) {
+                      preferences[slot] = [show];
+                    } else {
+                      preferences[slot].push(show);
+                    }
+                  });
+            });
+        return preferences;
+      }
+      return [];
     },
     permutations: function() {
       const preferences = this.preferences;
-      let options = (preferences[1]).map((p) => [p]);
-      for (let x = 1; x < this.numSlots; x++) {
-        const shows = preferences[x+1];
-        // This will ultimately replace options
-        const _options = [];
-        // Ensure that some shows exist with this preference
-        if (Array.isArray(shows)) {
-          shows.forEach((show) => {
-            options
-                .filter((option) => option.indexOf(show) < 0)
-                .forEach((option) => {
-                  // Duplicate options for each new show in a given slot
-                  const _option = Array.from(option);
-                  _option.push(show);
-                  _options.push(_option);
-                });
-          });
-        } else {
-          return [];
+      if (preferences.length) {
+        let options = preferences[1].map((p) => [p]);
+        // Start from index 1 - we've done the index 0 work in the line above
+        for (let x = 1; x < this.numSlots; x++) {
+          const shows = preferences[x+1];
+          // This will ultimately replace options
+          const _options = [];
+          // Ensure that some shows exist with this preference
+          if (Array.isArray(shows)) {
+            shows.forEach((show) => {
+              options
+                  .filter((option) => !option.includes(show))
+                  .forEach((option) => {
+                    // Duplicate options for each new show in a given slot
+                    const _option = Array.from(option);
+                    _option.push(show);
+                    _options.push(_option);
+                  });
+            });
+          } else {
+            return [];
+          }
+          options = Array.from(_options);
         }
-        options = Array.from(_options);
+        return options;
       }
-      return options;
+      return [];
     },
   },
   mounted: function() {
-    if (process.env.NODE_ENV !== 'production') {
+    if (this.log && process.env.NODE_ENV !== 'production') {
       console.log(this.numSlots);
       console.log((
         this.arrayShowsSlots
@@ -145,8 +160,8 @@ export default {
   },
   watch: {
     showsSlots: {
-      handler: function(newSS, oldSS) {
-        if (process.env.NODE_ENV !== 'production') {
+      handler: function() {
+        if (this.log && process.env.NODE_ENV !== 'production') {
           [
             'numSlots',
             'arrayShowsSlots',

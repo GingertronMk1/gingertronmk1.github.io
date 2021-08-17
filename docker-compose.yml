@@ -4,16 +4,25 @@ services:
   web:
     build: .
     working_dir: /usr/src/app
-    command: bundle exec jekyll serve
+    command: | 
+      bundle exec jekyll serve
+      --host 0.0.0.0
+      --livereload
+      --livereload-port 4001
     volumes:
       - .:/usr/src/app:delegated
     labels:
       - "traefik.enable=true"
+      - "traefik.http.services.jekyll.loadbalancer.server.port=4000"
       - "traefik.http.routers.jekyll.rule=Host(`jekyll.ginge.localhost`)"
     networks:
       - internal
       - traefik
     restart: on-failure
+    ports:
+      - 4000:4000
+      - 4001:4001
+
 
   assets:
     image: node:16

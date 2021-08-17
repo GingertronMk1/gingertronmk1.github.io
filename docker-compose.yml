@@ -1,0 +1,34 @@
+version: "3.7"
+   
+services:
+  web:
+    build: .
+    working_dir: /usr/src/app
+    command: bundle exec jekyll serve
+    volumes:
+      - .:/usr/src/app:delegated
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jekyll.rule=Host(`jekyll.ginge.localhost`)"
+    networks:
+      - internal
+      - traefik
+    restart: on-failure
+
+  assets:
+    image: node:16
+    restart: on-failure
+    working_dir: /node
+    volumes:
+      - .:/node:delegated
+    command: /bin/bash -c "npm ci && npm run watch"
+    networks:
+      - internal
+    ports:
+      - 3000:3000
+      - 3001:3001
+
+networks:
+  internal:
+  traefik:
+    external: true

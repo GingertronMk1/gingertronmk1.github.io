@@ -21,3 +21,9 @@ mix
     .js('_assets/js/app.js', 'dist/js/app.js'); // nasty horrible workaround
 
 mix.sass('_assets/sass/style.scss', 'dist/css/app.css');
+
+if(mix.inProduction()) {
+    mix
+      .version()
+      .minify('dist/css/app.css');
+}

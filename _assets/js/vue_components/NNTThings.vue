@@ -1,10 +1,17 @@
 <template>
-  <div>
-    <div class="flex flex-row" v-if="Object.keys(people).length > 0">
-      <div class="flex flex-column">
+  <div class="nnt_things">
+    <div class="nnt_things__inputs" v-if="Object.keys(people).length > 0">
+      <div class="nnt_things__input">
+        <input
+          type="text"
+          name="person1search"
+          id="person1search"
+          v-model="person1search"
+        />
         <select name="person1" id="person1" v-model="person1">
+          <option selected disabled>Select the first person</option>
           <option
-            v-for="(links, person) in people"
+            v-for="(links, person) in peopleFiltered1"
             :value="person"
             :key="person + links.length"
             v-text="person"
@@ -12,10 +19,17 @@
         </select>
       </div>
 
-      <div class="flex flex-column">
+      <div class="nnt_things__input">
+        <input
+          type="text"
+          name="person2search"
+          id="person2search"
+          v-model="person2search"
+        />
         <select name="person2" id="person2" v-model="person2">
+          <option selected disabled>Select the second person</option>
           <option
-            v-for="(links, person) in people"
+            v-for="(links, person) in peopleFiltered2"
             :value="person"
             :key="person + links.length"
             v-text="person"
@@ -24,14 +38,17 @@
       </div>
     </div>
 
-    <template
-      v-if="result.distance"
-    >
-      <div v-if="result.distance !== 'Infinity'">
+    <template v-if="result.distance">
+      <div v-if="result.distance !== 'Infinity'" class="nnt_things__results">
         <h3>Shortest Path Length: {{ result.distance }}</h3>
         <ul>
-          <li v-for="(link, index) in result.showPath" :key="index">
-            {{ link.person1 }} was in <i>{{ link.title }}</i> with
+          <li
+            v-for="(link, index) in result.showPath"
+            :key="index"
+            class="nnt_things__path-item"
+          >
+            {{ link.person1 }} was in the {{ link.show.year_title }} production
+            of <i>{{ link.show.title }}</i> with
             {{ link.person2 }}
           </li>
         </ul>
@@ -51,6 +68,8 @@ export default {
       people: [],
       person1: null,
       person2: null,
+      person1search: "",
+      person2search: "",
       result: {
         distance: 0,
         path: [],
@@ -83,6 +102,8 @@ export default {
                 .map((name) => name.trim())
                 .filter((name) => name !== "");
             }
+
+            show.year_title = show.year_title.replace("&ndash;", "-");
             return show;
           })
           .filter(({ cast }) => cast.length > 0);
@@ -106,7 +127,12 @@ export default {
           });
         });
 
-        this.people = people;
+        this.people = Object.keys(people)
+          .sort()
+          .reduce((obj, key) => {
+            obj[key] = people[key];
+            return obj;
+          }, {});
       })
       .catch((error) => console.log(error));
   },
@@ -186,8 +212,6 @@ export default {
       }
       shortestPath.reverse();
 
-      const shows = this.search;
-
       //this is the shortest path
       const results = {
         distance: distances[endNode],
@@ -198,18 +222,13 @@ export default {
           if (index < array.length - 1) {
             const person1 = value;
             const person2 = array[index + 1];
-            let title = "Not found";
-
             const show = this.search.find(
               ({ cast }) => cast.includes(person1) && cast.includes(person2)
             );
-            if (show !== undefined) {
-              title = show.title;
-            }
             result.push({
               person1: person1,
               person2: person2,
-              title: title,
+              show: show,
             });
           }
           return result;
@@ -232,19 +251,21 @@ export default {
       }
     },
   },
+  computed: {
+    peopleFiltered1() {
+      return Object.fromEntries(
+        Object.entries(this.people).filter(([person, friends]) =>
+          person.toLowerCase().includes(this.person1search.toLowerCase())
+        )
+      );
+    },
+    peopleFiltered2() {
+      return Object.fromEntries(
+        Object.entries(this.people).filter(([person, friends]) =>
+          person.toLowerCase().includes(this.person2search.toLowerCase())
+        )
+      );
+    },
+  },
 };
 </script>
-
-<style lang="scss" scoped>
-.flex {
-  display: flex;
-
-  &.flex-row {
-    flex-direction: row;
-  }
-
-  &.flex-column {
-    flex-direction: column;
-  }
-}
-</style>

@@ -1,0 +1,27 @@
+.nnt_things {
+  @include flex(column, space-between);
+  padding-top: 1rem;
+  width: 95%;
+  max-width: 1200px;
+
+  &__inputs {
+    @include flex(row, space-around);
+  }
+
+  &__input {
+    @include flex(column, stretch);
+
+    flex: 1;
+    min-width: 1px;
+    max-width: 45%;
+
+
+    > input + select {
+      margin-top: 1rem;
+    }
+  }
+
+  &__path-item + &__path-item {
+    margin-top: 1.6rem;
+  }
+}

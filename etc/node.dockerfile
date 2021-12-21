@@ -1,7 +1,7 @@
-FROM node:17-alpine
+FROM node:16-alpine
 
 WORKDIR /src
 
 COPY . .
 
-RUN npm install
+RUN npm install && npm run dev

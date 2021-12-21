@@ -16,14 +16,20 @@ const mix = require('laravel-mix');
  | ]
  */
 
+const appjs = './dist/js/app.js';
+const appcss = './dist/css/app.css';
 
 mix
-    .js('_assets/js/app.js', 'dist/js/app.js'); // nasty horrible workaround
-
-mix.sass('_assets/sass/style.scss', 'dist/css/app.css');
+  .setPublicPath('./dist')
+  .js('./_assets/js/app.js', appjs) // nasty horrible workaround
+  .sass('./_assets/sass/style.scss', appcss);
 
 if(mix.inProduction()) {
-    mix
-      .version()
-      .minify('dist/css/app.css');
+    mix.version()
+    .minify([
+      appjs,
+      appcss
+    ]);
+} else {
+  mix.sourceMaps();
 }

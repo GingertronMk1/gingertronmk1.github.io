@@ -2,7 +2,9 @@ version: "3.7"
    
 services:
   web:
-    build: .
+    build: 
+      context: .
+      dockerfile: ./etc/jekyll.dockerfile
     working_dir: /usr/src/app
     command: | 
       bundle exec jekyll serve
@@ -25,12 +27,13 @@ services:
 
 
   assets:
-    image: node:16
+    build:
+      context: .
+      dockerfile: ./etc/node.dockerfile
     restart: on-failure
-    working_dir: /node
-    volumes:
-      - .:/node:delegated
-    command: /bin/bash -c "npm ci && npm run watch"
+    working_dir: /src
+      - .:/src:delegated
+    command: npm run watch
     networks:
       - internal
     ports:

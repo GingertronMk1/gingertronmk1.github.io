@@ -2,12 +2,16 @@
  * Vue scaffolding
  */
 
+import Axios from 'axios';
 import Vue from 'vue';
 import seasonGen from './vue_components/SeasonGen.vue';
 import textGen from './vue_components/TextGen.vue';
 import counter from './vue_components/Counter.vue';
 import permissions from './vue_components/Permissions.vue';
+import nntThings from './vue_components/NNTThings.vue';
 import stats from './nnt_stats.js';
+
+window.axios = Axios;
 
 new Vue({
   el: '#app',
@@ -16,7 +20,8 @@ new Vue({
     textGen,
     counter,
     permissions,
-  },
+    nntThings
+  }
 });
 
 /**

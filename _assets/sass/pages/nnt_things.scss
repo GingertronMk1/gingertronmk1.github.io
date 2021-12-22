@@ -24,4 +24,19 @@
   &__path-item + &__path-item {
     margin-top: 1.6rem;
   }
+
+  &__info {
+    @include flex(row, space-around, center);
+    margin: 1rem 0;
+
+    & > * {
+      flex: 1;
+      min-width: 1px;
+      max-width: 45%;
+    }
+  }
+  
+  &__include-freshers-fringe {
+    @include flex(row, flex-start, center);
+  }
 }

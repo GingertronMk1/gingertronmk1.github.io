@@ -26,15 +26,15 @@ a:hover {
   padding: 0 auto;
   @include flex(column, center, center);
 
-  h1,   // Making the text
-  h2,   // sections within
-  h3,   // "content" divs
-  h4,   // the full width
-  h5,   // to force it
-  h6,   // to render
-  p,    // properly
-  ul,
-  table {
+  & > h1,   // Making the text
+  & > h2,   // sections within
+  & > h3,   // "content" divs
+  & > h4,   // the full width
+  & > h5,   // to force it
+  & > h6,   // to render
+  & > p,    // properly
+  & > ul,
+  & > table {
     min-width: 100%;
     margin-bottom: 1rem;
   }

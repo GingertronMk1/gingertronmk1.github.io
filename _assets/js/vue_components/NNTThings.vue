@@ -1,78 +1,86 @@
 <template>
   <div class="nnt_things">
-    <div class="nnt_things__info">
-    <label for="includeFreshersFringe" class="nnt_things__include-freshers-fringe">
-      Include Freshers' Fringe?
-      <input
-        type="checkbox"
-        name="includeFreshersFringe"
-        id="includeFreshersFringe"
-        v-model="includeFreshersFringe"
-      />
-    </label>
-
-    <span>
-      {{ shows.length }} shows with {{ Object.keys(people).length }} actors
-    </span>
-
-    </div>
-    <div class="nnt_things__inputs" v-if="Object.keys(people).length > 0">
-      <div class="nnt_things__input">
-        <input
-          type="text"
-          name="person1search"
-          id="person1search"
-          v-model="person1search"
-        />
-        <select name="person1" id="person1" v-model="person1">
-          <option selected disabled>Select the first person</option>
-          <option
-            v-for="(links, person) in peopleFiltered1"
-            :value="person"
-            :key="person + links.length"
-            v-text="person"
+    <template v-if="Array.isArray(search) && search.length > 1">
+      <div class="nnt_things__info">
+        <label
+          for="includeFreshersFringe"
+          class="nnt_things__include-freshers-fringe"
+        >
+          Include Freshers' Fringe?
+          <input
+            type="checkbox"
+            name="includeFreshersFringe"
+            id="includeFreshersFringe"
+            v-model="includeFreshersFringe"
           />
-        </select>
-      </div>
+        </label>
 
-      <div class="nnt_things__input">
-        <input
-          type="text"
-          name="person2search"
-          id="person2search"
-          v-model="person2search"
-        />
-        <select name="person2" id="person2" v-model="person2">
-          <option selected disabled>Select the second person</option>
-          <option
-            v-for="(links, person) in peopleFiltered2"
-            :value="person"
-            :key="person + links.length"
-            v-text="person"
+        <span>
+          {{ shows.length }} shows with {{ Object.keys(people).length }} actors
+        </span>
+
+        <button @click="randomise()" class="button">Randomise!</button>
+      </div>
+      <div class="nnt_things__inputs" v-if="Object.keys(people).length > 0">
+        <div class="nnt_things__input">
+          <input
+            type="text"
+            name="person1search"
+            id="person1search"
+            v-model="person1search"
           />
-        </select>
-      </div>
-    </div>
+          <select name="person1" id="person1" v-model="person1">
+            <option selected disabled :value="null">Select the first person</option>
+            <option
+              v-for="(person, index) in peopleFiltered1"
+              :value="person"
+              :key="'person1' + index"
+              v-text="person"
+            />
+          </select>
+        </div>
 
-    <template v-if="person1 !== null && person2 !== null">
-      <div v-if="result.distance !== 'Infinity'" class="nnt_things__results">
-        <h3>Shortest Path Length: {{ result.distance }}</h3>
-        <ul>
-          <li
-            v-for="(link, index) in result.showPath"
-            :key="index"
-            class="nnt_things__path-item"
-          >
-            {{ link.person1 }} was in the {{ link.show.year_title }} production
-            of <i>{{ link.show.title }}</i> with
-            {{ link.person2 }}
-          </li>
-        </ul>
+        <div class="nnt_things__input">
+          <input
+            type="text"
+            name="person2search"
+            id="person2search"
+            v-model="person2search"
+          />
+          <select name="person2" id="person2" v-model="person2">
+            <option selected disabled :value="null">Select the second person</option>
+            <option
+              v-for="(person, index) in peopleFiltered2"
+              :value="person"
+              :key="'person2' + index"
+              v-text="person"
+            />
+          </select>
+        </div>
       </div>
-      <h3 v-else>
-        Could not find a link between {{ person1 }} and {{ person2 }}
-      </h3>
+
+      <template v-if="person1 !== null && person2 !== null">
+        <div v-if="result.distance !== 'Infinity'" class="nnt_things__results">
+          <h3>Shortest Path Length: {{ result.distance }}</h3>
+          <ul>
+            <li
+              v-for="(link, index) in result.showPath"
+              :key="index"
+              class="nnt_things__path-item"
+            >
+              {{ link.person1 }} was in the
+              {{ link.show.year_title }} production of
+              <i>{{ link.show.title }}</i> with
+              {{ link.person2 }}
+            </li>
+          </ul>
+        </div>
+        <h3 v-else>
+          Could not find a link between {{ person1 }} and {{ person2 }}
+        </h3>
+      </template>
     </template>
+    <h3 class="nnt_things__loading" v-else>Loading...</h3>
   </div>
 </template>
 <script>
@@ -122,9 +130,18 @@ export default {
 
         this.search = search;
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   },
-  methods: {},
+  methods: {
+    randomise() {
+      const people = this.peopleArray;
+      const l = people.length;
+      const p1 = people[Math.floor(Math.random() * l)];
+      const p2 = people[Math.floor(Math.random() * l)];
+      this.person1 = p1;
+      this.person2 = p2;
+    },
+  },
   computed: {
     result() {
       return findShortestPath(
@@ -134,22 +151,21 @@ export default {
         this.shows
       );
     },
+    peopleArray() {
+      return Object.keys(this.people);
+    },
     peopleFiltered1() {
-      return Object.fromEntries(
-        Object.entries(this.people).filter(
-          ([person, friends]) =>
-            person.toLowerCase().includes(this.person1search.toLowerCase()) &&
-            person !== this.person2
-        )
+      return this.peopleArray.filter(
+        (person) =>
+          person.toLowerCase().includes(this.person1search.toLowerCase()) &&
+          person !== this.person2
       );
     },
     peopleFiltered2() {
-      return Object.fromEntries(
-        Object.entries(this.people).filter(
-          ([person, friends]) =>
-            person.toLowerCase().includes(this.person2search.toLowerCase()) &&
-            person !== this.person1
-        )
+      return this.peopleArray.filter(
+        (person) =>
+          person.toLowerCase().includes(this.person2search.toLowerCase()) &&
+          person !== this.person1
       );
     },
     people() {
@@ -178,7 +194,8 @@ export default {
     },
     shows() {
       return this.search.filter(
-        ({ title }) => this.includeFreshersFringe || title !== "Freshers' Fringe"
+        ({ title }) =>
+          this.includeFreshersFringe || title !== "Freshers' Fringe"
       );
     },
   },

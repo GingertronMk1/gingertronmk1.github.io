@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint-rules": "eslint --print-config lint_file.json > lint_file.json",
-    "lint": "eslint _assets/js/**/* _assets/js/*.js",
-    "fix": "eslint --fix _assets/js/**/* _assets/js/*.js",
+    "lint": "eslint _assets/js/**/*.{js,vue}",
+    "fix": "npm run lint -- --fix",
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "npm run development -- --watch",

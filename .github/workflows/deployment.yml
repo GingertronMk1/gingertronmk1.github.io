@@ -6,6 +6,10 @@ on:
     paths:
       - "_assets/**/*"
       - "**/*.md"
+      - "**/*.html"
+      - "webpack.mix.js"
+      - "package.json"
+      - "_config.yml"
 
 jobs:
   build:

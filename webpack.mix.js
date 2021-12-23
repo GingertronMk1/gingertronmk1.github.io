@@ -1,5 +1,4 @@
 const mix = require("laravel-mix");
-const postCssPresetEnv = require("postcss-preset-env");
 const eslint = require("laravel-mix-eslint");
 const polyfill = require("laravel-mix-polyfill");
 
@@ -31,19 +30,7 @@ mix
     enabled: true,
     useBuiltIns: "usage",
     targets: versions
-  })
-  // .options({
-  //   postCss: [
-  //     postCssPresetEnv({
-  //       stage: 0,
-  //       browsers: versions,
-  //       autoprefixer: {
-  //         cascade: true,
-  //         grid: true
-  //       }
-  //     })
-  //   ]
-  // });
+  });
 
 if(mix.inProduction()) {
     mix.minify([

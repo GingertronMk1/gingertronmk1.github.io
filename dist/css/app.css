@@ -1448,7 +1448,6 @@ footer a:hover,
 .fiftyfifty__image {
   background-position: top center;
   -moz-background-size: cover;
-    -o-background-size: cover;
        background-size: cover;
 }
 

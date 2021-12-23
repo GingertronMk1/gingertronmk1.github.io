@@ -49,6 +49,7 @@
   "dependencies": {
     "axios": "^0.21.2",
     "d3": "^6.6.2",
+    "laravel-mix-polyfill": "^2.0.0",
     "vue": "^2.6.12"
   },
   "prettier": {

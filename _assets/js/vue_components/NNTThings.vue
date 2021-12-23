@@ -30,7 +30,9 @@
             v-model="person1search"
           />
           <select name="person1" id="person1" v-model="person1">
-            <option selected disabled :value="null">Select the first person</option>
+            <option selected disabled :value="null"
+              >Select the first person</option
+            >
             <option
               v-for="(person, index) in peopleFiltered1"
               :value="person"
@@ -48,7 +50,9 @@
             v-model="person2search"
           />
           <select name="person2" id="person2" v-model="person2">
-            <option selected disabled :value="null">Select the second person</option>
+            <option selected disabled :value="null"
+              >Select the second person</option
+            >
             <option
               v-for="(person, index) in peopleFiltered2"
               :value="person"
@@ -84,7 +88,8 @@
   </div>
 </template>
 <script>
-import { findShortestPath } from "../functions.js";
+import {findShortestPath} from '../functions.js';
+import axios from 'axios';
 
 export default {
   props: {},
@@ -93,44 +98,44 @@ export default {
       search: [],
       person1: null,
       person2: null,
-      person1search: "",
-      person2search: "",
+      person1search: '',
+      person2search: '',
       includeFreshersFringe: false,
     };
   },
   mounted() {
-    console.log("mounted");
+    console.log('mounted');
     axios({
-      url: "https://history.newtheatre.org.uk/feeds/search.json",
+      url: 'https://history.newtheatre.org.uk/feeds/search.json',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
       },
     })
-      .then(({ data }) => {
-        let search = data
-          .filter(({ type }) => type === "show")
-          .map((show) => {
-            if (show.cast !== undefined) {
-              show.cast = show.cast
-                .split(",")
-                .map((name) => name.trim())
-                .filter((name) => name !== "");
-            }
-            if (show.crew !== undefined) {
-              show.crew = show.crew
-                .split(",")
-                .map((name) => name.trim())
-                .filter((name) => name !== "");
-            }
+        .then(({data}) => {
+          const search = data
+              .filter(({type}) => type === 'show')
+              .map((show) => {
+                if (show.cast !== undefined) {
+                  show.cast = show.cast
+                      .split(',')
+                      .map((name) => name.trim())
+                      .filter((name) => name !== '');
+                }
+                if (show.crew !== undefined) {
+                  show.crew = show.crew
+                      .split(',')
+                      .map((name) => name.trim())
+                      .filter((name) => name !== '');
+                }
 
-            show.year_title = show.year_title.replace("&ndash;", "-");
-            return show;
-          })
-          .filter(({ cast }) => cast.length > 0);
+                show.year_title = show.year_title.replace('&ndash;', '-');
+                return show;
+              })
+              .filter(({cast}) => cast.length > 0);
 
-        this.search = search;
-      })
-      .catch((error) => console.error(error));
+          this.search = search;
+        })
+        .catch((error) => console.error(error));
   },
   methods: {
     randomise() {
@@ -145,10 +150,10 @@ export default {
   computed: {
     result() {
       return findShortestPath(
-        this.people,
-        this.person1,
-        this.person2,
-        this.shows
+          this.people,
+          this.person1,
+          this.person2,
+          this.shows,
       );
     },
     peopleArray() {
@@ -156,46 +161,46 @@ export default {
     },
     peopleFiltered1() {
       return this.peopleArray.filter(
-        (person) =>
-          person.toLowerCase().includes(this.person1search.toLowerCase()) &&
-          person !== this.person2
+          (person) =>
+            person.toLowerCase().includes(this.person1search.toLowerCase()) &&
+          person !== this.person2,
       );
     },
     peopleFiltered2() {
       return this.peopleArray.filter(
-        (person) =>
-          person.toLowerCase().includes(this.person2search.toLowerCase()) &&
-          person !== this.person1
+          (person) =>
+            person.toLowerCase().includes(this.person2search.toLowerCase()) &&
+          person !== this.person1,
       );
     },
     people() {
-      let people = {};
-      this.shows.forEach(({ cast }) => {
+      const people = {};
+      this.shows.forEach(({cast}) => {
         cast.forEach((name) => {
           if (people[name] === undefined) {
             people[name] = {};
           }
           cast
-            .filter((name2) => name2 !== name)
-            .forEach((name2) => {
-              if (people[name][name2] === undefined) {
-                people[name][name2] = 1;
-              }
-            });
+              .filter((name2) => name2 !== name)
+              .forEach((name2) => {
+                if (people[name][name2] === undefined) {
+                  people[name][name2] = 1;
+                }
+              });
         });
       });
 
       return Object.keys(people)
-        .sort()
-        .reduce((obj, key) => {
-          obj[key] = people[key];
-          return obj;
-        }, {});
+          .sort()
+          .reduce((obj, key) => {
+            obj[key] = people[key];
+            return obj;
+          }, {});
     },
     shows() {
       return this.search.filter(
-        ({ title }) =>
-          this.includeFreshersFringe || title !== "Freshers' Fringe"
+          ({title}) =>
+            this.includeFreshersFringe || title !== 'Freshers\' Fringe',
       );
     },
   },

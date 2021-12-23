@@ -1,4 +1,5 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
+const eslint = require("laravel-mix-eslint");
 
 /*
  |--------------------------------------------------------------------------
@@ -16,20 +17,21 @@ const mix = require('laravel-mix');
  | ]
  */
 
-const appjs = './dist/js/app.js';
-const appcss = './dist/css/app.css';
+const appjs = "./dist/js/app.js";
+const appcss = "./dist/css/app.css";
 
 mix
-  .setPublicPath('./dist')
-  .js('./_assets/js/app.js', appjs) // nasty horrible workaround
-  .sass('./_assets/sass/style.scss', appcss);
+  .setPublicPath("./dist")
+  .js("./_assets/js/app.js", appjs) // nasty horrible workaround
+  .sass("./_assets/sass/style.scss", appcss);
 
 if(mix.inProduction()) {
-    mix.version()
-    .minify([
+    mix.minify([
       appjs,
       appcss
     ]);
 } else {
-  mix.sourceMaps();
+  mix
+    .eslint()
+    .sourceMaps();
 }

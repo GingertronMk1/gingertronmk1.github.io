@@ -3,6 +3,9 @@ name: Deployment
 on:
   push:
     branches: [ master ]
+    paths:
+      - "_assets/**/*"
+      - "**/*.md"
 
 jobs:
   build:

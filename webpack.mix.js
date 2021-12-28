@@ -23,7 +23,7 @@ const appcss = './dist/css/app.css';
 const versions = ['cover 99.5%', 'last 20 versions', 'not dead'];
 
 mix
-    .setPublicPath(',/dist')
+    .setPublicPath('.')
     .js('./_assets/js/app.js', appjs) // nasty horrible workaround
     .sass('./_assets/sass/style.scss', appcss)
     .polyfill({

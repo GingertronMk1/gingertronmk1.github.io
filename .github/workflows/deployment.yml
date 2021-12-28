@@ -22,6 +22,7 @@ jobs:
         run: |
           npm ci
           npm run production
+          cp mix-manifest.json _data/
       - name: Check git status
         shell: bash
         run: git status --porcelain

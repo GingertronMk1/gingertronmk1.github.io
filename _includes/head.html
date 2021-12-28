@@ -14,18 +14,15 @@
 <!-- FONT AWESOME -->
 <script src="https://kit.fontawesome.com/78bbce86e2.js" crossorigin="anonymous"></script>
 
+<!-- MY CSS AND JS -->
 {% if jekyll.environment == "production" %}
-{% assign csslink = '/dist/css/app.min.css' %}
-{% assign jslink = '/dist/js/app.min.js' %}
+<link rel="stylesheet" href="{{ '/dist/css/app.min.css' | relative_url }}" />
+<script src="{{ '/dist/js/app.min.js' | relative_url }}" defer></script>
 {% else %}
-{% assign csslink = '/dist/css/app.css' %}
-{% assign jslink = '/dist/js/app.js' %}
+<link rel="stylesheet" href="{{ '/dist/css/app.css' | relative_url }}" />
+<script src="{{ 'dist/js/app.js' | relative_url }}" defer></script>
 {% endif %}
 
-<!-- MY CSS -->
-<link rel="stylesheet" href="{{ site.data.mix-manifest[csslink] | relative_url }}" />
-<!-- MY JAVASCRIPT -->
-<script src="{{ site.data.mix-manifest[jslink] | relative_url }}" defer></script>
 
 <!-- FAVICONS -->
 

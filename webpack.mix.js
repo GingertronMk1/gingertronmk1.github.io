@@ -23,22 +23,18 @@ const appcss = './dist/css/app.css';
 const versions = ['cover 99.5%', 'last 20 versions', 'not dead'];
 
 mix
-    .setPublicPath('./dist')
     .js('./_assets/js/app.js', appjs) // nasty horrible workaround
     .sass('./_assets/sass/style.scss', appcss)
     .polyfill({
       enabled: true,
       useBuiltIns: 'usage',
       targets: versions,
-    })
-    .version();
+    });
 
 if (mix.inProduction()) {
-  mix.minify([appjs, appcss]);
+  mix
+      .minify([appjs, appcss])
+      .version();
 } else {
   mix.eslint().sourceMaps();
 }
-
-mix
-    .setPublicPath('.')
-    .copy('./mix-manifest.json', '_data/mix-manifest.json');

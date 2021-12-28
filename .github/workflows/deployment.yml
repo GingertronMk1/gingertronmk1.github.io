@@ -10,7 +10,8 @@ on:
       - "webpack.mix.js"
       - "package.json"
       - "_config.yml"
-      - "mix-manifest.json"
+      - mix-manifest.json
+      - ".github/workflows/deployment.yml"
 
 jobs:
   build:

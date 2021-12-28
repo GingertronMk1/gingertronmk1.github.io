@@ -2,11 +2,16 @@
     background: $standard-background;
     padding: 1rem;
     border-radius: 1rem;
-    border: 1px solid $primary;
+    border: 2px solid $primary;
     color: $white;
     cursor: pointer;
 
     &--center {
         text-align: center;
+    }
+
+    &:hover {
+        background: $white;
+        color: $primary;
     }
 }

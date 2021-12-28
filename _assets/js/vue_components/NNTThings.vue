@@ -4,7 +4,7 @@
       <div class="nnt_things__info">
         <label
           for="includeFreshersFringe"
-          class="nnt_things__include-freshers-fringe"
+          class="nnt_things__include-checkbox"
         >
           Include Freshers' Fringe?
           <input
@@ -14,54 +14,106 @@
             v-model="includeFreshersFringe"
           />
         </label>
+        <label
+          for="includeTwentyFifteenOnward"
+          class="nnt_things__include-checkbox"
+        >
+          2015 on?
+          <input
+            type="checkbox"
+            name="includeTwentyFifteenOnward"
+            id="includeTwentyFifteenOnward"
+            v-model="includeTwentyFifteenOnward"
+          />
+        </label>
 
         <span>
           {{ shows.length }} shows with {{ Object.keys(people).length }} actors
         </span>
 
         <button @click="randomise()" class="button">Randomise!</button>
+
+        <button @click="resetPeople()" class="button">Reset</button>
+
       </div>
+
+      <!-- INPUTS FOR SELECTING PEOPLE -->
+
       <div class="nnt_things__inputs" v-if="Object.keys(people).length > 0">
         <div class="nnt_things__input">
+
+        <input
+          type="text"
+          name="person1search"
+          id="person1search"
+          v-model="person1search"
+          >
+        <div class="nnt_things__person">
+          <label for="person1null">
+            <input
+              type="radio"
+              name="person1null"
+              id="person1null"
+              v-model="person1"
+              :value="null"
+              >
+            <div>Select a person</div>
+          </label>
+          <label
+            v-for="(person, index) in peopleFiltered1"
+            :key="`radio1${person}${index}`"
+            :for="`radio1${person}${index}`"
+          >
           <input
-            type="text"
-            name="person1search"
-            id="person1search"
-            v-model="person1search"
-          />
-          <select name="person1" id="person1" v-model="person1">
-            <option selected disabled :value="null"
-              >Select the first person</option
+            type="radio"
+            :name="`radio1${person}${index}`"
+            :id="`radio1${person}${index}`"
+            v-model="person1"
+            :value="person"
             >
-            <option
-              v-for="(person, index) in peopleFiltered1"
-              :value="person"
-              :key="'person1' + index"
-              v-text="person"
-            />
-          </select>
+            <div v-text="person" />
+          </label>
+        </div>
+        </div>
+        <div class="nnt_things__input">
+
+        <input
+          type="text"
+          name="person2search"
+          id="person2search"
+          v-model="person2search"
+          >
+        <div class="nnt_things__person">
+          <label for="person2null">
+            <input
+              type="radio"
+              name="person2null"
+              id="person2null"
+              v-model="person2"
+              :value="null"
+              >
+            <div>Select a person</div>
+          </label>
+          <label
+            v-for="(person, index) in peopleFiltered2"
+            :key="`radio2${person}${index}`"
+            :for="`radio2${person}${index}`"
+          >
+          <input
+            type="radio"
+            :name="`radio2${person}${index}`"
+            :id="`radio2${person}${index}`"
+            v-model="person2"
+            :value="person"
+            >
+            <div v-text="person" />
+          </label>
+        </div>
         </div>
 
-        <div class="nnt_things__input">
-          <input
-            type="text"
-            name="person2search"
-            id="person2search"
-            v-model="person2search"
-          />
-          <select name="person2" id="person2" v-model="person2">
-            <option selected disabled :value="null"
-              >Select the second person</option
-            >
-            <option
-              v-for="(person, index) in peopleFiltered2"
-              :value="person"
-              :key="'person2' + index"
-              v-text="person"
-            />
-          </select>
-        </div>
       </div>
+
+      <hr />
 
       <template v-if="person1 !== null && person2 !== null">
         <div v-if="result.distance !== 'Infinity'" class="nnt_things__results">
@@ -101,6 +153,7 @@ export default {
       person1search: '',
       person2search: '',
       includeFreshersFringe: false,
+      includeTwentyFifteenOnward: false,
     };
   },
   mounted() {
@@ -146,8 +199,23 @@ export default {
       this.person1 = p1;
       this.person2 = p2;
     },
+    resetPeople() {
+      this.person1 = null;
+      this.person2 = null;
+    },
   },
   computed: {
+    allCombos() {
+      const people = this.peopleArray;
+      return people.reduce(
+          (acc, v, i) => {
+            return acc.concat(
+                people.slice(i+1).map((w) => {
+                  return {person1: v, person2: w};
+                }),
+            );
+          }, []);
+    },
     result() {
       return findShortestPath(
           this.people,
@@ -199,9 +267,21 @@ export default {
     },
     shows() {
       return this.search.filter(
-          ({title}) =>
-            this.includeFreshersFringe || title !== 'Freshers\' Fringe',
+          ({title, year_title: yearTitle}) =>
+            (this.includeFreshersFringe || title !== 'Freshers\' Fringe') &&
+            (
+              !this.includeTwentyFifteenOnward ||
+              parseInt(yearTitle.slice(0, 4)) >= 2015
+            ),
       );
+    },
+  },
+  watch: {
+    includeTwentyFifteenOnward() {
+      this.resetPeople();
+    },
+    includeFreshersFringe() {
+      this.resetPeople();
     },
   },
 };

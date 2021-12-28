@@ -1500,13 +1500,18 @@ footer a:hover,
   -webkit-border-radius: 1rem;
      -moz-border-radius: 1rem;
           border-radius: 1rem;
-  border: 1px solid #ff7c37;
+  border: 2px solid #ff7c37;
   color: #FFFFFF;
   cursor: pointer;
 }
 
 .button--center {
   text-align: center;
+}
+
+.button:hover {
+  background: #FFFFFF;
+  color: #ff7c37;
 }
 
 .index .fiftyfifty {
@@ -2260,7 +2265,7 @@ footer a:hover,
   margin-top: 1.6rem;
 }
 
-.nnt_things__include-freshers-fringe {
+.nnt_things__include-checkbox {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -2283,5 +2288,119 @@ footer a:hover,
      -moz-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.nnt_things__input {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+     -moz-box-orient: vertical;
+     -moz-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+     -moz-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+     -moz-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.nnt_things__input > input[type=text] {
+  margin-bottom: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+     -moz-border-radius: 0.5rem;
+          border-radius: 0.5rem;
+}
+
+.nnt_things__person {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+     -moz-box-orient: vertical;
+     -moz-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+     -moz-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+     -moz-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  height: 20rem;
+  overflow-y: scroll;
+  width: 100%;
+  border: 2px solid #ff7c37;
+  -webkit-border-radius: 0.5rem;
+     -moz-border-radius: 0.5rem;
+          border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.nnt_things__person > * {
+  margin-bottom: 1rem;
+}
+
+.nnt_things__person > label {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+     -moz-box-orient: horizontal;
+     -moz-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+     -moz-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+     -moz-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  text-align: left;
+}
+
+.nnt_things__person > label > input[type=radio] {
+  display: none;
+}
+
+.nnt_things__person > label > input[type=radio] + div {
+  color: #ff7c37;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 2rem;
+  -webkit-border-radius: 0.5rem;
+     -moz-border-radius: 0.5rem;
+          border-radius: 0.5rem;
+}
+
+.nnt_things__person > label > input[type=radio]:checked + div {
+  color: #FFFFFF;
+  background-color: #ff7c37;
 }
 

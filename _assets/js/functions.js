@@ -81,6 +81,8 @@ export function findShortestPath(graph, startNode, endNode, shows) {
 
   // this is the shortest path
   const results = {
+    person1: startNode,
+    person2: endNode,
     distance: distances[endNode],
     path: shortestPath,
   };

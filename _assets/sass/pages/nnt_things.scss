@@ -55,7 +55,51 @@
     }
   }
   
-  &__include-freshers-fringe {
+  &__include-checkbox {
     @include flex(row, flex-start, center);
+  }
+
+  &__input {
+    @include flex(column, flex-start, stretch);
+
+    > input[type=text] {
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+    }
+  }
+
+  &__person {
+    @include flex(column, flex-start, stretch);
+    height: 20rem;
+    overflow-y: scroll;
+    width: 100%;
+    border: 2px solid $primary;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    
+    > * {
+      margin-bottom: 1rem;
+    }
+    > label {
+      @include flex(row, space-between, stretch);
+      text-align: left;
+
+      > input[type=radio] {
+        display: none;
+
+        + div {
+          color: $primary;
+          width: 100%;
+          padding: 0.5rem;
+          font-size: 2rem;
+          border-radius: 0.5rem;
+        }
+
+        &:checked + div {
+          color: $white;
+          background-color: $primary;
+        }
+      }
+    }
   }
 }

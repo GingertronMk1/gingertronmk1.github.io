@@ -1,6 +1,6 @@
-const mix = require("laravel-mix");
-const eslint = require("laravel-mix-eslint");
-const polyfill = require("laravel-mix-polyfill");
+require('laravel-mix-eslint');
+require('laravel-mix-polyfill');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,32 +13,32 @@ const polyfill = require("laravel-mix-polyfill");
  |
  | For the browser list check `package.json`
  | Currently it's
- | "browserslist": [
- |   "cover 100%"
+ | 'browserslist': [
+ |   'cover 100%'
  | ]
  */
 
-const appjs = "./dist/js/app.js";
-const appcss = "./dist/css/app.css";
-const versions = ["cover 99.5%", "last 20 versions", "not dead"];
+const appjs = './dist/js/app.js';
+const appcss = './dist/css/app.css';
+const versions = ['cover 99.5%', 'last 20 versions', 'not dead'];
 
 mix
-  .setPublicPath("./dist")
-  .js("./_assets/js/app.js", appjs) // nasty horrible workaround
-  .sass("./_assets/sass/style.scss", appcss)
-  .polyfill({
-    enabled: true,
-    useBuiltIns: "usage",
-    targets: versions
-  });
+    .setPublicPath('./dist')
+    .js('./_assets/js/app.js', appjs) // nasty horrible workaround
+    .sass('./_assets/sass/style.scss', appcss)
+    .polyfill({
+      enabled: true,
+      useBuiltIns: 'usage',
+      targets: versions,
+    })
+    .version();
 
-if(mix.inProduction()) {
-    mix.minify([
-      appjs,
-      appcss
-    ]);
+if (mix.inProduction()) {
+  mix.minify([appjs, appcss]);
 } else {
-  mix
-    .eslint()
-    .sourceMaps();
+  mix.eslint().sourceMaps();
 }
+
+mix
+    .setPublicPath('.')
+    .copy('./mix-manifest.json', '_data/mix-manifest.json');

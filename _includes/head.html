@@ -23,9 +23,9 @@
 {% endif %}
 
 <!-- MY CSS -->
-<link rel="stylesheet" href="{{ csslink | relative_url }}" />
+<link rel="stylesheet" href="{{ site.data.mix-manifest[csslink] | relative_url }}" />
 <!-- MY JAVASCRIPT -->
-<script src="{{ jslink | relative_url }}" defer></script>
+<script src="{{ site.data.mix-manifest[jslink] | relative_url }}" defer></script>
 
 <!-- FAVICONS -->
 

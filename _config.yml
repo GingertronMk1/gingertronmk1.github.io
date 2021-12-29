@@ -10,12 +10,12 @@ markdown: kramdown
 permalink: pretty
 include: 
   - _pages
+  - mix-manifest.json
 
 exclude: 
   - vendor
   - .jekyll-cache
   - node_modules
-  - '*.json'
   - webpack.mix.js
 
 collections:

@@ -32,10 +32,10 @@ mix
       targets: versions,
     });
 
-if (mix.inProduction()) {
-  mix
-      .minify([appjs, appcss])
-      .version();
-} else {
+if (!mix.inProduction()) {
   mix.eslint().sourceMaps();
 }
+
+mix
+    .minify([appjs, appcss])
+    .version();

@@ -74,7 +74,7 @@ export default {
         ),
       };
 
-      return [sums.owner, sums.group, sums.allUsers].join("");
+      return Object.values(sums).join("");
     },
   },
 };

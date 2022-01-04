@@ -3,14 +3,15 @@
     <div class="permissions__wrapper">
       <div v-for="(group, name) in groups" :key="name" class="permissions__col">
         <h3>{{ name.toUpperCase() }}</h3>
-        <label v-for="(val, attr) in group" :key="attr">
+        <ButtonCheckbox
+          v-for="(val, attr) in group"
+          :key="attr"
+          v-model="group[attr]"
+        >
           {{ attr.toUpperCase() }}
-          <input v-model="group[attr]" type="checkbox" />
-        </label>
+        </ButtonCheckbox>
       </div>
-      <div class="permissions__total">
-        {{ group_sums }}
-      </div>
+      <div class="permissions__total" v-text="group_sums" />
     </div>
   </div>
 </template>

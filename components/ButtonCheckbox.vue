@@ -7,7 +7,7 @@
       :checked="value"
       @input="handleInput"
     />
-    <label :for="identifier" v-text="label" />
+    <label :for="identifier"><slot /></label>
   </div>
 </template>
 <script>

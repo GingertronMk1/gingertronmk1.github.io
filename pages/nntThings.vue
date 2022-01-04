@@ -2,11 +2,13 @@
   <div class="nnt_things">
     <template v-if="Array.isArray(search) && search.length > 1">
       <div class="nnt_things__info">
-        <ButtonCheckbox
-          v-model="includeFreshersFringe"
-          label="Include Freshers' Fringe?"
-        />
-        <ButtonCheckbox v-model="includeTwentyFifteenOnward" label="2015 on?" />
+        <ButtonCheckbox v-model="includeFreshersFringe">
+          Include Freshers' Fringe?
+        </ButtonCheckbox>
+
+        <ButtonCheckbox v-model="includeTwentyFifteenOnward">
+          2015 on?
+        </ButtonCheckbox>
 
         <span>
           {{ shows.length }} shows with {{ Object.keys(people).length }} actors

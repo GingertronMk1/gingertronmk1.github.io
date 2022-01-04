@@ -1,70 +1,39 @@
 {
-  "name": "gingertronmk1.github.io",
+  "name": "nuxt-2",
   "version": "1.0.0",
-  "description": "A Jekyll website containing my CVs and other projects",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "lint-rules": "eslint --print-config lint_file.json > lint_file.json",
-    "lint": "eslint _assets/js/**/*.{js,vue}",
-    "fix": "npm run lint -- --fix",
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
-    "watch-poll": "npm run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "postinstall": "npx browserslist@latest --update-db"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint": "npm run lint:js",
+    "lintfix": "npm run lint:js -- --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GingertronMk1/gingertronmk1.github.io.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/GingertronMk1/gingertronmk1.github.io/issues"
-  },
-  "homepage": "https://github.com/GingertronMk1/gingertronmk1.github.io#readme",
-  "devDependencies": {
-    "cross-env": "^7.0.2",
-    "eslint": "^7.32.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier-vue": "^3.1.0",
-    "eslint-plugin-vue": "^7.20.0",
-    "eslint-webpack-plugin": "^3.1.1",
-    "laravel-mix": "^5.0.9",
-    "laravel-mix-eslint": "^0.2.0",
-    "prettier": "^2.5.1",
-    "resolve-url-loader": "^3.1.0",
-    "sass": "^1.29.0",
-    "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.12"
-  },
-  "browserslist": [
-    "cover 100%"
-  ],
   "dependencies": {
-    "axios": "^0.21.2",
-    "d3": "^6.6.2",
-    "laravel-mix-polyfill": "^2.0.0",
-    "vue": "^2.6.12"
+    "@nuxt/content": "^1.15.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "core-js": "^3.19.3",
+    "nuxt": "^2.15.8",
+    "vue": "^2.6.14",
+    "vue-server-renderer": "^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^4.46.0"
   },
-  "prettier": {
-    "tabWidth": 2
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "plugin:vue/base",
-      "plugin:prettier/recommended"
-    ],
-    "parser": "vue-eslint-parser",
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    }
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.3",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@nuxtjs/eslint-config": "^8.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "@nuxtjs/tailwindcss": "^4.2.1",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-nuxt": "^3.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "sass": "^1.45.2",
+    "sass-loader": "^10.2.0"
   }
 }

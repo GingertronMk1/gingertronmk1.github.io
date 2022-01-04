@@ -1,0 +1,60 @@
+.nav {
+  @include flex(row, space-between, stretch);
+  padding: 0.2rem;
+  z-index: 10;
+  position: fixed;
+  width: 100%;
+  height: $nav-margin;
+  background: $standard-background;
+
+  &__link {
+    flex: 1;
+    min-width: 1px;
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: $white;
+    color: $primary;
+    position: relative;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid $white;
+
+    &--active {
+      background: $standard-background;
+      color: $white;
+      border-color: $white;
+    }
+
+    &:hover {
+      border-color: $primary;
+    }
+
+    & + & {
+      margin-left: 0.5rem;
+    }
+  }
+
+  &__submenu {
+    @include flex(column, space-between, stretch);
+    display: none;
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    width: 100%;
+    background-color: $white;
+    z-index: 10;
+    border-radius: 0.25rem;
+    border: 2px solid $primary;
+    padding: 0.1rem;
+  }
+
+  &__link:hover > &__submenu {
+    display: flex;
+  }
+
+  &__submenu &__link {
+    margin-left: initial;
+    margin-top: 0.2rem;
+  }
+}

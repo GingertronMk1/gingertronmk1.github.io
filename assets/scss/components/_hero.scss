@@ -1,0 +1,12 @@
+.hero {
+  min-height: 10rem;
+  max-height: 20rem;
+  background-image: $standard-background;
+  color: white;
+  @include flex(column, center);
+
+  &__text {
+    text-align: center;
+    margin: auto 0;
+  }
+}

@@ -1,0 +1,26 @@
+// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+//
+// The variables you want to modify
+// $font-size-root: 20px;
+
+$primary: rgb(255, 124, 55); // Royal Blue
+
+$standard-background: linear-gradient(
+  to bottom right,
+  $primary,
+  scale-color($primary, $lightness: -10%)
+);
+
+$white: #ffffff; // Brightest
+$grey-0: scale-color($white, $lightness: -50%);
+$grey-1: scale-color($grey-0, $lightness: -50%);
+$grey-2: scale-color($grey-1, $lightness: -50%);
+$grey-3: scale-color($grey-2, $lightness: -50%);
+$grey-4: scale-color($grey-3, $lightness: -50%); // Darkest
+
+// MEDIA QUERY SCREENS
+$large: 1024px;
+$medium: 768px;
+$small: 480px;
+
+$nav-margin: 2.2rem;

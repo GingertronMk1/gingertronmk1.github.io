@@ -2,7 +2,7 @@
   <div class="permissions">
     <div class="permissions__wrapper">
       <div v-for="(group, name) in groups" :key="name" class="permissions__col">
-        <h3>{{ name.toUpperCase() }}</h3>
+        <h3 v-text="name.toUpperCase()" />
         <ButtonCheckbox
           v-for="(val, attr) in group"
           :key="attr"

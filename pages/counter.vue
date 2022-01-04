@@ -120,6 +120,16 @@ export default {
   &__counter,
   &__increment {
     @include flex(column);
+
+    input {
+      border: 3px solid $black;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    > * + * {
+      margin-top: 0.5rem;
+    }
   }
 
   @include MQ($medium) {

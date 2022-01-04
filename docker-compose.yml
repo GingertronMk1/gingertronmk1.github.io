@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  web:
+    image: node:12-alpine
+    working_dir: /src
+    command: sh -c "npm install && npm run docker"
+    volumes:
+      - .:/src:delegated
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.githubio.rule=Host(`github-io.ginge.localhost`)"
+    networks:
+      - internal
+      - traefik
+    ports:
+      - 4000:4000
+
+networks:
+  internal:
+  traefik:
+    external: true

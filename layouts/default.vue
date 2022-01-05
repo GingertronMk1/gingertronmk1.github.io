@@ -31,7 +31,7 @@ export default {
   &__inner {
     margin: $nav-margin auto 0;
     width: 95%;
-    max-width: $large;
+    max-width: $xlarge;
 
     // Cheeky special case for the index page
     &.index {

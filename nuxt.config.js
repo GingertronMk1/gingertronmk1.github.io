@@ -61,7 +61,9 @@ export default {
   content: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    profile: true,
+  },
 
   styleResources: {
     scss: ["@/assets/scss/resources/resources.scss"],

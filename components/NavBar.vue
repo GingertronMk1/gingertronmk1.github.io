@@ -35,33 +35,7 @@ export default {
         {
           name: "Vue Utilities",
           icon: "fas fa-wrench",
-          links: [
-            {
-              name: "Counter",
-              to: "/counter",
-            },
-            {
-              name: "NNT Things",
-              to: "/nntthings",
-            },
-            {
-              name: "Permissions",
-              to: "/permissions",
-            },
-            {
-              name: "Generators",
-              links: [
-                {
-                  name: "Season Generator",
-                  to: "/seasongen",
-                },
-                {
-                  name: "Text Generator",
-                  to: "/textgen",
-                },
-              ],
-            },
-          ],
+          to: "/vue_utilities",
         },
       ],
     };

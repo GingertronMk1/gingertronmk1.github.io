@@ -63,6 +63,13 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     profile: true,
+    postcss: {
+      preset: {
+        autoprefixer: {
+          grid: true,
+        },
+      },
+    },
   },
 
   styleResources: {

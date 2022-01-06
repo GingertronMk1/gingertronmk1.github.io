@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <NavBar />
-    <Nuxt class="body__inner" :class="routePath" />
+    <Nuxt class="body__inner" :class="$route.name" />
     <div class="flex-filler"></div>
     <FooterComponent />
   </div>
@@ -12,12 +12,6 @@ export default {
   props: {},
   data() {
     return {};
-  },
-  computed: {
-    routePath() {
-      const path = this.$route.path.replace("/", "_");
-      return path === "_" ? "index" : path;
-    },
   },
   mounted() {},
   methods: {},

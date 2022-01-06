@@ -265,18 +265,11 @@ export default {
           `label[for^="radio${index}${person}"]`
         );
         if (selectedElement?.parentElement) {
-          console.log(
-            selectedElement.offsetTop,
-            selectedElement.parentElement.offsetTop
-          );
-          document
-            .querySelector(`.six_degrees_nnt__person[person='${index}']`)
-            .scroll({
-              top:
-                selectedElement.offsetTop -
-                selectedElement.parentElement.offsetTop / 2,
-              behavior: "smooth",
-            });
+          const parentElement = selectedElement.parentElement;
+          parentElement.scroll({
+            top: selectedElement.offsetTop - parentElement.offsetTop / 2,
+            behavior: "smooth",
+          });
         }
       });
     },

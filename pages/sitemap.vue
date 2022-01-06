@@ -19,6 +19,11 @@
 <script>
 export default {
   name: "SitemapPage",
+  head() {
+    return {
+      title: "Sitemap",
+    };
+  },
   computed: {
     routes() {
       const ret = this.$router.options.routes;

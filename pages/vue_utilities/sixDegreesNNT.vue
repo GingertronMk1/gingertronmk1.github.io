@@ -1,129 +1,122 @@
 <template>
   <div class="six_degrees_nnt">
-    <template v-if="Array.isArray(search) && search.length > 1">
-      <div class="six_degrees_nnt__info">
-        <ButtonCheckbox v-model="includeFreshersFringe">
-          Include Freshers' Fringe?
-        </ButtonCheckbox>
+    <div class="six_degrees_nnt__info">
+      <ButtonCheckbox v-model="includeFreshersFringe">
+        Include Freshers' Fringe?
+      </ButtonCheckbox>
 
-        <ButtonCheckbox v-model="includeTwentyFifteenOnward">
-          2015 on?
-        </ButtonCheckbox>
+      <ButtonCheckbox v-model="includeTwentyFifteenOnward">
+        2015 on?
+      </ButtonCheckbox>
 
-        <span
-          v-text="
-            `${shows.length} shows with ${Object.keys(people).length} actors`
-          "
+      <span
+        v-text="
+          `${shows.length} shows with ${Object.keys(people).length} actors`
+        "
+      />
+
+      <button class="button" @click="randomise()">Randomise!</button>
+
+      <button class="button" @click="resetPeople()">Reset</button>
+    </div>
+
+    <!-- INPUTS FOR SELECTING PEOPLE -->
+
+    <div v-if="Object.keys(people).length > 0" class="six_degrees_nnt__inputs">
+      <div class="six_degrees_nnt__input">
+        <input
+          id="person1search"
+          v-model="person1search"
+          type="text"
+          name="person1search"
         />
-
-        <button class="button" @click="randomise()">Randomise!</button>
-
-        <button class="button" @click="resetPeople()">Reset</button>
+        <div class="six_degrees_nnt__person">
+          <label for="person1null">
+            <input
+              id="person1null"
+              v-model="person1"
+              type="radio"
+              name="person1null"
+              :value="null"
+            />
+            <div>Select a person</div>
+          </label>
+          <label
+            v-for="(person, index) in peopleFiltered1"
+            :key="`radio1${person}${index}`"
+            :for="`radio1${person}${index}`"
+          >
+            <input
+              :id="`radio1${person}${index}`"
+              v-model="person1"
+              type="radio"
+              :name="`radio1${person}${index}`"
+              :value="person"
+            />
+            <div v-text="person" />
+          </label>
+        </div>
       </div>
+      <div class="six_degrees_nnt__input">
+        <input
+          id="person2search"
+          v-model="person2search"
+          type="text"
+          name="person2search"
+        />
+        <div class="six_degrees_nnt__person">
+          <label for="person2null">
+            <input
+              id="person2null"
+              v-model="person2"
+              type="radio"
+              name="person2null"
+              :value="null"
+            />
+            <div>Select a person</div>
+          </label>
+          <label
+            v-for="(person, index) in peopleFiltered2"
+            :key="`radio2${person}${index}`"
+            :for="`radio2${person}${index}`"
+          >
+            <input
+              :id="`radio2${person}${index}`"
+              v-model="person2"
+              type="radio"
+              :name="`radio2${person}${index}`"
+              :value="person"
+            />
+            <div v-text="person" />
+          </label>
+        </div>
+      </div>
+    </div>
 
-      <!-- INPUTS FOR SELECTING PEOPLE -->
+    <hr />
 
+    <template v-if="person1 !== null && person2 !== null">
       <div
-        v-if="Object.keys(people).length > 0"
-        class="six_degrees_nnt__inputs"
+        v-if="result.distance !== 'Infinity'"
+        class="six_degrees_nnt__results"
       >
-        <div class="six_degrees_nnt__input">
-          <input
-            id="person1search"
-            v-model="person1search"
-            type="text"
-            name="person1search"
-          />
-          <div class="six_degrees_nnt__person">
-            <label for="person1null">
-              <input
-                id="person1null"
-                v-model="person1"
-                type="radio"
-                name="person1null"
-                :value="null"
-              />
-              <div>Select a person</div>
-            </label>
-            <label
-              v-for="(person, index) in peopleFiltered1"
-              :key="`radio1${person}${index}`"
-              :for="`radio1${person}${index}`"
-            >
-              <input
-                :id="`radio1${person}${index}`"
-                v-model="person1"
-                type="radio"
-                :name="`radio1${person}${index}`"
-                :value="person"
-              />
-              <div v-text="person" />
-            </label>
-          </div>
-        </div>
-        <div class="six_degrees_nnt__input">
-          <input
-            id="person2search"
-            v-model="person2search"
-            type="text"
-            name="person2search"
-          />
-          <div class="six_degrees_nnt__person">
-            <label for="person2null">
-              <input
-                id="person2null"
-                v-model="person2"
-                type="radio"
-                name="person2null"
-                :value="null"
-              />
-              <div>Select a person</div>
-            </label>
-            <label
-              v-for="(person, index) in peopleFiltered2"
-              :key="`radio2${person}${index}`"
-              :for="`radio2${person}${index}`"
-            >
-              <input
-                :id="`radio2${person}${index}`"
-                v-model="person2"
-                type="radio"
-                :name="`radio2${person}${index}`"
-                :value="person"
-              />
-              <div v-text="person" />
-            </label>
-          </div>
-        </div>
+        <h3>Shortest Path Length: <em v-text="result.distance" /></h3>
+        <ul>
+          <li
+            v-for="(link, index) in result.showPath"
+            :key="index"
+            class="six_degrees_nnt__path-item"
+          >
+            {{ link.person1 }} was in the {{ link.show.year_title }} production
+            of <i v-text="link.show.title" /> with
+            {{ link.person2 }}
+          </li>
+        </ul>
       </div>
-
-      <hr />
-
-      <template v-if="person1 !== null && person2 !== null">
-        <div
-          v-if="result.distance !== 'Infinity'"
-          class="six_degrees_nnt__results"
-        >
-          <h3>Shortest Path Length: {{ result.distance }}</h3>
-          <ul>
-            <li
-              v-for="(link, index) in result.showPath"
-              :key="index"
-              class="six_degrees_nnt__path-item"
-            >
-              {{ link.person1 }} was in the
-              {{ link.show.year_title }} production of
-              <i>{{ link.show.title }}</i> with
-              {{ link.person2 }}
-            </li>
-          </ul>
-        </div>
-        <h3 v-else>
-          Could not find a link between {{ person1 }} and {{ person2 }}
-        </h3>
-      </template>
+      <h3 v-else>
+        Could not find a link between {{ person1 }} and {{ person2 }}
+      </h3>
     </template>
-    <h3 v-else class="six_degrees_nnt__loading">Loading...</h3>
   </div>
 </template>
 <script>
@@ -132,15 +125,47 @@ import { findShortestPath } from "@/assets/js/functions.js";
 
 export default {
   props: {},
-  data() {
+  async asyncData({ $axios }) {
+    const { data } = await axios({
+      url: "https://history.newtheatre.org.uk/feeds/search.json",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    const search = data
+      .filter(({ type }) => type === "show")
+      .map((show) => {
+        if (show.cast !== undefined) {
+          show.cast = show.cast
+            .split(",")
+            .map((name) => name.trim())
+            .filter((name) => name !== "");
+        }
+        if (show.crew !== undefined) {
+          show.crew = show.crew
+            .split(",")
+            .map((name) => name.trim())
+            .filter((name) => name !== "");
+        }
+
+        show.year_title = show.year_title.replace("&ndash;", "-");
+        return show;
+      })
+      .filter(({ cast }) => cast.length > 0);
+
     return {
-      search: [],
+      search,
       person1: null,
       person2: null,
       person1search: "",
       person2search: "",
       includeFreshersFringe: false,
       includeTwentyFifteenOnward: false,
+    };
+  },
+  head() {
+    return {
+      title: "Six Degrees of New Theatre",
     };
   },
   computed: {
@@ -204,12 +229,14 @@ export default {
         }, {});
     },
     shows() {
-      return this.search.filter(
-        ({ title, year_title: yearTitle }) =>
-          (this.includeFreshersFringe || title !== "Freshers' Fringe") &&
-          (!this.includeTwentyFifteenOnward ||
-            parseInt(yearTitle.slice(0, 4)) >= 2015)
-      );
+      return !Array.isArray(this.search)
+        ? []
+        : this.search.filter(
+            ({ title, year_title: yearTitle }) =>
+              (this.includeFreshersFringe || title !== "Freshers' Fringe") &&
+              (!this.includeTwentyFifteenOnward ||
+                parseInt(yearTitle.slice(0, 4)) >= 2015)
+          );
     },
   },
   watch: {
@@ -219,40 +246,6 @@ export default {
     includeFreshersFringe() {
       this.resetPeople();
     },
-  },
-  mounted() {
-    console.log("mounted");
-    axios({
-      url: "https://history.newtheatre.org.uk/feeds/search.json",
-      headers: {
-        Accept: "application/json",
-      },
-    })
-      .then(({ data }) => {
-        const search = data
-          .filter(({ type }) => type === "show")
-          .map((show) => {
-            if (show.cast !== undefined) {
-              show.cast = show.cast
-                .split(",")
-                .map((name) => name.trim())
-                .filter((name) => name !== "");
-            }
-            if (show.crew !== undefined) {
-              show.crew = show.crew
-                .split(",")
-                .map((name) => name.trim())
-                .filter((name) => name !== "");
-            }
-
-            show.year_title = show.year_title.replace("&ndash;", "-");
-            return show;
-          })
-          .filter(({ cast }) => cast.length > 0);
-
-        this.search = search;
-      })
-      .catch((error) => console.error(error));
   },
   methods: {
     randomise() {

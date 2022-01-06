@@ -12,11 +12,11 @@ $standard-background: linear-gradient(
 );
 
 $white: #ffffff; // Brightest
-$grey-0: scale-color($white, $lightness: -50%);
-$grey-1: scale-color($grey-0, $lightness: -50%);
-$grey-2: scale-color($grey-1, $lightness: -50%);
-$grey-3: scale-color($grey-2, $lightness: -50%);
-$grey-4: scale-color($grey-3, $lightness: -50%);
+$grey-0: scale-color($white, $lightness: -25%);
+$grey-1: scale-color($grey-0, $lightness: -25%);
+$grey-2: scale-color($grey-1, $lightness: -25%);
+$grey-3: scale-color($grey-2, $lightness: -25%);
+$grey-4: scale-color($grey-3, $lightness: -25%);
 $black: #000000; // Darkest
 
 // MEDIA QUERY SCREENS

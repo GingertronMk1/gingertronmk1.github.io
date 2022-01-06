@@ -63,23 +63,13 @@ export default {
 $size: 200px;
 $size-smaller: calc($size * 0.9);
 .vue-utility {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, $size);
-  grid-template-rows: repeat(auto-fill, $size);
-  grid-gap: 1ch;
-  justify-content: center;
+  @include grid;
 
   &__item {
-    @include flex(column, space-between, stretch);
-    height: $size-smaller;
-    width: $size-smaller;
-    margin: auto;
     background: $standard-background;
     text-decoration: none;
     color: $white;
     text-align: center;
-    border-radius: 1rem;
-    padding: 1rem;
 
     i {
       @include flex(column, center, center);

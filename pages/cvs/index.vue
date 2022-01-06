@@ -14,7 +14,6 @@
 <script>
 export default {
   name: "CVIndexPage",
-  props: {},
   async asyncData({ $content, params }) {
     const cvs = await $content("cvs")
       .where({ show: { $ne: false } })

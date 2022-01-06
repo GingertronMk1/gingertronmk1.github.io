@@ -22,10 +22,6 @@ export default {
       default: () => Math.random().toString(36).substring(7),
     },
   },
-  data() {
-    return {};
-  },
-  mounted() {},
   methods: {
     handleInput(event) {
       this.$emit("input", event.target.checked);

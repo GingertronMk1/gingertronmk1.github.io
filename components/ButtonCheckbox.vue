@@ -17,10 +17,6 @@ export default {
       type: Boolean,
       required: true,
     },
-    label: {
-      type: String,
-      required: true,
-    },
     identifier: {
       type: String,
       default: () => Math.random().toString(36).substring(7),

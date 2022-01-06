@@ -6,6 +6,15 @@
         <a :href="social.url" target="_blank" v-text="social.name" />
       </span>
     </div>
+    <ul v-if="isDev" class="footer__column footer__column--routes">
+      <li
+        v-for="(route, index) in $router.options.routes"
+        :key="`route${index}`"
+      >
+        name: {{ route.name }} <br />
+        path: {{ route.path }}
+      </li>
+    </ul>
     <div class="footer__column">
       <div class="footer__credit">
         This website is built using Nuxt and hosted on GitHub Pages. To see the
@@ -46,8 +55,11 @@ export default {
       ],
     };
   },
-  mounted() {},
-  methods: {},
+  computed: {
+    isDev() {
+      return process.env.NODE_ENV !== "production";
+    },
+  },
 };
 </script>
 
@@ -69,11 +81,12 @@ export default {
     padding: 1rem;
     text-align: center;
 
-    &:first-of-type {
+    &:first-child,
+    &--routes {
       text-align: left;
     }
 
-    &:last-of-type {
+    &:last-child {
       text-align: right;
     }
 

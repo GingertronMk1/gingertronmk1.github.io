@@ -10,6 +10,7 @@
       </ButtonCheckbox>
 
       <span
+        class="six_degrees_nnt__counts"
         v-text="
           `${shows.length} shows with ${Object.keys(people).length} actors`
         "
@@ -123,13 +124,12 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import { findShortestPath } from "@/assets/js/functions.js";
 
 export default {
   props: {},
   async asyncData({ $axios }) {
-    const { data } = await axios({
+    const { data } = await $axios({
       url: "https://history.newtheatre.org.uk/feeds/search.json",
       headers: {
         Accept: "application/json",
@@ -337,6 +337,10 @@ export default {
     ul > li + li {
       margin-top: 1.6rem;
     }
+  }
+
+  &__counts {
+    align-self: center;
   }
 
   &__include-checkbox {

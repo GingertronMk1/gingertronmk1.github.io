@@ -52,20 +52,17 @@ And this text won't be shown at all!
     texts() {
       const regex = /(.+?)(: *?)([\s\S]+)/;
       const texts = this.input_text.split("\n\n");
-      // console.log(texts);
       let lastPerson = "";
 
       const allTexts = [];
 
       texts.forEach(function (text) {
-        // console.log(text);
         const splitText = text.split(regex);
         let person = splitText[1];
         let message = splitText[3];
         if (!(person && message)) {
           return false;
         }
-        // console.log(person, message);
         person = person.trim();
         message = message.trim();
         const textClasses = ["text"];

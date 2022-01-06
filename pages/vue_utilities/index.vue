@@ -14,7 +14,6 @@
 <script>
 export default {
   name: "VueUtilitiesIndexPage",
-  props: {},
   data() {
     return {
       utilities: [
@@ -54,8 +53,6 @@ export default {
       });
     },
   },
-  mounted() {},
-  methods: {},
 };
 </script>
 

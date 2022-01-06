@@ -1,3 +1,8 @@
+---
+show: false
+
+---
+
 # Education
 
 |                               |                                                 |

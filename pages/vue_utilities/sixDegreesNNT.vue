@@ -264,10 +264,19 @@ export default {
         const selectedElement = document.querySelector(
           `label[for^="radio${index}${person}"]`
         );
-        if (selectedElement) {
+        if (selectedElement?.parentElement) {
+          console.log(
+            selectedElement.offsetTop,
+            selectedElement.parentElement.offsetTop
+          );
           document
             .querySelector(`.six_degrees_nnt__person[person='${index}']`)
-            .scroll({ top: selectedElement.offsetTop - 300 });
+            .scroll({
+              top:
+                selectedElement.offsetTop -
+                selectedElement.parentElement.offsetTop / 2,
+              behavior: "smooth",
+            });
         }
       });
     },
@@ -358,6 +367,7 @@ export default {
     border: 2px solid $primary;
     border-radius: 0.5rem;
     padding: 0.5rem;
+    position: relative;
 
     > * {
       margin-bottom: 1rem;

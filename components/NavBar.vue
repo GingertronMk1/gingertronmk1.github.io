@@ -7,7 +7,6 @@
 </template>
 <script>
 export default {
-  props: {},
   data() {
     return {
       links: [
@@ -30,7 +29,5 @@ export default {
       ],
     };
   },
-  mounted() {},
-  methods: {},
 };
 </script>

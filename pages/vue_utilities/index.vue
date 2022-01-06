@@ -24,8 +24,8 @@ export default {
           icon: "fas fa-chart-line",
         },
         {
-          name: "NNT Things",
-          to: "nntthings",
+          name: "The Six Degrees of the NNT",
+          to: "sixdegreesnnt",
           icon: "fas fa-theater-masks",
         },
         {

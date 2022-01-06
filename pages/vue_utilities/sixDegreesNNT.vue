@@ -1,7 +1,7 @@
 <template>
-  <div class="nnt_things">
+  <div class="six_degrees_nnt">
     <template v-if="Array.isArray(search) && search.length > 1">
-      <div class="nnt_things__info">
+      <div class="six_degrees_nnt__info">
         <ButtonCheckbox v-model="includeFreshersFringe">
           Include Freshers' Fringe?
         </ButtonCheckbox>
@@ -10,9 +10,11 @@
           2015 on?
         </ButtonCheckbox>
 
-        <span>
-          {{ shows.length }} shows with {{ Object.keys(people).length }} actors
-        </span>
+        <span
+          v-text="
+            `${shows.length} shows with ${Object.keys(people).length} actors`
+          "
+        />
 
         <button class="button" @click="randomise()">Randomise!</button>
 
@@ -21,15 +23,18 @@
 
       <!-- INPUTS FOR SELECTING PEOPLE -->
 
-      <div v-if="Object.keys(people).length > 0" class="nnt_things__inputs">
-        <div class="nnt_things__input">
+      <div
+        v-if="Object.keys(people).length > 0"
+        class="six_degrees_nnt__inputs"
+      >
+        <div class="six_degrees_nnt__input">
           <input
             id="person1search"
             v-model="person1search"
             type="text"
             name="person1search"
           />
-          <div class="nnt_things__person">
+          <div class="six_degrees_nnt__person">
             <label for="person1null">
               <input
                 id="person1null"
@@ -56,14 +61,14 @@
             </label>
           </div>
         </div>
-        <div class="nnt_things__input">
+        <div class="six_degrees_nnt__input">
           <input
             id="person2search"
             v-model="person2search"
             type="text"
             name="person2search"
           />
-          <div class="nnt_things__person">
+          <div class="six_degrees_nnt__person">
             <label for="person2null">
               <input
                 id="person2null"
@@ -95,13 +100,16 @@
       <hr />
 
       <template v-if="person1 !== null && person2 !== null">
-        <div v-if="result.distance !== 'Infinity'" class="nnt_things__results">
+        <div
+          v-if="result.distance !== 'Infinity'"
+          class="six_degrees_nnt__results"
+        >
           <h3>Shortest Path Length: {{ result.distance }}</h3>
           <ul>
             <li
               v-for="(link, index) in result.showPath"
               :key="index"
-              class="nnt_things__path-item"
+              class="six_degrees_nnt__path-item"
             >
               {{ link.person1 }} was in the
               {{ link.show.year_title }} production of
@@ -115,7 +123,7 @@
         </h3>
       </template>
     </template>
-    <h3 v-else class="nnt_things__loading">Loading...</h3>
+    <h3 v-else class="six_degrees_nnt__loading">Loading...</h3>
   </div>
 </template>
 <script>
@@ -264,7 +272,7 @@ export default {
 </script>
 
 <style lang="scss">
-.nnt_things {
+.six_degrees_nnt {
   @include flex(column, space-between);
   padding-top: 1rem;
   width: 95%;

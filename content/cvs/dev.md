@@ -1,5 +1,6 @@
 ---
 title: Developer CV
+icon: fas fa-laptop-code
 ---
 
 # Profile

@@ -4,8 +4,11 @@
       v-for="(cv, index) in cvs"
       :key="`cv${index}`"
       :to="{ name: 'cvs-slug', params: { slug: cv.slug } }"
-      v-text="cv.title"
-    />
+      class="cv-index__item"
+    >
+      <i :class="cv.icon" />
+      <span v-text="cv.title" />
+    </NuxtLink>
   </div>
 </template>
 <script>
@@ -30,6 +33,27 @@ export default {
 
 <style lang="scss">
 .cv-index {
-  @include grid;
+  @include grid(300px);
+
+  &__item {
+    background: $standard-background;
+    text-decoration: none;
+    color: $white;
+    text-align: center;
+
+    i {
+      @include flex(column, center, center);
+      min-height: 1px;
+      flex: 1;
+      font-size: 5rem;
+    }
+
+    &:hover {
+      background: unset;
+      background-color: $white;
+      border: 2px solid $primary;
+      color: $primary;
+    }
+  }
 }
 </style>

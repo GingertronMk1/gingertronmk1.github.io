@@ -1,5 +1,6 @@
 ---
 title: Theatrical CV
+icon: fas fa-theater-masks
 ---
 
 # Profile

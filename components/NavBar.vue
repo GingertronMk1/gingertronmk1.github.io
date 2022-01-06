@@ -13,30 +13,19 @@ export default {
       links: [
         {
           name: "Home",
-          to: "/",
+          to: { name: "index" },
           icon: "fas fa-home",
           exact: true,
         },
         {
           name: "CVs",
           icon: "fas fa-user-tie",
-          links: [
-            {
-              name: "Developer",
-              to: "/cv/dev",
-              icon: "fas fa-laptop-code",
-            },
-            {
-              name: "Theatre Person",
-              to: "/cv/theatre",
-              icon: "fas fa-theater-masks",
-            },
-          ],
+          to: { name: "cvs" },
         },
         {
           name: "Vue Utilities",
           icon: "fas fa-wrench",
-          to: "/vue_utilities",
+          to: { name: "vue_utilities" },
         },
       ],
     };

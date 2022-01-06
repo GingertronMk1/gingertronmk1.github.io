@@ -30,7 +30,7 @@
           type="text"
           name="person1search"
         />
-        <div class="six_degrees_nnt__person">
+        <div class="six_degrees_nnt__person" person="1">
           <label for="person1null">
             <input
               id="person1null"
@@ -64,7 +64,7 @@
           type="text"
           name="person2search"
         />
-        <div class="six_degrees_nnt__person">
+        <div class="six_degrees_nnt__person" person="2">
           <label for="person2null">
             <input
               id="person2null"
@@ -100,7 +100,10 @@
         v-if="result.distance !== 'Infinity'"
         class="six_degrees_nnt__results"
       >
-        <h3>Shortest Path Length: <em v-text="result.distance" /></h3>
+        <h3>
+          Shortest Path between {{ person1 }} and {{ person2 }}:
+          <em v-text="result.distance" />
+        </h3>
         <ul>
           <li
             v-for="(link, index) in result.showPath"
@@ -255,6 +258,18 @@ export default {
       const p2 = people[Math.floor(Math.random() * l)];
       this.person1 = p1;
       this.person2 = p2;
+
+      [p1, p2].forEach((person, index) => {
+        index++;
+        const selectedElement = document.querySelector(
+          `label[for^="radio${index}${person}"]`
+        );
+        if (selectedElement) {
+          document
+            .querySelector(`.six_degrees_nnt__person[person='${index}']`)
+            .scroll({ top: selectedElement.offsetTop - 300 });
+        }
+      });
     },
     resetPeople() {
       this.person1 = null;

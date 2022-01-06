@@ -1,7 +1,7 @@
 <template>
   <nav class="nav">
     <template v-for="(link, index) in links">
-      <NavItem :key="`nav_link_${index}`" :link="link" />
+      <NavItem :key="`nav_link_${index}`" :link="link" :exact="link.exact" />
     </template>
   </nav>
 </template>
@@ -15,6 +15,7 @@ export default {
           name: "Home",
           to: "/",
           icon: "fas fa-home",
+          exact: true,
         },
         {
           name: "CVs",

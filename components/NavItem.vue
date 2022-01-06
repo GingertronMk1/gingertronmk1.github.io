@@ -3,7 +3,8 @@
     v-if="link.to !== undefined"
     :to="link.to"
     class="nav__link"
-    active-class="nav__link--active"
+    :active-class="activeClass(!exact)"
+    :exact-active-class="activeClass(exact)"
   >
     <i v-if="link.icon !== undefined" :class="link.icon" />
     {{ link.name }}
@@ -27,36 +28,15 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      nav_classes: ["flex-1", "inline-block", "py-1", "px-3", "bg-white"],
-      active_classes: [
-        "border",
-        "border-primary-orange",
-        "rounded",
-        "bg-primary-orange",
-        "text-white",
-      ],
-      nav_sub_classes_concat: [
-        "hidden",
-        "group-hover:flex",
-        "flex-col",
-        "absolute",
-        "inset-x-0",
-        "top-full",
-        "border",
-        "border-primary-orange",
-        "rounded",
-      ],
-    };
-  },
-  computed: {
-    nav_sub_classes() {
-      return this.nav_classes.concat(this.nav_sub_classes_concat);
+    exact: {
+      type: Boolean,
+      default: false,
     },
   },
-  mounted() {},
-  methods: {},
+  methods: {
+    activeClass(exact) {
+      return exact ? "nav__link--active" : "";
+    },
+  },
 };
 </script>

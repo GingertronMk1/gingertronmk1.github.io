@@ -1,6 +1,17 @@
 <template>
   <div class="season-gen__wrapper">
     <div class="season-gen__inputs">
+      <label for="numEmptySlots" class="season-gen__empties">
+        <div>Number of empty slots</div>
+        <input
+          id="numEmptySlots"
+          v-model="numEmptySlots"
+          type="number"
+          name="numEmptySlots"
+          min="0"
+          :max="numSlots - 1"
+        />
+      </label>
       <fieldset
         v-for="(show_slots, index) in showsSlots"
         :key="index"
@@ -24,7 +35,7 @@
         <td
           v-for="(show, show_index) in perm"
           :key="show_index"
-          v-text="show"
+          v-text="show.indexOf(emptyShowName) > -1 ? '---' : show"
         />
       </tr>
     </table>
@@ -58,16 +69,28 @@ export default {
         },
       ],
       log: false,
+      numEmptySlots: 0,
+      emptyShowName: "!!!EMPTYSHOW",
     };
   },
   computed: {
     arrayShowsSlots() {
-      return this.showsSlots.map(({ show, slots }) => {
+      const ret = this.showsSlots.map(({ show, slots }) => {
         return {
           show,
           slots: slots.split(/ *, */),
         };
       });
+      const allSlots = [];
+      ret.forEach(({ slots }) => allSlots.push(...slots));
+
+      for (let i = 0; i < this.numEmptySlots; i++) {
+        ret.push({
+          show: [this.emptyShowName, i].join(" "),
+          slots: [...new Set(allSlots)],
+        });
+      }
+      return ret;
     },
     numSlots() {
       return this.arrayShowsSlots
@@ -172,6 +195,16 @@ export default {
 </script>
 
 <style lang="scss">
+@mixin inputs {
+  input {
+    width: 100%;
+    flex: 1;
+    border: 2px solid black;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+  }
+}
+
 .season-gen {
   width: 100%;
   display: flex;
@@ -186,12 +219,7 @@ export default {
       width: 100%;
       border: none;
       input {
-        width: 100%;
-        flex: 1;
-        border: 2px solid black;
-        border-radius: 0.5rem;
-        padding: 0.25rem;
-
+        @include inputs;
         &[name*="show"] {
           max-width: 39%;
         }
@@ -235,6 +263,14 @@ export default {
     font-weight: 700;
     font-size: 2rem;
     @include flex($justify: center);
+  }
+
+  &__empties {
+    @include flex(row, space-between, center);
+    @include inputs;
+    input {
+      margin-left: 1rem;
+    }
   }
 }
 </style>

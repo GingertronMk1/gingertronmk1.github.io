@@ -38,6 +38,8 @@ export default {
     // https://go.nuxtjs.dev/eslint
     "@nuxtjs/eslint-module",
     "@nuxtjs/style-resources",
+    "@nuxtjs/stylelint-module",
+    "@nuxt/postcss8",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -63,7 +65,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    profile: true,
     postcss: {
       preset: {
         autoprefixer: {
@@ -75,5 +76,9 @@ export default {
 
   styleResources: {
     scss: ["@/assets/scss/resources/resources.scss"],
+  },
+
+  stylelint: {
+    files: "*.scss",
   },
 };

@@ -1,14 +1,14 @@
 .nuxt-content {
-	table {
-		width: 100%;
-		border-spacing: 0;
+  table {
+    width: 100%;
+    border-spacing: 0;
 
-		td {
-			padding: 0.2rem 0.5rem;
-		}
+    td {
+      padding: 0.2rem 0.5rem;
+    }
 
-		td + td {
-			border-left: 1px solid #ddd;
-		}
-	}
+    td + td {
+      border-left: 1px solid #ddd;
+    }
+  }
 }

@@ -53,8 +53,7 @@
     "ignorePath": "**/*.vue",
     "extends": "stylelint-config-recommended-scss",
     "rules": {
-      "indentation": "tab",
-      "number-leading-zero": null
+      "indentation": 2
     }
   }
 }

@@ -3,9 +3,9 @@
 $primary: rgb(255, 124, 55); // Royal Blue
 
 $standard-background: linear-gradient(
-	to bottom right,
-	$primary,
-	color.scale($primary, $lightness: -10%)
+  to bottom right,
+  $primary,
+  color.scale($primary, $lightness: -10%)
 );
 
 $white: #ffffff; // Brightest

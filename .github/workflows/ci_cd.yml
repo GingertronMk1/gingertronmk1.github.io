@@ -11,47 +11,21 @@ on:
       - master
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@master
-
-      - name: Setup node env 🏗
-        uses: actions/setup-node@v2.1.5
-        with:
-          node-version: 12
-          check-latest: true
-
-      - name: Cache node_modules 📦
-        uses: actions/cache@v2.1.4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install dependencies 👨🏻‍💻
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Run linter 👀
-        run: npm run lint
   build:
-    needs: [ci]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Generate .env file
+        run: |
+          touch .env
+          echo SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID}} >> .env
       - name: NPM CI and generate
-        shell: bash
         run: |
           npm ci
-          npm run generate SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
+          npm run generate
       - name: Check git status
-        shell: bash
         run: git status --porcelain
       - name: Add and commit new files
-        shell: bash
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com

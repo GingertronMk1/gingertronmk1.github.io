@@ -15,7 +15,6 @@
     />
   </div>
   <div v-else>
-    {{ $config.spotifyClientId }}
     <div class="spotify__login-form">
       <button @click="loginToSpotify">Log In</button>
     </div>

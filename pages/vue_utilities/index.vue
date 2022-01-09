@@ -42,6 +42,11 @@ export default {
           to: "textgen",
           icon: "fas fa-comments",
         },
+        {
+          name: "Spotify",
+          to: "spotify",
+          icon: "fab fa-spotify",
+        },
       ],
     };
   },

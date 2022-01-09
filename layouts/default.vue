@@ -23,6 +23,7 @@ export default {
   @include flex(column, space-between, stretch);
 
   &__inner {
+    @include flex(column, space-between, stretch);
     margin: $nav-margin auto 0;
     width: 95%;
     max-width: $xlarge;

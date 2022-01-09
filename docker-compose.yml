@@ -15,6 +15,7 @@ services:
       - traefik
     ports:
       - 4000:4000
+    # restart: on-failure
 
 networks:
   internal:

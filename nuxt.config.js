@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -25,6 +27,8 @@ export default {
   css: [
     "@/assets/scss/app.scss",
     "@fortawesome/fontawesome-free/css/all.min.css",
+    "ag-grid-community/dist/styles/ag-grid.css",
+    "ag-grid-community/dist/styles/ag-theme-alpine.css",
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -48,6 +52,7 @@ export default {
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/content
     "@nuxt/content",
+    "@nuxtjs/dotenv",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -80,5 +85,9 @@ export default {
 
   stylelint: {
     files: "*.scss",
+  },
+
+  publicRuntimeConfig: {
+    spotifyClientId: process.env.SPOTIFY_CLIENT_ID,
   },
 };

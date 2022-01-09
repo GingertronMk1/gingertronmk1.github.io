@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           npm ci
-          npm run generate
+          npm run generate SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
       - name: Check git status
         shell: bash
         run: git status --porcelain

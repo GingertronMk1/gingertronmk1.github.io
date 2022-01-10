@@ -1,101 +1,143 @@
 <template>
-  <div v-if="isLoggedIn">
-    <button @click="logout">Log Out</button>
-    <img
-      v-if="hasProfileImage"
-      :src="spotifyMeData.data.images[0].url"
-      width="150"
-    />
-    <button @click="getTopValues">Get Top Values</button>
-    <AgGrid
-      v-if="myTopTracks.length"
-      class="ag-theme-alpine"
-      :column-defs="columnDefs"
-      :row-data="myTopTracks"
-    />
-  </div>
-  <div v-else>
+  <div v-if="!isLoggedIn">
     <div class="spotify__login-form">
-      <button @click="loginToSpotify">Log In</button>
+      <button @click="login">Log In</button>
     </div>
+  </div>
+  <div v-else-if="isLoggedInAndDataLoaded">
+    <button @click="logout">Log Out</button>
+    <div class="spotify__user-info">
+      <img
+        v-if="hasProfileImage"
+        :src="spotifyMeData.images[0].url"
+        width="150"
+      />
+      <h1 v-text="spotifyMeData.display_name" />
+    </div>
+    <h3>Your Top Songs</h3>
+    <AgGrid class="ag-theme-alpine" :grid-options="gridOptions" />
   </div>
 </template>
 <script>
 const tokenLocalStorageKey = "gingertronmk1_github_io_spotify_token";
 const expiryLocalStorageKey = "gingertronmk1_github_io_spotify_expiry";
+const baseUrl = "https://api.spotify.com/v1";
 export default {
   name: "SpotifyPage",
   props: {},
-  async asyncData({ $axios, $config }) {
-    const bearerToken = localStorage.getItem(tokenLocalStorageKey);
-    let spotifyMeData = {};
-    if (bearerToken) {
-      spotifyMeData = await $axios({
-        method: "GET",
-        url: "https://api.spotify.com/v1/me",
-        headers: {
-          Authorization: `Bearer ${bearerToken}`,
-        },
-      }).catch((error) => {
-        console.log(error);
-        localStorage.removeItem(tokenLocalStorageKey);
-        return null;
-      });
-    }
+  data({ $axios }) {
     return {
-      bearerToken,
-      spotifyMeData,
-      myTopTracks: [],
-      columnDefs: [
-        { field: "name" },
-        { field: "artistName" },
-        { field: "albumName" },
-        { field: "popularity" },
-      ],
+      /**
+       * LOGGING IN THINGS
+       */
+      bearerToken: null,
+      expiryTime: null,
+
+      /**
+       * DATA
+       */
+      spotifyMeData: null,
+
+      /**
+       * AG Grid stuff
+       */
+      gridOptions: {
+        cacheBlockSize: 20,
+        rowModelType: "infinite",
+        datasource: {
+          getRows: async (params) => {
+            const myParams = {
+              offset: params.startRow,
+              limit: params.endRow - params.startRow,
+              time_range: "long_term",
+            };
+            const { data } = await $axios({
+              method: "GET",
+              url: `${baseUrl}/me/top/tracks`,
+              headers: {
+                Authorization: `Bearer ${this.bearerToken}`,
+              },
+              params: myParams,
+            });
+            let lastRow = -1;
+            if (data.items.length < 1) {
+              lastRow = params.startRow;
+            }
+            const items = data.items.map(
+              ({ name, artists, album, popularity }) => {
+                return {
+                  name,
+                  artist: artists[0].name,
+                  album: album.name,
+                  popularity,
+                };
+              }
+            );
+            params.successCallback(items, lastRow);
+          },
+        },
+        rowData: [],
+        columnDefs: this.setColumnDefDefaults([
+          { field: "name" },
+          { field: "artist" },
+          { field: "album" },
+          { field: "popularity" },
+        ]),
+      },
     };
   },
   computed: {
+    currentTime() {
+      return new Date().getTime();
+    },
+    timeDifference() {
+      return this.expiryTime - this.currentTime;
+    },
+    hasBearerToken() {
+      const token = this.bearerToken;
+      return token !== undefined && token !== null;
+    },
+    validExpiryTime() {
+      return this.timeDifference > 0;
+    },
     isLoggedIn() {
-      const bearerToken = localStorage.getItem(tokenLocalStorageKey);
-      const expiryTime = parseInt(localStorage.getItem(expiryLocalStorageKey));
-      return (
-        bearerToken !== undefined &&
-        expiryTime !== null &&
-        new Date().getTime() / 1000 < expiryTime
-      );
+      return this.hasBearerToken && this.validExpiryTime;
+    },
+    isLoggedInAndDataLoaded() {
+      return this.isLoggedIn && !!this.spotifyMeData;
     },
     hasProfileImage() {
-      return this.spotifyMeData?.data?.images?.length;
+      return this.spotifyMeData?.images?.length;
     },
   },
   mounted() {
-    window.processenv = process.env;
     if (window.location.hash) {
-      console.log(window.location.hash);
-      window.localStorage.setItem(
-        tokenLocalStorageKey,
-        window.location.hash.substring(1).slice("access_token=".length)
-      );
-      const time =
-        new Date().getTime() / 1000 +
-        parseInt(window.location.hash.substring(4).slice("expires_in=").length);
+      // LOGGING IN
+      const hash = window.location.hash;
+      const bearerToken = hash.split("access_token=")[1].split("&")[0];
+      const expiryTime = parseInt(hash.split("expires_in=")[1].split("&")[0]);
+      const time = new Date().getTime() + expiryTime * 1000;
+      window.localStorage.setItem(tokenLocalStorageKey, bearerToken);
       window.localStorage.setItem(expiryLocalStorageKey, time);
-      this.$router.push({ name: this.$route.name });
+      history.replaceState(null, null, this.$route.path);
     }
-  },
-  methods: {
-    async getSpotify(url, method = "GET", data = null) {
-      url = url.indexOf("/") !== 0 ? `/${url}` : url;
-      return await this.$axios({
-        url: `https://api.spotify.com/v1${url}`,
-        method,
-        data,
+    this.bearerToken = window.localStorage.getItem(tokenLocalStorageKey);
+    this.expiryTime = window.localStorage.getItem(expiryLocalStorageKey);
+    console.log(this.bearerToken, this.expiryTime, this.timeDifference);
+    if (this.isLoggedIn) {
+      this.$axios({
+        method: "GET",
+        url: `${baseUrl}/me`,
         headers: {
           Authorization: `Bearer ${this.bearerToken}`,
         },
+      }).then(({ data }) => {
+        this.spotifyMeData = data;
       });
-    },
-    loginToSpotify() {
+    }
+  },
+  methods: {
+    login() {
       const getUrl = window.location;
       const baseUrl = `${getUrl.protocol}//${getUrl.host}`;
       const scopes = [
@@ -113,20 +155,19 @@ export default {
           `scope=${scopes.join(" ")}`,
         ].join("&");
     },
-    getTopValues() {
-      return this.getSpotify("me/top/tracks").then(({ data }) => {
-        console.table(data?.items);
-        this.myTopTracks = data.items.map((track) => {
-          track.artistName = track?.artists[0]?.name;
-          track.albumName = track?.album?.name;
-          return track;
-        });
-      });
-    },
     logout() {
-      console.log("Logout");
+      this.bearerToken = null;
+      this.expiryTime = null;
       localStorage.removeItem(tokenLocalStorageKey);
-      this.$nuxt.refresh();
+      localStorage.removeItem(expiryLocalStorageKey);
+    },
+    setColumnDefDefaults(defs) {
+      return defs.map((def) => {
+        return {
+          ...def,
+          resizable: true,
+        };
+      });
     },
   },
 };
@@ -140,5 +181,11 @@ export default {
 
 .body__inner {
   flex: 1000;
+}
+
+.spotify {
+  &__user-info {
+    @include flex(row, space-between, center);
+  }
 }
 </style>

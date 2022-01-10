@@ -58,6 +58,10 @@ export default {
                 Authorization: `Bearer ${this.bearerToken}`,
               },
               params: myParams,
+            }).catch((error) => {
+              console.error(error);
+              this.logout();
+              return null;
             });
             let lastRow = -1;
             if (data.items.length < 1) {

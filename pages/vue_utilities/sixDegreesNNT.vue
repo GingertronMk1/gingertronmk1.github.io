@@ -183,11 +183,30 @@ export default {
           width: 500,
         },
         columnDefs: [
-          { field: "title" },
-          { field: "playwright" },
-          { field: "year_title" },
-          { field: "cast" },
-          { field: "crew" },
+          {
+            field: "title",
+            headerName: "Title",
+          },
+          {
+            field: "playwright",
+            headerName: "Playwright",
+          },
+          {
+            field: "year_title",
+            headerName: "Academic Year",
+          },
+          {
+            field: "cast",
+            headerName: "Cast",
+          },
+          {
+            field: "crew",
+            headerName: "Crew",
+          },
+          {
+            field: "season",
+            headerName: "Season",
+          },
         ],
       },
     };

@@ -121,6 +121,12 @@
         Could not find a link between {{ person1 }} and {{ person2 }}
       </h3>
     </template>
+    <AgGrid
+      :grid-options="gridOptions"
+      :row-data="shows"
+      :style="{ height: '300px' }"
+      class="ag-theme-alpine"
+    />
   </div>
 </template>
 <script>
@@ -164,6 +170,21 @@ export default {
       person2search: "",
       includeFreshersFringe: false,
       includeTwentyFifteenOnward: false,
+      gridOptions: {
+        defaultColDef: {
+          sortable: true,
+          resizable: true,
+          filter: true,
+          width: 500,
+        },
+        columnDefs: [
+          { field: "title" },
+          { field: "playwright" },
+          { field: "year_title" },
+          { field: "cast" },
+          { field: "crew" },
+        ],
+      },
     };
   },
   head() {
@@ -249,6 +270,9 @@ export default {
     includeFreshersFringe() {
       this.resetPeople();
     },
+  },
+  mounted() {
+    this.gridOptions.api.sizeColumnsToFit();
   },
   methods: {
     randomise() {

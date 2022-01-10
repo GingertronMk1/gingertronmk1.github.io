@@ -132,11 +132,13 @@
 <script>
 import { findShortestPath } from "@/assets/js/functions.js";
 
+const historySiteUrl = "https://history.newtheatre.org.uk";
+
 export default {
   props: {},
   async asyncData({ $axios }) {
     const { data } = await $axios({
-      url: "https://history.newtheatre.org.uk/feeds/search.json",
+      url: `${historySiteUrl}/feeds/search.json`,
       headers: {
         Accept: "application/json",
       },
@@ -171,6 +173,9 @@ export default {
       includeFreshersFringe: false,
       includeTwentyFifteenOnward: false,
       gridOptions: {
+        onRowClicked: ({ data: { link } }) => {
+          window.open(`${historySiteUrl}${link}`);
+        },
         defaultColDef: {
           sortable: true,
           resizable: true,

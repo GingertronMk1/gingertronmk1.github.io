@@ -62,6 +62,10 @@ export default {
     base: "/",
   },
 
+  generate: {
+    fallback: true,
+  },
+
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
 

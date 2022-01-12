@@ -1,8 +1,12 @@
 <template>
   <div>
-    <template v-for="(problem, index) in problems">
+    <template v-for="(problem, index) in components">
       <hr v-if="index > 0" :key="`EulerHR${index}`" />
-      <component :is="`EulerProblem${problem}`" :key="`Euler${index}`" />
+      <h3
+        :key="index"
+        v-text="problem.name.replace(/([A-Z])/g, ' $1').trim()"
+      />
+      <component :is="problem" :key="`Euler${index}`" />
     </template>
   </div>
 </template>
@@ -17,6 +21,21 @@ export default {
     return {
       title: "Project Euler",
     };
+  },
+  computed: {
+    components() {
+      const components = require.context(
+        "~/components/euler",
+        false,
+        /\d+.vue$/
+      );
+      const ret = {};
+      components.keys().forEach((component) => {
+        const componentConfig = components(component);
+        ret[component] = componentConfig.default || componentConfig;
+      });
+      return ret;
+    },
   },
 };
 </script>

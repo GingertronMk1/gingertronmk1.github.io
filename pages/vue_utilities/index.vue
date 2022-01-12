@@ -52,6 +52,11 @@ export default {
           to: "random",
           icon: "fas fa-random",
         },
+        {
+          name: "Project Euler",
+          to: "projectEuler",
+          icon: "fas fa-tasks",
+        },
       ],
     };
   },

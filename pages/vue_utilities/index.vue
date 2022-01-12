@@ -47,6 +47,11 @@ export default {
           to: "spotify",
           icon: "fab fa-spotify",
         },
+        {
+          name: "Random Bits",
+          to: "random",
+          icon: "fas fa-random",
+        },
       ],
     };
   },

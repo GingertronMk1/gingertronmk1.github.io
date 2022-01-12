@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 export default {
+  ssr: false,
+
   // Target: https://go.nuxtjs.dev/config-target
   target: "static",
 
@@ -24,8 +26,15 @@ export default {
   css: [
     "@/assets/scss/app.scss",
     "@fortawesome/fontawesome-free/css/all.min.css",
-    "ag-grid-community/dist/styles/ag-grid.css",
-    "ag-grid-community/dist/styles/ag-theme-alpine.css",
+    "ag-grid-community/dist/styles/ag-grid.min.css",
+    "ag-grid-community/dist/styles/ag-theme-alpine-dark.min.css",
+    "ag-grid-community/dist/styles/ag-theme-alpine.min.css",
+    "ag-grid-community/dist/styles/ag-theme-balham-dark.min.css",
+    "ag-grid-community/dist/styles/ag-theme-balham.min.css",
+    "ag-grid-community/dist/styles/ag-theme-blue.min.css",
+    "ag-grid-community/dist/styles/ag-theme-bootstrap.min.css",
+    "ag-grid-community/dist/styles/ag-theme-dark.min.css",
+    "ag-grid-community/dist/styles/ag-theme-fresh.min.css",
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

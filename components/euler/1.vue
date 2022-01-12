@@ -1,6 +1,5 @@
 <template>
   <section>
-    <h3>Problem One</h3>
     <input id="numbers" v-model="numbers" type="text" name="numbers" />
     {{ result }}
     <pre v-text="$options.methods.calculateResult" />
@@ -8,6 +7,7 @@
 </template>
 <script>
 export default {
+  name: "ProblemOne",
   props: {},
   data() {
     return {

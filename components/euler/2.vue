@@ -1,12 +1,12 @@
 <template>
   <section>
-    <h3>Problem 2</h3>
     <input id="problem2limit" v-model="limit" type="number" min="0" />
     <pre v-text="$options.methods.calculateEvenFibs" />
   </section>
 </template>
 <script>
 export default {
+  name: "ProblemTwo",
   props: {},
   data() {
     return {

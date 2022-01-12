@@ -1,6 +1,5 @@
 <template>
   <section>
-    <h3>Problem 2</h3>
     <input id="problem2limit" v-model="input" type="number" min="0" />
     <pre v-text="result(input)" />
     <pre v-text="$options.methods.calculatePrimeFactors" />
@@ -10,6 +9,7 @@
 </template>
 <script>
 export default {
+  name: "ProblemThree",
   props: {},
   data() {
     return {

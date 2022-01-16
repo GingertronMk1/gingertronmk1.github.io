@@ -54,12 +54,6 @@ export default {
 
       for (let i = 0; i < thousandDigitNumber.length - limit; i++) {
         const cut = thousandDigitNumber.slice(i, i + limit);
-        console.table({
-          i,
-          limit,
-          i_plus_limit: i + limit,
-          cut,
-        });
         if (!cut.includes("0")) {
           const cutProduct = cut
             .split("")

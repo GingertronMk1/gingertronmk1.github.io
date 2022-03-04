@@ -365,7 +365,11 @@ export default {
 
             svg
               .selectAll("legend")
-              .data([labels])
+              .data([
+                labels.sort((a, b) =>
+                  a.toLowerCase().localeCompare(b.toLowerCase())
+                ),
+              ])
               .enter()
               .append("rect")
               .attr("x", 10)

@@ -14,4 +14,14 @@
     background: $white;
     color: $primary;
   }
+
+  &--secondary {
+    background: $white;
+    color: $primary;
+
+    &:hover {
+      background: $primary;
+      color: $white;
+    }
+  }
 }

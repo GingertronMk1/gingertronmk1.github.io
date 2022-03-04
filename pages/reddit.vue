@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="leaderboard">
     <HeroHeader>Redditor of Steel</HeroHeader>
     <a
       href="https://reddit.com/r/superleague/search?q=Match+Thread&restrict_sr=on&sort=new"
@@ -8,34 +8,43 @@
     >
     <div class="reddit__round-buttons">
       <button
-        v-for="(threads, index) in allThreads"
+        :class="{
+          button: true,
+          'button--secondary': activeRound !== null,
+        }"
+        @click.prevent="activeRound = null"
+      >
+        Show All
+      </button>
+      <button
+        v-for="(threads, index) in allRounds"
         :key="index"
-        class="button"
-        @click.prevent="getThreads(threads)"
+        :class="{
+          button: true,
+          'button--secondary': activeRound !== index,
+        }"
+        @click.prevent="activeRound = index"
         v-text="index"
       />
     </div>
-    <table
-      v-for="(user, outerIndex) in pointsFromRound.slice(0, 3)"
-      :key="`outer${outerIndex}`"
-      cellspacing="0"
-    >
-      <thead>
-        <tr>
-          <th width="60%">User: {{ user.author }}</th>
-          <th>Total: {{ user.score }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(comment, index) in user.comments"
-          :key="`${outerIndex}-${index}`"
-        >
-          <td v-text="comment.body" />
-          <td v-text="`${comment.score} points`" />
-        </tr>
-      </tbody>
-    </table>
+    <template v-if="leaderboard">
+      <div v-if="activeRound === null">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>RoS Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(line, index) in leaderboard" :key="`leader${index}`">
+              <td v-text="line.name" />
+              <td v-text="line.points" />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </template>
   </div>
 </template>
 <script>
@@ -44,22 +53,92 @@ export default {
   props: {},
   data({ $config }) {
     return {
-      threadValues: {},
-      allThreads: require("assets/json/threads.json"),
-      loading: false,
+      allRounds: require("assets/json/threads.json"),
+      allRoundsLoaded: {},
+      activeRound: null,
     };
   },
   computed: {
-    processedThreads() {
+    leaderboard() {
+      if (this.allRoundsProcessed) {
+        const ret = [];
+        const mapped = Object.values(this.allRoundsProcessed)
+          .flat()
+          .reduce((acc, value) => {
+            if (acc[value.author]) {
+              acc[value.author] += value.ros_points;
+            } else {
+              acc[value.author] = value.ros_points;
+            }
+            return acc;
+          }, {});
+
+        Object.entries(mapped).forEach(([key, value]) => {
+          ret.push({
+            name: key,
+            points: value,
+          });
+        });
+
+        return ret.sort((a, b) => b.points - a.points);
+      }
+      return null;
+    },
+    allRoundsProcessed() {
+      const arl = this.allRoundsLoaded;
+      const gpfr = this.getPointsFromRound;
+      const gpt = this.getProcessedThreads;
+      if (
+        arl !== null &&
+        Object.keys(arl).length === Object.keys(this.allRounds).length
+      ) {
+        const ret = {};
+        Object.entries(arl).forEach(([key, value]) => {
+          ret[key] = gpfr(gpt(value))
+            .slice(0, 3)
+            .map((thread, index) => ({
+              ...thread,
+              ros_points: 3 - index,
+            }));
+        });
+        return ret;
+      }
+      return {};
+    },
+  },
+  mounted() {
+    const allRoundsLoaded = {};
+    Object.entries(this.allRounds).forEach(async (entry) => {
+      const [key, value] = entry;
+      allRoundsLoaded[key] = await this.getThreads(value);
+    });
+    this.allRoundsLoaded = allRoundsLoaded;
+  },
+  methods: {
+    getProcessedThreads(round) {
       const ret = {};
-      Object.entries(this.threadValues).forEach((entry) => {
+      Object.entries(round).forEach((entry) => {
         const [key, value] = entry;
         ret[key] = this.sortFilterThread(value);
       });
       return ret;
     },
-    pointsFromRound() {
-      return Object.values(this.processedThreads)
+    sortFilterThread(thread) {
+      return thread
+        .sort((a, b) => {
+          return b.score - a.score;
+        })
+        .reduce((acc, curr) => {
+          if (!acc.map(({ author }) => author).includes(curr.author)) {
+            acc.push(curr);
+          }
+          return acc;
+        }, [])
+        .map(({ author, score, body }) => ({ author, score, body }));
+    },
+
+    getPointsFromRound(round) {
+      return Object.values(round)
         .flat()
         .reduce((acc, val) => {
           const i = acc.findIndex(({ author }) => author === val.author);
@@ -78,43 +157,24 @@ export default {
         }, [])
         .sort((a, b) => b.score - a.score);
     },
-  },
-  methods: {
-    sortFilterThread(thread) {
-      return thread
-        .sort((a, b) => {
-          return b.score - a.score;
-        })
-        .reduce((acc, curr) => {
-          if (!acc.map(({ author }) => author).includes(curr.author)) {
-            acc.push(curr);
-          }
-          return acc;
-        }, [])
-        .map(({ author, score, body }) => ({ author, score, body }));
-    },
-    getThreads(threadIDs) {
-      this.loading = true;
+    async getThreads(threadIDs) {
       const promises = threadIDs.map((threadID) =>
         this.$axios.get(
           `https://api.reddit.com/r/superleague/comments/${threadID}`
         )
       );
-      Promise.all(promises).then((responses) => {
+      return await Promise.all(promises).then((responses) => {
         const ret = {};
         responses.forEach((response) => {
           const { data } = response;
-          console.log(data);
           const [topLevel, comments] = data;
           const children = comments?.data?.children || false;
           const { id } = topLevel?.data?.children[0]?.data || false;
-          console.log(id, children);
           if (id && children) {
             ret[id] = children.map(({ data }) => data);
           }
         });
-        this.threadValues = ret;
-        this.loading = false;
+        return ret;
       });
     },
   },

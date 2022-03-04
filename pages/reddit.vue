@@ -27,24 +27,45 @@
         v-text="index"
       />
     </div>
-    <template v-if="leaderboard">
-      <div v-if="activeRound === null">
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>RoS Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(line, index) in leaderboard" :key="`leader${index}`">
-              <td v-text="line.name" />
-              <td v-text="line.points" />
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </template>
+    <div v-if="activeRound === null">
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>RoS Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(line, index) in leaderboard" :key="`leader${index}`">
+            <td v-text="line.name" />
+            <td v-text="line.points" />
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div v-else class="reddit__round-summary">
+      <table
+        v-for="(user, outerIndex) in allRoundsProcessed[activeRound]"
+        :key="`outer${outerIndex}`"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th width="60%">User: {{ user.author }}</th>
+            <th>Total: {{ user.score }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(comment, index) in user.comments"
+            :key="`${outerIndex}-${index}`"
+          >
+            <td v-text="comment.body" />
+            <td v-text="`${comment.score} points`" />
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 <script>
@@ -56,45 +77,58 @@ export default {
       allRounds: require("assets/json/threads.json"),
       allRoundsLoaded: {},
       activeRound: null,
+      leaderboard: null,
+      allRoundsProcessed: null,
     };
   },
-  computed: {
-    leaderboard() {
-      if (this.allRoundsProcessed) {
-        const ret = [];
-        const mapped = Object.values(this.allRoundsProcessed)
-          .flat()
-          .reduce((acc, value) => {
-            if (acc[value.author]) {
-              acc[value.author] += value.ros_points;
-            } else {
-              acc[value.author] = value.ros_points;
-            }
-            return acc;
-          }, {});
-
-        Object.entries(mapped).forEach(([key, value]) => {
-          ret.push({
-            name: key,
-            points: value,
-          });
-        });
-
-        return ret.sort((a, b) => b.points - a.points);
+  async fetch() {
+    const allRoundsLoaded = await this.getAllRounds();
+    const allRoundsProcessed = this.processRounds(allRoundsLoaded);
+    const leaderboard = this.generateLeaderboard(allRoundsProcessed);
+    this.allRoundsLoaded = allRoundsLoaded;
+    this.allRoundsProcessed = allRoundsProcessed;
+    this.leaderboard = leaderboard;
+  },
+  methods: {
+    async getAllRounds() {
+      const allRoundsLoaded = {};
+      for (const entry of Object.entries(this.allRounds)) {
+        const [key, value] = entry;
+        allRoundsLoaded[key] = await this.getThreads(value);
       }
-      return null;
+      return allRoundsLoaded;
     },
-    allRoundsProcessed() {
-      const arl = this.allRoundsLoaded;
-      const gpfr = this.getPointsFromRound;
-      const gpt = this.getProcessedThreads;
+    generateLeaderboard(rounds) {
+      const ret = [];
+      const mapped = Object.values(rounds)
+        .flat()
+        .reduce((acc, value) => {
+          if (acc[value.author]) {
+            acc[value.author] += value.ros_points;
+          } else {
+            acc[value.author] = value.ros_points;
+          }
+          return acc;
+        }, {});
+
+      Object.entries(mapped).forEach(([key, value]) => {
+        ret.push({
+          name: key,
+          points: value,
+        });
+      });
+
+      return ret.sort((a, b) => b.points - a.points);
+    },
+    processRounds(rounds) {
+      const arl = rounds;
       if (
         arl !== null &&
         Object.keys(arl).length === Object.keys(this.allRounds).length
       ) {
         const ret = {};
         Object.entries(arl).forEach(([key, value]) => {
-          ret[key] = gpfr(gpt(value))
+          ret[key] = this.getPointsFromRound(this.getProcessedThreads(value))
             .slice(0, 3)
             .map((thread, index) => ({
               ...thread,
@@ -105,16 +139,6 @@ export default {
       }
       return {};
     },
-  },
-  mounted() {
-    const allRoundsLoaded = {};
-    Object.entries(this.allRounds).forEach(async (entry) => {
-      const [key, value] = entry;
-      allRoundsLoaded[key] = await this.getThreads(value);
-    });
-    this.allRoundsLoaded = allRoundsLoaded;
-  },
-  methods: {
     getProcessedThreads(round) {
       const ret = {};
       Object.entries(round).forEach((entry) => {
@@ -193,6 +217,17 @@ export default {
     & > * + * {
       margin-left: 1rem;
     }
+  }
+
+  &__round-summary {
+    @include flex(column, flex-start, stretch);
+    & > table + table {
+      margin-top: 1rem;
+    }
+  }
+
+  table {
+    border-spacing: 0;
   }
 
   table,

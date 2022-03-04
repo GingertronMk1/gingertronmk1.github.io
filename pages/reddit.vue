@@ -1,5 +1,5 @@
 <template>
-  <div v-if="leaderboard">
+  <div>
     <HeroHeader>Redditor of Steel</HeroHeader>
     <a
       href="https://reddit.com/r/superleague/search?q=Match+Thread&restrict_sr=on&sort=new"
@@ -27,7 +27,7 @@
         v-text="index"
       />
     </div>
-    <div v-if="activeRound === null">
+    <div v-show="activeRound === null" id="leaderboard">
       <table>
         <thead>
           <tr>
@@ -42,8 +42,9 @@
           </tr>
         </tbody>
       </table>
+      <div id="d3_graph" ref="d3_graph"></div>
     </div>
-    <div v-else class="reddit__round-summary">
+    <div v-if="activeRound !== null" class="reddit__round-summary">
       <table
         v-for="(user, outerIndex) in allRoundsProcessed[activeRound]"
         :key="`outer${outerIndex}`"
@@ -69,25 +70,32 @@
   </div>
 </template>
 <script>
+import * as d3 from "d3";
+
 export default {
   name: "RedditPage",
   props: {},
-  data({ $config }) {
+  data() {
     return {
       allRounds: require("assets/json/threads.json"),
       allRoundsLoaded: {},
       activeRound: null,
       leaderboard: null,
       allRoundsProcessed: null,
+      roundByRound: null,
     };
   },
   async fetch() {
     const allRoundsLoaded = await this.getAllRounds();
     const allRoundsProcessed = this.processRounds(allRoundsLoaded);
     const leaderboard = this.generateLeaderboard(allRoundsProcessed);
+    const roundByRound = this.generateRoundByRound(allRoundsProcessed);
     this.allRoundsLoaded = allRoundsLoaded;
     this.allRoundsProcessed = allRoundsProcessed;
     this.leaderboard = leaderboard;
+    this.roundByRound = roundByRound;
+
+    this.generateChart(roundByRound);
   },
   methods: {
     async getAllRounds() {
@@ -119,6 +127,29 @@ export default {
       });
 
       return ret.sort((a, b) => b.points - a.points);
+    },
+    generateRoundByRound(rounds) {
+      const allUsers = [
+        ...new Set(
+          Object.values(rounds)
+            .flat()
+            .map(({ author }) => ({ author, scores: [], rounds: [] }))
+        ),
+      ];
+
+      Object.values(rounds).forEach((round, index) => {
+        allUsers.forEach((user) => {
+          const userScore = round.find(({ author }) => author === user.author);
+          const mostRecentScore = index > 0 ? user.scores[index - 1] : 0;
+          if (userScore) {
+            user.scores.push(mostRecentScore + userScore.ros_points);
+          } else {
+            user.scores.push(mostRecentScore);
+          }
+          user.rounds.push(index + 1);
+        });
+      });
+      return allUsers;
     },
     processRounds(rounds) {
       const arl = rounds;
@@ -160,7 +191,6 @@ export default {
         }, [])
         .map(({ author, score, body }) => ({ author, score, body }));
     },
-
     getPointsFromRound(round) {
       return Object.values(round)
         .flat()
@@ -201,6 +231,232 @@ export default {
         return ret;
       });
     },
+
+    generateChart(rounds) {
+      const xyChart = d3XYChart()
+        .width(960)
+        .height(500)
+        .xlabel("X Axis")
+        .ylabel("Y Axis");
+      const ref = this.$refs.d3_graph;
+      console.log(ref);
+      const select = d3.select(ref);
+      console.log(select);
+      select.append("svg").datum(rounds).call(xyChart);
+
+      function d3XYChart() {
+        let width = document.getElementById("d3_graph").clientWidth;
+        let height = 480;
+        let xlabel = "Round";
+        let ylabel = "Points";
+
+        function chart(selection) {
+          selection.each(function (datasets) {
+            console.table(datasets);
+            //
+            // Create the plot.
+            //
+            const margin = { top: 20, right: 80, bottom: 30, left: 50 };
+            const innerwidth = width - margin.left - margin.right;
+            const innerheight = height - margin.top - margin.bottom;
+            console.log(innerwidth, innerheight);
+
+            const xScale = d3
+              .scaleLinear()
+              .range([0, innerwidth])
+              .domain([
+                d3.min(datasets, function (d) {
+                  return d3.min(d.rounds);
+                }),
+                d3.max(datasets, function (d) {
+                  return d3.max(d.rounds);
+                }),
+              ]);
+
+            const yScale = d3
+              .scaleLinear()
+              .range([innerheight, 0])
+              .domain([
+                d3.min(datasets, function (d) {
+                  return d3.min(d.scores);
+                }),
+                d3.max(datasets, function (d) {
+                  return d3.max(d.scores);
+                }),
+              ]);
+
+            const colorScale = d3
+              .scaleOrdinal(d3.schemeCategory10)
+              .domain(d3.range(datasets.length));
+
+            const xAxis = d3.axisBottom(xScale);
+
+            const yAxis = d3.axisLeft(yScale);
+
+            const xGrid = d3
+              .axisBottom(xScale)
+              .tickSize(-innerheight)
+              .tickFormat("");
+
+            const yGrid = d3
+              .axisLeft(yScale)
+              .tickSize(-innerwidth)
+              .tickFormat("");
+
+            const drawLine = d3
+              .line()
+              .curve(d3.curveBasis)
+              .x(function (d) {
+                return xScale(d[0]);
+              })
+              .y(function (d) {
+                return yScale(d[1]);
+              });
+
+            const svg = d3
+              .select(this)
+              .attr("width", width)
+              .attr("height", height)
+              .append("g")
+              .attr(
+                "transform",
+                "translate(" + margin.left + "," + margin.top + ")"
+              );
+
+            svg
+              .append("g")
+              .attr("class", "x grid")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(xGrid);
+
+            svg.append("g").attr("class", "y grid").call(yGrid);
+
+            svg
+              .append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(xAxis)
+              .append("text")
+              .attr("dy", "-.71em")
+              .attr("x", innerwidth)
+              .style("text-anchor", "end")
+              .text(xlabel);
+
+            svg
+              .append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+              .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", "0.71em")
+              .style("text-anchor", "end")
+              .text(ylabel);
+
+            const dataLines = svg
+              .selectAll(".d3XYChart_line")
+              .data(
+                datasets.map(function (d) {
+                  return d3.zip(d.rounds, d.scores);
+                })
+              )
+              .enter()
+              .append("g")
+              .attr("class", "d3XYChart_line");
+
+            dataLines
+              .append("path")
+              .style("fill", "none")
+              .attr("stroke-width", 5)
+              .attr("class", "line")
+              .attr("d", function (d) {
+                return drawLine(d);
+              })
+              .attr("stroke", function (_, i) {
+                return colorScale(i);
+              });
+
+            const labels = [...new Set(datasets.map(({ author }) => author))];
+            console.log(labels);
+
+            svg
+              .selectAll("legend")
+              .data([labels])
+              .enter()
+              .append("rect")
+              .attr("x", 10)
+              .attr("y", 10)
+              .attr("width", 210)
+              .attr("height", function (d) {
+                return (d.length + 1) * 25;
+              })
+              .style("fill", "white");
+
+            // Add one dot in the legend for each name.
+            const size = 20;
+            svg
+              .selectAll("mydots")
+              .data(labels)
+              .enter()
+              .append("rect")
+              .attr("x", 25)
+              .attr("y", function (d, i) {
+                return 25 + i * (size + 5);
+              }) // 100 is where the first dot appears. 25 is the distance between dots
+              .attr("width", size)
+              .attr("height", size)
+              .style("fill", function (d) {
+                return colorScale(d);
+              });
+
+            // Add one dot in the legend for each name.
+            svg
+              .selectAll("mylabels")
+              .data(labels)
+              .enter()
+              .append("text")
+              .attr("x", 25 + size * 1.2)
+              .attr("y", function (d, i) {
+                return 25 + i * (size + 5) + size / 2;
+              }) // 100 is where the first dot appears. 25 is the distance between dots
+              .style("fill", function (d) {
+                return colorScale(d);
+              })
+              .text(function (d) {
+                return d;
+              })
+              .attr("text-anchor", "left")
+              .style("alignment-baseline", "middle");
+          });
+        }
+
+        chart.width = function (value) {
+          if (!arguments.length) return width;
+          width = value;
+          return chart;
+        };
+
+        chart.height = function (value) {
+          if (!arguments.length) return height;
+          height = value;
+          return chart;
+        };
+
+        chart.xlabel = function (value) {
+          if (!arguments.length) return xlabel;
+          xlabel = value;
+          return chart;
+        };
+
+        chart.ylabel = function (value) {
+          if (!arguments.length) return ylabel;
+          ylabel = value;
+          return chart;
+        };
+
+        return chart;
+      }
+    },
   },
 };
 </script>
@@ -239,6 +495,10 @@ export default {
   td,
   th {
     padding: 0.5rem;
+  }
+
+  #d3-graph {
+    height: 100px;
   }
 }
 </style>

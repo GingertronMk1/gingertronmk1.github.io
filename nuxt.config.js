@@ -4,7 +4,7 @@ export default {
   ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: "static",
+  // target: "static",
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -99,5 +99,9 @@ export default {
 
   publicRuntimeConfig: {
     spotifyClientId: process.env.SPOTIFY_CLIENT_ID,
+    redditUsername: process.env.REDDIT_USERNAME,
+    redditPassword: process.env.REDDIT_PASSWORD,
+    redditClientId: process.env.REDDIT_CLIENT_ID,
+    redditClientSecret: process.env.REDDIT_CLIENT_SECRET,
   },
 };

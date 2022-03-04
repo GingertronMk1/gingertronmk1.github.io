@@ -133,14 +133,18 @@ export default {
         ...new Set(
           Object.values(rounds)
             .flat()
-            .map(({ author }) => ({ author, scores: [], rounds: [] }))
+            .map(({ author }) => author)
         ),
-      ];
+      ].map((author) => ({
+        author,
+        scores: [0],
+        rounds: [0],
+      }));
 
       Object.values(rounds).forEach((round, index) => {
         allUsers.forEach((user) => {
           const userScore = round.find(({ author }) => author === user.author);
-          const mostRecentScore = index > 0 ? user.scores[index - 1] : 0;
+          const mostRecentScore = user.scores[index];
           if (userScore) {
             user.scores.push(mostRecentScore + userScore.ros_points);
           } else {
@@ -239,9 +243,7 @@ export default {
         .xlabel("X Axis")
         .ylabel("Y Axis");
       const ref = this.$refs.d3_graph;
-      console.log(ref);
       const select = d3.select(ref);
-      console.log(select);
       select.append("svg").datum(rounds).call(xyChart);
 
       function d3XYChart() {
@@ -252,37 +254,28 @@ export default {
 
         function chart(selection) {
           selection.each(function (datasets) {
-            console.table(datasets);
+            const labels = [...new Set(datasets.map(({ author }) => author))];
             //
             // Create the plot.
             //
             const margin = { top: 20, right: 80, bottom: 30, left: 50 };
             const innerwidth = width - margin.left - margin.right;
             const innerheight = height - margin.top - margin.bottom;
-            console.log(innerwidth, innerheight);
 
             const xScale = d3
               .scaleLinear()
               .range([0, innerwidth])
               .domain([
-                d3.min(datasets, function (d) {
-                  return d3.min(d.rounds);
-                }),
-                d3.max(datasets, function (d) {
-                  return d3.max(d.rounds);
-                }),
+                d3.min(datasets, ({ rounds }) => d3.min(rounds)),
+                d3.max(datasets, ({ rounds }) => d3.max(rounds)),
               ]);
 
             const yScale = d3
               .scaleLinear()
               .range([innerheight, 0])
               .domain([
-                d3.min(datasets, function (d) {
-                  return d3.min(d.scores);
-                }),
-                d3.max(datasets, function (d) {
-                  return d3.max(d.scores);
-                }),
+                d3.min(datasets, ({ scores }) => d3.min(scores)),
+                d3.max(datasets, ({ scores }) => d3.max(scores)),
               ]);
 
             const colorScale = d3
@@ -305,13 +298,8 @@ export default {
 
             const drawLine = d3
               .line()
-              .curve(d3.curveBasis)
-              .x(function (d) {
-                return xScale(d[0]);
-              })
-              .y(function (d) {
-                return yScale(d[1]);
-              });
+              .x((d) => xScale(d[0]))
+              .y((d) => yScale(d[1]));
 
             const svg = d3
               .select(this)
@@ -356,9 +344,10 @@ export default {
             const dataLines = svg
               .selectAll(".d3XYChart_line")
               .data(
-                datasets.map(function (d) {
-                  return d3.zip(d.rounds, d.scores);
-                })
+                datasets.map((d) => ({
+                  author: d.author,
+                  coords: d3.zip(d.rounds, d.scores),
+                }))
               )
               .enter()
               .append("g")
@@ -369,15 +358,10 @@ export default {
               .style("fill", "none")
               .attr("stroke-width", 5)
               .attr("class", "line")
-              .attr("d", function (d) {
-                return drawLine(d);
-              })
-              .attr("stroke", function (_, i) {
-                return colorScale(i);
-              });
-
-            const labels = [...new Set(datasets.map(({ author }) => author))];
-            console.log(labels);
+              .attr("d", ({ coords }) => drawLine(coords))
+              .attr("stroke", ({ author }) =>
+                colorScale(labels.indexOf(author))
+              );
 
             svg
               .selectAll("legend")
@@ -387,9 +371,7 @@ export default {
               .attr("x", 10)
               .attr("y", 10)
               .attr("width", 210)
-              .attr("height", function (d) {
-                return (d.length + 1) * 25;
-              })
+              .attr("height", (d) => (d.length + 1) * 25)
               .style("fill", "white");
 
             // Add one dot in the legend for each name.
@@ -400,14 +382,10 @@ export default {
               .enter()
               .append("rect")
               .attr("x", 25)
-              .attr("y", function (d, i) {
-                return 25 + i * (size + 5);
-              }) // 100 is where the first dot appears. 25 is the distance between dots
+              .attr("y", (d, i) => 25 + i * (size + 5)) // 100 is where the first dot appears. 25 is the distance between dots
               .attr("width", size)
               .attr("height", size)
-              .style("fill", function (d) {
-                return colorScale(d);
-              });
+              .style("fill", (d) => colorScale(labels.indexOf(d)));
 
             // Add one dot in the legend for each name.
             svg
@@ -416,15 +394,9 @@ export default {
               .enter()
               .append("text")
               .attr("x", 25 + size * 1.2)
-              .attr("y", function (d, i) {
-                return 25 + i * (size + 5) + size / 2;
-              }) // 100 is where the first dot appears. 25 is the distance between dots
-              .style("fill", function (d) {
-                return colorScale(d);
-              })
-              .text(function (d) {
-                return d;
-              })
+              .attr("y", (d, i) => 25 + i * (size + 5) + size / 2) // 100 is where the first dot appears. 25 is the distance between dots
+              .style("fill", (d) => colorScale(labels.indexOf(d)))
+              .text((d) => d)
               .attr("text-anchor", "left")
               .style("alignment-baseline", "middle");
           });

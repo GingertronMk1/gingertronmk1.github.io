@@ -103,5 +103,6 @@ export default {
     redditPassword: process.env.REDDIT_PASSWORD,
     redditClientId: process.env.REDDIT_CLIENT_ID,
     redditClientSecret: process.env.REDDIT_CLIENT_SECRET,
+    dev: process.env.NODE_ENV !== "production",
   },
 };

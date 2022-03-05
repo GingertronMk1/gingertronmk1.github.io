@@ -75,7 +75,7 @@ import * as d3 from "d3";
 export default {
   name: "RedditPage",
   props: {},
-  data() {
+  data({ $config }) {
     return {
       allRounds: require("assets/json/threads.json"),
       allRoundsLoaded: {},
@@ -83,6 +83,7 @@ export default {
       leaderboard: null,
       allRoundsProcessed: null,
       roundByRound: null,
+      $config,
     };
   },
   async fetch() {
@@ -235,7 +236,6 @@ export default {
         return ret;
       });
     },
-
     generateChart(rounds) {
       const xyChart = d3XYChart()
         .width(960)
@@ -280,7 +280,8 @@ export default {
 
             const colorScale = d3
               .scaleOrdinal(d3.schemeCategory10)
-              .domain(d3.range(datasets.length));
+              .domain(labels);
+            window.colorScale = colorScale;
 
             const xAxis = d3.axisBottom(xScale);
 
@@ -359,9 +360,7 @@ export default {
               .attr("stroke-width", 5)
               .attr("class", "line")
               .attr("d", ({ coords }) => drawLine(coords))
-              .attr("stroke", ({ author }) =>
-                colorScale(labels.indexOf(author))
-              );
+              .attr("stroke", ({ author }) => colorScale(author));
 
             svg
               .selectAll("legend")
@@ -389,7 +388,7 @@ export default {
               .attr("y", (d, i) => 25 + i * (size + 5)) // 100 is where the first dot appears. 25 is the distance between dots
               .attr("width", size)
               .attr("height", size)
-              .style("fill", (d) => colorScale(labels.indexOf(d)));
+              .style("fill", (d) => colorScale(d));
 
             // Add one dot in the legend for each name.
             svg
@@ -399,7 +398,7 @@ export default {
               .append("text")
               .attr("x", 25 + size * 1.2)
               .attr("y", (d, i) => 25 + i * (size + 5) + size / 2) // 100 is where the first dot appears. 25 is the distance between dots
-              .style("fill", (d) => colorScale(labels.indexOf(d)))
+              .style("fill", (d) => colorScale(d))
               .text((d) => d)
               .attr("text-anchor", "left")
               .style("alignment-baseline", "middle");

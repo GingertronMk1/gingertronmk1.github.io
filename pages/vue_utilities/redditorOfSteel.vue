@@ -6,7 +6,7 @@
       target="_blank"
       >Search for Match Threads</a
     >
-    <div class="reddit__round-buttons">
+    <div class="vue_utilities-redditorOfSteel__round-buttons">
       <button
         :class="{
           button: true,
@@ -44,7 +44,10 @@
       </table>
       <div id="d3_graph" ref="d3_graph"></div>
     </div>
-    <div v-if="activeRound !== null" class="reddit__round-summary">
+    <div
+      v-if="activeRound !== null"
+      class="vue_utilities-redditorOfSteel__round-summary"
+    >
       <table
         v-for="(user, outerIndex) in allRoundsProcessed[activeRound]"
         :key="`outer${outerIndex}`"
@@ -67,6 +70,36 @@
         </tbody>
       </table>
     </div>
+    <template v-if="everyonesTopComments">
+      <h1>Everyone's Top Comment (Including Replies)</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Comment</th>
+            <th>Score</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(comment, index) in everyonesTopComments"
+            :key="`comment-${index}`"
+          >
+            <td v-text="comment.author" />
+            <td v-text="comment.body" />
+            <td v-text="comment.score" />
+            <td>
+              <a
+                :href="`https://np.reddit.com${comment.permalink}`"
+                target="_blank"
+                >Link</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </template>
   </div>
 </template>
 <script>
@@ -83,6 +116,7 @@ export default {
       leaderboard: null,
       allRoundsProcessed: null,
       roundByRound: null,
+      everyonesTopComments: null,
       $config,
     };
   },
@@ -91,10 +125,12 @@ export default {
     const allRoundsProcessed = this.processRounds(allRoundsLoaded);
     const leaderboard = this.generateLeaderboard(allRoundsProcessed);
     const roundByRound = this.generateRoundByRound(allRoundsProcessed);
+    const everyonesTopComments = this.getEveryonesTopComments(allRoundsLoaded);
     this.allRoundsLoaded = allRoundsLoaded;
     this.allRoundsProcessed = allRoundsProcessed;
     this.leaderboard = leaderboard;
     this.roundByRound = roundByRound;
+    this.everyonesTopComments = everyonesTopComments;
 
     this.generateChart(roundByRound);
   },
@@ -215,6 +251,35 @@ export default {
           return acc;
         }, [])
         .sort((a, b) => b.score - a.score);
+    },
+    getEveryonesTopComments(rounds) {
+      return Object.values(rounds)
+        .map((round) => {
+          return Object.values(round).flat();
+        })
+        .flat()
+        .map(this.getAllComments)
+        .flat()
+        .filter(({ score }) => score > 1)
+        .sort((a, b) => b.score - a.score)
+        .reduce((acc, curr) => {
+          if (!acc.map(({ author }) => author).includes(curr.author)) {
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
+    },
+    getAllComments(comment) {
+      let ret = [];
+      if (comment.replies) {
+        ret.push(...comment.replies.data.children);
+        comment.replies.data.children.forEach((child) => {
+          ret.push(...this.getAllComments(child));
+        });
+      }
+      ret = ret.map(({ data }) => data);
+      ret.push(comment);
+      return ret;
     },
     async getThreads(threadIDs) {
       const promises = threadIDs.map((threadID) =>
@@ -437,7 +502,7 @@ export default {
 </script>
 
 <style lang="scss">
-.reddit {
+.vue_utilities-redditorOfSteel {
   & > * + * {
     margin-top: 1rem;
   }

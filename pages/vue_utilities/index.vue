@@ -57,6 +57,11 @@ export default {
           to: "projectEuler",
           icon: "fas fa-tasks",
         },
+        {
+          name: "Redditor of Steel",
+          to: "redditorOfSteel",
+          icon: "fab fa-reddit",
+        },
       ],
     };
   },

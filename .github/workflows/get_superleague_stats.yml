@@ -1,0 +1,21 @@
+name: get_superleague_stats
+
+on:
+  schedule:
+    - cron: "0 * * * 3"
+  push:
+    branches:
+      - test
+
+jobs:
+  download_stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Work with file?
+        run: |
+          threadsjson=`cat assets/json/threads.json`
+          echo threadsjson
+          threads=`echo $(jq -r '.[-1]' <<< $threadsjson)`
+          echo threads

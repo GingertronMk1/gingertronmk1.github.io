@@ -7,6 +7,7 @@
       >Search for Match Threads</a
     >
     <div class="vue_utilities-redditorOfSteel__round-buttons">
+      <button class="button" @click="load">Reload</button>
       <button
         :class="{
           button: true,
@@ -121,20 +122,24 @@ export default {
     };
   },
   async fetch() {
-    const allRoundsLoaded = await this.getAllRounds();
-    const allRoundsProcessed = this.processRounds(allRoundsLoaded);
-    const leaderboard = this.generateLeaderboard(allRoundsProcessed);
-    const roundByRound = this.generateRoundByRound(allRoundsProcessed);
-    const everyonesTopComments = this.getEveryonesTopComments(allRoundsLoaded);
-    this.allRoundsLoaded = allRoundsLoaded;
-    this.allRoundsProcessed = allRoundsProcessed;
-    this.leaderboard = leaderboard;
-    this.roundByRound = roundByRound;
-    this.everyonesTopComments = everyonesTopComments;
-
-    this.generateChart(roundByRound);
+    await this.load();
   },
   methods: {
+    async load() {
+      const allRoundsLoaded = await this.getAllRounds();
+      const allRoundsProcessed = this.processRounds(allRoundsLoaded);
+      const leaderboard = this.generateLeaderboard(allRoundsProcessed);
+      const roundByRound = this.generateRoundByRound(allRoundsProcessed);
+      const everyonesTopComments =
+        this.getEveryonesTopComments(allRoundsLoaded);
+      this.allRoundsLoaded = allRoundsLoaded;
+      this.allRoundsProcessed = allRoundsProcessed;
+      this.leaderboard = leaderboard;
+      this.roundByRound = roundByRound;
+      this.everyonesTopComments = everyonesTopComments;
+
+      this.generateChart(roundByRound);
+    },
     async getAllRounds() {
       const allRoundsLoaded = {};
       for (const entry of Object.entries(this.allRounds)) {

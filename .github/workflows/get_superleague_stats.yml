@@ -16,6 +16,6 @@ jobs:
       - name: Work with file?
         run: |
           threadsjson=`cat assets/json/threads.json`
-          echo threadsjson
-          threads=`echo $(jq -r '.*' <<< $threadsjson | last)`
+          echo $threadsjson
+          threads=`echo $(jq -r '.' <<< $threadsjson | last)`
           echo threads

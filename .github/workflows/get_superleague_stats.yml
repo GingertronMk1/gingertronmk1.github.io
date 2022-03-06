@@ -17,5 +17,5 @@ jobs:
         run: |
           threadsjson=`cat assets/json/threads.json`
           echo $threadsjson
-          threads=`echo $(jq -r '.' <<< $threadsjson | last)`
+          threads=`echo $threadsjson | jq -r '.threads[] | select(.title | contains("Super League")) | .id'`
           echo threads

@@ -21,6 +21,11 @@ jobs:
           echo $threads
           for THREAD in $threads
           do
-            curl https://www.reddit.com/r/superleague/$THREAD.json -- output assets/json/$THREAD.json
+            sleep 1
+            THREADURL="https://www.reddit.com/r/superleague/$THREAD.json"
+            OUTPUTPATH="assets/json/$THREAD.json"
+            echo $THREADURL
+            echo $OUTPUTPATH
+            curl $THREADURL --output $OUTPUTPATH
           done
           ls -la assets/json

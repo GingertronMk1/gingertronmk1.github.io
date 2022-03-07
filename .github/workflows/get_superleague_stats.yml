@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Create folder
-        run: mkdir -p /assets/json/threads
+        run: mkdir -p assets/json/threads
       - name: Work with file?
         run: |
           threadsjson=`cat assets/json/threads.json`

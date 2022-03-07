@@ -18,4 +18,4 @@ jobs:
           threadsjson=`cat assets/json/threads.json`
           echo $threadsjson
           threads=`echo $threadsjson | jq -r '.[]'`
-          echo threads
+          echo $threads

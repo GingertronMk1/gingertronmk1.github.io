@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+      - name: Create folder
+        run: mkdir -p /assets/json/threads
       - name: Work with file?
         run: |
           threadsjson=`cat assets/json/threads.json`
@@ -23,9 +25,18 @@ jobs:
           do
             sleep 1
             THREADURL="https://www.reddit.com/r/superleague/$THREAD.json"
-            OUTPUTPATH="assets/json/$THREAD.json"
+            OUTPUTPATH="assets/json/threads/$THREAD.json"
             echo $THREADURL
             echo $OUTPUTPATH
             curl $THREADURL --output $OUTPUTPATH
           done
           ls -la assets/json
+          DATE=`date +%s`
+      - name: Now do git things
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout $DATE
+          git add assets/json
+          git commit -m "Updated threads at $DATE"
+          git push -u origin $DATE

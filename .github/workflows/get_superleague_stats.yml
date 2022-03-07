@@ -24,11 +24,11 @@ jobs:
           for THREAD in $threads
           do
             sleep 1
-            THREADURL="https://www.reddit.com/r/superleague/$THREAD.json"
+            THREADURL="https://api.reddit.com/r/superleague/comments/$THREAD"
             OUTPUTPATH="assets/json/threads/$THREAD.json"
             echo $THREADURL
             echo $OUTPUTPATH
-            curl $THREADURL --output $OUTPUTPATH
+            curl $THREADURL -o $OUTPUTPATH
           done
           ls -la assets/json
       - name: Now do git things

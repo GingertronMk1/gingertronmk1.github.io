@@ -119,14 +119,15 @@ export default {
       roundByRound: null,
       everyonesTopComments: null,
       $config,
+      allThreads: null,
     };
   },
   async fetch() {
     await this.load();
   },
   methods: {
-    async load() {
-      const allRoundsLoaded = await this.getAllRounds();
+    load() {
+      const allRoundsLoaded = this.getAllRounds();
       const allRoundsProcessed = this.processRounds(allRoundsLoaded);
       const leaderboard = this.generateLeaderboard(allRoundsProcessed);
       const roundByRound = this.generateRoundByRound(allRoundsProcessed);
@@ -138,13 +139,15 @@ export default {
       this.roundByRound = roundByRound;
       this.everyonesTopComments = everyonesTopComments;
 
-      this.generateChart(roundByRound);
+      setTimeout(() => {
+        this.generateChart(roundByRound);
+      }, 500);
     },
-    async getAllRounds() {
+    getAllRounds() {
       const allRoundsLoaded = {};
       for (const entry of Object.entries(this.allRounds)) {
         const [key, value] = entry;
-        allRoundsLoaded[key] = await this.getThreads(value);
+        allRoundsLoaded[key] = this.getThreads(value);
       }
       return allRoundsLoaded;
     },
@@ -286,38 +289,38 @@ export default {
       ret.push(comment);
       return ret;
     },
-    async getThreads(threadIDs) {
-      const promises = threadIDs.map((threadID) =>
-        this.$axios.get(
-          `https://api.reddit.com/r/superleague/comments/${threadID}`
-        )
+    getThreads(threadIDs) {
+      const allThreads = [];
+      const allThreadsInit = require.context(
+        "assets/json/threads",
+        true,
+        /\.json$/
       );
-      return await Promise.all(promises).then((responses) => {
-        const ret = {};
-        responses.forEach((response) => {
-          const { data } = response;
-          const [topLevel, comments] = data;
+      allThreadsInit.keys().forEach((key) => {
+        const keyReplaced = key.replace(/^\.\/(.*)\.json$/, "$1");
+        if (threadIDs.includes(keyReplaced)) {
+          const [topLevel, comments] = allThreadsInit(key);
           const children = comments?.data?.children || false;
           const { id } = topLevel?.data?.children[0]?.data || false;
           if (id && children) {
-            ret[id] = children.map(({ data }) => data);
+            allThreads.push(children.map(({ data }) => data));
           }
-        });
-        return ret;
+        }
       });
+      return allThreads;
     },
     generateChart(rounds) {
+      console.table(rounds);
       const xyChart = d3XYChart()
         .width(960)
         .height(500)
         .xlabel("X Axis")
         .ylabel("Y Axis");
-      const ref = this.$refs.d3_graph;
-      const select = d3.select(ref);
+      const select = d3.select("#d3_graph");
       select.append("svg").datum(rounds).call(xyChart);
 
       function d3XYChart() {
-        let width = document.getElementById("d3_graph").clientWidth;
+        let width = 940;
         let height = 480;
         let xlabel = "Round";
         let ylabel = "Points";

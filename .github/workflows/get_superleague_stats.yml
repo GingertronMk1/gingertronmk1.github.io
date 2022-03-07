@@ -17,5 +17,5 @@ jobs:
         run: |
           threadsjson=`cat assets/json/threads.json`
           echo $threadsjson
-          threads=`echo $threadsjson | jq -r '.[]' | last`
+          threads=`echo $threadsjson | jq -r '.[][-1]' | last`
           echo $threads

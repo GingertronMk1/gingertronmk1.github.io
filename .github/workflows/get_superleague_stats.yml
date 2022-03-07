@@ -19,3 +19,8 @@ jobs:
           echo $threadsjson
           threads=`echo $threadsjson | jq -r '.[][-1]'`
           echo $threads
+          for THREAD in $threads
+          do
+            curl https://www.reddit.com/r/superleague/$THREAD.json -- output assets/json/$THREAD.json
+          done
+          ls -la assets/json

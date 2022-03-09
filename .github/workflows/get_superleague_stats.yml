@@ -28,7 +28,7 @@ jobs:
             echo $THREADURL
             echo $OUTPUTPATH
             curl $THREADURL -o $OUTPUTPATH
-            sleep 10
+            sleep 30
           done
           ls -la assets/json
       - name: Now do git things

@@ -2,7 +2,7 @@ name: get_superleague_stats
 
 on:
   schedule:
-    - cron: "0 * * * 3"
+    - cron: "0 0 * * 3"
   push:
     branches:
       - test

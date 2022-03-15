@@ -78,7 +78,7 @@ export default {
 
 <style lang="scss">
 $size: 200px;
-$size-smaller: calc($size * 0.9);
+$size-smaller: calc(#{$size} * 0.9);
 .vue-utility {
   @include grid;
 
@@ -92,7 +92,7 @@ $size-smaller: calc($size * 0.9);
       @include flex(column, center, center);
       min-height: 1px;
       flex: 1;
-      font-size: calc($size / 2);
+      font-size: calc(#{$size} / 2);
     }
 
     &:hover {

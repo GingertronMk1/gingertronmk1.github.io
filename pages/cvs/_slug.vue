@@ -37,3 +37,32 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.cvs-slug {
+  &__skills-lists {
+    @include flex(row, space-between, stretch);
+  }
+
+  &__skills-list {
+    @include flex(column, flex-start, stretch);
+    flex: 1;
+    margin-bottom: 1rem;
+
+    ul {
+      margin-left: 1rem;
+    }
+  }
+
+  .nuxt-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+</style>

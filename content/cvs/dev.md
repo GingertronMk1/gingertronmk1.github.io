@@ -49,6 +49,10 @@ Additional to this I was involved in creating automation scripts for easier crea
 
 # Technical Skills/Projects
 
+<div class="cvs-slug__skills-lists" markdown="1">
+
+<div class="cvs-slug__skills-list" markdown="1">
+
 ### Programming Languages
 
 - C++
@@ -58,6 +62,9 @@ Additional to this I was involved in creating automation scripts for easier crea
 - SQL
 - PHP
 - Haskell
+
+</div>
+<div class="cvs-slug__skills-list" markdown="1">
 
 ### Libraries/Frameworks
 
@@ -70,12 +77,19 @@ Additional to this I was involved in creating automation scripts for easier crea
 - Vue.js
 - Yii 2
 
+</div>
+<div class="cvs-slug__skills-list" markdown="1">
+
 ### Development Environments
 
 - MS Visual Studio/Visual Studio Code
 - vi
 - GitHub
 - IntelliJ
+
+</div>
+
+</div>
 
 For my Master's dissertation I recreated the game _Frogger_ using the Haskell functional programming language.
 Within this I gathered requirements, created a development plan, and implemented an object-oriented approach in the functional language.
@@ -89,21 +103,17 @@ As well as this I created a website designed to show statistics and information 
 
 # Additional Experience and Extracurriculars
 
-As well as working towards my degree I am also a member of a number of societies, including University Radio Nottingham, the Nottingham New Theatre, and the Improv Society.
+As well as working towards my degree I was involved with a number of societies at university, including University Radio Nottingham, the Nottingham New Theatre, and the Improv Society.
+At URN I was on their committee as Head Of Drama, responsible for overseeing all dramatic content produced by the station in that time. This required that I organise large groups of people into the same studio at the same time in order to record the audio, and then edit it down into something amusing.
 
-At URN I was on their committee as Head Of Drama, responsible for overseeing all dramatic content produced by the station in that time.
-This required that I organise large groups of people into the same studio at the same time in order to record the audio, and then edit it down into something amusing.
+<br />
 
-Within the New Theatre I was on their committee for the last year and a half in a backstage capacity, with my role as Company Set Technician requiring me to take a designer's ideas and turn them into something real within the bounds of what is feasible.
-I am responsible for ensuring that anything that needs building is done in a safe and efficient manner, and also for assigning people to assistant roles based on known skill sets.
-As part of a broader backstage team I have developed good teamworking skills extending to the ability to take a leadership role where appropriate.
-As well as this I have been in a number of shows, which has led to my being able to take direction and adjust what I am doing quickly in accordance with what a director believes is better for a role.
+Within the New Theatre I have been on their committee for the last year and a half in a backstage capacity, with my role as Company Set Technician requiring me to take a designer’s ideas and turn them into something real within the bounds of what is feasible. I am responsible for ensuring that anything that needs building is done in a safe and efficient manner, and also for assigning people to assistant roles based on known skill sets. As part of a broader backstage team I have developed good teamworking skills extending to the ability to take a leadership role where appropriate. As well as this I have been in a number of shows, which has led to my being able to take direction and adjust what I am doing quickly in accordance with what a director believes is better for a role.\\
 
-With the Improv Society I gained valuable experience speaking in front of large groups of people and making quick, well-justified decisions in a short time-frame.
-Within this society I was also elected Publicity and Media Officer, in charge of the public face of the society and attracting audiences to shows.
+<br />
 
-During the summer of 2014 I took part in an unpaid internship at the Centre for Digital Innovation in Hull (C4DI).
-Whilst there my project, together with a colleague, was to research the concept of smart cities in other countries and how their technologies could work in Hull, City of Culture 2017.
-This culminated in producing and presenting a slide show presentation for the bosses of the C4DI, the information from which was going to be presented to the local council.
-Whilst there I also developed a website for one of the founders of the C4DI, which traced people's fast food litter and marked on a map where it was alongside a picture and a comment.
-The code for this project can be found [here](https://github.com/GingertronMk1/McRubbish).
+With the Improv Society I have gained valuable experience speaking in front of large groups of people and making quick, well-justified decisions in a short time-frame. Within this society I was also elected Publicity and Media Officer, in charge of the public face of the society and attracting audiences to shows.\\
+
+<br />
+
+During the summer of 2014 I volunteered at the Centre for Digital Innovation in Hull (C4DI). Whilst there my project, together with a colleague, was to research the concept of smart cities in other countries and how their technologies could work in Hull, City of Culture 2017. This culminated in producing and presenting a slide show presentation for the bosses of the C4DI, the information from which was going to be presented to the local council. Whilst there I also developed a website for one of the founders of the C4DI, which traced people’s fast food litter and marked on a map where it was alongside a picture and a comment.

@@ -38,6 +38,7 @@ export default {
     & > .hero {
       width: 100vw;
       align-self: center;
+      margin-bottom: 1rem;
     }
   }
 

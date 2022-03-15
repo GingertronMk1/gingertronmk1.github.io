@@ -50,6 +50,7 @@ export default {
     "@nuxtjs/style-resources",
     "@nuxtjs/stylelint-module",
     "@nuxt/postcss8",
+    "@nuxtjs/vuetify",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

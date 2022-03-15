@@ -34,6 +34,11 @@ export default {
       width: 100%;
       max-width: unset;
     }
+
+    & > .hero {
+      width: 100vw;
+      align-self: center;
+    }
   }
 
   .flex-filler {

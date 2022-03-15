@@ -12,19 +12,19 @@
 }
 
 @mixin grid($gridSize: 200px, $gap: 1ch, $itemScale: 0.9) {
-  $borderPaddingSize: calc($gridSize * $itemScale * 0.1);
+  $borderPaddingSize: calc(#{$gridSize} * #{$itemScale} * 0.1);
   display: grid;
-  grid-template-columns: repeat(auto-fill, $gridSize);
-  grid-auto-rows: $gridSize;
+  grid-template-columns: repeat(auto-fill, #{$gridSize});
+  grid-auto-rows: #{$gridSize};
   grid-gap: 1ch;
   justify-content: center;
 
   & > * {
     @include flex(column, space-between, stretch);
-    height: calc(100% * $itemScale);
-    width: calc(100% * $itemScale);
+    height: calc(100% * #{$itemScale});
+    width: calc(100% * #{$itemScale});
     margin: auto;
-    border-radius: $borderPaddingSize;
-    padding: $borderPaddingSize;
+    border-radius: #{$borderPaddingSize};
+    padding: #{$borderPaddingSize};
   }
 }

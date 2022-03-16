@@ -33,11 +33,10 @@ jobs:
           ls -la assets/json
       - name: Now do git things
         run: |
-          DATE=`date +%Y-%m-%d`
+          DATE="stats_download_$(date +%Y-%m-%d)"
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b $DATE
           git add assets/json
-          git pull || echo "Branch does not exist"
           git commit -m "Updated threads at $DATE"
           git push -u origin $DATE

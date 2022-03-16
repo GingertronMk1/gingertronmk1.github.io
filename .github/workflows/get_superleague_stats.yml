@@ -29,7 +29,7 @@ jobs:
             OUTPUTPATH="assets/json/threads/$THREAD.json"
             echo $THREADURL
             echo $OUTPUTPATH
-            curl $THREADURL -o $OUTPUTPATH
+            curl -A "random" $THREADURL -o $OUTPUTPATH
             cat $OUTPUTPATH
             sleep 60
           done

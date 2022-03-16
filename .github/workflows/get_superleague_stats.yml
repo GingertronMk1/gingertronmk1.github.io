@@ -18,11 +18,12 @@ jobs:
         run: mkdir -p assets/json/threads
       - name: Work with file?
         run: |
-          threadsjson=`cat assets/json/threads.json`
-          echo $threadsjson
-          threads=`echo $threadsjson | jq -r '.[][-1]'`
-          echo $threads
-          for THREAD in $threads
+          THREADSJSON=`cat assets/json/threads.json`
+          echo $THREADSJSON
+          CURRENT=`echo $THREADSJSON | jq 'to_entries[-1].value'`
+          THREADS=`echo $CURRENT | jq '.[]' -r`
+          echo $THREADS
+          for THREAD in $THREADS
           do
             THREADURL="https://api.reddit.com/r/superleague/comments/$THREAD"
             OUTPUTPATH="assets/json/threads/$THREAD.json"
@@ -34,7 +35,7 @@ jobs:
           ls -la assets/json
       - name: Now do git things
         run: |
-          DATE="stats_download_$(date +%Y-%m-%d)"
+          DATE="stats_download_$(date +%Y-%m-%d-%H-%M-%S)"
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b $DATE

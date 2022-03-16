@@ -39,5 +39,4 @@ jobs:
           git checkout -b $DATE
           git add assets/json
           git commit -m "Updated threads at $DATE"
-          git pull
           git push -u origin $DATE

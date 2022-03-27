@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <NavBar />
-    <Nuxt class="body__inner" :class="$route.name" />
+    <Nuxt class="body__inner mt-0" :class="$route.name" />
     <div class="flex-filler"></div>
     <FooterComponent />
   </div>

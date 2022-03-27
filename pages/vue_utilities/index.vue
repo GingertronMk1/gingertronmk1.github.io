@@ -79,6 +79,7 @@ export default {
 <style lang="scss">
 $size: 200px;
 $size-smaller: calc(#{$size} * 0.9);
+
 .vue-utility {
   @include grid;
 

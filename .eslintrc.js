@@ -10,8 +10,8 @@ module.exports = {
   },
   extends: [
     "@nuxtjs",
-    "plugin:vue/base",
     "plugin:nuxt/recommended",
+    "plugin:vue/strongly-recommended",
     "plugin:prettier/recommended",
   ],
   plugins: [],

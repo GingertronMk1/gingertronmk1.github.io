@@ -25,7 +25,6 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     "@/assets/scss/app.scss",
-    "@fortawesome/fontawesome-free/css/all.min.css",
     "ag-grid-community/dist/styles/ag-grid.min.css",
     "ag-grid-community/dist/styles/ag-theme-alpine-dark.min.css",
     "ag-grid-community/dist/styles/ag-theme-alpine.min.css",
@@ -50,7 +49,6 @@ export default {
     "@nuxtjs/style-resources",
     "@nuxtjs/stylelint-module",
     "@nuxt/postcss8",
-    "@nuxtjs/vuetify",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -61,6 +59,11 @@ export default {
     "@nuxt/content",
     "@nuxtjs/dotenv",
   ],
+
+  eslint: {
+    fix: true,
+    files: "./**/*.{js,vue}",
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

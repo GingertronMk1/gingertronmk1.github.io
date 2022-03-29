@@ -18,7 +18,7 @@ pages.keys().forEach((page) => {
 
 routes.push({
   name: "404",
-  path: "/:pathMatch(.*)*",
+  path: "/:catchAll(.*)",
   component: NotFound,
 });
 

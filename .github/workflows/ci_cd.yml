@@ -1,0 +1,30 @@
+name: Build and commit to live branch
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate .env file
+        run: |
+          touch .env
+          echo SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID}} >> .env
+      - name: NPM CI and generate
+        run: |
+          npm ci
+          npm run generate
+      - name: Check git status
+        run: git status --porcelain
+      - name: Add and commit new files
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add dist -f
+          git commit -m "Deployment"
+          git push origin `git subtree split --prefix dist master`:live --force

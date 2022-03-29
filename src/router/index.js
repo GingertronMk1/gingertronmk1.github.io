@@ -18,9 +18,10 @@ pages.keys().forEach((page) => {
 
 routes.push({
   name: "404",
-  path: "/:catchAll(.*)",
+  path: "/:pathMatch(.*)",
   component: NotFound,
 });
+
 
 process.env.NODE_ENV !== "production" && console.table(routes);
 

@@ -126,7 +126,23 @@ function getPointsFromRound(round) {
       }
       return acc;
     }, [])
-    .sort((a, b) => b.score - a.score);
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      const bCommentsSorted = b.comments.sort((a, b) => b.score - a.score);
+      const aCommentsSorted = a.comments.sort((a, b) => b.score - a.score);
+
+      for (
+        let i = 0;
+        i < Math.min(bCommentsSorted.length, aCommentsSorted.length);
+        i++
+      ) {
+        if (bCommentsSorted[i].score !== aCommentsSorted[i].score) {
+          return bCommentsSorted[i].score - aCommentsSorted[i].score;
+        }
+      }
+
+      return 0;
+    });
 }
 
 function getEveryonesTopComments(rounds) {

@@ -1,6 +1,6 @@
 <template>
   <div class="vue-utility">
-    <NuxtLink
+    <router-link
       v-for="(utility, index) in comp_utilities"
       :key="`utility-${index}`"
       class="vue-utility__item"
@@ -8,7 +8,7 @@
     >
       <i v-if="utility.icon" :class="utility.icon" />
       <span v-text="utility.name" />
-    </NuxtLink>
+    </router-link>
   </div>
 </template>
 <script>

@@ -182,6 +182,8 @@ function getThreads(threadIDs) {
 }
 
 function generateChart(rounds) {
+  console.log("generating chart");
+  console.table(rounds);
   const xyChart = d3XYChart()
     .width(960)
     .height(500)
@@ -389,18 +391,11 @@ const everyonesTopComments = ref(
 
 const activeRound = ref(null);
 
-// setTimeout(() => {
-//   generateChart(roundByRound);
-// }, 500);
+setTimeout(() => generateChart(roundByRound.value), 100);
 </script>
 <template>
   <HeroHeader>Redditor of Steel</HeroHeader>
-  <a
-    href="https://reddit.com/r/superleague/search?q=Match+Thread&restrict_sr=on&sort=new"
-    target="_blank"
-    >Search for Match Threads</a
-  >
-  <div class="d-flex flex-row">
+  <div class="d-flex flex-row my-3">
     <button
       :class="{
         btn: true,
@@ -424,57 +419,32 @@ const activeRound = ref(null);
     />
   </div>
   <div v-show="activeRound === null" id="leaderboard">
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>RoS Points</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(line, index) in leaderboard" :key="`leader${index}`">
-          <td v-text="line.name" />
-          <td v-text="line.points" />
-        </tr>
-      </tbody>
-    </table>
-    <div id="d3_graph" ref="d3_graph"></div>
-  </div>
-  <div
-    v-if="activeRound !== null"
-    class="vue_utilities-redditorOfSteel__round-summary"
-  >
-    <table
-      v-for="(user, outerIndex) in allRoundsProcessed[activeRound]"
-      :key="`outer${outerIndex}`"
-      cellspacing="0"
-    >
-      <thead>
-        <tr>
-          <th width="60%">User: {{ user.author }}</th>
-          <th>Total: {{ user.score }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(comment, index) in user.comments"
-          :key="`${outerIndex}-${index}`"
-        >
-          <td v-text="comment.body" />
-          <td v-text="`${comment.score} points`" />
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <template v-if="everyonesTopComments">
+    <div class="d-flex flex-row items-stretch">
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>RoS Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(line, index) in leaderboard" :key="`leader${index}`">
+            <td v-text="line.name" />
+            <td v-text="line.points" />
+          </tr>
+        </tbody>
+      </table>
+      <div id="d3_graph" ref="d3_graph"></div>
+    </div>
+    <hr />
     <h1>Everyone's Top Comment (Including Replies)</h1>
     <table>
       <thead>
         <tr>
-          <th>User</th>
-          <th>Comment</th>
-          <th>Score</th>
-          <th>Link</th>
+          <th width="25%">User</th>
+          <th width="45%">Comment</th>
+          <th width="15%">Score</th>
+          <th width="15%">Link</th>
         </tr>
       </thead>
       <tbody>
@@ -495,47 +465,43 @@ const activeRound = ref(null);
         </tr>
       </tbody>
     </table>
-  </template>
+  </div>
+
+  <!-- TOP PEOPLE'S TOP COMMENTS PER ROUND -->
+  <div
+    v-if="activeRound !== null"
+    class="vue_utilities-redditorOfSteel__round-summary"
+  >
+    <table cellspacing="0">
+      <template
+        v-for="(user, outerIndex) in allRoundsProcessed[activeRound]"
+        :key="`outer${outerIndex}`"
+      >
+        <tr v-if="outerIndex !== 0">
+          &nbsp;
+        </tr>
+        <thead>
+          <tr>
+            <th width="60%">User: {{ user.author }}</th>
+            <th>Total: {{ user.score }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(comment, index) in user.comments"
+            :key="`${outerIndex}-${index}`"
+          >
+            <td v-text="comment.body" />
+            <td v-text="`${comment.score} points`" />
+          </tr>
+        </tbody>
+      </template>
+    </table>
+  </div>
 </template>
 
 <style lang="scss">
-.vue_utilities-redditorOfSteel {
-  & > * + * {
-    margin-top: 1rem;
-  }
-
-  &__round-buttons {
-    @include flex(row, flex-start, stretch);
-    flex-wrap: wrap;
-    & > * + * {
-      margin-left: 1rem;
-    }
-  }
-
-  &__round-summary {
-    @include flex(column, flex-start, stretch);
-    & > table + table {
-      margin-top: 1rem;
-    }
-  }
-
-  table {
-    border-spacing: 0;
-  }
-
-  table,
-  td,
-  th {
-    border: 1px solid black;
-  }
-
-  td,
-  th {
-    padding: 0.5rem;
-  }
-
-  #d3-graph {
-    height: 100px;
-  }
+td {
+  padding: 0.2rem 0.5rem;
 }
 </style>

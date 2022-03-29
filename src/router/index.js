@@ -5,14 +5,13 @@ const routes = [];
 const pages = require.context("../pages", true, /\.vue$/);
 
 pages.keys().forEach((page) => {
-  let path = page
-    .toLowerCase()
-    .replace(/^\.\/(.*)\.vue$/, "/$1")
-    .replace(/\/index$/, "");
+  const path = page.replace(/^\.\/(.*)\.vue$/, "/$1").replace(/\/index$/i, "");
+  const name = page.replace(/^\.\/(.*)\.vue$/, "$1").replace(/\//g, ".");
 
   routes.push({
-    path: path,
     component: pages(page).default,
+    path,
+    name,
   });
 });
 

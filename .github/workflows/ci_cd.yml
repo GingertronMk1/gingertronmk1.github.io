@@ -15,14 +15,14 @@ jobs:
         run: |
           touch .env
           echo SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID}} >> .env
-      - name: Make the 404 page
-        run: cp ./public/index.html ./public/404.html
       - name: NPM CI and generate
         run: |
           npm ci
           npm run build
       - name: Check git status
         run: git status --porcelain
+      - name: Make the 404 page
+        run: cp ./dist/index.html ./dist/404.html
       - name: Add and commit new files
         run: |
           git config user.name github-actions

@@ -4,4 +4,11 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 
-@import "~bootstrap/scss/bootstrap.scss";
+$utilities: (
+    "ws": (
+      property: white-space,
+      values: pre-wrap pre nowrap pre-line,
+    )
+);
+
+@import "~bootstrap/scss/bootstrap";

@@ -1,3 +1,77 @@
+<script setup>
+import { ref, computed } from "vue";
+
+const input_text = ref(
+  [
+    "me: A blue message on the right of the screen",
+    "them: A grey message on the left of the screen",
+    "time: Grey bolded text at the center of the screen",
+    "And this text won't be shown at all!",
+  ].join("\n\n")
+);
+const input_class = ref("");
+const texts = computed(() => {
+  const regex = /(.+?)(: *?)([\s\S]+)/;
+  const texts = input_text.value.split("\n\n");
+  let lastPerson = "";
+
+  const allTexts = [];
+
+  texts.forEach(function (text) {
+    const splitText = text.split(regex);
+    let person = splitText[1];
+    let message = splitText[3];
+    if (!(person && message)) {
+      return false;
+    }
+    person = person.trim();
+    message = message.trim();
+    const textClasses = ["text"];
+    const messageClasses = ["message"];
+
+    if (lastPerson !== person) {
+      textClasses.push("text--chain-top");
+      messageClasses.push("message--chain-top");
+    }
+
+    switch (person.toLowerCase()) {
+      case "me":
+        textClasses.push("text--me");
+        messageClasses.push("message--me");
+        break;
+      case "them":
+        textClasses.push("text--them");
+        messageClasses.push("message--them");
+        break;
+      case "time":
+        textClasses.push("text--time");
+        messageClasses.push("message--time");
+        break;
+      default:
+        break;
+    }
+
+    allTexts.push({
+      textClasses,
+      messageClasses,
+      message,
+    });
+
+    lastPerson = person;
+  });
+
+  return allTexts;
+});
+
+function toggleFloat() {
+  if (input_class.value === null) {
+    input_class.value = "floating";
+  } else {
+    input_class.value = null;
+  }
+}
+</script>
+
 <template>
   <div id="app" class="risky-texts__wrapper">
     <div class="risky-texts__input">
@@ -32,91 +106,6 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      input_text: `
-me: A blue message on the right of the screen
-
-them: A grey message on the left of the screen
-
-time: Grey bolded text at the center of the screen
-
-And this text won't be shown at all!
-`,
-      input_class: "",
-    };
-  },
-  computed: {
-    texts() {
-      const regex = /(.+?)(: *?)([\s\S]+)/;
-      const texts = this.input_text.split("\n\n");
-      let lastPerson = "";
-
-      const allTexts = [];
-
-      texts.forEach(function (text) {
-        const splitText = text.split(regex);
-        let person = splitText[1];
-        let message = splitText[3];
-        if (!(person && message)) {
-          return false;
-        }
-        person = person.trim();
-        message = message.trim();
-        const textClasses = ["text"];
-        const messageClasses = ["message"];
-
-        if (lastPerson !== person) {
-          textClasses.push("text--chain-top");
-          messageClasses.push("message--chain-top");
-        }
-
-        switch (person.toLowerCase()) {
-          case "me":
-            textClasses.push("text--me");
-            messageClasses.push("message--me");
-            break;
-          case "them":
-            textClasses.push("text--them");
-            messageClasses.push("message--them");
-            break;
-          case "time":
-            textClasses.push("text--time");
-            messageClasses.push("message--time");
-            break;
-          default:
-            break;
-        }
-
-        allTexts.push({
-          textClasses,
-          messageClasses,
-          message,
-        });
-
-        lastPerson = person;
-      });
-
-      return allTexts;
-    },
-  },
-  mounted() {
-    this.input_text = this.input_text.trim();
-  },
-  methods: {
-    toggleFloat() {
-      if (this.input_class === null) {
-        this.input_class = "floating";
-      } else {
-        this.input_class = null;
-      }
-    },
-  },
-};
-</script>
-
 <style lang="scss">
 .risky-texts {
   @include flex(column, $align: center);

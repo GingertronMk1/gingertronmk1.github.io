@@ -419,7 +419,7 @@ setTimeout(() => generateChart(roundByRound.value), 100);
     />
   </div>
   <div v-show="activeRound === null" id="leaderboard">
-    <div class="d-flex flex-row items-stretch">
+    <div class="d-flex flex-row justify-content-between align-items-start">
       <table>
         <thead>
           <tr>

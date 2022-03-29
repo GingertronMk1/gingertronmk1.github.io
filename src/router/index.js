@@ -22,7 +22,6 @@ routes.push({
   component: NotFound,
 });
 
-
 process.env.NODE_ENV !== "production" && console.table(routes);
 
 const router = createRouter({

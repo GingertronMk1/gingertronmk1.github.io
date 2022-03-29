@@ -18,7 +18,7 @@ pages.keys().forEach((page) => {
 process.env.NODE_ENV !== "production" && console.table(routes);
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 

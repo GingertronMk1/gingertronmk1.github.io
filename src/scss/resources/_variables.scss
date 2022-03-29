@@ -1,0 +1,28 @@
+@use "sass:color";
+@use "sass:math";
+
+$primary: rgb(255, 124, 55); // Orange
+
+$standard-background: linear-gradient(
+  to bottom right,
+  $primary,
+  color.scale($primary, $lightness: -10%)
+);
+
+
+$white: #ffffff; // Brightest
+$black: #000000; // Darkest
+
+@function grey($amount: 0) {
+  @return color.scale($white, $lightness: -(math.pow(0.9 , $amount) * 100%));
+}
+
+
+// MEDIA QUERY SCREENS
+$xxlarge: 1920px;
+$xlarge: 1440px;
+$large: 1024px;
+$medium: 768px;
+$small: 480px;
+
+$nav-margin: 2.2rem;

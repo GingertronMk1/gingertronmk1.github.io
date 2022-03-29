@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import NotFound from "@/components/NotFound.vue";
 
 const routes = [];
 
@@ -13,6 +14,12 @@ pages.keys().forEach((page) => {
     path,
     name,
   });
+});
+
+routes.push({
+    name: "404",
+    path: '/:pathMatch(.*)*',
+    component: NotFound
 });
 
 process.env.NODE_ENV !== "production" && console.table(routes);

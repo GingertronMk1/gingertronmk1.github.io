@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 
 const routes = useRouter()
   .getRoutes()
-  .filter(({ path }) => path.length)
+  .filter(({ name, path }) => path.length && name !== "404")
   .sort((a, b) => {
     return a.path.localeCompare(b.path);
   });

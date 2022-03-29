@@ -18,7 +18,7 @@ jobs:
       - name: NPM CI and generate
         run: |
           npm ci
-          npm run generate
+          npm run build
       - name: Check git status
         run: git status --porcelain
       - name: Add and commit new files

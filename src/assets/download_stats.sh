@@ -13,9 +13,7 @@ then
     echo $OUTPUTPATH
     curl -A $RANDOM $THREADURL -o $OUTPUTPATH
     cat $OUTPUTPATH
-    sleep 15
   done
-  ls -la assets/json
 fi
 
 

@@ -241,7 +241,19 @@ function generateChart(rounds) {
             d3.max(datasets, ({ scores }) => d3.max(scores)),
           ]);
 
-        const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(labels);
+        function colorScale(str) {
+          var hash = 0;
+          for (var i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+          }
+          var colour = "#";
+          for (var i = 0; i < 3; i++) {
+            var value = (hash >> (i * 8)) & 0xff;
+            colour += ("00" + value.toString(16)).substr(-2);
+          }
+          return colour;
+        }
+
         window.colorScale = colorScale;
 
         const xAxis = d3.axisBottom(xScale);

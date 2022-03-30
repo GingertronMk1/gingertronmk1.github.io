@@ -1,139 +1,114 @@
+<script setup>
+import { ref } from "vue";
+
+const count = ref(0);
+const increment = ref(1);
+
+function keyboardCounter({ keyCode }) {
+  process.env.NODE_ENV === "development" && console.log(keyCode);
+  switch (keyCode) {
+    case 87: // W
+    case 38: // Up arrow
+      countUp();
+      break;
+    case 83: // S
+    case 40: // Down arrow
+      countDown();
+      break;
+    case 74: // J
+      incrementDown();
+      break;
+    case 75: // K
+      incrementUp();
+      break;
+    default:
+      return;
+  }
+}
+
+function incrementUp() {
+  increment.value++;
+}
+
+function incrementDown() {
+  increment.value--;
+}
+
+function makeIncrementNumber() {
+  increment.value = parseFloat(increment.value);
+}
+
+function makeCounterNumber() {
+  count.value = parseFloat(count.value);
+}
+
+function resetCounter() {
+  count.value = 0;
+}
+
+function resetIncrement() {
+  increment.value = 1;
+}
+
+function parseFloat(val) {
+  let newVal = Number.parseFloat(val);
+  if (isNaN(newVal)) {
+    newVal = 0;
+  }
+  return newVal;
+}
+
+function countUp() {
+  count.value = parseFloat(
+    parseFloat(count.value) + parseFloat(increment.value)
+  );
+}
+
+function countDown() {
+  count.value = parseFloat(
+    parseFloat(count.value) - parseFloat(increment.value)
+  );
+}
+
+document.addEventListener("keydown", keyboardCounter);
+</script>
 <template>
-  <div class="p-y-2 counter">
-    <div class="counter__counter">
+  <div id="counter-container" class="py-2 row">
+    <div class="col-8 d-flex flex-column">
       <h3>Counter</h3>
-      <div :class="button_classes" @click="countUp()">+{{ increment }}</div>
+      <div class="btn btn-primary" @click="countUp()">+{{ increment }}</div>
       <input
         v-model="count"
         type="text"
         pattern="\d"
         name="counter"
-        :class="input_classes"
+        class="input_classes"
         @change="makeCounterNumber()"
       />
-      <div :class="button_classes" @click="countDown()">-{{ increment }}</div>
-      <div :class="reset_classes" @click="resetCounter()">RC</div>
+      <div class="btn btn-primary" @click="countDown()">-{{ increment }}</div>
+      <div class="btn btn-danger" @click="resetCounter()">RC</div>
     </div>
-    <div class="counter__increment">
+    <div class="col-4 d-flex flex-column">
       <h3>Increment</h3>
-      <div :class="button_classes" @click="incrementUp()">+</div>
+      <div class="btn btn-primary" @click="incrementUp()">+</div>
       <input
         v-model="increment"
         type="text"
         pattern="\d"
         name="counter"
-        :class="input_classes"
+        class="input_classes"
         @change="makeIncrementNumber()"
       />
-      <div :class="button_classes" @click="incrementDown()">-</div>
-      <div :class="reset_classes" @click="resetIncrement()">RI</div>
+      <div class="btn btn-primary" @click="incrementDown()">-</div>
+      <div class="btn btn-danger" @click="resetIncrement()">RI</div>
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: "CounterPage",
-  data() {
-    return {
-      count: 0,
-      increment: 1,
-      button_classes: ["btn", "btn-primary"],
-      reset_classes: ["btn", "btn-danger"],
-      input_classes: ["m-y-3", "font-size-5"],
-    };
-  },
-  mounted() {
-    document.addEventListener("keydown", this.keyboardCounter);
-  },
-  methods: {
-    keyboardCounter(e) {
-      switch (e.keyCode) {
-        case 75:
-        case 87:
-        case 38:
-          this.countUp();
-          break;
-        case 74:
-        case 83:
-        case 40:
-          this.countDown();
-          break;
-      }
-    },
-    parseFloat(val) {
-      let newVal = parseFloat(val);
-      if (isNaN(newVal)) {
-        newVal = 0;
-      }
-      return newVal;
-    },
-    countUp() {
-      this.count = this.parseFloat(
-        this.parseFloat(this.count) + this.parseFloat(this.increment)
-      );
-    },
-    countDown() {
-      this.count = this.parseFloat(
-        this.parseFloat(this.count) - this.parseFloat(this.increment)
-      );
-    },
-    incrementUp() {
-      this.increment++;
-    },
-    incrementDown() {
-      this.increment--;
-    },
-    makeIncrementNumber() {
-      this.increment = this.parseFloat(this.increment);
-    },
-    makeCounterNumber() {
-      this.count = this.parseFloat(this.count);
-    },
-    resetCounter() {
-      this.count = 0;
-    },
-    resetIncrement() {
-      this.increment = 1;
-    },
-  },
-};
-</script>
 
-<style lang="scss">
-.counter {
-  @include flex(row, space-between);
-
-  &__counter {
-    width: 69%;
-  }
-
-  &__increment {
-    width: 29%;
-  }
-
-  &__counter,
-  &__increment {
-    @include flex(column);
-
-    input {
-      border: 3px solid $black;
-      border-radius: 0.5rem;
-      padding: 0.5rem;
-    }
-
-    > * + * {
-      margin-top: 0.5rem;
-    }
-  }
-
-  @include MQ($medium) {
-    flex-direction: column;
-
-    &__counter,
-    &__increment {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
+<style lang="scss" scoped>
+#counter-container > [class^="col"] {
+  & > * + * {
+    margin-top: 1rem;
   }
 }
 </style>

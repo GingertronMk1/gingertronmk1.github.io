@@ -1,0 +1,6 @@
+@use "sass:math";
+
+@function grey($amount: 0) {
+  @return darken($white, math.pow(0.9 , $amount) * 100%);
+}
+

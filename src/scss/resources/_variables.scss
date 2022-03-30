@@ -1,5 +1,4 @@
 @use "sass:color";
-@use "sass:math";
 
 $primary: rgb(255, 124, 55); // Orange
 
@@ -13,16 +12,10 @@ $standard-background: linear-gradient(
 $white: #ffffff; // Brightest
 $black: #000000; // Darkest
 
-@function grey($amount: 0) {
-  @return darken($white, math.pow(0.9 , $amount) * 100%);
-}
-
-
-// MEDIA QUERY SCREENS
-$xxlarge: 1920px;
-$xlarge: 1440px;
-$large: 1024px;
-$medium: 768px;
-$small: 480px;
-
-$nav-margin: 2.2rem;
+// Bootstrap utilities
+$utilities: (
+    "ws": (
+      property: white-space,
+      values: pre-wrap pre nowrap pre-line,
+    )
+);

@@ -74,7 +74,7 @@ document.addEventListener("keydown", keyboardCounter);
 </script>
 <template>
   <div id="counter-container" class="py-2 row">
-    <div class="col-8 d-flex flex-column">
+    <div class="col-12 col-md-8 d-flex flex-column">
       <h3>Counter</h3>
       <div class="btn btn-primary" @click="countUp()">+{{ increment }}</div>
       <input
@@ -88,7 +88,7 @@ document.addEventListener("keydown", keyboardCounter);
       <div class="btn btn-primary" @click="countDown()">-{{ increment }}</div>
       <div class="btn btn-danger" @click="resetCounter()">RC</div>
     </div>
-    <div class="col-4 d-flex flex-column">
+    <div class="col-12 col-md-4 d-flex flex-column">
       <h3>Increment</h3>
       <div class="btn btn-primary" @click="incrementUp()">+</div>
       <input

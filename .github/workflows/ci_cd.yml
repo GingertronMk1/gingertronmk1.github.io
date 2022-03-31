@@ -33,6 +33,8 @@ jobs:
         run: git status --porcelain
       - name: Make the 404 page
         run: cp ./dist/index.html ./dist/404.html
+      - name: Make sure there's a .nojekyll file in there
+        run: touch ./dist/.nojekyll
       - name: Add and commit new files
         run: |
           git config user.name github-actions

@@ -11,14 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Setup node env
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          check-latest: true
       - name: Generate .env file
         run: |
           touch .env
           echo SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID}} >> .env
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: NPM CI and generate
-        run: |
-          npm ci
-          npm run build
+        run: npm ci --prefer-offline --no-audit
+      - name: Generate static files
+        run: npm run build
       - name: Check git status
         run: git status --porcelain
       - name: Make the 404 page

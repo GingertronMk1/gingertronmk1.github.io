@@ -12,14 +12,12 @@ const routes = useRouter()
 const computedRoutes = [];
 
 routes.forEach((route, index) => {
-  console.group(`Route ${route.name}`);
   const splitText = route.name.split(".");
   let isParent = splitText.length < 2 || splitText.slice(-1)[0] === "Index";
 
   if (isParent) {
     const text = splitText.slice(0, -1);
     const resultantText = (text.length ? text : splitText).join(" ");
-    console.log(resultantText);
     computedRoutes.push({
       ...route,
       text: resultantText.splitWords(),
@@ -38,7 +36,6 @@ routes.forEach((route, index) => {
       });
     }
   }
-  console.groupEnd();
 });
 
 document.querySelector("title").innerText = "Jack Ellis";

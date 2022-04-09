@@ -11,35 +11,37 @@ const routes = useRouter()
 
 const computedRoutes = [];
 
-routes.forEach((route) => {
-  const splitPath = route.path.split("/").filter((p) => p.length);
-  const parent = computedRoutes.find((r) => r.path === `/${splitPath[0]}`);
-  if (parent) {
-    if (!parent.childRoutes) {
-      parent.childRoutes = [];
-    }
-    parent.childRoutes.push(route);
+routes.forEach((route, index) => {
+  console.group(`Route ${route.name}`);
+  const splitText = route.name.split(".");
+  let isParent = splitText.length < 2 || splitText.slice(-1)[0] === "Index";
+
+  if (isParent) {
+    const text = splitText.slice(0, -1);
+    const resultantText = (text.length ? text : splitText).join(" ");
+    console.log(resultantText);
+    computedRoutes.push({
+      ...route,
+      text: resultantText.splitWords(),
+      childRoutes: [],
+    });
   } else {
-    computedRoutes.push(route);
+    const thisName = route.name.split(".").slice(0, -1).join(".");
+    const parentRoute = computedRoutes.find(({ name }) => {
+      const parentName = name.split(".").slice(0, -1).join(".");
+      return parentName === thisName;
+    });
+    if (parentRoute) {
+      parentRoute.childRoutes.push({
+        ...route,
+        text: splitText.pop().splitWords(),
+      });
+    }
   }
+  console.groupEnd();
 });
 
-console.table(computedRoutes);
-
-const navLinks = ref([
-  {
-    text: "Home",
-    to: "/",
-  },
-  {
-    text: "RoS",
-    to: "/vue_utilities/redditorOfSteel",
-  },
-]);
-
-function capitaliseFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+document.querySelector("title").innerText = "Jack Ellis";
 </script>
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -56,9 +58,7 @@ function capitaliseFirstLetter(string) {
             v-if="!link.childRoutes || link.childRoutes.length === 0"
             class="nav-item"
           >
-            <router-link :to="link" class="nav-link">{{
-              capitaliseFirstLetter(link.name)
-            }}</router-link>
+            <router-link :to="link" class="nav-link" v-text="link.text" />
           </li>
           <li v-else class="nav-item dropdown">
             <a
@@ -68,13 +68,7 @@ function capitaliseFirstLetter(string) {
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              v-text="
-                link.name
-                  .split('.')
-                  .slice(0, -1)
-                  .map(capitaliseFirstLetter)
-                  .join(' ')
-              "
+              v-text="link.text"
             />
             <ul
               class="dropdown-menu dropdown-menu-end"
@@ -90,9 +84,11 @@ function capitaliseFirstLetter(string) {
                 v-for="(child, childIndex) in link.childRoutes"
                 :key="`child${index}-${childIndex}`"
               >
-                <router-link :to="child" class="dropdown-item">{{
-                  capitaliseFirstLetter(child.name.split(".").pop())
-                }}</router-link>
+                <router-link
+                  :to="child"
+                  class="dropdown-item"
+                  v-text="child.text"
+                />
               </li>
             </ul>
           </li>

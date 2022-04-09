@@ -7,10 +7,9 @@ const allRounds = require("@/assets/json/threads.json");
 
 function getAllRounds() {
   const allRoundsLoaded = {};
-  for (const entry of Object.entries(allRounds)) {
-    const [key, value] = entry;
+  Object.entries(allRounds).forEach(([key, value]) => {
     allRoundsLoaded[key] = getThreads(value);
-  }
+  });
   return allRoundsLoaded;
 }
 
@@ -198,8 +197,6 @@ function getThreads(threadIDs) {
 }
 
 function generateChart(rounds) {
-  console.log("generating chart");
-  console.table(rounds);
   const xyChart = d3XYChart()
     .width(960)
     .height(500)
@@ -215,7 +212,6 @@ function generateChart(rounds) {
     let ylabel = "Points";
 
     function chart(selection) {
-      console.table(selection);
       selection.each(function (datasets) {
         const labels = [...new Set(datasets.map(({ author }) => author))];
         //
@@ -404,16 +400,10 @@ function generateChart(rounds) {
   }
 }
 
-console.log("Loading rounds");
 const allRoundsLoaded = ref(getAllRounds());
-console.table(allRoundsLoaded);
-console.log("Processing rounds");
 const allRoundsProcessed = ref(processRounds(allRoundsLoaded.value));
-console.log("Generating leaderboard");
 const leaderboard = ref(generateLeaderboard(allRoundsProcessed.value));
-console.log("Generating round by round");
 const roundByRound = ref(generateRoundByRound(allRoundsProcessed.value));
-console.log("Getting everyones top comments");
 const everyonesTopComments = ref(
   getEveryonesTopComments(allRoundsLoaded.value)
 );

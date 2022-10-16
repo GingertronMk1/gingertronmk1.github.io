@@ -1,8 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { precisionRound } from "d3-format";
+import { computed, ref } from "vue";
 
 const count = ref(0);
 const increment = ref(1);
+const target = ref(0);
 
 function keyboardCounter({ keyCode }) {
   process.env.NODE_ENV === "development" && console.log(keyCode);
@@ -25,6 +27,10 @@ function keyboardCounter({ keyCode }) {
       return;
   }
 }
+
+/**
+ * Dealing with the increment values
+ */
 
 function incrementUp() {
   increment.value++;
@@ -70,6 +76,17 @@ function countDown() {
   );
 }
 
+function makeTargetNumber() {
+  target.value = parseFloat(target.value);
+}
+
+const targetIncrement = computed(function () {
+  const targetFloat = parseFloat(target.value);
+  const incrementFloat = parseFloat(increment.value);
+  const countFloat = parseFloat(count.value);
+  return Math.round((targetFloat - countFloat) / incrementFloat);
+});
+
 document.addEventListener("keydown", keyboardCounter);
 </script>
 <template>
@@ -101,6 +118,30 @@ document.addEventListener("keydown", keyboardCounter);
       />
       <div class="btn btn-primary" @click="incrementDown()">-</div>
       <div class="btn btn-danger" @click="resetIncrement()">RI</div>
+    </div>
+    <div class="col-12 col-sm-6 d-flex flex-column mb-3">
+      <h3>Target</h3>
+      <input
+        v-model="target"
+        type="text"
+        pattern="\d"
+        name="counter"
+        class="input_classes"
+        @change="makeTargetNumber()"
+      />
+    </div>
+    <div
+      class="col-12 col-sm-6 d-flex flex-column mb-3 align-items-center justify-content-center"
+    >
+      <h3
+        v-if="targetIncrement > 0"
+        v-text="
+          `${targetIncrement} ${
+            targetIncrement > 1 ? 'increments' : 'increment'
+          }`
+        "
+      />
+      <h3 v-else>You're there!</h3>
     </div>
   </div>
 </template>

@@ -87,13 +87,28 @@ const targetIncrement = computed(function () {
   return Math.round((targetFloat - countFloat) / incrementFloat);
 });
 
+const targetText = computed(function () {
+  switch (targetIncrement.value) {
+    case 0:
+      return `You're there!`;
+    case 1:
+      return `1 increment`;
+    default:
+      return `${targetIncrement.value} increments`;
+  }
+});
+
 document.addEventListener("keydown", keyboardCounter);
 </script>
 <template>
   <div id="counter-container" class="py-2 row">
     <div class="col-12 col-sm-8 d-flex flex-column mb-3">
-      <h3>Counter</h3>
-      <div class="btn btn-primary" @click="countUp()">+{{ increment }}</div>
+      <h3 v-text="`Counter`" />
+      <div
+        class="btn btn-primary"
+        @click="countUp()"
+        v-text="`+${increment}`"
+      />
       <input
         v-model="count"
         type="text"
@@ -102,12 +117,16 @@ document.addEventListener("keydown", keyboardCounter);
         class="input_classes"
         @change="makeCounterNumber()"
       />
-      <div class="btn btn-primary" @click="countDown()">-{{ increment }}</div>
-      <div class="btn btn-danger" @click="resetCounter()">RC</div>
+      <div
+        class="btn btn-primary"
+        @click="countDown()"
+        v-text="`-${increment}`"
+      />
+      <div class="btn btn-danger" @click="resetCounter()" v-text="`RC`" />
     </div>
     <div class="col-12 col-sm-4 d-flex flex-column mb-3">
       <h3>Increment</h3>
-      <div class="btn btn-primary" @click="incrementUp()">+</div>
+      <div class="btn btn-primary" @click="incrementUp()" v-text="`+`" />
       <input
         v-model="increment"
         type="text"
@@ -116,11 +135,11 @@ document.addEventListener("keydown", keyboardCounter);
         class="input_classes"
         @change="makeIncrementNumber()"
       />
-      <div class="btn btn-primary" @click="incrementDown()">-</div>
-      <div class="btn btn-danger" @click="resetIncrement()">RI</div>
+      <div class="btn btn-primary" @click="incrementDown()" v-text="`-`" />
+      <div class="btn btn-danger" @click="resetIncrement()" v-text="`RI`" />
     </div>
     <div class="col-12 col-sm-6 d-flex flex-column mb-3">
-      <h3>Target</h3>
+      <h3 v-text="`Target`" />
       <input
         v-model="target"
         type="text"
@@ -130,19 +149,10 @@ document.addEventListener("keydown", keyboardCounter);
         @change="makeTargetNumber()"
       />
     </div>
-    <div
+    <h3
       class="col-12 col-sm-6 d-flex flex-column mb-3 align-items-center justify-content-center"
-    >
-      <h3
-        v-if="targetIncrement > 0"
-        v-text="
-          `${targetIncrement} ${
-            targetIncrement > 1 ? 'increments' : 'increment'
-          }`
-        "
-      />
-      <h3 v-else>You're there!</h3>
-    </div>
+      v-text="targetText"
+    />
   </div>
 </template>
 

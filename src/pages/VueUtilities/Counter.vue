@@ -1,5 +1,4 @@
 <script setup>
-import { precisionRound } from "d3-format";
 import { computed, ref } from "vue";
 
 const count = ref(0);
@@ -84,7 +83,7 @@ const targetIncrement = computed(function () {
   const targetFloat = parseFloat(target.value);
   const incrementFloat = parseFloat(increment.value);
   const countFloat = parseFloat(count.value);
-  return Math.round((targetFloat - countFloat) / incrementFloat);
+  return Math.ceil((targetFloat - countFloat) / incrementFloat);
 });
 
 const targetText = computed(function () {

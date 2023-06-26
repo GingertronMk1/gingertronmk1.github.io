@@ -33,9 +33,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-pre {
-  max-width: 100%;
-  overflow-x: scroll;
-}
-</style>
+

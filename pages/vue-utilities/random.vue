@@ -65,39 +65,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.nonograms {
-  &__label {
-    @include flex(column, flex-start, flex-start);
-    margin-bottom: 1rem;
-  }
 
-  &__display {
-    @include grid(1fr, 0.3rem, 0.9);
-    grid-template-columns: repeat(14, 1rem) repeat(auto-fill, 1rem);
-    grid-auto-rows: 1rem;
-    justify-content: initial;
-    width: 100%;
-  }
-
-  &__cell {
-    width: 100%;
-    height: 100%;
-    color: rgba(0, 0, 0, 0);
-    border: 1px solid black;
-
-    &:nth-child(5n) {
-      border-right-color: red;
-      border-right-width: 0.1rem;
-      border-right-style: dotted;
-    }
-  }
-}
-
-@for $i from 1 through 24 {
-  .grey-#{$i} {
-    color: grey($i);
-    background-color: grey($i);
-  }
-}
-</style>

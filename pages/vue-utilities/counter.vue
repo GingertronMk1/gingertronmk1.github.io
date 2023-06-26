@@ -155,10 +155,4 @@ document.addEventListener("keydown", keyboardCounter);
   </div>
 </template>
 
-<style lang="scss" scoped>
-#counter-container > [class^="col"] {
-  & > * + * {
-    margin-top: 1rem;
-  }
-}
-</style>
+

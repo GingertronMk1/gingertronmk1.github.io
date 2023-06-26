@@ -101,7 +101,7 @@ document.addEventListener("keydown", keyboardCounter);
 </script>
 <template>
   <div id="counter-container" class="counter">
-    <div class="counter__counter">
+    <div class="counter__counter space-y-4">
       <h3 v-text="`Counter`" />
       <div
         class="button button-primary"
@@ -113,7 +113,7 @@ document.addEventListener("keydown", keyboardCounter);
         type="text"
         pattern="\d"
         name="counter"
-        class="input_classes"
+        class="counter__input"
         @change="makeCounterNumber()"
       />
       <div
@@ -123,7 +123,7 @@ document.addEventListener("keydown", keyboardCounter);
       />
       <div class="button button-danger" @click="resetCounter()" v-text="`RC`" />
     </div>
-    <div class="counter__increment">
+    <div class="counter__increment space-y-4">
       <h3>Increment</h3>
       <div class="button button-primary" @click="incrementUp()" v-text="`+`" />
       <input
@@ -131,25 +131,25 @@ document.addEventListener("keydown", keyboardCounter);
         type="text"
         pattern="\d"
         name="counter"
-        class="input_classes"
+        class="counter__input"
         @change="makeIncrementNumber()"
       />
       <div class="button button-primary" @click="incrementDown()" v-text="`-`" />
       <div class="button button-danger" @click="resetIncrement()" v-text="`RI`" />
     </div>
-    <div class="counter__target">
+    <div class="counter__target space-y-4">
       <h3 v-text="`Target`" />
       <input
         v-model="target"
         type="text"
         pattern="\d"
         name="counter"
-        class="input_classes"
+        class="counter__input"
         @change="makeTargetNumber()"
       />
     </div>
     <h3
-      class="counter__target-text"
+      class="counter__target-text space-y-4"
       v-text="targetText"
     />
   </div>

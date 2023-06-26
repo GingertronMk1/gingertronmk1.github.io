@@ -6,7 +6,6 @@
 
   &__counter {
     grid-column: span 4;
-
   }
 
   &__increment {
@@ -17,12 +16,20 @@
     grid-column: span 3;
   }
 
-  & > * {
-    & > * + * {
-      margin-top: 0.5rem;
-    }
+  &__counter, &__increment {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 
   }
+
+  &__input {
+    border-radius: 0.5rem;
+    font-size: 2rem;
+    padding: 0.5rem;
+    border: 1px solid grey;
+  }
+
 
   @media only screen and (max-width: 600px) {
     grid-template-columns: 1fr;

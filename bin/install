@@ -5,5 +5,3 @@ docker-compose down -v
 docker-compose up --build --detach
 
 ./bin/exec npm install
-
-./bin/dev

@@ -1,0 +1,25 @@
+.counter {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+
+  &__counter {
+    grid-column: span 4;
+  }
+
+  &__increment {
+    grid-column: span 2;
+  }
+
+  &__target, &__target-text {
+    grid-column: span 3;
+  }
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+
+    & > * {
+      grid-column: span 1;
+    }
+  }
+}

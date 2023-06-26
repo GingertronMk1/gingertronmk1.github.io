@@ -100,8 +100,8 @@ const targetText = computed(function () {
 document.addEventListener("keydown", keyboardCounter);
 </script>
 <template>
-  <div id="counter-container" class="py-2 row">
-    <div class="col-12 col-sm-8 d-flex flex-column mb-3">
+  <div id="counter-container" class="counter">
+    <div class="counter__counter">
       <h3 v-text="`Counter`" />
       <div
         class="btn btn-primary"
@@ -123,7 +123,7 @@ document.addEventListener("keydown", keyboardCounter);
       />
       <div class="btn btn-danger" @click="resetCounter()" v-text="`RC`" />
     </div>
-    <div class="col-12 col-sm-4 d-flex flex-column mb-3">
+    <div class="counter__increment">
       <h3>Increment</h3>
       <div class="btn btn-primary" @click="incrementUp()" v-text="`+`" />
       <input
@@ -137,7 +137,7 @@ document.addEventListener("keydown", keyboardCounter);
       <div class="btn btn-primary" @click="incrementDown()" v-text="`-`" />
       <div class="btn btn-danger" @click="resetIncrement()" v-text="`RI`" />
     </div>
-    <div class="col-12 col-sm-6 d-flex flex-column mb-3">
+    <div class="counter__target">
       <h3 v-text="`Target`" />
       <input
         v-model="target"
@@ -149,7 +149,7 @@ document.addEventListener("keydown", keyboardCounter);
       />
     </div>
     <h3
-      class="col-12 col-sm-6 d-flex flex-column mb-3 align-items-center justify-content-center"
+      class="counter__target-text"
       v-text="targetText"
     />
   </div>

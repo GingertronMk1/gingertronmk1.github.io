@@ -3,6 +3,8 @@
 @use "components/header";
 @use "components/side-by-side";
 
+@use "pages/counter";
+
 * {
   box-sizing: border-box;
   font-family: sans-serif;

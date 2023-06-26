@@ -8,22 +8,22 @@ const target = ref(0);
 function keyboardCounter({ keyCode }) {
   process.env.NODE_ENV === "development" && console.log(keyCode);
   switch (keyCode) {
-    case 87: // W
-    case 38: // Up arrow
-      countUp();
-      break;
-    case 83: // S
-    case 40: // Down arrow
-      countDown();
-      break;
-    case 74: // J
-      incrementDown();
-      break;
-    case 75: // K
-      incrementUp();
-      break;
-    default:
-      return;
+  case 87: // W
+  case 38: // Up arrow
+    countUp();
+    break;
+  case 83: // S
+  case 40: // Down arrow
+    countDown();
+    break;
+  case 74: // J
+    incrementDown();
+    break;
+  case 75: // K
+    incrementUp();
+    break;
+  default:
+      
   }
 }
 
@@ -88,12 +88,12 @@ const targetIncrement = computed(function () {
 
 const targetText = computed(function () {
   switch (targetIncrement.value) {
-    case 0:
-      return `You're there!`;
-    case 1:
-      return `1 increment`;
-    default:
-      return `${targetIncrement.value} increments`;
+  case 0:
+    return `You're there!`;
+  case 1:
+    return `1 increment`;
+  default:
+    return `${targetIncrement.value} increments`;
   }
 });
 
@@ -154,5 +154,3 @@ document.addEventListener("keydown", keyboardCounter);
     />
   </div>
 </template>
-
-

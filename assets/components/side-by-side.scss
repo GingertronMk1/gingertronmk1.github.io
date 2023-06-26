@@ -11,7 +11,8 @@
     }
   }
 
-  &__image, &__content {
+  &__image,
+  &__content {
     min-width: 1px;
     flex: 1;
   }

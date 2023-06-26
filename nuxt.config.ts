@@ -10,14 +10,14 @@ export default defineNuxtConfig({
   vite: {
     server: {
       hmr: {
-        port: 23456
-      }
-    }
+        port: 23456,
+      },
+    },
   },
   postcss: {
     plugins: {
       autoprefixer: {},
-    }
+    },
   },
-  css: ['~/assets/style.scss']
-})
+  css: ["~/assets/style.scss"],
+});

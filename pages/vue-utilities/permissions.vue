@@ -19,7 +19,7 @@ const groups = ref({
   },
 });
 
-const group_sums = computed(() => {
+const groupSums = computed(() => {
   const compGroups = {
     owner: {
       r: groups.value.owner.r ? 1 : 0,
@@ -84,6 +84,6 @@ const group_sums = computed(() => {
         />
       </label>
     </div>
-    <div class="col-12 text-center display-1" v-text="group_sums" />
+    <div class="col-12 text-center display-1" v-text="groupSums" />
   </div>
 </template>

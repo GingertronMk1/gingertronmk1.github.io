@@ -143,7 +143,6 @@ const parts = ref({
 const educationCellClasses = ["p-2", "align-top"];
 </script>
 <template>
-
   <h3>Profile</h3>
   <p v-text="parts.profile.join('\n')" />
   <hr />

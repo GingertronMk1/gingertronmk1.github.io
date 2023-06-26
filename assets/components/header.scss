@@ -6,4 +6,15 @@
   flex-direction: row;
   align-items: center;
   background-color: $colour-primary;
+
+  &__links {
+    margin-left: auto;
+    display: flex;
+  }
+
+  &__link {
+    & + & {
+      margin-left: 0.5rem;
+    }
+  }
 }

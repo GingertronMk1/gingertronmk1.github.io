@@ -4,6 +4,10 @@ const routes = router?.options?.routes ?? [];
 
 routes.sort(({path: path1}, {path: path2}) => path1.localeCompare(path2));
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const computedRoutes = computed(function() {
   const ret = {};
   routes.forEach((val) => {
@@ -15,10 +19,21 @@ const computedRoutes = computed(function() {
         break;
       case 2: 
         console.log(typeof ret[firstPart]);
+        const nonLetterOrNumber = "[^a-zA-Z0-9]*";
+        const regex = new RegExp(`${nonLetterOrNumber}${firstPart}${nonLetterOrNumber}`);
+        const newVal = {
+          ...val,
+          name: val
+            .name
+            .replace(regex, '')
+            .split('-')
+            .map(capitalizeFirstLetter)
+            .join(' ')
+        }
         if (ret[firstPart] !== undefined) {
-          ret[firstPart].push(val);
+          ret[firstPart].push(newVal);
         } else {
-          ret[firstPart] = [val]
+          ret[firstPart] = [newVal]
         }
         break;
     }
@@ -29,21 +44,20 @@ const computedRoutes = computed(function() {
 <template>
   <header class="header">
     Welcome to our wedding website
-    <ul>
-    <li v-for="(route, key) in computedRoutes" :key="key">
-      <ul v-if="Array.isArray(route)">
-        <li v-for="(subRoute, subKey) in route" :key="subKey">
+    <div class="header__links">
+    <div class="header__link header__links" v-for="(route, key) in computedRoutes" :key="key">
+      <template v-if="Array.isArray(route)">
+        <div class="header__link" v-for="(subRoute, subKey) in route" :key="subKey">
           <NuxtLink :to="subRoute.path">{{ subRoute.name }}</NuxtLink>
-        </li>
-      </ul>
-      <li v-else>
+        </div>
+      </template>
+      <div class="header__link" v-else>
         <NuxtLink :to="route.path">{{ route.name }}</NuxtLink>
-      </li>
-    </li>
-    </ul>
+      </div>
+    </div>
+    </div>
   </header>
   <div class="body">
-    <pre v-text="computedRoutes" />
     <NuxtPage />
   </div>
 </template>

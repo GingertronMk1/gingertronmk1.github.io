@@ -20,6 +20,5 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  css: ["~/assets/style.scss"],
-  ssr: false
+  css: ["~/assets/style.scss"]
 });

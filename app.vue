@@ -66,6 +66,8 @@ const computedRoutes = computed(function () {
     </div>
   </header>
   <div class="body">
-    <NuxtPage />
+    <ClientOnly fallback="Loading page...">
+      <NuxtPage />
+    </ClientOnly>
   </div>
 </template>

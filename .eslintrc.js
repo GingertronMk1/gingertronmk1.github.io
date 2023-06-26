@@ -28,5 +28,10 @@ module.exports = {
   rules: {
     'vue/multi-word-component-names': 0,
     'vue/script-indent': 2
-  }
+  },
+  ignorePatterns: [
+    ".output/*",
+    "dist/*",
+    "node_modules/*"
+  ]
 }

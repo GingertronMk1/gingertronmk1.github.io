@@ -283,11 +283,11 @@ export default {
       return !Array.isArray(this.search)
         ? []
         : this.search.filter(
-          ({ title, year_title: yearTitle }) =>
-            (this.includeFreshersFringe || title !== "Freshers' Fringe") &&
-            (!this.includeTwentyFifteenOnward ||
-              parseInt(yearTitle.slice(0, 4)) >= 2015)
-        );
+            ({ title, year_title: yearTitle }) =>
+              (this.includeFreshersFringe || title !== "Freshers' Fringe") &&
+              (!this.includeTwentyFifteenOnward ||
+                parseInt(yearTitle.slice(0, 4)) >= 2015)
+          );
     },
   },
   watch: {
@@ -417,26 +417,26 @@ export default {
         path: shortestPath,
       };
       const showPath = results.path.reduce(function (
-                                             result,
-                                             value,
-                                             index,
-                                             array
-                                           ) {
-                                             if (index < array.length - 1) {
-                                               const person1 = value;
-                                               const person2 = array[index + 1];
-                                               const show = shows.find(
-                                                 ({ cast }) => cast.includes(person1) && cast.includes(person2)
-                                               );
-                                               result.push({
-                                                 person1,
-                                                 person2,
-                                                 show,
-                                               });
-                                             }
-                                             return result;
-                                           },
-                                           []);
+        result,
+        value,
+        index,
+        array
+      ) {
+        if (index < array.length - 1) {
+          const person1 = value;
+          const person2 = array[index + 1];
+          const show = shows.find(
+            ({ cast }) => cast.includes(person1) && cast.includes(person2)
+          );
+          result.push({
+            person1,
+            person2,
+            show,
+          });
+        }
+        return result;
+      },
+      []);
       results.showPath = showPath;
       return results;
     },

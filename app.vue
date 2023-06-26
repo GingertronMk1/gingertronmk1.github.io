@@ -1,6 +1,6 @@
 <script setup>
-import {useRouter} from 'vue-router';
-import {computed} from 'vue';
+import { useRouter } from "vue-router";
+import { computed } from "vue";
 const router = useRouter();
 const routes = router?.options?.routes ?? [];
 
@@ -35,7 +35,6 @@ const computedRoutes = computed(function () {
       } else {
         ret[firstPart] = [newVal];
       }
-
     }
   });
   return ret;
@@ -43,7 +42,7 @@ const computedRoutes = computed(function () {
 </script>
 <template>
   <header class="header">
-    Jack Ellis
+    <NuxtLink to="/"> Jack Ellis </NuxtLink>
     <div class="header__links">
       <div
         v-for="(route, key) in computedRoutes"

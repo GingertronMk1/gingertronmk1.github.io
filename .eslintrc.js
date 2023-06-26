@@ -1,37 +1,30 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   extends: [
-    'standard',
-    'plugin:vue/vue3-recommended',
-    'prettier'
+    "standard",
+    "plugin:vue/vue3-recommended",
+    "plugin:prettier/recommended",
   ],
   overrides: [
     {
       env: {
-        node: true
+        node: true,
       },
-      files: [
-        '.eslintrc.{js,cjs}'
-      ],
+      files: [".eslintrc.{js,cjs}"],
       parserOptions: {
-        sourceType: 'script'
-      }
-    }
+        sourceType: "script",
+      },
+    },
   ],
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module'
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
   rules: {
-    'vue/multi-word-component-names': 0,
-    'vue/script-indent': 2
+    "vue/multi-word-component-names": 0,
   },
-  ignorePatterns: [
-    ".output/*",
-    "dist/*",
-    "node_modules/*"
-  ]
-}
+  ignorePatterns: [".output/*", "dist/*", "node_modules/*"],
+};

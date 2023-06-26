@@ -2,9 +2,11 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: auto;
+  grid-gap: 0.5rem;
 
   &__counter {
     grid-column: span 4;
+
   }
 
   &__increment {
@@ -13,6 +15,13 @@
 
   &__target, &__target-text {
     grid-column: span 3;
+  }
+
+  & > * {
+    & > * + * {
+      margin-top: 0.5rem;
+    }
+
   }
 
   @media only screen and (max-width: 600px) {

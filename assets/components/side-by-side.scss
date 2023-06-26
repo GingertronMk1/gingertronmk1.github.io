@@ -1,0 +1,30 @@
+.side-by-side {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    &:nth-child(2n) {
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__image,
+  &__content {
+    min-width: 1px;
+    flex: 1;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  &__content-text {
+    padding: 1rem;
+  }
+}

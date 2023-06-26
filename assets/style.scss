@@ -1,0 +1,23 @@
+@use "variables" as *;
+@use "body";
+@use "components/header";
+@use "components/side-by-side";
+
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  overflow: auto;
+}
+
+html,
+body,
+#__nuxt {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: $colour-secondary;
+}

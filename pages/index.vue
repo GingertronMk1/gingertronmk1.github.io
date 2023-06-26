@@ -1,4 +1,6 @@
 <script setup></script>
 <template>
-  <div></div>
+  <div>
+    This is the home page
+  </div>
 </template>

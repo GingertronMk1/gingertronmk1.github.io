@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from "vue";
 
+definePageMeta({
+  name: 'CV'
+});
+
 const parts = ref({
   profile: [
     "I am a Computer Science graduate with a 2:1 MSci.",

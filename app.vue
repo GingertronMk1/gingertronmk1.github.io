@@ -13,6 +13,9 @@ function capitalizeFirstLetter(string) {
 const computedRoutes = computed(function () {
   const ret = {};
   routes.forEach((val) => {
+    if (val.meta?.ignoreInHeader === true) {
+      return;
+    }
     const splitName = val?.path?.split("/")?.filter((val) => val !== "") ?? [];
     const firstPart = [...splitName].shift();
     if (splitName.length === 1) {
@@ -55,11 +58,11 @@ const computedRoutes = computed(function () {
             :key="subKey"
             class="header__link"
           >
-            <NuxtLink :to="subRoute.path">{{ subRoute.name }}</NuxtLink>
+            <NuxtLink :to="subRoute.path">{{ subRoute.meta?.name ?? subRoute.name }}</NuxtLink>
           </div>
         </template>
         <div v-else class="header__link">
-          <NuxtLink :to="route.path">{{ route.name }}</NuxtLink>
+          <NuxtLink :to="route.path">{{ route.meta?.name ?? route.name }}</NuxtLink>
         </div>
       </div>
     </div>

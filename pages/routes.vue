@@ -1,6 +1,10 @@
 <script setup>
 import { useRouter } from "vue-router";
 
+definePageMeta({
+  ignoreInHeader: process.env.NODE_ENV !== "development"
+});
+
 const routes = useRouter()?.options?.routes ?? [];
 routes.sort(({ path: path1 }, { path: path2 }) => path1.localeCompare(path2));
 const allRouteKeys = routes.reduce((accumulator, current) => {

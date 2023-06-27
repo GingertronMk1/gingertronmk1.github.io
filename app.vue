@@ -1,5 +1,4 @@
 <script setup>
-import { useRouter } from "vue-router";
 import { computed } from "vue";
 const router = useRouter();
 const routes = router?.options?.routes ?? [];
@@ -58,11 +57,15 @@ const computedRoutes = computed(function () {
             :key="subKey"
             class="header__link"
           >
-            <NuxtLink :to="subRoute.path">{{ subRoute.meta?.name ?? subRoute.name }}</NuxtLink>
+            <NuxtLink :to="subRoute.path">{{
+              subRoute.meta?.name ?? subRoute.name
+            }}</NuxtLink>
           </div>
         </template>
         <div v-else class="header__link">
-          <NuxtLink :to="route.path">{{ route.meta?.name ?? route.name }}</NuxtLink>
+          <NuxtLink :to="route.path">{{
+            route.meta?.name ?? route.name
+          }}</NuxtLink>
         </div>
       </div>
     </div>

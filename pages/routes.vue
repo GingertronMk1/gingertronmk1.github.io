@@ -1,8 +1,6 @@
 <script setup>
-import { useRouter } from "vue-router";
-
 definePageMeta({
-  ignoreInHeader: process.env.NODE_ENV !== "development"
+  ignoreInHeader: process.env.NODE_ENV !== "development",
 });
 
 const routes = useRouter()?.options?.routes ?? [];

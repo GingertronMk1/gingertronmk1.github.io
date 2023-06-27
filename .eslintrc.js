@@ -27,4 +27,8 @@ module.exports = {
     "vue/multi-word-component-names": 0,
   },
   ignorePatterns: [".output/*", "dist/*", "node_modules/*"],
+  globals: {
+    useRouter: "readonly",
+    definePageMeta: "readonly",
+  },
 };

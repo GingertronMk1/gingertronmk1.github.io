@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 definePageMeta({
-  name: 'CV'
+  name: "CV",
 });
 
 const parts = ref({

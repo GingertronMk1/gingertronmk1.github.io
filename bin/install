@@ -4,7 +4,7 @@ d_flag=''
 
 while getopts 'd' flag; do
   case "${flag}" in
-    a) d_flag='true' ;;
+    d) d_flag='true' ;;
   esac
 done
 
@@ -14,6 +14,6 @@ docker-compose up --build --detach
 
 ./bin/exec npm install
 
-if [[ -n "$d_flag"]]; then
+if [ -n "$d_flag" ]; then
     ./bin/dev
 fi

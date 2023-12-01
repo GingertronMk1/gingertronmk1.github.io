@@ -20,7 +20,7 @@
     "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-vue": "^9.18.1",
+    "eslint-plugin-vue": "^9.19.2",
     "nuxt": "^3.8.2",
     "prettier": "2.8.8",
     "typescript": "latest"

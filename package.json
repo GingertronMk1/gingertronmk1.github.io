@@ -26,7 +26,7 @@
     "typescript": "latest"
   },
   "dependencies": {
-    "sass": "^1.75.0"
+    "sass": "^1.76.0"
   },
   "browserslist": "cover 99.5%"
 }

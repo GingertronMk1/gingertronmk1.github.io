@@ -2,7 +2,7 @@
 
 ## Profile
 
-I an experienced Full-Stack Developer with a 2:1 MSci in Computer Science.
+I am an experienced Full-Stack Developer with a 2:1 MSci in Computer Science.
 I have excellent communication and administrative skills developed from being a member of a number of committees during my time at the University of Nottingham.
 I am a strong worker under pressure, able to quickly make decisions based on information available to me, and I have a good ability to convert someone's request into a more technical format, whatever that format might be.
 I am also a strong collaborator within a team, and am always keen to share any experience, tips, or tricks with those who need or want them in order for the team I am a part of to be as strong as it can be.

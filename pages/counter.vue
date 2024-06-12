@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-const count = ref(0);
-const increment = ref(1);
-const target = ref(0);
-function keyboardCounter({ keyCode }) {
+const count = ref<number>(0);
+const increment = ref<number>(1);
+const target = ref<number>(0);
+
+function keyboardCounter({ keyCode }: { keyCode: number }): void {
   process.env.NODE_ENV === "development" && console.log(keyCode);
   switch (keyCode) {
     case 87: // W
@@ -26,51 +27,32 @@ function keyboardCounter({ keyCode }) {
 /**
  * Dealing with the increment values
  */
-function incrementUp() {
+function incrementUp(): void {
   increment.value++;
 }
-function incrementDown() {
+function incrementDown(): void {
   increment.value--;
 }
-function makeIncrementNumber() {
-  increment.value = parseFloat(increment.value);
-}
-function makeCounterNumber() {
-  count.value = parseFloat(count.value);
-}
-function resetCounter() {
+function resetCounter(): void {
   count.value = 0;
 }
-function resetIncrement() {
+function resetIncrement(): void {
   increment.value = 1;
 }
-function parseFloat(val: string) {
-  let newVal = Number.parseFloat(val);
-  if (isNaN(newVal)) {
-    newVal = 0;
-  }
-  return newVal;
+function countUp(): void {
+  count.value = count.value + increment.value;
 }
-function countUp() {
-  count.value = parseFloat(
-    parseFloat(count.value) + parseFloat(increment.value)
-  );
+function countDown(): void {
+  count.value = count.value - increment.value;
 }
-function countDown() {
-  count.value = parseFloat(
-    parseFloat(count.value) - parseFloat(increment.value)
-  );
-}
-function makeTargetNumber() {
-  target.value = parseFloat(target.value);
-}
-const targetIncrement = computed(function () {
-  const targetFloat = parseFloat(target.value);
-  const incrementFloat = parseFloat(increment.value);
-  const countFloat = parseFloat(count.value);
+const targetIncrement = computed<number>(function () {
+  const targetFloat = target.value;
+  const incrementFloat = increment.value;
+  const countFloat = count.value;
   return Math.ceil((targetFloat - countFloat) / incrementFloat);
 });
-const targetText = computed(function () {
+
+const targetText = computed<string>(function () {
   switch (targetIncrement.value) {
     case 0:
       return `You're there!`;
@@ -97,7 +79,6 @@ document.addEventListener("keydown", keyboardCounter);
         pattern="\d"
         name="counter"
         class="counter__input"
-        @change="makeCounterNumber()"
       />
       <div
         class="button button-primary"
@@ -115,7 +96,6 @@ document.addEventListener("keydown", keyboardCounter);
         pattern="\d"
         name="counter"
         class="counter__input"
-        @change="makeIncrementNumber()"
       />
       <div
         class="button button-primary"
@@ -136,7 +116,6 @@ document.addEventListener("keydown", keyboardCounter);
         pattern="\d"
         name="counter"
         class="counter__input"
-        @change="makeTargetNumber()"
       />
     </div>
     <h3 class="counter__target-text space-y-4" v-text="targetText" />

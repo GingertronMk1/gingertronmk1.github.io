@@ -1,6 +1,6 @@
 <template>
-  <AppNav />
-  <div>
+  <ClientOnly>
+    <AppNav />
     <NuxtPage />
-  </div>
+  </ClientOnly>
 </template>

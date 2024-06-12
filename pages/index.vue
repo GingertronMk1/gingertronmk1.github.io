@@ -15,6 +15,8 @@ const links = [
 ]
 </script>
 <template>
+    <div>
+
     <h1>Hi, I'm Jack</h1>
     <section id="about-me">
         <h3>About Me</h3>
@@ -29,4 +31,5 @@ const links = [
             </li>
         </ul>
     </section>
+    </div>
 </template>

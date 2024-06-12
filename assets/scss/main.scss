@@ -9,6 +9,8 @@
     }
 }
 
+// Reset and general flexitime
+
 html,
 body,
 #__nuxt {
@@ -23,6 +25,25 @@ body,
 #__nuxt {
     @include container;
 }
+
+p {
+    margin: 0;
+    padding: 0.5rem 0;
+}
+
+@for $i from 1 through 6 {
+    h#{$i} {
+        margin: 0;
+        padding: 0.5rem 0;
+    }
+}
+
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+// Nav
 
 .site-nav {
     @include container;
@@ -47,7 +68,8 @@ body,
     }
 }
 
-* {
-    font-family: sans-serif;
-    box-sizing: border-box;
+[data-content-id='content:cv.md'] {
+    h2:not(:first-of-type) {
+        border-top: 1px solid gray;
+    }
 }

@@ -11,13 +11,16 @@ body,
     flex-direction: column;
     margin: 0;
     padding: 0;
+    background-color: #ffe4b2;
 }
 
 #__nuxt {
     @include container('*:not(nav.site-nav)');
 
     > *:not(nav.site-nav) {
-        padding-top: 1rem;
+        padding: 1rem;
+        background-color: #ffffff;
+        height: 100%;
     }
 }
 

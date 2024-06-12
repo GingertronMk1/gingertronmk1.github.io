@@ -66,10 +66,10 @@ document.addEventListener("keydown", keyboardCounter);
 </script>
 <template>
   <div class="counter">
-    <div class="counter__counter space-y-4">
+    <div class="counter__counter">
       <h3 v-text="`Counter`" />
       <div
-        class="button button-primary"
+        class="counter__button"
         @click="countUp()"
         v-text="`+${increment}`"
       />
@@ -81,15 +81,15 @@ document.addEventListener("keydown", keyboardCounter);
         class="counter__input"
       />
       <div
-        class="button button-primary"
+        class="counter__button"
         @click="countDown()"
         v-text="`-${increment}`"
       />
-      <div class="button button-danger" @click="resetCounter()" v-text="`RC`" />
+      <div class="counter__button--danger" @click="resetCounter()" v-text="`RC`" />
     </div>
-    <div class="counter__increment space-y-4">
+    <div class="counter__increment">
       <h3>Increment</h3>
-      <div class="button button-primary" @click="incrementUp()" v-text="`+`" />
+      <div class="counter__button" @click="incrementUp()" v-text="`+`" />
       <input
         v-model="increment"
         type="text"
@@ -98,17 +98,17 @@ document.addEventListener("keydown", keyboardCounter);
         class="counter__input"
       />
       <div
-        class="button button-primary"
+        class="counter__button"
         @click="incrementDown()"
         v-text="`-`"
       />
       <div
-        class="button button-danger"
+        class="counter__button--danger"
         @click="resetIncrement()"
         v-text="`RI`"
       />
     </div>
-    <div class="counter__target space-y-4">
+    <div class="counter__target">
       <h3 v-text="`Target`" />
       <input
         v-model="target"
@@ -118,6 +118,6 @@ document.addEventListener("keydown", keyboardCounter);
         class="counter__input"
       />
     </div>
-    <h3 class="counter__target-text space-y-4" v-text="targetText" />
+    <h3 class="counter__target-text" v-text="targetText" />
   </div>
 </template>

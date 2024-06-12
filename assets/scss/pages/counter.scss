@@ -1,0 +1,21 @@
+.counter {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &__counter,
+    &__increment {
+        > * + * {
+            margin-left: 0.5rem;
+        }
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+    }
+
+    &__target {
+        width: 30%;
+    }
+}

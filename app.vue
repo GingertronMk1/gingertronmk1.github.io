@@ -7,6 +7,8 @@ useHead({
 <template>
   <ClientOnly>
     <AppNav />
-    <NuxtPage />
+    <main>
+      <NuxtPage />
+    </main>
   </ClientOnly>
 </template>

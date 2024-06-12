@@ -1,4 +1,6 @@
-# CV
+---
+title: CV
+---
 
 ## Profile
 
@@ -6,6 +8,8 @@ I am an experienced Full-Stack Developer with a 2:1 MSci in Computer Science.
 I have excellent communication and administrative skills developed from being a member of a number of committees during my time at the University of Nottingham.
 I am a strong worker under pressure, able to quickly make decisions based on information available to me, and I have a good ability to convert someone's request into a more technical format, whatever that format might be.
 I am also a strong collaborator within a team, and am always keen to share any experience, tips, or tricks with those who need or want them in order for the team I am a part of to be as strong as it can be.
+
+---
 
 ## Previous Employment
 
@@ -33,6 +37,8 @@ Initially responsible for the creation of a brochure site for Birch Bedrooms, ta
 Also tasked with updating the website for Birmingham Metropolitan College with new features to add to their application system - this website made heavy use of custom Wordpress plugins for which there was no real documentation, as well as a bridge API to pass data back and forth to their custom student/course management system, Unit-e.
 Finally engaged in client-facing support work, handling tickets using Freshdesk and communicating directly with clients regarding the status of their work.
 
+---
+
 ## Additional Technical Skills
 
 For my Master's dissertation I recreated the game _Frogger_ using the Haskell functional programming language.
@@ -40,6 +46,8 @@ Within this I gathered requirements, created a development plan, and implemented
 I carried out user testing and adjusted various aspects of the game based upon feedback from the test subjects, as well as making use of the Travis CI suite.
 In addition to the projects I worked on as part of my degree I am also a contributor to the Nottingham New Theatre History Project, in a predominantly data entry role.
 As well as this I created a website designed to show statistics and information about the links between actors at the Nottingham New Theatre, using JavaScript and the d3 library.
+
+---
 
 ## Extracurriculars
 

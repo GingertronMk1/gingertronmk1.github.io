@@ -5,22 +5,24 @@
 html,
 body,
 #__nuxt {
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
     background-color: #ffe4b2;
+    overflow: auto;
+    flex-grow: 1;
 }
 
 #__nuxt {
-    @include container('*:not(nav.site-nav)');
+    @include container('main');
 
-    > *:not(nav.site-nav) {
+    > main {
         padding: 1rem;
         background-color: #ffffff;
-        height: 100%;
+        flex-grow: 1;
     }
 }
 
@@ -29,12 +31,12 @@ p {
     padding: 0.5rem 0;
 }
 
-@for $i from 1 through 6 {
-    h#{$i} {
-        margin: 0;
-        padding: 0.5rem 0;
-    }
-}
+// @for $i from 1 through 6 {
+//     h#{$i} {
+//         margin: 0;
+//         padding: 0.5rem 0;
+//     }
+// }
 
 * {
     font-family: sans-serif;

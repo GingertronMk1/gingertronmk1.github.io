@@ -3,7 +3,24 @@
 
 .site-nav {
     @include container;
+    --middle-orange:rgba(255,136,0); 
+    --outer-orange: rgba(255,155,43);
     padding: 1rem 0;
+    background: rgb(255,166,66);
+    background: linear-gradient(
+        var(--outer-orange) 0%,
+        var(--middle-orange) 50%,
+        var(--outer-orange) 100%
+    ); 
+
+    a {
+        color: white;
+        text-decoration: none;
+
+        &:hover {
+            color: darken($color: white, $amount: 10);
+        }
+    }
 
     &__inner {
         display: flex;

@@ -15,6 +15,10 @@ body,
 
 #__nuxt {
     @include container('*:not(nav.site-nav)');
+
+    > *:not(nav.site-nav) {
+        padding-top: 1rem;
+    }
 }
 
 p {

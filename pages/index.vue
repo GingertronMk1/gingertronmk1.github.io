@@ -1,4 +1,8 @@
 <script setup>
+useHead({
+    title: "Jack Ellis"
+});
+
 const links = [
     {
         title: "LinkedIn",

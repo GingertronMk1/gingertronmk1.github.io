@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+
+useHead({
+  title: 'Counter'
+});
 const count = ref<number>(0);
 const increment = ref<number>(1);
 const target = ref<number>(0);
@@ -7,18 +11,24 @@ const target = ref<number>(0);
 function keyboardCounter({ keyCode }: { keyCode: number }): void {
   process.env.NODE_ENV === "development" && console.log(keyCode);
   switch (keyCode) {
-    case 87: // W
     case 38: // Up arrow
+    case 75: // K
+    case 83: // S
       countUp();
       break;
-    case 83: // S
     case 40: // Down arrow
+    case 74: // J
+    case 87: // W
       countDown();
       break;
-    case 74: // J
+    case 39: // Left arrow
+    case 65: // A
+    case 72: // H
       incrementDown();
       break;
-    case 75: // K
+    case 37: // Right arrow
+    case 68: // D
+    case 76: // L
       incrementUp();
       break;
     default:

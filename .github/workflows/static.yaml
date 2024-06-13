@@ -13,8 +13,11 @@ jobs:
       - run: corepack enable
       # Pick your own package manager and build script
       - run: ./bin/install
-      - run: ./bin/exec npx nuxt build --prerender
-      - run: npx gh-pages --dotfiles -d .output/public
+      - run: ./bin/exec npm build -- --preset github_pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./.output/public
   # Deployment job
   deploy:
     # Add a dependency to the build job

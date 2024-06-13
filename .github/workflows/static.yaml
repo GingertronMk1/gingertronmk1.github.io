@@ -32,7 +32,7 @@ jobs:
       - name: Install
         run: ./bin/install
       - name: Build
-        run: ./bin/npm run generate
+        run: ./bin/exec npm run generate
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact

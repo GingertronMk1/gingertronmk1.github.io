@@ -85,7 +85,7 @@ document.addEventListener("keydown", keyboardCounter);
         @click="countDown()"
         v-text="`-${increment}`"
       />
-      <div class="counter__button--danger" @click="resetCounter()" v-text="`RC`" />
+      <div class="counter__button counter__button--danger" @click="resetCounter()" v-text="`RC`" />
     </div>
     <div class="counter__increment">
       <h3>Increment</h3>
@@ -103,7 +103,7 @@ document.addEventListener("keydown", keyboardCounter);
         v-text="`-`"
       />
       <div
-        class="counter__button--danger"
+        class="counter__button counter__button--danger"
         @click="resetIncrement()"
         v-text="`RI`"
       />

@@ -3,13 +3,11 @@
 
 .site-nav {
     @include container;
-    --middle-orange:#ff8800; 
-    --outer-orange: #ffa436;
     padding: 1rem 0;
-    background: var(--middle-orange);
+    background: var(--main-orange);
     background: linear-gradient(
-        var(--middle-orange) 0%,
-        var(--outer-orange) 100%
+        var(--main-orange) 0%,
+        var(--outer-nav-orange) 100%
     ); 
 
     a {

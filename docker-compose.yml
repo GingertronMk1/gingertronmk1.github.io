@@ -3,15 +3,15 @@ version: "3"
 services:
   node:
     platform: linux/x86_64
-    build:
-      context: .
-      dockerfile: ./docker/local/node.dockerfile
+    image: node:22-bookworm
+    working_dir: /srv
     volumes:
       - "./:/srv"
     command: tail -f /dev/null
     ports:
       - "80:80"
       - "23456:23456"
+      - "4000:4000"
     networks:
       - app-network
 

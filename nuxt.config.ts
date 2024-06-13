@@ -1,12 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  buildDir: "dist",
-  typescript: {
-    strict: true
+  app: {
+    head: { title: "Jack Ellis" },
   },
-  devtools: {
-    enabled: true,
-  },
+  devtools: { enabled: true },
+  modules: ["@nuxt/content"],
+  css: ["~/assets/scss/main.scss"],
   devServer: {
     host: "0.0.0.0",
     port: 80,
@@ -18,10 +17,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  postcss: {
-    plugins: {
-      autoprefixer: {},
-    },
+  typescript: {
+    typeCheck: true,
   },
-  css: ["~/assets/style.scss"]
 });

@@ -1,0 +1,16 @@
+@mixin container($innerElement: div) {
+    width: 100%;
+    display: flex;
+
+    & > #{$innerElement} {
+        width: 95%;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+}
+
+@mixin MQ($screen-width: 768px) {
+    @media only screen and (max-width: $screen-width) {
+        @content;
+    }
+}

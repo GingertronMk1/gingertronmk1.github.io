@@ -1,19 +1,5 @@
 #!/usr/bin/env bash
 
-d_flag=''
-
-while getopts 'd' flag; do
-  case "${flag}" in
-    d) d_flag='true' ;;
-  esac
-done
-
-docker-compose down -v
-
-docker-compose up --build --detach
-
-./bin/exec npm install
-
-if [ -n "$d_flag" ]; then
-    ./bin/dev
-fi
+docker-compose up -d --build \
+  && ./bin/exec npm install \
+  && ./bin/exec npm run build

@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: corepack enable
       # Pick your own package manager and build script
       - run: ./bin/install
       - run: ./bin/exec npm run build -- --preset github_pages

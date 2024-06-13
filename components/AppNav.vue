@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const links = ref([
-    {
-        link: "/cv",
-        text: "CV",
-    },
+    // {
+    //     link: "/cv",
+    //     text: "CV",
+    // },
     {
         link: "/counter",
         text: "Counter"

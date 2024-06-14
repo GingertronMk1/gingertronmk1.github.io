@@ -21,12 +21,12 @@ function keyboardCounter({ keyCode }: { keyCode: number }): void {
     case 87: // W
       countDown();
       break;
-    case 39: // Left arrow
+    case 37: // Right arrow
     case 65: // A
     case 72: // H
       incrementDown();
       break;
-    case 37: // Right arrow
+    case 39: // Left arrow
     case 68: // D
     case 76: // L
       incrementUp();

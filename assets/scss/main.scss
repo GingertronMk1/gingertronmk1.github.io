@@ -1,7 +1,7 @@
-@import 'variables';
-@import 'mixins';
-@import 'general';
-@import 'nav';
+@use 'variables';
+@use 'general';
+@use 'components/nav';
+@use 'components/footer';
 
-@import 'pages/content';
-@import 'pages/counter';
+@use 'pages/content';
+@use 'pages/counter';

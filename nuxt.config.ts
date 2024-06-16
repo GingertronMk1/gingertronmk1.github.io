@@ -20,7 +20,6 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
-  ssr: false,
   nitro: {
     prerender: {
       crawlLinks: true

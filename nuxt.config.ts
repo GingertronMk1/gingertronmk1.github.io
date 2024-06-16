@@ -21,8 +21,6 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
   nitro: {
-    prerender: {
-      crawlLinks: true
-    }
+    static: true,
   }
 });

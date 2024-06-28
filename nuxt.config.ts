@@ -17,9 +17,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  typescript: {
-    typeCheck: true,
-  },
   nitro: {
     static: true,
   }

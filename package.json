@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@nuxt/content": "^2.13.2",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.47",
     "nuxt": "^3.12.4"
   },
   "devDependencies": {

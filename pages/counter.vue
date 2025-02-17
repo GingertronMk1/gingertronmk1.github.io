@@ -4,9 +4,9 @@ import { computed, ref } from "vue";
 useHead({
   title: 'Counter'
 });
-const count = ref<number>(0);
-const increment = ref<number>(1);
-const target = ref<number>(0);
+const count = ref<string>('0');
+const increment = ref<string>('1');
+const target = ref<string>('0');
 
 function keyboardCounter({ keyCode }: { keyCode: number }): void {
   process.env.NODE_ENV === "development" && console.log(keyCode);
@@ -37,28 +37,39 @@ function keyboardCounter({ keyCode }: { keyCode: number }): void {
 /**
  * Dealing with the increment values
  */
-function incrementUp(): void {
-  increment.value++;
+function incrementUp(): string {
+  increment.value = (parseInt(increment.value) + 1).toString();
+  return increment.value;
 }
-function incrementDown(): void {
-  increment.value--;
+
+function incrementDown(): string {
+  increment.value = (parseInt(increment.value) - 1).toString();
+  return increment.value;
 }
-function resetCounter(): void {
-  count.value = 0;
+
+function resetCounter(): string {
+  count.value = '0';
+  return count.value;
 }
-function resetIncrement(): void {
-  increment.value = 1;
+
+function resetIncrement(): string {
+  increment.value = '1';
+  return increment.value;
 }
-function countUp(): void {
-  count.value = count.value + increment.value;
+
+function countUp(): string {
+  count.value = (parseInt(count.value) + parseInt(increment.value)).toString();
+  return count.value;
 }
-function countDown(): void {
-  count.value = count.value - increment.value;
+
+function countDown(): string {
+  count.value = (parseInt(count.value) - parseInt(increment.value)).toString();
+  return count.value;
 }
 const targetIncrement = computed<number>(function () {
-  const targetFloat = target.value;
-  const incrementFloat = increment.value;
-  const countFloat = count.value;
+  const targetFloat = parseInt(target.value);
+  const incrementFloat = parseInt(increment.value);
+  const countFloat = parseInt(count.value);
   return Math.ceil((targetFloat - countFloat) / incrementFloat);
 });
 

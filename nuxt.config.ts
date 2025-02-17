@@ -4,7 +4,10 @@ export default defineNuxtConfig({
     head: { title: "Jack Ellis" },
   },
   devtools: { enabled: true },
-  modules: ["@nuxt/content"],
+  modules: [
+      "@nuxt/content",
+      "@nuxt/image",
+  ],
   css: ["~/assets/scss/main.scss"],
   devServer: {
     host: "0.0.0.0",

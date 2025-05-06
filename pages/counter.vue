@@ -5,27 +5,31 @@ const count = ref<string>('0');
 const increment = ref<string>('1');
 const target = ref<string>('0');
 
-function keyboardCounter({ keyCode }: { keyCode: number }): void {
-  process.env.NODE_ENV === "development" && console.log(keyCode);
-  switch (keyCode) {
-    case 38: // Up arrow
-    case 75: // K
-    case 83: // S
-      countUp();
-      break;
-    case 40: // Down arrow
-    case 74: // J
-    case 87: // W
+function keyboardCounter(e: KeyboardEvent): void {
+  process.env.NODE_ENV === "development" && console.log(e);
+  switch (e.code) {
+    case 'ArrowUp': // Up arrow
+    case 'KeyK': // K
+    case 'KeyS': // S
+        e.preventDefault();
+        countUp();
+        break;
+    case 'ArrowDown': // Down arrow
+    case 'KeyJ': // J
+    case 'KeyW': // W
+      e.preventDefault();
       countDown();
       break;
-    case 37: // Right arrow
-    case 65: // A
-    case 72: // H
+    case 'ArrowLeft': // Right arrow
+    case 'KeyA': // A
+    case 'KeyH': // H
+      e.preventDefault();
       incrementDown();
       break;
-    case 39: // Left arrow
-    case 68: // D
-    case 76: // L
+    case 'ArrowRight': // Left arrow
+    case 'KeyD': // D
+    case 'KeyL': // L
+      e.preventDefault();
       incrementUp();
       break;
     default:

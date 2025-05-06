@@ -41,9 +41,13 @@ const convertTime = function (t: Time) {
   }, t.timezone);
   return newTime.clone().tz('Europe/London')
 };
+
+const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', ' '));
 </script>
 
 <template>
+
+  <span v-text="`Converting from ${moment.tz.guess()}`" />
 
   <div class="times">
     <div v-for="(time, index) in inputTimes" :key="index" class="times__input-time">
@@ -69,7 +73,10 @@ const convertTime = function (t: Time) {
       </label>
       <label for="timezone" class="times__input-time-part times__input-time-part--timezone">
         Timezone
-        <input type="text" v-model="time.timezone" id="timezone"/>
+        <input list="zones" type="text" class="times__input-time-part times__input-time-part--timezone" v-model="time.timezone" />
+        <datalist id="zones">
+          <option v-for="tz in timeZones" :key="tz" :value="tz" v-text="tz" />
+        </datalist>
       </label>
       <div class="times__time-display">
         <span v-text="convertTime(time)"/>
@@ -120,6 +127,13 @@ const convertTime = function (t: Time) {
 
     &--timezone {
       min-width: 100%;
+    }
+
+    & > input {
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid gray;
     }
   }
 

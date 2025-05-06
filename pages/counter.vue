@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
-useHead({
-  title: 'Counter'
-});
 const count = ref<string>('0');
 const increment = ref<string>('1');
 const target = ref<string>('0');
@@ -74,6 +71,7 @@ const targetIncrement = computed<number>(function () {
 });
 
 const targetText = computed<string>(function () {
+  updateTitleValue();
   switch (targetIncrement.value) {
     case 0:
       return `You're there!`;
@@ -83,7 +81,17 @@ const targetText = computed<string>(function () {
       return `${targetIncrement.value} increments`;
   }
 });
+
+function updateTitleValue(): string {
+  const newTitle = `Counter | ${count.value}/${target.value}`;
+  document.title = newTitle;
+  return newTitle;
+}
 document.addEventListener("keydown", keyboardCounter);
+
+useHead({
+  title: updateTitleValue
+});
 </script>
 <template>
   <div class="counter">

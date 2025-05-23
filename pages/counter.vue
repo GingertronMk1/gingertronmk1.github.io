@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
-const count = ref<string>('0');
-const increment = ref<string>('1');
-const target = ref<string>('0');
+const initialHash = window.location.hash.slice(1);
+const initialHashParams = new URLSearchParams(initialHash);
+
+const count = ref<string>(initialHashParams.get('count') ?? '0');
+const increment = ref<string>(initialHashParams.get('increment') ?? '1');
+const target = ref<string>(initialHashParams.get('target') ?? '0');
 
 function keyboardCounter(e: KeyboardEvent): void {
   process.env.NODE_ENV === "development" && console.log(e);
@@ -89,6 +92,11 @@ const targetText = computed<string>(function () {
 function updateTitleValue(): string {
   const newTitle = `Counter | ${count.value}/${target.value}`;
   document.title = newTitle;
+  window.location.hash = new URLSearchParams({
+    count: count.value,
+    target: target.value,
+    increment: increment.value,
+  }).toString()
   return newTitle;
 }
 document.addEventListener("keydown", keyboardCounter);

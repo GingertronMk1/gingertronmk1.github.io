@@ -1,40 +1,40 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue'
 
-const initialHash = window.location.hash.slice(1);
-const initialHashParams = new URLSearchParams(initialHash);
+const initialHash = window.location.hash.slice(1)
+const initialHashParams = new URLSearchParams(initialHash)
 
-const count = ref<string>(initialHashParams.get('count') ?? '0');
-const increment = ref<string>(initialHashParams.get('increment') ?? '1');
-const target = ref<string>(initialHashParams.get('target') ?? '0');
+const count = ref<string>(initialHashParams.get('count') ?? '0')
+const increment = ref<string>(initialHashParams.get('increment') ?? '1')
+const target = ref<string>(initialHashParams.get('target') ?? '0')
 
 function keyboardCounter(e: KeyboardEvent): void {
-  process.env.NODE_ENV === "development" && console.log(e);
+  if (process.env.NODE_ENV === 'development') console.log(e);
   switch (e.code) {
     case 'ArrowUp': // Up arrow
     case 'KeyK': // K
     case 'KeyS': // S
-        e.preventDefault();
-        countUp();
-        break;
+      e.preventDefault()
+      countUp()
+      break
     case 'ArrowDown': // Down arrow
     case 'KeyJ': // J
     case 'KeyW': // W
-      e.preventDefault();
-      countDown();
-      break;
+      e.preventDefault()
+      countDown()
+      break
     case 'ArrowLeft': // Right arrow
     case 'KeyA': // A
     case 'KeyH': // H
-      e.preventDefault();
-      incrementDown();
-      break;
+      e.preventDefault()
+      incrementDown()
+      break
     case 'ArrowRight': // Left arrow
     case 'KeyD': // D
     case 'KeyL': // L
-      e.preventDefault();
-      incrementUp();
-      break;
+      e.preventDefault()
+      incrementUp()
+      break
     default:
   }
 }
@@ -42,69 +42,70 @@ function keyboardCounter(e: KeyboardEvent): void {
  * Dealing with the increment values
  */
 function incrementUp(): string {
-  increment.value = (parseInt(increment.value) + 1).toString();
-  return increment.value;
+  increment.value = (parseInt(increment.value) + 1).toString()
+  return increment.value
 }
 
 function incrementDown(): string {
-  increment.value = (parseInt(increment.value) - 1).toString();
-  return increment.value;
+  increment.value = (parseInt(increment.value) - 1).toString()
+  return increment.value
 }
 
 function resetCounter(): string {
-  count.value = '0';
-  return count.value;
+  count.value = '0'
+  return count.value
 }
 
 function resetIncrement(): string {
-  increment.value = '1';
-  return increment.value;
+  increment.value = '1'
+  return increment.value
 }
 
 function countUp(): string {
-  count.value = (parseInt(count.value) + parseInt(increment.value)).toString();
-  return count.value;
+  count.value = (parseInt(count.value) + parseInt(increment.value)).toString()
+  return count.value
 }
 
 function countDown(): string {
-  count.value = (parseInt(count.value) - parseInt(increment.value)).toString();
-  return count.value;
+  count.value = (parseInt(count.value) - parseInt(increment.value)).toString()
+  return count.value
 }
 const targetIncrement = computed<number>(function () {
-  const targetFloat = parseInt(target.value);
-  const incrementFloat = parseInt(increment.value);
-  const countFloat = parseInt(count.value);
-  return Math.ceil((targetFloat - countFloat) / incrementFloat);
-});
+  const targetFloat = parseInt(target.value)
+  const incrementFloat = parseInt(increment.value)
+  const countFloat = parseInt(count.value)
+  return Math.ceil((targetFloat - countFloat) / incrementFloat)
+})
 
 const targetText = computed<string>(function () {
-  updateTitleValue();
+  updateTitleValue()
   switch (targetIncrement.value) {
     case 0:
-      return `You're there!`;
+      return `You're there!`
     case 1:
-      return `1 increment`;
+      return `1 increment`
     default:
-      return `${targetIncrement.value} increments`;
+      return `${targetIncrement.value} increments`
   }
-});
+})
 
 function updateTitleValue(): string {
-  const newTitle = `Counter | ${count.value}/${target.value}`;
-  document.title = newTitle;
+  const newTitle = `Counter | ${count.value}/${target.value}`
+  document.title = newTitle
   window.location.hash = new URLSearchParams({
     count: count.value,
     target: target.value,
     increment: increment.value,
   }).toString()
-  return newTitle;
+  return newTitle
 }
-document.addEventListener("keydown", keyboardCounter);
+document.addEventListener('keydown', keyboardCounter)
 
 useHead({
-  title: updateTitleValue
-});
+  title: updateTitleValue,
+})
 </script>
+
 <template>
   <div class="counter">
     <div class="counter__counter">
@@ -120,24 +121,32 @@ useHead({
         pattern="\d"
         name="counter"
         class="counter__input"
-      />
+      >
       <div
         class="counter__button"
         @click="countDown()"
         v-text="`-${increment}`"
       />
-      <div class="counter__button counter__button--danger" @click="resetCounter()" v-text="`RC`" />
+      <div
+        class="counter__button counter__button--danger"
+        @click="resetCounter()"
+        v-text="`RC`"
+      />
     </div>
     <div class="counter__increment">
       <h3>Increment</h3>
-      <div class="counter__button" @click="incrementUp()" v-text="`+`" />
+      <div
+        class="counter__button"
+        @click="incrementUp()"
+        v-text="`+`"
+      />
       <input
         v-model="increment"
         type="text"
         pattern="\d"
         name="counter"
         class="counter__input"
-      />
+      >
       <div
         class="counter__button"
         @click="incrementDown()"
@@ -157,8 +166,11 @@ useHead({
         pattern="\d"
         name="counter"
         class="counter__input"
-      />
+      >
     </div>
-    <h3 class="counter__target-text" v-text="targetText" />
+    <h3
+      class="counter__target-text"
+      v-text="targetText"
+    />
   </div>
 </template>

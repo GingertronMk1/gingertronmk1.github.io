@@ -1,24 +1,39 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  app: {
-    head: { title: "Jack Ellis" },
-  },
+import tailwindcss from '@tailwindcss/vite'
 
-  devtools: { enabled: true },
+export default defineNuxtConfig({
 
   modules: [
-      "@nuxt/content",
-      "@nuxt/image",
+    '@nuxt/content',
+    '@nuxt/image',
+    ['@nuxt/eslint', { fix: true }],
   ],
 
-  css: ["~/assets/scss/main.scss"],
+  devtools: { enabled: true },
+  app: {
+    head: { title: 'Jack Ellis' },
+  },
+
+  css: [
+    '~/assets/scss/main.scss',
+    '~/assets/css/main.css',
+  ],
 
   devServer: {
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     port: 80,
   },
 
+  compatibilityDate: '2025-02-17',
+
+  nitro: {
+    static: true,
+  },
+
   vite: {
+    plugins: [
+      tailwindcss(),
+    ],
     server: {
       hmr: {
         port: 23456,
@@ -26,9 +41,10 @@ export default defineNuxtConfig({
     },
   },
 
-  nitro: {
-    static: true,
+  eslint: {
+    checker: true,
+    config: {
+      stylistic: true,
+    },
   },
-
-  compatibilityDate: "2025-02-17"
-});
+})

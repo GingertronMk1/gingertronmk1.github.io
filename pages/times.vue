@@ -1,22 +1,20 @@
 <script setup lang="ts">
-
-import {computed} from "vue";
-import moment from "moment";
-import momentTz from "moment-timezone";
+import moment from 'moment'
+import momentTz from 'moment-timezone'
 
 interface Time {
-  hours: number;
-  minutes: number;
-  day: number;
-  month: number;
-  year: number;
-  timezone: string;
+  hours: number
+  minutes: number
+  day: number
+  month: number
+  year: number
+  timezone: string
 }
 
-const inputTimes = ref<Array<Time>>([]);
+const inputTimes = ref<Array<Time>>([])
 
 const addTime = function () {
-  const now = moment();
+  const now = moment()
   inputTimes.value.push({
     hours: now.hour(),
     minutes: now.minute(),
@@ -24,69 +22,123 @@ const addTime = function () {
     month: now.month() + 1,
     year: now.year(),
     timezone: now.zoneName(),
-  });
+  })
 }
 
 const removeTime = function (t: Time) {
-  inputTimes.value = inputTimes.value.filter((_t: Time) => _t !== t);
+  inputTimes.value = inputTimes.value.filter((_t: Time) => _t !== t)
 }
 
-addTime();
+addTime()
 
 const convertTime = function (t: Time) {
   const newTime = momentTz.tz({
     ...t,
     month: t.month - 1,
-    seconds: 0
-  }, t.timezone);
+    seconds: 0,
+  }, t.timezone)
   return newTime.clone().tz('Europe/London')
-};
+}
 
-const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', ' '));
+const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', ' '))
 </script>
 
 <template>
-
   <span v-text="`Converting from ${moment.tz.guess()}`" />
 
   <div class="times">
-    <div v-for="(time, index) in inputTimes" :key="index" class="times__input-time">
-      <label class="times__input-time-part" for="hours">
+    <div
+      v-for="(time, index) in inputTimes"
+      :key="index"
+      class="times__input-time"
+    >
+      <label
+        class="times__input-time-part"
+        for="hours"
+      >
         Hours
-        <input type="number" v-model="time.hours" id="hours"/>
+        <input
+          id="hours"
+          v-model="time.hours"
+          type="number"
+        >
       </label>
-      <label class="times__input-time-part" for="minutes">
+      <label
+        class="times__input-time-part"
+        for="minutes"
+      >
         Minutes
-        <input type="number" v-model="time.minutes" id="minutes"/>
+        <input
+          id="minutes"
+          v-model="time.minutes"
+          type="number"
+        >
       </label>
-      <label class="times__input-time-part" for="year">
+      <label
+        class="times__input-time-part"
+        for="year"
+      >
         Year
-        <input type="number" v-model="time.year" id="year"/>
+        <input
+          id="year"
+          v-model="time.year"
+          type="number"
+        >
       </label>
-      <label class="times__input-time-part" for="month">
+      <label
+        class="times__input-time-part"
+        for="month"
+      >
         Month
-        <input type="number" v-model="time.month" id="month"/>
+        <input
+          id="month"
+          v-model="time.month"
+          type="number"
+        >
       </label>
-      <label class="times__input-time-part" for="day">
+      <label
+        class="times__input-time-part"
+        for="day"
+      >
         Day
-        <input type="number" v-model="time.day" id="day"/>
+        <input
+          id="day"
+          v-model="time.day"
+          type="number"
+        >
       </label>
-      <label for="timezone" class="times__input-time-part times__input-time-part--timezone">
+      <label
+        for="timezone"
+        class="times__input-time-part times__input-time-part--timezone"
+      >
         Timezone
-        <input list="zones" type="text" class="times__input-time-part times__input-time-part--timezone" v-model="time.timezone" />
+        <input
+          v-model="time.timezone"
+          list="zones"
+          type="text"
+          class="times__input-time-part times__input-time-part--timezone"
+        >
         <datalist id="zones">
-          <option v-for="tz in timeZones" :key="tz" :value="tz" v-text="tz" />
+          <option
+            v-for="tz in timeZones"
+            :key="tz"
+            :value="tz"
+            v-text="tz"
+          />
         </datalist>
       </label>
       <div class="times__time-display">
-        <span v-text="convertTime(time)"/>
-        <button @click="removeTime(time)">Remove</button>
+        <span v-text="convertTime(time)" />
+        <button @click="removeTime(time)">
+          Remove
+        </button>
       </div>
     </div>
   </div>
 
-  <button @click="addTime">Add Time</button>
-
+  <button @click="addTime">
+    Add Time
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -143,5 +195,4 @@ const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', '
     margin: 0;
   }
 }
-
 </style>

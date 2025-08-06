@@ -106,11 +106,11 @@ useHead({
 });
 </script>
 <template>
-  <div class="counter">
-    <div class="counter__counter">
+  <div class="">
+    <div class="">
       <h3 v-text="`Counter`" />
       <div
-        class="counter__button"
+        class=""
         @click="countUp()"
         v-text="`+${increment}`"
       />
@@ -119,46 +119,46 @@ useHead({
         type="text"
         pattern="\d"
         name="counter"
-        class="counter__input"
+        class=""
       />
       <div
-        class="counter__button"
+        class=""
         @click="countDown()"
         v-text="`-${increment}`"
       />
-      <div class="counter__button counter__button--danger" @click="resetCounter()" v-text="`RC`" />
+      <div class="" @click="resetCounter()" v-text="`RC`" />
     </div>
-    <div class="counter__increment">
+    <div class="">
       <h3>Increment</h3>
-      <div class="counter__button" @click="incrementUp()" v-text="`+`" />
+      <div class="" @click="incrementUp()" v-text="`+`" />
       <input
         v-model="increment"
         type="text"
         pattern="\d"
         name="counter"
-        class="counter__input"
+        class=""
       />
       <div
-        class="counter__button"
+        class=""
         @click="incrementDown()"
         v-text="`-`"
       />
       <div
-        class="counter__button counter__button--danger"
+        class=""
         @click="resetIncrement()"
         v-text="`RI`"
       />
     </div>
-    <div class="counter__target">
+    <div class="">
       <h3 v-text="`Target`" />
       <input
         v-model="target"
         type="text"
         pattern="\d"
         name="counter"
-        class="counter__input"
+        class=""
       />
     </div>
-    <h3 class="counter__target-text" v-text="targetText" />
+    <h3 class="" v-text="targetText" />
   </div>
 </template>

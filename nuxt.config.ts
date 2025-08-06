@@ -8,8 +8,6 @@ export default defineNuxtConfig({
 
   modules: ["@nuxt/content", "@nuxt/image", "@nuxtjs/tailwindcss"],
 
-  css: ["~/assets/scss/main.scss"],
-
   devServer: {
     host: "0.0.0.0",
     port: 80,

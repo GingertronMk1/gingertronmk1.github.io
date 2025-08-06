@@ -2,7 +2,7 @@
 
 import {computed} from "vue";
 import moment from "moment";
-import momentTz from "moment-timezone";
+import { tz } from "moment-timezone";
 
 interface Time {
   hours: number;
@@ -34,7 +34,7 @@ const removeTime = function (t: Time) {
 addTime();
 
 const convertTime = function (t: Time) {
-  const newTime = momentTz.tz({
+  const newTime = tz({
     ...t,
     month: t.month - 1,
     seconds: 0

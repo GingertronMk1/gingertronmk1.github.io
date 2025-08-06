@@ -16,16 +16,17 @@ const links = ref([
 ]);
 </script>
 <template>
-  <nav class="site-nav p-20">
-    <div class="site-nav__inner">
+  <nav class="p-4 bg-orange-600 text-white text-2xl text-semibold">
+    <div class=" flex flex-row justify-between">
       <NuxtLink to="/"><h1 class="site-nav__header-text">Jack Ellis</h1></NuxtLink>
-      <div class="site-nav__nav-links">
+      <div class="space-x-4">
         <NuxtLink
-            class="site-nav__nav-link"
+            class="hover:text-gray-300"
             v-for="link in links"
             :key="JSON.stringify(link)"
             :to="link.link"
-        >{{ link.text }}
+        >
+          {{ link.text }}
         </NuxtLink>
       </div>
     </div>

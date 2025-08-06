@@ -17,7 +17,7 @@ const links = ref([
 </script>
 <template>
   <nav class="p-4 bg-orange-600 text-white text-2xl text-semibold">
-    <div class=" flex flex-row justify-between">
+    <div class="container mx-auto flex flex-row justify-between">
       <NuxtLink to="/" class="hover:text-gray-300">
         <h1 class="site-nav__header-text">
           Jack Ellis

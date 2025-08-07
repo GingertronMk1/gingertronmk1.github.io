@@ -1,8 +1,9 @@
 <script setup lang="ts">
 
-import {computed} from "vue";
 import moment from "moment";
-import { tz } from "moment-timezone";
+import momentTz from "moment-timezone";
+
+const { tz } = momentTz;
 
 interface Time {
   hours: number;

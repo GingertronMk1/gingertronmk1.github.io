@@ -29,7 +29,7 @@ const links = [
     </section>
     <section id="links">
       <h3 class="text-2xl">Some Links</h3>
-      <ul class="list-disc list-inside [&_a]:underline">
+      <ul class="list-disc list-inside [&_a]:underline space-y-2">
         <li v-for="link in links" :key="link.url">
           <a :href="link.url" v-text="link.title" target="_blank"/>
         </li>

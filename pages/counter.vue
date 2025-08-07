@@ -110,7 +110,7 @@ useHead({
 });
 </script>
 <template>
-  <div class="flex flex-col md:flex-row flex-wrap gap-4 *:flex *:flex-col *:min-w-[33%] *:flex-1 *:gap-y-4 py-4 [&_h3]:text-2xl">
+  <div class="flex flex-col md:flex-row flex-wrap gap-4 *:flex *:flex-col *:min-w-[33%] *:flex-1 *:gap-y-4 [&_h3]:text-2xl">
     <div>
       <h3>Counter</h3>
       <AppButton

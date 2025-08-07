@@ -19,7 +19,7 @@ const links = [
 ]
 </script>
 <template>
-  <div class="py-4 space-y-4">
+  <div class="space-y-4">
 
     <h1 class="text-4xl">Hi, I'm Jack</h1>
     <section id="about-me">

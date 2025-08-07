@@ -2,7 +2,7 @@
 
 import {computed} from "vue";
 import moment from "moment";
-import momentTz from "moment-timezone";
+import { tz } from "moment-timezone";
 
 interface Time {
   hours: number;
@@ -34,7 +34,7 @@ const removeTime = function (t: Time) {
 addTime();
 
 const convertTime = function (t: Time) {
-  const newTime = momentTz.tz({
+  const newTime = tz({
     ...t,
     month: t.month - 1,
     seconds: 0
@@ -49,36 +49,36 @@ const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', '
 
   <span v-text="`Converting from ${moment.tz.guess()}`" />
 
-  <div class="times">
-    <div v-for="(time, index) in inputTimes" :key="index" class="times__input-time">
-      <label class="times__input-time-part" for="hours">
+  <div class="">
+    <div v-for="(time, index) in inputTimes" :key="index" class="">
+      <label class="" for="hours">
         Hours
         <input type="number" v-model="time.hours" id="hours"/>
       </label>
-      <label class="times__input-time-part" for="minutes">
+      <label class="" for="minutes">
         Minutes
         <input type="number" v-model="time.minutes" id="minutes"/>
       </label>
-      <label class="times__input-time-part" for="year">
+      <label class="" for="year">
         Year
         <input type="number" v-model="time.year" id="year"/>
       </label>
-      <label class="times__input-time-part" for="month">
+      <label class="" for="month">
         Month
         <input type="number" v-model="time.month" id="month"/>
       </label>
-      <label class="times__input-time-part" for="day">
+      <label class="" for="day">
         Day
         <input type="number" v-model="time.day" id="day"/>
       </label>
-      <label for="timezone" class="times__input-time-part times__input-time-part--timezone">
+      <label for="timezone" class="">
         Timezone
-        <input list="zones" type="text" class="times__input-time-part times__input-time-part--timezone" v-model="time.timezone" />
+        <input list="zones" type="text" class="" v-model="time.timezone" />
         <datalist id="zones">
           <option v-for="tz in timeZones" :key="tz" :value="tz" v-text="tz" />
         </datalist>
       </label>
-      <div class="times__time-display">
+      <div class="">
         <span v-text="convertTime(time)"/>
         <button @click="removeTime(time)">Remove</button>
       </div>

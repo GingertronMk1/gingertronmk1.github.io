@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import {computed, ref} from "vue";
+import AppButton from '~/components/AppButton.vue';
 
 const initialHash = window.location.hash.slice(1);
 const initialHashParams = new URLSearchParams(initialHash);
@@ -14,9 +15,9 @@ function keyboardCounter(e: KeyboardEvent): void {
     case 'ArrowUp': // Up arrow
     case 'KeyK': // K
     case 'KeyS': // S
-        e.preventDefault();
-        countUp();
-        break;
+      e.preventDefault();
+      countUp();
+      break;
     case 'ArrowDown': // Down arrow
     case 'KeyJ': // J
     case 'KeyW': // W
@@ -38,6 +39,7 @@ function keyboardCounter(e: KeyboardEvent): void {
     default:
   }
 }
+
 /**
  * Dealing with the increment values
  */
@@ -70,6 +72,7 @@ function countDown(): string {
   count.value = (parseInt(count.value) - parseInt(increment.value)).toString();
   return count.value;
 }
+
 const targetIncrement = computed<number>(function () {
   const targetFloat = parseInt(target.value);
   const incrementFloat = parseInt(increment.value);
@@ -99,6 +102,7 @@ function updateTitleValue(): string {
   }).toString()
   return newTitle;
 }
+
 document.addEventListener("keydown", keyboardCounter);
 
 useHead({
@@ -106,59 +110,58 @@ useHead({
 });
 </script>
 <template>
-  <div class="counter">
-    <div class="counter__counter">
-      <h3 v-text="`Counter`" />
-      <div
-        class="counter__button"
-        @click="countUp()"
-        v-text="`+${increment}`"
+  <div class="flex flex-col md:flex-row flex-wrap gap-4 *:flex *:flex-col *:min-w-[33%] *:flex-1 *:gap-y-4 [&_h3]:text-2xl">
+    <div>
+      <h3>Counter</h3>
+      <AppButton
+          @click="countUp()"
+          v-text="`+${increment}`"
       />
-      <input
-        v-model="count"
-        type="text"
-        pattern="\d"
-        name="counter"
-        class="counter__input"
+      <AppInput
+          v-model="count"
+          type="text"
+          pattern="\d"
+          name="counter"
+          class="text-2xl"
       />
-      <div
-        class="counter__button"
-        @click="countDown()"
-        v-text="`-${increment}`"
+      <AppButton
+          @click="countDown()"
+          v-text="`-${increment}`"
       />
-      <div class="counter__button counter__button--danger" @click="resetCounter()" v-text="`RC`" />
+      <AppButton
+          class="bg-red-600"
+          @click="resetCounter()" v-text="`RC`"/>
     </div>
-    <div class="counter__increment">
+    <div>
       <h3>Increment</h3>
-      <div class="counter__button" @click="incrementUp()" v-text="`+`" />
-      <input
-        v-model="increment"
-        type="text"
-        pattern="\d"
-        name="counter"
-        class="counter__input"
+      <AppButton @click="incrementUp()" v-text="`+`"/>
+      <AppInput
+          v-model="increment"
+          type="text"
+          pattern="\d"
+          name="counter"
+          class="text-2xl"
       />
-      <div
-        class="counter__button"
-        @click="incrementDown()"
-        v-text="`-`"
+      <AppButton
+          @click="incrementDown()"
+          v-text="`-`"
       />
-      <div
-        class="counter__button counter__button--danger"
-        @click="resetIncrement()"
-        v-text="`RI`"
-      />
-    </div>
-    <div class="counter__target">
-      <h3 v-text="`Target`" />
-      <input
-        v-model="target"
-        type="text"
-        pattern="\d"
-        name="counter"
-        class="counter__input"
+      <AppButton
+          class="bg-red-600"
+          @click="resetIncrement()"
+          v-text="`RI`"
       />
     </div>
-    <h3 class="counter__target-text" v-text="targetText" />
+    <div class="">
+      <h3>Target</h3>
+      <AppInput
+          v-model="target"
+          type="text"
+          pattern="\d"
+          name="counter"
+          class="text-2xl"
+      />
+    </div>
+    <h3 class="my-auto text-4xl text-center" v-text="targetText"/>
   </div>
 </template>

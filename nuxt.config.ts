@@ -6,12 +6,9 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: [
-      "@nuxt/content",
-      "@nuxt/image",
-  ],
+  modules: ["@nuxt/content", "@nuxt/image", "@nuxtjs/tailwindcss"],
 
-  css: ["~/assets/scss/main.scss"],
+  css: ["./assets/css/tailwind.css"],
 
   devServer: {
     host: "0.0.0.0",

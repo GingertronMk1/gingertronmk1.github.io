@@ -7,7 +7,7 @@ useHead({
 <template>
   <ClientOnly>
     <AppNav />
-    <main>
+    <main class="container mx-auto mb-auto py-4">
       <NuxtPage />
     </main>
     <AppFooter />

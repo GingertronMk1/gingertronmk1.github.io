@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const links = ref([
+const links = ref<{link: string, text: string}[]>([
   // {
   //     link: "/cv",
   //     text: "CV",

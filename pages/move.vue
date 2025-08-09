@@ -303,64 +303,38 @@ const showJSON = ref<boolean>(true);
       <div class="max-w-32 [&>label]:flex [&>label]:flex-col">
         <span v-text="selectedPlayer.join(', ')" />
         <label for="y">
-          <span>
             y:
-            <input
-              id="yNumber"
+            <AppInput
+              id="y"
               v-model="
                 keyframes[keyFrameSelection]['players'][selectedPlayer[0]][
                   selectedPlayer[1]
                 ].y
               "
               type="number"
-              name="yNumber"
+              name="y"
               min="0"
               max="100"
               step="1"
+              class="p-2"
             />
-          </span>
-          <input
-            id="y"
-            v-model="
-              keyframes[keyFrameSelection]['players'][selectedPlayer[0]][
-                selectedPlayer[1]
-              ].y
-            "
-            style="writing-mode: vertical-rl"
-            class="rotate-180"
-            type="range"
-            name="y"
-            step="1"
-          />
         </label>
         <label for="x">
-          <span>
             x:
-            <input
-              id="xNumber"
+            <AppInput
+              id="x"
               v-model="
                 keyframes[keyFrameSelection]['players'][selectedPlayer[0]][
                   selectedPlayer[1]
                 ].x
               "
               type="number"
-              name="xNumber"
+              name="x"
               min="0"
               max="100"
               step="1"
+              class="p-2"
             />
-          </span>
-          <input
-            id="x"
-            v-model="
-              keyframes[keyFrameSelection]['players'][selectedPlayer[0]][
-                selectedPlayer[1]
-              ].x
-            "
-            type="range"
-            name="x"
-            step="1"
-          />
         </label>
       </div>
       <section class="space-y-2">

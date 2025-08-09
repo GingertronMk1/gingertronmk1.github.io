@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import moment from "moment";
 import momentTz from "moment-timezone";
 
@@ -26,51 +25,55 @@ const addTime = function () {
     year: now.year(),
     timezone: now.zoneName(),
   });
-}
+};
 
 const removeTime = function (t: Time) {
   inputTimes.value = inputTimes.value.filter((_t: Time) => _t !== t);
-}
+};
 
 addTime();
 
 const convertTime = function (t: Time) {
-  const newTime = tz({
-    ...t,
-    month: t.month - 1,
-    seconds: 0
-  }, t.timezone);
-  return newTime.clone().tz('Europe/London')
+  const newTime = tz(
+    {
+      ...t,
+      month: t.month - 1,
+      seconds: 0,
+    },
+    t.timezone,
+  );
+  return newTime.clone().tz("Europe/London");
 };
 
-const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', ' '));
+const timeZones = moment.tz
+  .names()
+  .map((zone: string) => zone.replaceAll("_", " "));
 </script>
 
 <template>
-
   <span v-text="`Converting from ${moment.tz.guess()}`" />
 
   <div class="">
     <div v-for="(time, index) in inputTimes" :key="index" class="">
       <label class="" for="hours">
         Hours
-        <input type="number" v-model="time.hours" id="hours"/>
+        <input type="number" v-model="time.hours" id="hours" />
       </label>
       <label class="" for="minutes">
         Minutes
-        <input type="number" v-model="time.minutes" id="minutes"/>
+        <input type="number" v-model="time.minutes" id="minutes" />
       </label>
       <label class="" for="year">
         Year
-        <input type="number" v-model="time.year" id="year"/>
+        <input type="number" v-model="time.year" id="year" />
       </label>
       <label class="" for="month">
         Month
-        <input type="number" v-model="time.month" id="month"/>
+        <input type="number" v-model="time.month" id="month" />
       </label>
       <label class="" for="day">
         Day
-        <input type="number" v-model="time.day" id="day"/>
+        <input type="number" v-model="time.day" id="day" />
       </label>
       <label for="timezone" class="">
         Timezone
@@ -80,14 +83,13 @@ const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', '
         </datalist>
       </label>
       <div class="">
-        <span v-text="convertTime(time)"/>
+        <span v-text="convertTime(time)" />
         <button @click="removeTime(time)">Remove</button>
       </div>
     </div>
   </div>
 
   <button @click="addTime">Add Time</button>
-
 </template>
 
 <style lang="scss" scoped>
@@ -144,5 +146,4 @@ const timeZones = moment.tz.names().map((zone: string) => zone.replaceAll('_', '
     margin: 0;
   }
 }
-
 </style>

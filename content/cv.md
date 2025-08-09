@@ -22,6 +22,7 @@ Latterly began investigating event-sourcing and the benefits that can bring to a
 In early 2024 was put on secondment working on a digital fulfilment API to interface with different suppliers on a deferred basis.
 
 ### We Are Sweet | Developer | July 2020 - May 2022
+
 Responsible for the maintenance, support, and feature adding of major PHP projects, including a building management web application and a senior care provider system.
 Within these projects I have worked specifically on back-end improvements, including a bulk import system, an SMS-based job signoff system, and a document publishing scheduler.
 Shortly after the conclusion of my first year in the role the client for which I did the bulk of my work signed on for an extended ”VIP” contract.

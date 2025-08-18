@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #__nuxt {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+html,
+body,
+#__nuxt {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

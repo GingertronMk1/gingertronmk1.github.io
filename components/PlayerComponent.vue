@@ -1,11 +1,11 @@
 <script setup lang="ts">
 defineProps<{
-  number: string|number,
-  shouldBeAnimated: boolean,
-  animationLength: number,
-  colourClass: string,
-  xPercent: number|string,
-  yPercent: number|string,
+  number: string | number;
+  shouldBeAnimated: boolean;
+  animationLength: number;
+  colourClass: string;
+  xPercent: number | string;
+  yPercent: number | string;
 }>();
 </script>
 
@@ -17,16 +17,16 @@ defineProps<{
     :style="{
       left: `calc(${xPercent}% - 1rem)`,
       bottom: `calc(${yPercent}% - 1rem)`,
-      ...shouldBeAnimated ? {
-        'transition-property': 'all',
-        'transition-duration': `${animationLength}ms`,
-        'transition-timing-function': 'linear',
-      } : []
+      ...(shouldBeAnimated
+        ? {
+            'transition-property': 'all',
+            'transition-duration': `${animationLength}ms`,
+            'transition-timing-function': 'linear',
+          }
+        : []),
     }"
     v-text="number"
   />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

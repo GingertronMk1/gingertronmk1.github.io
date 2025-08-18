@@ -79,7 +79,7 @@ type Keyframe = {
   players: PositionList<PlayerLocationList, ObjectLocationList>;
 };
 
-const keyframes = ref<Keyframe[]>([
+const keyframes = ref<[Keyframe, ...Keyframe[]]>([
   {
     players: {
       attack: {
@@ -107,12 +107,12 @@ const keyframes = ref<Keyframe[]>([
 
 const selectedPlayer = ref<[Teams, string]>([
   "attack",
-  Object.keys(players.value["attack"])[0],
+  Object.keys(players.value["attack"])[0] as string,
 ]);
 const keyFrameSelection = ref<number>(0);
 
 const selectedKeyFrame = computed<Keyframe>(
-  () => keyframes.value[keyFrameSelection.value],
+  (): Keyframe => keyframes.value[keyFrameSelection.value] as Keyframe,
 );
 
 function addKeyframe(): void {
@@ -123,9 +123,9 @@ function addKeyframe(): void {
 }
 
 const getPlayerX = (positionGroup: Teams, index: string): number =>
-  selectedKeyFrame.value.players[positionGroup][index].x;
+  selectedKeyFrame.value.players[positionGroup][index]?.x ?? 0;
 const getPlayerY = (positionGroup: Teams, index: string): number =>
-  selectedKeyFrame.value.players[positionGroup][index].y;
+  selectedKeyFrame.value.players[positionGroup][index]?.y ?? 0;
 
 addKeyframe();
 
@@ -160,6 +160,9 @@ function onDragOver(evt: DragEvent) {
   const newY = 100 - (offsetY / targetHeight) * 100;
   console.table({ clientWidth, clientHeight, offsetX, offsetY });
   const [selectedPosition, selectedPlayerId] = selectedPlayer.value;
+  if (selectedKeyFrame.value.players[selectedPosition][selectedPlayerId] === undefined) {
+    return;
+  }
   selectedKeyFrame.value.players[selectedPosition][selectedPlayerId].x =
     Math.ceil(newX);
   selectedKeyFrame.value.players[selectedPosition][selectedPlayerId].y =
@@ -307,7 +310,7 @@ const showJSON = ref<boolean>(true);
           <AppInput
             id="y"
             v-model="
-              keyframes[keyFrameSelection]['players'][selectedPlayer[0]][
+              keyframes[keyFrameSelection].players[selectedPlayer[0]][
                 selectedPlayer[1]
               ].y
             "

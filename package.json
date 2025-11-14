@@ -10,7 +10,7 @@
     "prettier:fix": "prettier . --write"
   },
   "dependencies": {
-    "@nuxt/content": "^3.8.0",
+    "@nuxt/content": "^3.8.2",
     "@nuxt/image": "^1.11.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "moment": "^2.30.1",

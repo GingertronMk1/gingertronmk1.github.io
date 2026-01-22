@@ -10,10 +10,10 @@ const links = ref<{ link: string; text: string }[]>([
     link: '/counter',
     text: 'Counter',
   },
-  {
-    link: '/times',
-    text: 'Times',
-  },
+  // {
+  //   link: '/times',
+  //   text: 'Times',
+  // },
 ])
 </script>
 <template>

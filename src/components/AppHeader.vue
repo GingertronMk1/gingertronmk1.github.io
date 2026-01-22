@@ -3,17 +3,9 @@ import { ref } from 'vue'
 
 const links = ref<{ link: string; text: string }[]>([
   {
-    link: '/move',
-    text: 'Move',
-  },
-  {
     link: '/counter',
     text: 'Counter',
   },
-  // {
-  //   link: '/times',
-  //   text: 'Times',
-  // },
 ])
 </script>
 <template>

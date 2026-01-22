@@ -13,7 +13,7 @@ const model = defineModel<string | number | boolean>()
 
 <template>
   <textarea
-    v-if="type === 'textarea'"
+    v-if="type === 'textarea' && typeof model === 'string'"
     v-model="model"
     class="p-4 border-2 border-gray-300 rounded-md"
   />

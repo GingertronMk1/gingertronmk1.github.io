@@ -13,11 +13,13 @@ const messages = computed(() => store.messages)
       v-for="toast in messages"
       :key="toast.id"
       :data-toast-id="toast.id"
-      class="flex flex-row justify-between items-center p-4 bg-gray-400 rounded-lg">
+      class="flex flex-row justify-between items-center p-4 bg-gray-400 rounded-lg"
+    >
       <span v-text="toast.message" />
-        <i class="fa-solid fa-x cursor-pointer"
-           @click="store.deleteToast(toast.id)"
-        />
+      <i
+        class="fa-solid fa-x cursor-pointer"
+        @click="store.deleteToast(toast.id)"
+      />
     </div>
   </div>
 </template>

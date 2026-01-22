@@ -13,8 +13,10 @@
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "lint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "lint": "eslint . --cache",
+    "lint:fix": "npm run lint -- --fix",
+    "format:check": "prettier --experimental-cli src/",
+    "format": "npm run format:check -- --write"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",

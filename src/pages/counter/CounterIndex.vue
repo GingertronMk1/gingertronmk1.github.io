@@ -113,22 +113,63 @@ document.addEventListener('keydown', keyboardCounter);
   >
     <div>
       <h3>Counter</h3>
-      <AppButton @click="countUp()" v-text="`+${increment}`" />
-      <AppInput v-model="count" type="text" pattern="\d" name="counter" class="text-2xl" />
-      <AppButton @click="countDown()" v-text="`-${increment}`" />
-      <AppButton class="bg-red-600" @click="resetCounter()" v-text="`RC`" />
+      <AppButton
+        :text="`+${increment}`"
+        @click="countUp()"
+      />
+      <AppInput
+        v-model="count"
+        type="text"
+        pattern="\d"
+        name="counter"
+        class="text-2xl"
+      />
+      <AppButton
+        :text="`-${increment}`"
+        @click="countDown()"
+      />
+      <AppButton
+        class="bg-red-600"
+        :text="`RC`"
+        @click="resetCounter()"
+      />
     </div>
     <div>
       <h3>Increment</h3>
-      <AppButton @click="incrementUp()" v-text="`+`" />
-      <AppInput v-model="increment" type="text" pattern="\d" name="counter" class="text-2xl" />
-      <AppButton @click="incrementDown()" v-text="`-`" />
-      <AppButton class="bg-red-600" @click="resetIncrement()" v-text="`RI`" />
+      <AppButton
+        :text="`+`"
+        @click="incrementUp()"
+      />
+      <AppInput
+        v-model="increment"
+        type="text"
+        pattern="\d"
+        name="counter"
+        class="text-2xl"
+      />
+      <AppButton
+        :text="`-`"
+        @click="incrementDown()"
+      />
+      <AppButton
+        class="bg-red-600"
+        :text="`RI`"
+        @click="resetIncrement()"
+      />
     </div>
     <div class="">
       <h3>Target</h3>
-      <AppInput v-model="target" type="text" pattern="\d" name="counter" class="text-2xl" />
+      <AppInput
+        v-model="target"
+        type="text"
+        pattern="\d"
+        name="counter"
+        class="text-2xl"
+      />
     </div>
-    <h3 class="my-auto text-4xl text-center" v-text="targetText" />
+    <h3
+      class="my-auto text-4xl text-center"
+      v-text="targetText"
+    />
   </div>
 </template>

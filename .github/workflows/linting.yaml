@@ -21,5 +21,3 @@ jobs:
 #      - run: ./bin/exec npm run prettier:check
       - run: npm run lint
         if: always()
-      - run: npm run format
-        if: always()

@@ -11,6 +11,8 @@ const moveStore = useMoveStore();
   <div class="flex flex-row space-x-4">
     <AppButton @click="moveStore.addNewPlayer('attack')"> Add new attacking player </AppButton>
     <AppButton @click="moveStore.addNewPlayer('defense')"> Add new defensive player </AppButton>
+    <AppButton @click="moveStore.incrementKeyframe()"> Next Keyframe </AppButton>
+    <AppButton @click="moveStore.decrementKeyframe()"> Previous Keyframe </AppButton>
   </div>
   <div>
     <div class="aspect-video bg-green-500 relative">

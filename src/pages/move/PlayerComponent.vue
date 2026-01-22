@@ -9,6 +9,7 @@ const { playerId } = defineProps<{
 const moveStore = useMoveStore();
 
 const player = computed(() => moveStore.getPlayer(playerId));
+const currentPlayerPosition = computed(() => moveStore.getPlayerPosition(playerId));
 </script>
 
 <template>
@@ -17,6 +18,10 @@ const player = computed(() => moveStore.getPlayer(playerId));
     :class="{
       'bg-red-500': player.type === 'attack',
       'bg-blue-500': player.type === 'defense',
+    }"
+    :style="{
+      right: `${currentPlayerPosition.x}%`,
+      top: `${currentPlayerPosition.y}%`,
     }"
     v-text="playerId"
   />

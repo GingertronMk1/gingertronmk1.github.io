@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useToastStore } from '@/stores/toastStore.ts'
-import { computed } from 'vue'
+import { useToastStore } from "@/stores/toastStore.ts";
+import { computed } from "vue";
 
-const store = useToastStore()
+const store = useToastStore();
 
-const messages = computed(() => store.messages)
+const messages = computed(() => store.messages);
 </script>
 
 <template>

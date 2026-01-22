@@ -1,22 +1,28 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
-import IndexIndexIndexIndex from '@/pages/index/IndexIndex.vue'
-import CounterIndexIndex from '@/pages/counter/CounterIndex.vue'
+import IndexIndexIndexIndex from "@/pages/index/IndexIndex.vue";
+import CounterIndexIndex from "@/pages/counter/CounterIndex.vue";
+import MoveIndex from "@/pages/move/MoveIndex.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      name: 'index',
+      name: "index",
       component: IndexIndexIndexIndex,
-      path: '/',
+      path: "/",
     },
     {
-      name: 'counter',
+      name: "counter",
       component: CounterIndexIndex,
-      path: '/counter',
+      path: "/counter",
+    },
+    {
+      name: "move",
+      component: MoveIndex,
+      path: "/move",
     },
   ],
-})
+});
 
-export default router
+export default router;

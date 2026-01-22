@@ -17,10 +17,5 @@ const model = defineModel<string | number | boolean>()
     v-model="model"
     class="p-4 border-2 border-gray-300 rounded-md"
   />
-  <input
-    v-else
-    v-model="model"
-    :type="type"
-    class="p-4 border-2 border-gray-300 rounded-md"
-  >
+  <input v-else v-model="model" :type="type" class="p-4 border-2 border-gray-300 rounded-md" />
 </template>

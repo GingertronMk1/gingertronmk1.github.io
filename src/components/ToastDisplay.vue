@@ -16,10 +16,7 @@ const messages = computed(() => store.messages)
       class="flex flex-row justify-between items-center p-4 bg-gray-400 rounded-lg"
     >
       <span v-text="toast.message" />
-      <i
-        class="fa-solid fa-x cursor-pointer"
-        @click="store.deleteToast(toast.id)"
-      />
+      <i class="fa-solid fa-x cursor-pointer" @click="store.deleteToast(toast.id)" />
     </div>
   </div>
 </template>

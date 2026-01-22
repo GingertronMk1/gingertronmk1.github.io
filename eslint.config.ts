@@ -2,6 +2,7 @@ import { globalIgnores } from 'eslint/config'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import pluginVue from 'eslint-plugin-vue'
 import pluginVitest from '@vitest/eslint-plugin'
+import pluginPrettier from 'eslint-plugin-prettier/recommended'
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
 // import { configureVueProject } from '@vue/eslint-config-typescript'
@@ -18,6 +19,8 @@ export default defineConfigWithVueTs(
 
   ...pluginVue.configs['flat/recommended'],
   vueTsConfigs.recommended,
+
+  pluginPrettier,
 
   {
     ...pluginVitest.configs.recommended,

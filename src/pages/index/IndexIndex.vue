@@ -18,9 +18,7 @@ function addMessages() {
 </script>
 
 <template>
-  <button @click="addMessages">
-    Add message to store
-  </button>
+  <button @click="addMessages">Add message to store</button>
 </template>
 
 <style scoped></style>

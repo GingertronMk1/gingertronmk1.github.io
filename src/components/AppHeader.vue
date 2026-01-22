@@ -19,13 +19,8 @@ const links = ref<{ link: string; text: string }[]>([
 <template>
   <nav class="p-4 bg-orange-600 text-white text-2xl text-semibold w-full flex justify-center">
     <div class="container flex flex-row justify-between">
-      <router-link
-        to="/"
-        class="hover:text-gray-300"
-      >
-        <h1 class="site-nav__header-text">
-          Jack Ellis
-        </h1>
+      <router-link to="/" class="hover:text-gray-300">
+        <h1 class="site-nav__header-text">Jack Ellis</h1>
       </router-link>
       <div class="space-x-4">
         <router-link

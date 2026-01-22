@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import IndexIndex from '@/pages/index/IndexIndex.vue'
 import CounterIndex from '@/pages/counter/CounterIndex.vue'
+import IndexIndex from '@/pages/index/IndexIndex.vue'
 import RFLTranslatorIndex from '@/pages/rfl-translator/RFLTranslatorIndex.vue'
 
 const router = createRouter({
@@ -22,6 +22,11 @@ const router = createRouter({
       component: RFLTranslatorIndex,
       path: '/rfl-translator',
     },
+    {
+      name: 'move',
+      component: MoveIndex,
+      path: '/move',
+    }
   ],
 })
 

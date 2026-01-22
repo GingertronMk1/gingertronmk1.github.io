@@ -104,8 +104,7 @@ function updateTitleValue(): string {
   return newTitle
 }
 
-document.addEventListener('keydown', keyboardCounter);
-
+document.addEventListener('keydown', keyboardCounter)
 </script>
 <template>
   <div

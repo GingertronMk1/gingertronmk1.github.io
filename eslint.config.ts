@@ -20,10 +20,10 @@ export default defineConfigWithVueTs(
   ...pluginVue.configs['flat/recommended'],
   vueTsConfigs.recommended,
 
-  pluginPrettier,
-
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
   },
+
+  pluginPrettier,
 )

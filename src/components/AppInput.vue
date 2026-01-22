@@ -1,14 +1,14 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    type?: 'number' | 'text' | 'textarea' | 'checkbox' | 'radio'
+    type?: "number" | "text" | "textarea" | "checkbox" | "radio";
   }>(),
   {
-    type: 'text',
+    type: "text",
   },
-)
+);
 
-const model = defineModel<string | number | boolean>()
+const model = defineModel<string | number | boolean>();
 </script>
 
 <template>

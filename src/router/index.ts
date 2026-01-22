@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
 import CounterIndex from '@/pages/counter/CounterIndex.vue'
 import IndexIndex from '@/pages/index/IndexIndex.vue'
@@ -28,6 +28,6 @@ const router = createRouter({
       path: '/move',
     }
   ],
-})
+});
 
-export default router
+export default router;

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useToastStore } from '@/stores/toastStore.ts'
+import { useToastStore } from "@/stores/toastStore.ts";
 
-const store = useToastStore()
+const store = useToastStore();
 function newMessage() {
   store.addToast({
     message: new Date().toString(),
-    status: 'info',
+    status: "info",
     userMustDismiss: store.maxId % 4 === 0,
-  })
+  });
 }
 
 function addMessages() {
   for (let i = 0; i < 4; i++) {
-    newMessage()
+    newMessage();
   }
 }
 </script>

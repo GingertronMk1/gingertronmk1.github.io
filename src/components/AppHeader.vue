@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
 const links = ref<{ link: string; text: string }[]>([
   {
-    link: '/counter',
-    text: 'Counter',
+    link: "/counter",
+    text: "Counter",
   },
   {
-    link: '/rfl-translator',
-    text: 'RFL Translator',
+    link: "/rfl-translator",
+    text: "RFL Translator",
   },
-])
+]);
 </script>
 <template>
   <nav class="p-4 bg-orange-600 text-white text-2xl text-semibold w-full flex justify-center">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ToastDisplay from '@/components/ToastDisplay.vue'
-import AppHeader from '@/components/AppHeader.vue'
+import ToastDisplay from "@/components/ToastDisplay.vue";
+import AppHeader from "@/components/AppHeader.vue";
 </script>
 
 <template>

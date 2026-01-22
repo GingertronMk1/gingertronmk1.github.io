@@ -18,4 +18,8 @@ jobs:
           path: ./node_modules
           key: ${{ hashFiles('package-lock.json') }}
       - run: ./bin/install
-      - run: ./bin/exec npm run prettier:check
+#      - run: ./bin/exec npm run prettier:check
+      - run: npm run lint
+        if: always()
+      - run: npm run format
+        if: always()

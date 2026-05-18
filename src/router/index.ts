@@ -1,21 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import IndexIndexIndexIndex from '@/pages/index/IndexIndex.vue'
-import CounterIndexIndex from '@/pages/counter/CounterIndex.vue'
+import IndexIndex from '@/pages/index/IndexIndex.vue'
+import CounterIndex from '@/pages/counter/CounterIndex.vue'
+import RFLTranslatorIndex from '@/pages/rfl-translator/RFLTranslatorIndex.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       name: 'index',
-      component: IndexIndexIndexIndex,
+      component: IndexIndex,
       path: '/',
     },
     {
       name: 'counter',
-      component: CounterIndexIndex,
+      component: CounterIndex,
       path: '/counter',
     },
+    {
+      name: 'RFLTranslator',
+      component: RFLTranslatorIndex,
+      path: '/rfl-translator'
+    }
   ],
 })
 

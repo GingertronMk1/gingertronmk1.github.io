@@ -6,6 +6,10 @@ const links = ref<{ link: string; text: string }[]>([
     link: '/counter',
     text: 'Counter',
   },
+  {
+    link: '/rfl-translator',
+    text: 'RFL Translator',
+  }
 ])
 </script>
 <template>

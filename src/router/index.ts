@@ -19,7 +19,7 @@ const router = createRouter({
       path: '/counter',
     },
     {
-      name: 'RFLTranslator',
+      name: 'rfl-translator',
       component: RFLTranslatorIndex,
       path: '/rfl-translator',
     },

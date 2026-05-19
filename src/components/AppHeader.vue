@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const links = ref<{ link: string; text: string }[]>([
+const router = useRouter();
+const links = ref<{ link: RouteLocationResolved; text: string }[]>([
   {
-    link: "/counter",
+    link: router.resolve({ name: "counter" }),
     text: "Counter",
   },
   {
-    link: "/rfl-translator",
+    link: router.resolve({name: 'rfl-translator'}),
     text: "RFL Translator",
   },
+  {
+    link: router.resolve({name: 'move'}),
+    text: "Move",
+  }
 ]);
 </script>
 <template>
@@ -22,10 +28,10 @@ const links = ref<{ link: string; text: string }[]>([
         <router-link
           v-for="link in links"
           :key="JSON.stringify(link)"
-          class="hover:text-gray-300"
-          :to="link.link"
+          class="hover:text-gray-300 p-2"
+          :to="link.link.href"
         >
-          {{ link.text }}
+          <span v-text="link.text"/>
         </router-link>
       </div>
     </div>

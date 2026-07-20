@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const links = ref<{ link: RouteLocationResolved; text: string }[]>([
+const links = ref([
   {
     link: router.resolve({ name: "counter" }),
     text: "Counter",

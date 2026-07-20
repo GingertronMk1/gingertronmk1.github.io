@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-const newLine = '\n'
+import { ref, computed } from "vue";
+const newLine = "\n";
 const header = `Who | Opposition | What | Points | Total Points | Anything Else?
----|---|---|---|---|---`
-const input = ref('')
+---|---|---|---|---|---`;
+const input = ref("");
 const output = computed(() => {
   return [
     header,
     input.value
-      .replace(/ *[–-] */g, ' | ')
-      .replace(/Opposition: */g, '')
+      .replace(/ *[–-] */g, " | ")
+      .replace(/Opposition: */g, "")
       .split(newLine)
-      .filter((line) => line.trim() !== '')
+      .filter((line) => line.trim() !== "")
       .sort((a, b) => {
-        const aTeam = a.replace(/^.*(\(.*\)).*$/, '$1')
-        const bTeam = b.replace(/^.*(\(.*\)).*$/, '$1')
-        const teamCompare = aTeam.localeCompare(bTeam)
-        return teamCompare === 0 ? a.localeCompare(b) : teamCompare
+        const aTeam = a.replace(/^.*(\(.*\)).*$/, "$1");
+        const bTeam = b.replace(/^.*(\(.*\)).*$/, "$1");
+        const teamCompare = aTeam.localeCompare(bTeam);
+        return teamCompare === 0 ? a.localeCompare(b) : teamCompare;
       })
       .join(newLine),
-  ].join(newLine)
-})
+  ].join(newLine);
+});
 </script>
 
 <template>

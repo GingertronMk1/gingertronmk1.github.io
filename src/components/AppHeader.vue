@@ -9,13 +9,13 @@ const links = ref([
     text: "Counter",
   },
   {
-    link: router.resolve({name: 'rfl-translator'}),
+    link: router.resolve({ name: "rfl-translator" }),
     text: "RFL Translator",
   },
   {
-    link: router.resolve({name: 'move'}),
+    link: router.resolve({ name: "move" }),
     text: "Move",
-  }
+  },
 ]);
 </script>
 <template>
@@ -31,7 +31,7 @@ const links = ref([
           class="hover:text-gray-300 p-2"
           :to="link.link.href"
         >
-          <span v-text="link.text"/>
+          <span v-text="link.text" />
         </router-link>
       </div>
     </div>

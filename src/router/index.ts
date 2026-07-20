@@ -9,11 +9,6 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      name: 'index',
-      component: IndexIndex,
-      path: '/',
-    },
-    {
       name: 'counter',
       component: CounterIndex,
       path: '/counter',
@@ -27,7 +22,12 @@ const router = createRouter({
       name: 'move',
       component: MoveIndex,
       path: '/move',
-    }
+    },
+    {
+      name: 'index',
+      component: IndexIndex,
+      path: '/',
+    },
   ],
 });
 

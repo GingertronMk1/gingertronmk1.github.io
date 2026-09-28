@@ -33,7 +33,7 @@ const output = computed(() => {
       rows="10"
       placeholder="Copy the text from the RFL website here, and it should spit out a markdown table"
     />
-    <pre class="overflow-scroll" v-text="output" />
+    <textarea class="font-mono" readonly>{{ output }}</textarea>
   </div>
 </template>
 

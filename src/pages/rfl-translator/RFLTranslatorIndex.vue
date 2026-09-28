@@ -33,7 +33,15 @@ const output = computed(() => {
       rows="10"
       placeholder="Copy the text from the RFL website here, and it should spit out a markdown table"
     />
-    <textarea class="font-mono overflow-scroll" readonly cols="30" rows="10">{{ output }}</textarea>
+    <textarea
+      id="output"
+      name="output"
+      class="font-mono overflow-scroll whitespace-nowrap"
+      cols="30"
+      rows="10"
+      readonly
+      :value="output"
+    />
   </div>
 </template>
 
